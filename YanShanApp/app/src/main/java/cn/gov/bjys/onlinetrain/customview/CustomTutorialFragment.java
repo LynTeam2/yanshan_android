@@ -3,6 +3,7 @@ package cn.gov.bjys.onlinetrain.customview;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -183,7 +184,6 @@ public class CustomTutorialFragment extends TutorialSupportFragment
 
     public void initViews(View rootView) {
         mSkipButton = (TextView) rootView.findViewById(R.id.tvSkipCustom);
-    }
 
-    //定时器
+    }
 }

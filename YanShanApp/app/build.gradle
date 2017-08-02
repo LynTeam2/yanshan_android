@@ -3,7 +3,7 @@ apply plugin: 'packer'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "26.0.0"
+    buildToolsVersion "25.0.1"
 
     defaultConfig {
         applicationId "cn.gov.bjys.onlinetrain"
