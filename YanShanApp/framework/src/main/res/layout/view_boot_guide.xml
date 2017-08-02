@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.ycl.framework.view.FocusBootView
+        android:id="@+id/focusBootView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+    <LinearLayout
+        android:id="@+id/ll_act_guide_start"
+        android:layout_width="446px"
+        android:layout_height="100px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="340px"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_act_guide_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="立即体验"
+            android:textColor="@android:color/white"
+            android:textSize="49px" />
+
+    </LinearLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

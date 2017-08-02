@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ff171b19"
+    android:orientation="vertical">
+
+    <com.ycl.framework.view.TitleHeaderView
+        android:id="@+id/frame_title_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.ycl.framework.photoview.ScrollViewPager
+        android:id="@+id/imagebrowser_svp_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:padding="@dimen/default_margin_mid">
+
+        <TextView
+            android:id="@+id/tv_album_browser_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/default_margin_top"
+            android:text="确定"
+            android:textColor="#EE5948"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

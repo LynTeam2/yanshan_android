@@ -1,0 +1,132 @@
+apply plugin: 'com.android.application'
+apply plugin: 'packer'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "26.0.0"
+
+    defaultConfig {
+        applicationId "cn.gov.bjys.onlinetrain"
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+    }
+
+
+    signingConfigs {
+        release {
+            storeFile file("bjyscode.jks")
+            storePassword "bjyscode"
+            keyAlias "bjyscode"
+            keyPassword "bjyscode"
+            // 满足下面两个条件时需要此配置
+            // 1. Gradle版本 >= 2.14.1
+            // 2. Android Gradle Plugin 版本 >= 2.2.0
+            // 作用是只使用旧版签名，禁用V2版签名模式
+            v2SigningEnabled false
+        }
+        debug {
+            storeFile file("bjyscode.jks")
+            storePassword "bjyscode"
+            keyAlias "bjyscode"
+            keyPassword "bjyscode"
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        // 输出apk名称为boohee_v1.0_2015-01-15_wandoujia.apk
+                        def fileName = "dodo${variant.productFlavors[0].name}.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
+        }
+    }
+
+    packer {
+        // 是否检查Gradle配置中的signingConfig，默认不检查
+        checkSigningConfig = true
+        // 是否检查Gradle配置中的zipAlignEnabled，默认不检查
+        checkZipAlign = true
+        // 指定渠道打包输出文件名格式
+        //包名-渠道名-正式环境（release）-版本名称-版本号-最终APK文件的MD5哈希值
+        archiveNameFormat = '${appPkg}-${flavorName}-${buildType}-v${versionName}-${versionCode}-${fileMD5}'
+        // 指定渠道打包输出目录
+        archiveOutput = file(new File(project.rootProject.buildDir.path, "dodo_apks"))
+/*         // 指定渠道打包需要修改的AndroidManifest文件项
+         manifestMatcher = ['UMENG_CHANNEL', 'Promotion_Market']
+        // 指定是否使用build版本号自增
+        buildNumberAuto = true
+        // 指定使用版本号自增的buildType，默认是全部
+        buildNumberTypeMatcher = ['release', 'beta']*/
+    }
+    productFlavors {
+        _163 {}
+        _189 {}
+        _91 {}
+        _360 {}
+        _10086 {}
+        _liqu {}
+        _jb3g {}
+        _suning {}
+        _yun {}
+        _letv {}
+        _zhiyin {}
+        _hiapk {}
+        _baidu {}
+        _anzhi {}
+        _qq {}
+        _xiaomi {}
+        _meizu {}
+        _nearme {}
+        _wandoujia {}
+        _gfan {}
+        _appchina {}
+        _huawei {}
+        _lenovo {}
+        _nduoa {}
+        _official {}
+        _anzhuo {}
+        _eoe {}
+        _mumayi {}
+        _sogou {}
+        _uc {}
+        _taobao {}
+        _Android {}
+    }
+    productFlavors.all {
+        flavor ->
+            flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name.substring(1)]
+    }
+
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+
+    //ViewPager指示器
+    compile 'com.github.hackware1993:MagicIndicator:1.5.0'
+    //视频播放器
+    compile 'fm.jiecao:jiecaovideoplayer:5.7'
+    //三方封装 BaseRecyclerViewAdapterHelper
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.9'
+    //logo加载三方库
+    compile 'com.cleveroad:slidingtutorial:1.0.8'
+    //三方画图库 MPAndroidChart
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile project(':framework1')
+
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--相册-->
+    <color name="me_data_icon">#fafafa</color>
+    <color name="money_color">#c3a753</color>
+    <color name="title_view_header_bg_color">#FFee5948</color>
+    //ee5948
+
+    //解决改变透明度以后 三星手机 公用同一个 颜色值得问题(透明度问题)
+    <color name="bg_user_detail_tool">#FFee5949</color>
+
+    <color name="color_gray">#666666</color>
+    <color name="color_gray_9">#ff999999</color>
+    <color name="color_11_red">#fffc3443</color>
+
+    <color name="bg_default">#aaeaeaea</color>
+    <!-- 陌陌字体 黑 -->
+    <color name="new_black">#FF333333</color>
+
+    <color name="blue_light">#ff00aced</color>
+
+    <color name="background_tab_pressed">#0033B5E5</color>
+    <color name="color_gray_default">#fff5f5f5</color>
+</resources>

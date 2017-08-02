@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_margin_level">35dp</dimen>
+    <dimen name="default_margin_big">25dp</dimen>
+    <dimen name="default_margin_max">20dp</dimen>
+    <dimen name="default_margin">15dp</dimen>
+    <dimen name="default_margin_mid">10dp</dimen>
+    <dimen name="default_margin_top">5dp</dimen>
+
+    <dimen name="header_height">39dp</dimen>
+
+    <dimen name="header_height_gpu">65dp</dimen>
+
+    <dimen name="statue_bar_top_padding">24.5dp</dimen>
+
+    <dimen name="act_root_padding_top">67.5dp</dimen>
+
+    <!-- dialog min高度 -->
+    <dimen name="dialog_min_height">41dp</dimen>
+
+
+    <!--    获取 特殊屏幕的swxxx的值
+        Configuration config = getResources().getConfiguration();
+        int smallestScreenWidth = config.smallestScreenWidthDp;
+         L.i('smallest width : '+ smallestScreenWidth);-->
+
+
+    <dimen name="px_30_negative">-30px</dimen>
+    <dimen name="px_15_negative">-15px</dimen>
+    <dimen name="px_8">8px</dimen>
+    <dimen name="px_10">10px</dimen>
+    <dimen name="px_20">20px</dimen>
+    <dimen name="px_24">24px</dimen>
+    <dimen name="px_30">30px</dimen>
+    <dimen name="px_36">36px</dimen>
+    <dimen name="px_40">40px</dimen>
+    <dimen name="px_42">42px</dimen>
+    <dimen name="px_45">45px</dimen>
+    <dimen name="px_48">48px</dimen>
+    <dimen name="px_78">78px</dimen>
+    <dimen name="px_80">80px</dimen>
+    <dimen name="px_94">94px</dimen>
+    <dimen name="px_145">145px</dimen>
+    <dimen name="px_167">167px</dimen>
+    <dimen name="px_490">490px</dimen>
+    <dimen name="px_526">526px</dimen>
+    <dimen name="px_790">790px</dimen>
+    <dimen name="px_1052">1052px</dimen>
+    <dimen name="px_1090">1090px</dimen>
+
+
+
+
+
+</resources>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RoundedImageView">
+        <attr name="riv_corner_radius" format="dimension" />
+        <attr name="riv_corner_radius_top_left" format="dimension" />
+        <attr name="riv_corner_radius_top_right" format="dimension" />
+        <attr name="riv_corner_radius_bottom_left" format="dimension" />
+        <attr name="riv_corner_radius_bottom_right" format="dimension" />
+        <attr name="riv_border_width" format="dimension" />
+        <attr name="riv_border_color" format="color" />
+        <attr name="riv_mutate_background" format="boolean" />
+        <attr name="riv_oval" format="boolean" />
+        <attr name="android:scaleType" />
+        <attr name="riv_tile_mode">
+            <enum name="clamp" value="0" />
+            <enum name="repeat" value="1" />
+            <enum name="mirror" value="2" />
+        </attr>
+        <attr name="riv_tile_mode_x">
+            <enum name="clamp" value="0" />
+            <enum name="repeat" value="1" />
+            <enum name="mirror" value="2" />
+        </attr>
+        <attr name="riv_tile_mode_y">
+            <enum name="clamp" value="0" />
+            <enum name="repeat" value="1" />
+            <enum name="mirror" value="2" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="styleable_itemViews">
+        <attr name="item_left_string" format="string" />
+        <attr name="item_left_img" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="styleable_titleHeaderView">
+        <attr name="title_name" format="string" />
+        <attr name="title_left_img_res" format="reference|color" />
+        <attr name="title_divider_visibility" format="boolean" />
+        <attr name="title_guide_more_visibility" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="styleable_edit_itemView">
+        <attr name="left_text_values" format="string" />
+        <attr name="edit_hint_values" format="string" />
+        <attr name="left_img_res" format="reference|color" />
+    </declare-styleable>
+
+
+    <declare-styleable name="GridRecyclerView">
+        <attr name="gridRecyclerClipToPadding" format="boolean" />
+        <attr name="gridRecyclerPadding" format="dimension" />
+        <attr name="gridRecyclerPaddingTop" format="dimension" />
+        <attr name="gridRecyclerPaddingBottom" format="dimension" />
+        <attr name="gridRecyclerPaddingLeft" format="dimension" />
+        <attr name="gridRecyclerPaddingRight" format="dimension" />
+        <attr name="gridRecyclerColumn" format="dimension" />
+        <!-- 是否瀑布流-->
+        <attr name="gridRecyclerStaggered" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="UltimateRecyclerview">
+        <attr name="recyclerviewClipToPadding" format="boolean" />
+        <attr name="recyclerviewPadding" format="dimension" />
+        <attr name="recyclerviewPaddingTop" format="dimension" />
+        <attr name="recyclerviewPaddingBottom" format="dimension" />
+        <attr name="recyclerviewPaddingLeft" format="dimension" />
+        <attr name="recyclerviewPaddingRight" format="dimension" />
+        <attr name="recyclerviewEmptyView" format="reference" />
+        <attr name="recyclerviewFloatingActionView" format="reference" />
+        <attr name="recyclerviewScrollbars" format="enum">
+            <enum name="none" value="0" />
+            <enum name="vertical" value="1" />
+            <enum name="horizontal" value="2" />
+        </attr>
+        <attr name="recyclerviewDefaultSwipeColor" format="reference"></attr>
+    </declare-styleable>
+
+    <declare-styleable name="PagerSlidingTabStrip">
+        <attr name="pstsIndicatorColor" format="color" />
+        <attr name="pstsUnderlineColor" format="color" />
+        <attr name="pstsDividerColor" format="color" />
+        <attr name="pstsIndicatorHeight" format="dimension" />
+        <attr name="pstsUnderlineHeight" format="dimension" />
+        <attr name="pstsDividerPadding" format="dimension" />
+        <attr name="pstsTabPaddingLeftRight" format="dimension" />
+        <attr name="pstsScrollOffset" format="dimension" />
+        <attr name="pstsTabBackground" format="reference" />
+        <attr name="pstsShouldExpand" format="boolean" />
+        <attr name="pstsTextAllCaps" format="boolean" />
+
+        <attr name="pstsTabSelectedColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="LineProgressView">
+
+        <!--Set the collapse panel offset-->
+        <attr name="background_color" format="color" />
+        <attr name="progress_color" format="color" />
+    </declare-styleable>
+
+    <!--slideLayout-->
+    <declare-styleable name="SlideDetailsLayout">
+        <!-- float value for indicate the moment of switch panel-->
+        <attr name="percent" format="float" />
+        <!-- how long the animation keep-->
+        <attr name="duration" format="integer" />
+        <!-- default panel to show after init-->
+        <attr name="default_panel" format="enum">
+            <enum name="front" value="0" />
+            <enum name="behind" value="1" />
+        </attr>
+    </declare-styleable>
+</resources>

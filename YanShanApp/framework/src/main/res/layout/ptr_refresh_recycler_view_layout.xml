@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<in.srain.cube.views.ptr.PtrFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ptr_frame_refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/ptr_frame_refresh_recycler_container"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:gravity="center_horizontal">-->
+
+        <com.ycl.framework.view.recycleview.ScrollRecyclerView
+            android:id="@+id/ptr_frame_refresh_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusableInTouchMode="true" />
+    <!--</RelativeLayout>-->
+</in.srain.cube.views.ptr.PtrFrameLayout>
+

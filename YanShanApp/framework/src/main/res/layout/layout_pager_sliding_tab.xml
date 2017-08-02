@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+    <com.ycl.framework.view.TitleHeaderView
+        android:id="@+id/view_pager_sliding_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title_name="@string/main_page3"/>
+
+    <com.ycl.framework.view.PagerSlidingTabStrip
+        android:id="@+id/tabs_pager_sliding_tab"
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:layout_below="@+id/view_pager_sliding_tab"
+        app:pstsShouldExpand="true"
+        />
+
+    <com.ycl.framework.base.FrameViewPager
+        android:id="@+id/vp_pager_sliding_tab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabs_pager_sliding_tab"
+        android:background="@color/color_gray_default"
+        android:persistentDrawingCache="all"/>
+
+
+</RelativeLayout>

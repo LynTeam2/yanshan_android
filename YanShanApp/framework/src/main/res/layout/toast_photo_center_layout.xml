@@ -1,0 +1,27 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_photo_warm_toast"
+    android:paddingBottom="@dimen/default_margin"
+    android:paddingLeft="@dimen/default_margin_max"
+    android:paddingRight="@dimen/default_margin_max"
+    android:paddingTop="@dimen/default_margin">
+
+    <ImageView
+        android:id="@+id/iv_toast_warm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/icon_toast_warm" />
+
+    <TextView
+        android:id="@+id/tv_toast_warm_str"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_toast_warm"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/default_margin_mid"
+        android:textColor="#ffffff"
+        android:textSize="15sp" />
+
+</RelativeLayout>

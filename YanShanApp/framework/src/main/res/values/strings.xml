@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">My Library</string>
+
+    <string name="browseeId">100</string>
+
+    <string name="main_page1">首页</string>
+    <string name="main_page2">名人堂</string>
+    <string name="main_page3">名师汇</string>
+    <string name="main_page4">我</string>
+
+    <string name="main_page5">直播</string>
+    <string name="main_page6">点播</string>
+
+
+    <string name="xlv_header_hint_loading">正在加载...</string>
+    <string name="xlv_footer_hint_normal">查看更多</string>
+    <string name="xlv_footer_hint_ready">松开载入更多</string>
+    <string name="xlv_footer_hint_over">已经到底</string>
+
+    <string name="text_load_msg">加载中...</string>
+
+    <string name="need_permission">您需要开启权限,并重启应用</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+</resources>

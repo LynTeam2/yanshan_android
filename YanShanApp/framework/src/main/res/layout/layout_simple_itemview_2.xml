@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_simple_item_view_root"
+    android:layout_width="match_parent"
+    android:layout_height="150px">
+
+
+    <ImageView
+        android:id="@+id/iv_item_simple_view_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:layout_marginStart="10dp"
+        android:visibility="gone" />
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/rl_simple_item_view_content_right"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toEndOf="@+id/iv_item_simple_view_left">
+
+        <TextView
+            android:id="@+id/tv_simple_item_view_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="44px"
+            android:textColor="@color/color_gray"
+            android:textSize="42px" />
+
+        <ImageView
+            android:id="@+id/iv_simple_item_view_guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="44px"
+            android:src="@drawable/icon_item_simple_view_right" />
+
+        <TextView
+            android:id="@+id/tv_simple_item_view_guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="34px"
+            android:layout_toStartOf="@+id/iv_simple_item_view_guide"
+            android:textColor="@color/color_gray_9"
+            android:textSize="42px"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/ed_simple_item_view_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20px"
+            android:layout_marginStart="20px"
+            android:background="@null"
+            android:layout_toEndOf="@+id/tv_simple_item_view_title"
+            android:layout_toStartOf="@+id/tv_simple_item_view_guide"
+            android:textColor="@color/color_gray"
+            android:textColorHint="@color/color_gray_9"
+            android:textSize="42px"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/line_simple_item_view_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="#D9D9D9" />
+    </com.zhy.autolayout.AutoRelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

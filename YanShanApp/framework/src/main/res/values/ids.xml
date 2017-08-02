@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="BrowserId" type="id">100</item>
+
+    <item name="title_view_left_id" type="id">101
+    </item>
+    <item name="title_view_right_id" type="id">102
+    </item>
+
+    <item name="title_view_middle_id" type="id">103
+    </item>
+    <item name="image_glide_tag" type="id" />
+
+    <item name="view_holder_id" type="id"/>
+
+</resources>
