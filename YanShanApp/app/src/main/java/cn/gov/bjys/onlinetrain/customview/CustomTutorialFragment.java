@@ -23,13 +23,17 @@ import com.cleveroad.slidingtutorial.TutorialOptions;
 import com.cleveroad.slidingtutorial.TutorialPageOptionsProvider;
 import com.cleveroad.slidingtutorial.TutorialPageProvider;
 import com.cleveroad.slidingtutorial.TutorialSupportFragment;
+import com.ycl.framework.utils.helper.ContextHelper;
+import com.ycl.framework.utils.sp.SavePreference;
 
 import java.sql.Time;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.MainActivity;
+import cn.gov.bjys.onlinetrain.utils.YSConst;
 
 public class CustomTutorialFragment extends TutorialSupportFragment
         implements OnTutorialPageChangeListener {
@@ -42,6 +46,9 @@ public class CustomTutorialFragment extends TutorialSupportFragment
         @Override
         public void onClick(View v) {
             Toast.makeText(getActivity(), "Skip button clicked", Toast.LENGTH_SHORT).show();
+            SavePreference.save(BaseApplication.getBaseApplication(), YSConst.NOT_FIRST_LOGIN, true);
+            ContextHelper.getRequiredActivity(getActivity()).startAct(MainActivity.class);
+            ContextHelper.getRequiredActivity(getActivity()).finish();
         }
     };
 
@@ -184,6 +191,5 @@ public class CustomTutorialFragment extends TutorialSupportFragment
 
     public void initViews(View rootView) {
         mSkipButton = (TextView) rootView.findViewById(R.id.tvSkipCustom);
-
     }
 }

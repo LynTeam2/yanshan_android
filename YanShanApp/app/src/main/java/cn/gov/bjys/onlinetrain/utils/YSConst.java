@@ -5,5 +5,5 @@ package cn.gov.bjys.onlinetrain.utils;
  */
 public class YSConst {
 
-    public final static String IS_FIRST_LOGIN = "is_first_login";
+    public final static String NOT_FIRST_LOGIN = "not_first_login";
 }

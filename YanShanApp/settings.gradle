@@ -1,2 +1,2 @@
-include ':app', ':framework1'
+include ':app', ':framework1', ':statusbarutil2'
 project(':framework1').projectDir = new File('framework')

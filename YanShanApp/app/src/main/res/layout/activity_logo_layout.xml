@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
         <Button
+            android:layout_marginTop="100px"
             android:id="@+id/count_down"
             android:layout_marginRight="50px"
             android:layout_alignParentRight="true"
