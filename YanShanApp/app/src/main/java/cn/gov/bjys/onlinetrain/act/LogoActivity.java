@@ -1,5 +1,6 @@
 package cn.gov.bjys.onlinetrain.act;
 
+import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
@@ -19,13 +20,18 @@ import cn.gov.bjys.onlinetrain.utils.YSConst;
  */
 public class LogoActivity extends FrameActivity {
     public final static String TAG = LogoActivity.class.getSimpleName();
+
     @Bind(R.id.count_down)
     Button mCountDown;
 
     @Override
     protected void setRootView() {
         setContentView(R.layout.activity_logo_layout);
-        StatusBarUtil.setTranslucent(this);
+    }
+
+    @Override
+    protected void initStatusBar() {
+        StatusBarUtil.setTranslucent(this,StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA);
     }
 
     @Override
@@ -39,7 +45,7 @@ public class LogoActivity extends FrameActivity {
                     countDownTimer.cancel();
                 }
                 startNextActivity();
-//                LogoActivity.this.finish();
+                LogoActivity.this.finish();
             }
         });
         }

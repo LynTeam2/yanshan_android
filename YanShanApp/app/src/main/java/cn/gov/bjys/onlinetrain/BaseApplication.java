@@ -23,6 +23,9 @@ public class BaseApplication extends FrameApplication {
     public static Context getBaseApplication(){
         return  ctx;
     }
+    public static Context getAppContext() {
+        return ctx;
+    }
 
     private void init360WithUmeng(){
         // 如果没有使用 PackerNg 打包添加渠道，默认返回的是""

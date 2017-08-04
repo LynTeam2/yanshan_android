@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+        <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+                <!-- Customize your theme here. -->
+                <!--colorPrimary 应用的主要色调-->
+                <item name="colorPrimary">@color/colorPrimary</item>
+                <!--statusBarColor 状态栏颜色，默认使用colorPrimaryDark-->
+                <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+                <!--colorAccent CheckBox，RadioButton，SwitchCompat等一般控件的选中效果默认采用该颜色-->
+                <item name="colorAccent">@color/colorAccent</item>
+                <!--windowBackground 窗口背景颜色-->
+                <item name="android:windowBackground">@color/windowBackground</item>
+                <!--navigationBarColor 底部栏颜色-->
+                <item name="android:navigationBarColor">@color/navigationBarColor</item>
+        </style>
+</resources>

@@ -3,6 +3,7 @@ package cn.gov.bjys.onlinetrain.act;
 import android.os.Bundle;
 
 import com.ycl.framework.base.FrameActivity;
+import com.zls.www.statusbarutil.StatusBarUtil;
 
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.customview.CustomTutorialFragment;
@@ -15,6 +16,11 @@ public class GuideActivity extends FrameActivity {
     @Override
     protected void setRootView() {
         setContentView(R.layout.activity_sliding_tutorial);
+    }
+
+    @Override
+    protected void initStatusBar() {
+        StatusBarUtil.setTranslucentForImageViewInFragment(this, null);
     }
 
     //activity重置  数据重置

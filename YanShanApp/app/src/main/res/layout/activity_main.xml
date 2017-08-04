@@ -1,16 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".act.MainActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:id="@+id/framelayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ll_main_bottom_root"
+        android:layout_marginBottom="1px" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_above="@+id/ll_main_bottom_root"
+        android:background="#aaaaaaaa" />
+
+    <LinearLayout
+        android:id="@+id/ll_main_bottom_root"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
-</RelativeLayout>
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_gray_default"
+        android:orientation="horizontal"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:paddingTop="2dp">
+
+        <LinearLayout
+            android:id="@+id/ll_main_page1"
+            style="@style/tab_main_ll">
+
+            <ImageView
+                android:id="@+id/act_main_iv_page1"
+                style="@style/tab_main_iv" />
+
+            <TextView
+                android:id="@+id/act_main_tv_page1"
+                style="@style/tab_main_tv"
+                android:text="@string/main_page1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_main_page2"
+            style="@style/tab_main_ll">
+
+            <ImageView
+                android:id="@+id/act_main_iv_page2"
+                style="@style/tab_main_iv" />
+
+            <TextView
+                android:id="@+id/act_main_tv_page2"
+                style="@style/tab_main_tv"
+                android:text="@string/main_page5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_main_page3"
+            style="@style/tab_main_ll">
+
+            <ImageView
+                android:id="@+id/act_main_iv_page3"
+                style="@style/tab_main_iv" />
+
+            <TextView
+                android:id="@+id/act_main_tv_page3"
+                style="@style/tab_main_tv"
+                android:text="@string/main_page6" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_main_page4"
+            style="@style/tab_main_ll">
+
+            <ImageView
+                android:id="@+id/act_main_iv_page4"
+                style="@style/tab_main_iv" />
+
+            <TextView
+                android:id="@+id/act_main_tv_page4"
+                style="@style/tab_main_tv"
+                android:text="@string/main_page4" />
+        </LinearLayout>
+
+    </LinearLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

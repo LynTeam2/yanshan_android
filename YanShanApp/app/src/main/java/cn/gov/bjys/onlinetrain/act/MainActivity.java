@@ -1,15 +1,104 @@
 package cn.gov.bjys.onlinetrain.act;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.graphics.Color;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.ycl.framework.base.FrameActivity;
+import com.ycl.framework.utils.util.SelectorUtil;
+import com.zls.www.statusbarutil.StatusBarUtil;
+
+import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
+import cn.gov.bjys.onlinetrain.utils.Helper;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FrameActivity {
+
+    private Fragment[]  mFragments;
+    private ImageView[] mImgs;
+    private TextView[]  mTextViews;
+    //当前Fragment 的 index
+    private int  mCurrentTabIndex = 0;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void setRootView() {
         setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    protected void initStatusBar() {
+        StatusBarUtil.setTranslucent(this,StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA);
+    }
+
+
+    @OnClick({R.id.ll_main_page1, R.id.ll_main_page2, R.id.ll_main_page3, R.id.ll_main_page4})
+    void tabClick(View view) {
+        switch (view.getId()) {
+            case R.id.ll_main_page1:
+                fragmentChange(0);
+                break;
+            case R.id.ll_main_page2:
+                fragmentChange(1);
+                break;
+            case R.id.ll_main_page3:
+                fragmentChange(2);
+                break;
+            case R.id.ll_main_page4:
+                fragmentChange(3);
+                break;
+
+        }
+    }
+
+    @Override
+    public void initViews() {
+        mImgs = new ImageView[5];
+        mImgs[0] = (ImageView) findViewById(R.id.act_main_iv_page1);
+        mImgs[1] = (ImageView) findViewById(R.id.act_main_iv_page2);
+        mImgs[2] = (ImageView) findViewById(R.id.act_main_iv_page3);
+        mImgs[3] = (ImageView) findViewById(R.id.act_main_iv_page4);
+
+        mImgs[0].setImageDrawable(SelectorUtil.getDrawableWithDrawa(getApplicationContext(), R.mipmap.ic_launcher, R.mipmap.ic_launcher));
+        mImgs[1].setImageDrawable(SelectorUtil.getDrawableWithDrawa(getApplicationContext(), R.mipmap.ic_launcher, R.mipmap.ic_launcher));
+        mImgs[2].setImageDrawable(SelectorUtil.getDrawableWithDrawa(getApplicationContext(), R.mipmap.ic_launcher, R.mipmap.ic_launcher));
+        mImgs[3].setImageDrawable(SelectorUtil.getDrawableWithDrawa(getApplicationContext(), R.mipmap.ic_launcher, R.mipmap.ic_launcher));
+        mTextViews = new TextView[5];
+        mTextViews[0] = (TextView) findViewById(R.id.act_main_tv_page1);
+        mTextViews[1] = (TextView) findViewById(R.id.act_main_tv_page2);
+        mTextViews[2] = (TextView) findViewById(R.id.act_main_tv_page3);
+        mTextViews[3] = (TextView) findViewById(R.id.act_main_tv_page4);
+
+        mTextViews[0].setTextColor(SelectorUtil.getColorStateListSelected(Helper.getDefaultColor(), Helper.getSelectedColor()));
+        mTextViews[1].setTextColor(SelectorUtil.getColorStateListSelected(Helper.getDefaultColor(), Helper.getSelectedColor()));
+        mTextViews[2].setTextColor(SelectorUtil.getColorStateListSelected(Helper.getDefaultColor(), Helper.getSelectedColor()));
+        mTextViews[3].setTextColor(SelectorUtil.getColorStateListSelected(Helper.getDefaultColor(), Helper.getSelectedColor()));
+
+    }
+
+    /**
+     * pager切换
+     */
+
+    public void fragmentChange(int tag) {
+        if (mCurrentTabIndex != tag) {
+            FragmentTransaction trx = getSupportFragmentManager()
+                    .beginTransaction();
+            trx.hide(mFragments[mCurrentTabIndex]);
+            if (!mFragments[tag].isAdded()) {
+                trx.add(R.id.framelayout, mFragments[tag]);
+            }
+            trx.show(mFragments[tag]).commitAllowingStateLoss();
+        }
+        mImgs[mCurrentTabIndex].setSelected(false);
+        mTextViews[mCurrentTabIndex].setSelected(false);
+        // 把当前tab设为选中状态
+        mImgs[tag].setSelected(true);
+        mTextViews[tag].setSelected(true);
+        mCurrentTabIndex = tag;
+
+        //改变标题栏颜色
     }
 }
