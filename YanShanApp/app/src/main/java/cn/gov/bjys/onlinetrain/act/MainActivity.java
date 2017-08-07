@@ -1,6 +1,8 @@
 package cn.gov.bjys.onlinetrain.act;
 
 import android.graphics.Color;
+import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -13,6 +15,10 @@ import com.zls.www.statusbarutil.StatusBarUtil;
 
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
+import cn.gov.bjys.onlinetrain.fragment.HomeFragment;
+import cn.gov.bjys.onlinetrain.fragment.OwnFragment;
+import cn.gov.bjys.onlinetrain.fragment.UndefinedSecondFragment;
+import cn.gov.bjys.onlinetrain.fragment.UndefinedThirdFragment;
 import cn.gov.bjys.onlinetrain.utils.Helper;
 
 public class MainActivity extends FrameActivity {
@@ -30,7 +36,7 @@ public class MainActivity extends FrameActivity {
 
     @Override
     protected void initStatusBar() {
-        StatusBarUtil.setTranslucent(this,StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA);
+        StatusBarUtil.setTranslucentForImageViewInFragment(this, null);
     }
 
 
@@ -78,6 +84,27 @@ public class MainActivity extends FrameActivity {
 
     }
 
+    @Override
+    public void initData() {
+
+        mFragments = new Fragment[]{getFragment("homepage_fragment", HomeFragment.class, R.id.framelayout),
+                getFragment("second_fragment", UndefinedSecondFragment.class, R.id.framelayout),
+                getFragment("third_fragment", UndefinedThirdFragment.class, R.id.framelayout),
+                getFragment("own_fragment", OwnFragment.class, R.id.framelayout),
+
+        };
+        if (!mFragments[0].isAdded())
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.framelayout, mFragments[0], "fg_page_Home")
+//                    .add(R.id.framelayout, mFragments[3], "fg_page_own")//.add(R.id.framelayout, fragments[3], "fg_page4").hide(fragments[4]).hide(fragments[3])//.hide(fragments[1]).hide(fragments[2])
+//                    .hide(mFragments[3])
+                    .show(mFragments[0]).commit();
+
+        mImgs[0].setSelected(true);
+        mTextViews[0].setSelected(true);
+
+    }
+
     /**
      * pager切换
      */
@@ -100,5 +127,28 @@ public class MainActivity extends FrameActivity {
         mCurrentTabIndex = tag;
 
         //改变标题栏颜色
+    }
+
+    //会导致 fragment序列化异常
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    private long mExitTime = 0;
+    @Override
+    public void onBackPressed() {
+//        if (System.currentTimeMillis() - mExitTime < 1600) {
+//            super.onBackPressed();
+//        } else {
+//            mExitTime = System.currentTimeMillis();
+//            showToast("连续按两次返回键关闭程序");
+//        }
+        moveTaskToBack(true);
     }
 }
