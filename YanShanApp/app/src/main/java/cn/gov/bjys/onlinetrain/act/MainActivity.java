@@ -10,15 +10,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ycl.framework.base.FrameActivity;
+import com.ycl.framework.utils.util.LogUtils;
 import com.ycl.framework.utils.util.SelectorUtil;
 import com.zls.www.statusbarutil.StatusBarUtil;
 
 import butterknife.OnClick;
+import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.fragment.HomeFragment;
 import cn.gov.bjys.onlinetrain.fragment.OwnFragment;
 import cn.gov.bjys.onlinetrain.fragment.UndefinedSecondFragment;
 import cn.gov.bjys.onlinetrain.fragment.UndefinedThirdFragment;
+import cn.gov.bjys.onlinetrain.utils.AssetsHelper;
 import cn.gov.bjys.onlinetrain.utils.Helper;
 
 public class MainActivity extends FrameActivity {
@@ -59,9 +62,16 @@ public class MainActivity extends FrameActivity {
         }
     }
 
+    public final static String UPDATE_ZIP = "update";
     @Override
     public void initViews() {
-        mImgs = new ImageView[5];
+        try {
+            AssetsHelper.unZipAssetOneFileContains(BaseApplication.getAppContext(), UPDATE_ZIP);
+        }catch (Exception e){
+            e.printStackTrace();
+            LogUtils.d(e.getMessage());
+        }
+            mImgs = new ImageView[5];
         mImgs[0] = (ImageView) findViewById(R.id.act_main_iv_page1);
         mImgs[1] = (ImageView) findViewById(R.id.act_main_iv_page2);
         mImgs[2] = (ImageView) findViewById(R.id.act_main_iv_page3);

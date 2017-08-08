@@ -1,8 +1,6 @@
 package cn.gov.bjys.onlinetrain.act;
 
-import android.graphics.Color;
 import android.os.CountDownTimer;
-import android.service.notification.StatusBarNotification;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -50,8 +48,7 @@ public class LogoActivity extends FrameActivity {
         });
         }
 
-//定时器
-
+    //定时器
     CountDownTimer countDownTimer;
 
     public void initCountDownTimer() {
