@@ -5,5 +5,14 @@ package cn.gov.bjys.onlinetrain.utils;
  */
 public class YSConst {
 
+    public static final int USERNAME_LENGTH_MAX = 11;
+    public static final int PASSWORD_LENGTH_MIN = 6;
+    public static final int PASSWORD_LENGTH_MAX = 20;
+
+    //是否为首次登陆app
     public final static String NOT_FIRST_LOGIN = "not_first_login";
+
+    //assets文件目录下的 update文件夹名字
+    public final static String UPDATE_ZIP = "update";
+
 }

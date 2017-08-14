@@ -4,17 +4,13 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.text.TextUtils;
 
-import com.hp.hpl.sparta.Text;
 import com.ycl.framework.utils.util.LogUtils;
-import com.zhy.autolayout.utils.L;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -108,15 +104,16 @@ public class AssetsHelper {
         }
 
         if(!TextUtils.isEmpty(aimFileNameAll)) {
-            String appDirPath = context.getFilesDir().getParent();
-            String dirPath = appDirPath + File.separator
-                    + fileName;
-            String aimPath = dirPath + File.separator + aimFileNameAll;
-            File file = new File(aimPath);
-           if(!file.exists()){
-               file.mkdirs();
-           }
-            InputStream  inputStream = new FileInputStream(file);
+//            String appDirPath = context.getFilesDir().getParent();
+//            String dirPath = appDirPath + File.separator
+//                    + fileName;
+//            String aimPath = dirPath + File.separator + aimFileName;
+//            File file = new File(aimPath);
+//           if(!file.exists()){
+//               file.mkdirs();
+//           }
+            String retName = getOnlyOneAssetsFile(context,fileName);
+            InputStream  inputStream = manager.open(retName);
             unZipInputStream(context, inputStream, outputDirectory, true);
             return true;
         }else{
@@ -124,7 +121,23 @@ public class AssetsHelper {
         }
     }
 
-
+    public static String getOnlyOneAssetsFile(Context context, String filename){
+        try {
+            AssetManager am = context.getAssets();
+            String[] fileNames = am.list(filename);
+            if(fileNames.length > 0){
+                for(String fn : fileNames){
+                  //only one
+                    return  getOnlyOneAssetsFile(context,filename + File.separator + fn);
+                }
+            }else{
+                return filename;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return filename;
+    }
     /**
      * get file name from the file path.
      *

@@ -81,7 +81,7 @@ public class LogoActivity extends FrameActivity {
     public void startNextActivity() {
         boolean notFirstLogin = SavePreference.getBoolean(this, YSConst.NOT_FIRST_LOGIN);
         if (notFirstLogin) {
-            startAct(MainActivity.class);
+            startAct(LoginActivity.class);
         } else {
             startAct(GuideActivity.class);
         }

@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">YanShanApp</string>
+
+
+    <string name="string_check_user">请输入手机号码！</string>
+    <string name="string_check_password">请输入密码！</string>
+    <string name="string_check_code">请输入验证码！</string>
+    <string name="string_check_phone">请输入手机号码！</string>
+    <string name="string_check_phone_right">请输入正确的手机号！</string>
+    <string name="string_check_wx_right">请输入正确的微信号！</string>
+    <string name="string_check_password_lendth">密码长度由6~20位组成！</string>
+    <string name="string_check_password_iseasy">密码太简单.请尝试字母和数字结合</string>
+    <string name="string_check_fwtq">请阅读并同意服务条款</string>
 </resources>

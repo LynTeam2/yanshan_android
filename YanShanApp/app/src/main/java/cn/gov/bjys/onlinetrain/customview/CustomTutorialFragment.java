@@ -33,6 +33,7 @@ import java.util.TimerTask;
 
 import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
+import cn.gov.bjys.onlinetrain.act.LoginActivity;
 import cn.gov.bjys.onlinetrain.act.MainActivity;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 
@@ -48,7 +49,7 @@ public class CustomTutorialFragment extends TutorialSupportFragment
         public void onClick(View v) {
             Toast.makeText(getActivity(), "Skip button clicked", Toast.LENGTH_SHORT).show();
             SavePreference.save(BaseApplication.getBaseApplication(), YSConst.NOT_FIRST_LOGIN, true);
-            ContextHelper.getRequiredActivity(getActivity()).startAct(MainActivity.class);
+            ContextHelper.getRequiredActivity(getActivity()).startAct(LoginActivity.class);
             ContextHelper.getRequiredActivity(getActivity()).finish();
         }
     };

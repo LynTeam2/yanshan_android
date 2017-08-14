@@ -6,8 +6,18 @@
     <color name="windowBackground">#F5F5F5</color>
     <color name="navigationBarColor">#000</color>
 
+    <color name="transparent">#00ffffff</color>
 
     <color name="color_gray_default">#fff5f5f5</color>
     <color name="color_select_main">#cc0f2f</color>
     <color name="color_gray_main">#929292</color>
+    <color name="color_gray_light">#f0f0f0</color>
+
+    <color name="normal_red">#cc0f2f</color>
+    <color name="normal_gray">#929292</color>
+    <color name="normal_black">#151515</color>
+    <color name="color_gray_gift_line">#cecece</color>
+    <color name="white">#fff5f5f5</color>
+    <color name="line_normal_alpha30">#4cffffff</color>
+
 </resources>
