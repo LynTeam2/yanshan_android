@@ -13,6 +13,9 @@ import cn.gov.bjys.onlinetrain.R;
  * Created by dodozhou on 2017/8/7.
  */
 public class OwnFragment extends FrameFragment {
+
+
+
     @Override
     protected View inflaterView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         return inflater.inflate(R.layout.fragment_ownpage,container,false);

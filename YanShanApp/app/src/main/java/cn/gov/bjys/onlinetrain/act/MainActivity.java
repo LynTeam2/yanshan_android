@@ -1,6 +1,5 @@
 package cn.gov.bjys.onlinetrain.act;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
