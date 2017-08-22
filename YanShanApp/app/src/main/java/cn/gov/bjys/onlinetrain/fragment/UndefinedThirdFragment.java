@@ -22,6 +22,7 @@ import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.api.UserApi;
 import cn.gov.bjys.onlinetrain.utils.multi_file_download.DownInfo;
 import cn.gov.bjys.onlinetrain.utils.multi_file_download.HttpDownManager;
+import cn.gov.bjys.onlinetrain.utils.multi_file_download.HttpProgressOnNextListener;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -31,7 +32,7 @@ import retrofit2.Response;
 /**
  * Created by dodozhou on 2017/8/7.
  */
-public class UndefinedThirdFragment extends FrameFragment {
+public class UndefinedThirdFragment extends FrameFragment  {
 
     public final static String TAG = UndefinedThirdFragment.class.getSimpleName();
 
@@ -95,7 +96,31 @@ public class UndefinedThirdFragment extends FrameFragment {
         di.setCountLength(0);
         di.setUrl("Video/2017/02/18/mp4/170218171317773949.mp4");
         di.setSavePath(BaseApplication.getAppContext().getFilesDir().getParent()+ File.separator + "video");
-
+        di.setListener(listener);
         HttpDownManager.getInstance().startDown(di);
     }
+
+
+    HttpProgressOnNextListener listener = new HttpProgressOnNextListener() {
+        @Override
+        public void onNext(Object o) {
+
+        }
+
+        @Override
+        public void onStart() {
+
+        }
+
+        @Override
+        public void onComplete() {
+
+        }
+
+        @Override
+        public void updateProgress(long readLength, long countLength) {
+            Log.d(TAG, "readLength = " + readLength +"\n  countLength = " +countLength);
+        }
+    };
+
 }
