@@ -15,15 +15,14 @@ import com.ycl.framework.utils.util.ToastUtil;
 import java.io.File;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.api.UserApi;
-import cn.gov.bjys.onlinetrain.utils.multi_file_download.DownInfo;
 import cn.gov.bjys.onlinetrain.utils.multi_file_download.HttpDownManager;
 import cn.gov.bjys.onlinetrain.utils.multi_file_download.HttpProgressOnNextListener;
-import okhttp3.RequestBody;
+import cn.gov.bjys.onlinetrain.utils.multi_file_download.db.business.DownLoadInfoBusiness;
+import cn.gov.bjys.onlinetrain.utils.multi_file_download.db.entity.DownLoadInfoBean;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,7 +31,7 @@ import retrofit2.Response;
 /**
  * Created by dodozhou on 2017/8/7.
  */
-public class UndefinedThirdFragment extends FrameFragment  {
+public class UndefinedThirdFragment extends FrameFragment {
 
     public final static String TAG = UndefinedThirdFragment.class.getSimpleName();
 
@@ -45,6 +44,9 @@ public class UndefinedThirdFragment extends FrameFragment  {
     @Bind(R.id.pause)
     CheckBox mPause;
 
+    @Bind(R.id.stop)
+    CheckBox mStop;
+
     @Bind(R.id.pb)
     ProgressBar mProgressBar;
 
@@ -52,7 +54,6 @@ public class UndefinedThirdFragment extends FrameFragment  {
     protected View inflaterView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         return inflater.inflate(R.layout.fragment_download_layout, container, false);
     }
-
 
 
     @OnClick({R.id.start, R.id.pb, R.id.pause})
@@ -67,37 +68,49 @@ public class UndefinedThirdFragment extends FrameFragment  {
                 break;
             case R.id.pause:
                 ToastUtil.showToast("pause");
+                HttpDownManager.getInstance().pause(mInfo);
+                break;
+            case R.id.stop:
+                ToastUtil.showToast("stop");
+                HttpDownManager.getInstance().stopDown(mInfo);
                 break;
         }
     }
 
 
-    private void gotoDownLoad(){
+    private void gotoDownLoad() {
 
-        Call<ResponseBody> call =  HRetrofitNetHelper.getInstance(BaseApplication.getAppContext()).getSpeUrlService("http://vfx.mtime.cn/", UserApi.class)
+        Call<ResponseBody> call = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext()).getSpeUrlService("http://vfx.mtime.cn/", UserApi.class)
                 .getFileDownLoad();
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d(TAG,"load succ");
+                Log.d(TAG, "load succ");
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d(TAG,"load fail");
+                Log.d(TAG, "load fail");
             }
         });
     }
 
-    private void  gotoTestDownLoad(){
-
-        DownInfo di = new DownInfo();
+    DownLoadInfoBean mInfo;
+    public DownLoadInfoBean preparedData() {
+        DownLoadInfoBean di = new DownLoadInfoBean();
         di.setBaseUrl("http://vfx.mtime.cn/");
         di.setCountLength(0);
         di.setUrl("Video/2017/02/18/mp4/170218171317773949.mp4");
-        di.setSavePath(BaseApplication.getAppContext().getFilesDir().getParent()+ File.separator + "video");
+        di.setSavePath(BaseApplication.getAppContext().getFilesDir().getParent() + File.separator + "video");
         di.setListener(listener);
-        HttpDownManager.getInstance().startDown(di);
+        return di;
+    }
+
+    private void gotoTestDownLoad() {
+        if(mInfo == null) {
+            mInfo = preparedData();
+        }
+        HttpDownManager.getInstance().startDown(mInfo);
     }
 
 
@@ -109,17 +122,34 @@ public class UndefinedThirdFragment extends FrameFragment  {
 
         @Override
         public void onStart() {
-
+            ToastUtil.showToast("开始");
         }
 
         @Override
-        public void onComplete() {
+        public void onComplete(Object o) {
+            ToastUtil.showToast("完成");
+            if(o instanceof  DownLoadInfoBean){
+                DownLoadInfoBusiness.getInstance(BaseApplication.getAppContext()).deleteItemWithAllUrl(((DownLoadInfoBean)o).getAllUrl());
+            }
+        }
 
+
+
+        @Override
+        public void onError(Throwable e) {
+            super.onError(e);
+        }
+
+        @Override
+        public void onStop() {
+            super.onStop();
         }
 
         @Override
         public void updateProgress(long readLength, long countLength) {
-            Log.d(TAG, "readLength = " + readLength +"\n  countLength = " +countLength);
+            Log.d(TAG, "readLength = " + readLength + "\n  countLength = " + countLength);
+            int res = (int) ((readLength / (countLength * 1.0f)) * 100);
+            mProgressBar.setProgress(res);
         }
     };
 

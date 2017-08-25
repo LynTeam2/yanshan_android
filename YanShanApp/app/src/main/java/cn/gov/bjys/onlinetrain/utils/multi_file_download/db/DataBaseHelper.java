@@ -1,4 +1,4 @@
-package com.ycl.framework.db;
+package cn.gov.bjys.onlinetrain.utils.multi_file_download.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,9 +14,11 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.gov.bjys.onlinetrain.utils.multi_file_download.db.entity.DownLoadInfoBean;
+
 public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
-    private static final String DATABASE_NAME = "localCache.db";
-    private static final int DATABASE_VERSION = 10;  //通过更改版本号  进行迭代
+    private static final String DATABASE_NAME = "downLoadInfo.db";
+    private static final int DATABASE_VERSION = 1;  //通过更改版本号  进行迭代
 
     private Map<String, Dao> daos = new HashMap<String, Dao>();
 
@@ -27,7 +29,7 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase arg0, ConnectionSource arg1) {
         try {
-            TableUtils.createTable(arg1, UserDetailBean.class);
+            TableUtils.createTable(arg1, DownLoadInfoBean.class);
 
         } catch (SQLException e) {
             Log.e(DataBaseHelper.class.getName(), "创建数据库失败", e);
@@ -38,7 +40,7 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, ConnectionSource arg1, int arg2, int arg3) {
         try {
-            TableUtils.dropTable(connectionSource, UserDetailBean.class, true);
+            TableUtils.dropTable(connectionSource, DownLoadInfoBean.class, true);
 
             onCreate(db, connectionSource);
         } catch (SQLException e) {

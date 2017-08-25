@@ -1,6 +1,6 @@
 package cn.gov.bjys.onlinetrain.utils.multi_file_download;
 
-import org.apache.http.protocol.HttpService;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,13 +11,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 
+import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.utils.multi_file_download.api.DownLoadApi;
+import cn.gov.bjys.onlinetrain.utils.multi_file_download.db.business.DownLoadInfoBusiness;
+import cn.gov.bjys.onlinetrain.utils.multi_file_download.db.entity.DownLoadInfoBean;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.fastjson.FastJsonConverterFactory;
-import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -26,15 +28,18 @@ import rx.schedulers.Schedulers;
  * Created by dodozhou on 2017/8/22.
  */
 public class HttpDownManager {
+
+    public final static String TAG = "HttpDownManager";
+
     /*回调sub队列*/
-    private HashMap<String,ProgressDownSubscriber> subMap;
+    private HashMap<String, ProgressDownSubscriber> subMap;
     /*单利对象*/
     private volatile static HttpDownManager INSTANCE;
 
-    private  HashSet<DownInfo> downInfos;
+    private HashSet<DownLoadInfoBean> downInfos;
 
-    private HttpDownManager(){
-        downInfos =new HashSet<>();
+    private HttpDownManager() {
+        downInfos = new HashSet<>();
         subMap = new HashMap<>();
     }
 
@@ -48,23 +53,24 @@ public class HttpDownManager {
         }
         return INSTANCE;
     }
+
     /**
      * 开始下载
      */
-    public void startDown(final DownInfo info){
+    public void startDown(final DownLoadInfoBean info) {
         /*正在下载不处理*/
-        if(info==null||subMap.get(info.getUrl())!=null){
+        if (info == null || subMap.get(info.getUrl()) != null) {
             return;
         }
         /*添加回调处理类*/
-        ProgressDownSubscriber subscriber=new ProgressDownSubscriber(info);
+        ProgressDownSubscriber subscriber = new ProgressDownSubscriber(info);
         /*记录回调sub*/
-        subMap.put(info.getUrl(),subscriber);
+        subMap.put(info.getUrl(), subscriber);
         /*获取service，多次请求公用一个sercie*/
         DownLoadApi httpService;
-        if(downInfos.contains(info)){
-            httpService=info.getService();
-        }else{
+        if (downInfos.contains(info)) {
+            httpService = info.getService();
+        } else {
             DownloadInterceptor interceptor = new DownloadInterceptor(subscriber);
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
             //手动创建一个OkHttpClient并设置超时时间
@@ -76,22 +82,24 @@ public class HttpDownManager {
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .baseUrl(info.getBaseUrl())
                     .build();
-            httpService= retrofit.create(DownLoadApi.class);
+            httpService = retrofit.create(DownLoadApi.class);
             info.setService(httpService);
+            downInfos.add(info);
         }
         /*得到rx对象-上一次下載的位置開始下載*/
-        httpService.downLoad("bytes=" + info.getReadLength() + "-",info.getUrl())
+        ((DownLoadApi)httpService).downLoad("bytes=" + info.getReadLength() + "-", info.getUrl())
                 /*指定线程*/
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                    /*失败后的retry配置*/
 //                .retryWhen( new RetryWhenNetworkException())
                 /*读取下载写入文件*/
-                .map(new Func1<ResponseBody, DownInfo>() {
+                .map(new Func1<ResponseBody, DownLoadInfoBean>() {
                     @Override
-                    public DownInfo call(ResponseBody responseBody) {
+                    public DownLoadInfoBean call(ResponseBody responseBody) {
                         try {
-                            writeCache(responseBody,new File(info.getSavePath()),info);
+                            Log.d(TAG, "in call DownInfo.readLength = " + info.getReadLength() + " contentLeng = " + info.getCountLength());
+                            writeCache(responseBody, new File(info.getSavePath()), info);
                         } catch (IOException e) {
                             /*失败抛出异常*/
 //                            throw new HttpTimeException(e.getMessage());
@@ -107,43 +115,46 @@ public class HttpDownManager {
     }
 
 
-
     /**
      * 停止下载
      */
-    public void stopDown(DownInfo info){
-        if(info==null)return;
-        info.setState(DownInfo.DownState.STOP);
+    public void stopDown(DownLoadInfoBean info) {
+        if (info == null) return;
+        info.setState(DownLoadInfoBean.DownState.STOP);
         info.getListener().onStop();
-        if(subMap.containsKey(info.getUrl())) {
-            ProgressDownSubscriber subscriber=subMap.get(info.getUrl());
+        if (subMap.containsKey(info.getUrl())) {
+            ProgressDownSubscriber subscriber = subMap.get(info.getUrl());
             subscriber.unsubscribe();
             subMap.remove(info.getUrl());
         }
         /*同步数据库*/
+        DownLoadInfoBusiness.getInstance(BaseApplication.getAppContext()).deleteItemWithAllUrl(info.getAllUrl());
     }
 
     /**
      * 暂停下载
+     *
      * @param info
      */
-    public void pause(DownInfo info){
-        if(info==null)return;
-        info.setState(DownInfo.DownState.PAUSE);
+    public void pause(DownLoadInfoBean info) {
+        if (info == null) return;
+        info.setState(DownLoadInfoBean.DownState.PAUSE);
         info.getListener().onPuase();
-        if(subMap.containsKey(info.getUrl())){
-            ProgressDownSubscriber subscriber=subMap.get(info.getUrl());
+        if (subMap.containsKey(info.getUrl())) {
+            ProgressDownSubscriber subscriber = subMap.get(info.getUrl());
+            //RxJava的另外一个好处就是它处理unsubscribing的时候，会停止整个调用链
             subscriber.unsubscribe();
             subMap.remove(info.getUrl());
         }
         /*这里需要讲info信息写入到数据中，可自由扩展，用自己项目的数据库*/
+        DownLoadInfoBusiness.getInstance(BaseApplication.getAppContext()).createOrUpdate(info);
     }
 
     /**
      * 停止全部下载
      */
-    public void stopAllDown(){
-        for (DownInfo downInfo : downInfos) {
+    public void stopAllDown() {
+        for (DownLoadInfoBean downInfo : downInfos) {
             stopDown(downInfo);
         }
         subMap.clear();
@@ -153,8 +164,8 @@ public class HttpDownManager {
     /**
      * 暂停全部下载
      */
-    public void pauseAll(){
-        for (DownInfo downInfo : downInfos) {
+    public void pauseAll() {
+        for (DownLoadInfoBean downInfo : downInfos) {
             pause(downInfo);
         }
         subMap.clear();
@@ -164,26 +175,27 @@ public class HttpDownManager {
 
     /**
      * 写入文件
+     *
      * @param file
      * @param info
      * @throws IOException
      */
-    public void writeCache(ResponseBody responseBody, File file, DownInfo info) throws IOException {
+    public void writeCache(ResponseBody responseBody, File file, DownLoadInfoBean info) throws IOException {
         if (!file.getParentFile().exists())
             file.getParentFile().mkdirs();
         long allLength;
-        if (info.getCountLength()==0){
-            allLength=responseBody.contentLength();
-        }else{
-            allLength=info.getCountLength();
+        if (info.getCountLength() == 0) {
+            allLength = responseBody.contentLength();
+        } else {
+            allLength = info.getCountLength();
         }
         FileChannel channelOut = null;
         RandomAccessFile randomAccessFile = null;
         randomAccessFile = new RandomAccessFile(file, "rwd");
         channelOut = randomAccessFile.getChannel();
         MappedByteBuffer mappedBuffer = channelOut.map(FileChannel.MapMode.READ_WRITE,
-                info.getReadLength(),allLength-info.getReadLength());
-        byte[] buffer = new byte[1024*8];
+                info.getReadLength(), allLength - info.getReadLength());
+        byte[] buffer = new byte[1024 * 8];
         int len;
         int record = 0;
         while ((len = responseBody.byteStream().read(buffer)) != -1) {

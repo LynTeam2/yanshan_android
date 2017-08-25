@@ -1,5 +1,7 @@
 package cn.gov.bjys.onlinetrain.utils.multi_file_download;
 
+import android.util.Log;
+
 import java.io.IOException;
 
 import cn.gov.bjys.onlinetrain.utils.multi_file_download.api.DownloadProgressListener;
@@ -15,6 +17,9 @@ import okio.Source;
  * Created by dodozhou on 2017/8/22.
  */
 public class DownloadResponseBody extends ResponseBody {
+
+    public final static String TAG = "DownloadResponseBody";
+
     private ResponseBody responseBody;
     private DownloadProgressListener progressListener;
     private BufferedSource bufferedSource;
@@ -50,6 +55,7 @@ public class DownloadResponseBody extends ResponseBody {
                 long bytesRead = super.read(sink, byteCount);
                 // read() returns the number of bytes read, or -1 if this source is exhausted.
                 totalBytesRead += bytesRead != -1 ? bytesRead : 0;
+                Log.d(TAG,"read leng = " +totalBytesRead + "  ALL  leng = " + responseBody.contentLength() + " is done = " + (bytesRead == -1));
                 if (null != progressListener) {
                     progressListener.update(totalBytesRead, responseBody.contentLength(), bytesRead == -1);
                 }
