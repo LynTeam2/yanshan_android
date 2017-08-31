@@ -8,21 +8,21 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.ycl.framework.db.entity.UserDetailBean;
 
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.gov.bjys.onlinetrain.utils.multi_file_download.db.entity.DataInfo;
 import cn.gov.bjys.onlinetrain.utils.multi_file_download.db.entity.DownLoadInfoBean;
 
-public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
+public class DataDownLoadHelper extends OrmLiteSqliteOpenHelper {
     private static final String DATABASE_NAME = "downLoadInfo.db";
     private static final int DATABASE_VERSION = 1;  //通过更改版本号  进行迭代
 
     private Map<String, Dao> daos = new HashMap<String, Dao>();
 
-    public DataBaseHelper(Context context) {
+    public DataDownLoadHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -30,9 +30,9 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
     public void onCreate(SQLiteDatabase arg0, ConnectionSource arg1) {
         try {
             TableUtils.createTable(arg1, DownLoadInfoBean.class);
-
+            TableUtils.createTable(arg1, DataInfo.class);
         } catch (SQLException e) {
-            Log.e(DataBaseHelper.class.getName(), "创建数据库失败", e);
+            Log.e(DataDownLoadHelper.class.getName(), "创建数据库失败", e);
             e.printStackTrace();
         }
     }
@@ -41,7 +41,7 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, ConnectionSource arg1, int arg2, int arg3) {
         try {
             TableUtils.dropTable(connectionSource, DownLoadInfoBean.class, true);
-
+            TableUtils.dropTable(connectionSource, DataInfo.class, true);
             onCreate(db, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();

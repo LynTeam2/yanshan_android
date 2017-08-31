@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.utils.multi_file_download.api.DownLoadApi;
 import cn.gov.bjys.onlinetrain.utils.multi_file_download.db.business.DownLoadInfoBusiness;
+import cn.gov.bjys.onlinetrain.utils.multi_file_download.db.entity.DataInfo;
 import cn.gov.bjys.onlinetrain.utils.multi_file_download.db.entity.DownLoadInfoBean;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -36,7 +37,7 @@ public class HttpDownManager {
     /*单利对象*/
     private volatile static HttpDownManager INSTANCE;
 
-    private HashSet<DownLoadInfoBean> downInfos;
+    private HashSet<DataInfo> downInfos;
 
     private HttpDownManager() {
         downInfos = new HashSet<>();
@@ -57,7 +58,7 @@ public class HttpDownManager {
     /**
      * 开始下载
      */
-    public void startDown(final DownLoadInfoBean info) {
+    public void startDown(final DataInfo info) {
         /*正在下载不处理*/
         if (info == null || subMap.get(info.getUrl()) != null) {
             return;
@@ -94,11 +95,10 @@ public class HttpDownManager {
                    /*失败后的retry配置*/
 //                .retryWhen( new RetryWhenNetworkException())
                 /*读取下载写入文件*/
-                .map(new Func1<ResponseBody, DownLoadInfoBean>() {
+                .map(new Func1<ResponseBody, DataInfo>() {
                     @Override
-                    public DownLoadInfoBean call(ResponseBody responseBody) {
+                    public DataInfo call(ResponseBody responseBody) {
                         try {
-                            Log.d(TAG, "in call DownInfo.readLength = " + info.getReadLength() + " contentLeng = " + info.getCountLength());
                             writeCache(responseBody, new File(info.getSavePath()), info);
                         } catch (IOException e) {
                             /*失败抛出异常*/
@@ -118,9 +118,9 @@ public class HttpDownManager {
     /**
      * 停止下载
      */
-    public void stopDown(DownLoadInfoBean info) {
+    public void stopDown(DataInfo info) {
         if (info == null) return;
-        info.setState(DownLoadInfoBean.DownState.STOP);
+        info.setState(DataInfo.DownState.STOP);
         info.getListener().onStop();
         if (subMap.containsKey(info.getUrl())) {
             ProgressDownSubscriber subscriber = subMap.get(info.getUrl());
@@ -136,9 +136,9 @@ public class HttpDownManager {
      *
      * @param info
      */
-    public void pause(DownLoadInfoBean info) {
+    public void pause(DataInfo info) {
         if (info == null) return;
-        info.setState(DownLoadInfoBean.DownState.PAUSE);
+        info.setState(DataInfo.DownState.PAUSE);
         info.getListener().onPuase();
         if (subMap.containsKey(info.getUrl())) {
             ProgressDownSubscriber subscriber = subMap.get(info.getUrl());
@@ -147,14 +147,16 @@ public class HttpDownManager {
             subMap.remove(info.getUrl());
         }
         /*这里需要讲info信息写入到数据中，可自由扩展，用自己项目的数据库*/
-        DownLoadInfoBusiness.getInstance(BaseApplication.getAppContext()).createOrUpdate(info);
+        DownLoadInfoBusiness.getInstance(BaseApplication.getAppContext()).addDownLoadInfo(info);
+//        DownLoadInfoBusiness.getInstance(BaseApplication.getAppContext()).create(info);
+
     }
 
     /**
      * 停止全部下载
      */
     public void stopAllDown() {
-        for (DownLoadInfoBean downInfo : downInfos) {
+        for (DataInfo downInfo : downInfos) {
             stopDown(downInfo);
         }
         subMap.clear();
@@ -165,7 +167,7 @@ public class HttpDownManager {
      * 暂停全部下载
      */
     public void pauseAll() {
-        for (DownLoadInfoBean downInfo : downInfos) {
+        for (DataInfo downInfo : downInfos) {
             pause(downInfo);
         }
         subMap.clear();
@@ -180,7 +182,7 @@ public class HttpDownManager {
      * @param info
      * @throws IOException
      */
-    public void writeCache(ResponseBody responseBody, File file, DownLoadInfoBean info) throws IOException {
+    public void writeCache(ResponseBody responseBody, File file, DataInfo info) throws IOException {
         if (!file.getParentFile().exists())
             file.getParentFile().mkdirs();
         long allLength;

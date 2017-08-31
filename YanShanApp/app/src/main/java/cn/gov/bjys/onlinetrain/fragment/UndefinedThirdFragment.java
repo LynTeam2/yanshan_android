@@ -22,6 +22,7 @@ import cn.gov.bjys.onlinetrain.api.UserApi;
 import cn.gov.bjys.onlinetrain.utils.multi_file_download.HttpDownManager;
 import cn.gov.bjys.onlinetrain.utils.multi_file_download.HttpProgressOnNextListener;
 import cn.gov.bjys.onlinetrain.utils.multi_file_download.db.business.DownLoadInfoBusiness;
+import cn.gov.bjys.onlinetrain.utils.multi_file_download.db.entity.DataInfo;
 import cn.gov.bjys.onlinetrain.utils.multi_file_download.db.entity.DownLoadInfoBean;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -95,12 +96,13 @@ public class UndefinedThirdFragment extends FrameFragment {
         });
     }
 
-    DownLoadInfoBean mInfo;
-    public DownLoadInfoBean preparedData() {
-        DownLoadInfoBean di = new DownLoadInfoBean();
+    DataInfo mInfo;
+    public DataInfo preparedData() {
+        DataInfo di = new DataInfo();
         di.setBaseUrl("http://vfx.mtime.cn/");
         di.setCountLength(0);
         di.setUrl("Video/2017/02/18/mp4/170218171317773949.mp4");
+        di.setAllUrl("http://vfx.mtime.cn/"+"Video/2017/02/18/mp4/170218171317773949.mp4");
         di.setSavePath(BaseApplication.getAppContext().getFilesDir().getParent() + File.separator + "video");
         di.setListener(listener);
         return di;
@@ -109,6 +111,10 @@ public class UndefinedThirdFragment extends FrameFragment {
     private void gotoTestDownLoad() {
         if(mInfo == null) {
             mInfo = preparedData();
+            }
+        DownLoadInfoBean bean =  DownLoadInfoBusiness.getInstance(BaseApplication.getAppContext()).queryBykey(mInfo.getAllUrl());
+        if(null != bean  && null !=  bean.getDataInfo()) {
+            mInfo = bean.getDataInfo();
         }
         HttpDownManager.getInstance().startDown(mInfo);
     }
@@ -129,7 +135,7 @@ public class UndefinedThirdFragment extends FrameFragment {
         public void onComplete(Object o) {
             ToastUtil.showToast("完成");
             if(o instanceof  DownLoadInfoBean){
-                DownLoadInfoBusiness.getInstance(BaseApplication.getAppContext()).deleteItemWithAllUrl(((DownLoadInfoBean)o).getAllUrl());
+                DownLoadInfoBusiness.getInstance(BaseApplication.getAppContext()).deleteItemWithAllUrl(((DownLoadInfoBean)o).getDataInfo().getAllUrl());
             }
         }
 

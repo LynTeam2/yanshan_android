@@ -3,6 +3,7 @@ package cn.gov.bjys.onlinetrain.utils.multi_file_download;
 import java.lang.ref.WeakReference;
 
 import cn.gov.bjys.onlinetrain.utils.multi_file_download.api.DownloadProgressListener;
+import cn.gov.bjys.onlinetrain.utils.multi_file_download.db.entity.DataInfo;
 import cn.gov.bjys.onlinetrain.utils.multi_file_download.db.entity.DownLoadInfoBean;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -15,10 +16,10 @@ public class ProgressDownSubscriber<T> extends Subscriber<T> implements Download
     //弱引用结果回调
     private WeakReference<HttpProgressOnNextListener> mSubscriberOnNextListener;
     /*下载数据*/
-    private DownLoadInfoBean downInfo;
+    private DataInfo downInfo;
 
 
-    public ProgressDownSubscriber(DownLoadInfoBean downInfo) {
+    public ProgressDownSubscriber(DataInfo downInfo) {
         this.mSubscriberOnNextListener = new WeakReference<>(downInfo.getListener());
         this.downInfo=downInfo;
     }
@@ -32,7 +33,7 @@ public class ProgressDownSubscriber<T> extends Subscriber<T> implements Download
         if(mSubscriberOnNextListener.get()!=null){
             mSubscriberOnNextListener.get().onStart();
         }
-        downInfo.setState(DownLoadInfoBean.DownState.START);
+        downInfo.setState(DataInfo.DownState.START);
     }
 
     /**
@@ -43,7 +44,7 @@ public class ProgressDownSubscriber<T> extends Subscriber<T> implements Download
         if(mSubscriberOnNextListener.get()!=null){
             mSubscriberOnNextListener.get().onComplete(downInfo);
         }
-        downInfo.setState(DownLoadInfoBean.DownState.FINISH);
+        downInfo.setState(DataInfo.DownState.FINISH);
     }
 
     /**
@@ -59,7 +60,7 @@ public class ProgressDownSubscriber<T> extends Subscriber<T> implements Download
         if(mSubscriberOnNextListener.get()!=null){
             mSubscriberOnNextListener.get().onError(e);
         }
-        downInfo.setState(DownLoadInfoBean.DownState.ERROR);
+        downInfo.setState(DataInfo.DownState.ERROR);
     }
 
     /**
@@ -89,8 +90,8 @@ public class ProgressDownSubscriber<T> extends Subscriber<T> implements Download
                         @Override
                         public void call(Long aLong) {
                       /*如果暂停或者停止状态延迟，不需要继续发送回调，影响显示*/
-                            if(downInfo.getState()== DownLoadInfoBean.DownState.PAUSE||downInfo.getState()== DownLoadInfoBean.DownState.STOP)return;
-                            downInfo.setState(DownLoadInfoBean.DownState.DOWN);
+                            if(downInfo.getState()== DataInfo.DownState.PAUSE||downInfo.getState()== DataInfo.DownState.STOP)return;
+                            downInfo.setState(DataInfo.DownState.DOWN);
                             mSubscriberOnNextListener.get().updateProgress(aLong,downInfo.getCountLength());
                         }
                     });

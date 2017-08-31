@@ -1,12 +1,10 @@
 package cn.gov.bjys.onlinetrain.utils.multi_file_download;
 
 
-import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * Created by dodozhou on 2017/8/22.
  */
-@DatabaseTable
 public abstract class HttpProgressOnNextListener<T>  {
 
 

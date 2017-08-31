@@ -1,6 +1,7 @@
 package cn.gov.bjys.onlinetrain.utils.multi_file_download.db.business;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -11,8 +12,10 @@ import com.ycl.framework.utils.sp.SavePreference;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+import cn.gov.bjys.onlinetrain.utils.multi_file_download.db.entity.DataInfo;
 import cn.gov.bjys.onlinetrain.utils.multi_file_download.db.entity.DownLoadInfoBean;
 
 /**
@@ -40,14 +43,45 @@ public class DownLoadInfoBusiness extends BaseDbBusiness<DownLoadInfoBean> {
         return instance;
     }
 
-    //有就更新 没有就插入
-    public void createOrUpdate(DownLoadInfoBean nc) {
+
+    public void addDownLoadInfo(DataInfo di){
+        DownLoadInfoBean bean = new DownLoadInfoBean();
+        bean.setDataInfo(di);
+        List<DownLoadInfoBean>  beanList = new ArrayList<>();
+
         try {
-            DownLoadInfoBean cache = queryBykey("allUrl", nc.getAllUrl() + "");
-            if (cache != null) {
-                nc.setDbId(cache.getDbId());
+           beanList = dao.queryBuilder().
+                    where().
+                    eq("data_info_bean", di.getAllUrl())
+                   .query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if(beanList.size() > 0){
+            bean.setDbId(beanList.get(0).getDbId());
+        }
+        try {
+            dao.createOrUpdate(bean);
+//            helper.getDao(DataInfo.class).createOrUpdate(bean.getDataInfo());
+//            helper.getDao(DataInfo.class).refresh(bean.getDataInfo());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    //有就更新 没有就插入
+    public void createOrUpdate(DataInfo nc) {
+
+        DownLoadInfoBean bean = new DownLoadInfoBean();
+        try {
+            DownLoadInfoBean cache = queryBykey("data_info_bean", nc.getAllUrl());
+            if (cache.getDataInfo() != null && !TextUtils.isEmpty(cache.getDataInfo().getAllUrl())) {
+                bean.setDbId(cache.getDbId());
             }
-            dao.createOrUpdate(nc);
+            bean.setDataInfo(nc);
+            dao.createOrUpdate(bean);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -62,11 +96,11 @@ public class DownLoadInfoBusiness extends BaseDbBusiness<DownLoadInfoBean> {
 
     /**
      * 利用唯一下载url确定保存的bean
-     * @param allUrl
+     * @param url
      * @return
      */
-    public DownLoadInfoBean queryBykey(String allUrl) {
-        return queryBykey("allUrl", allUrl);
+    public DownLoadInfoBean queryBykey(String  url) {
+        return queryBykey("data_info_bean", url);
     }
 
     /**
@@ -100,10 +134,10 @@ public class DownLoadInfoBusiness extends BaseDbBusiness<DownLoadInfoBean> {
 
 
     //删除   根据id
-    public void deleteItemWithAllUrl(String allUrl) {
+    public void deleteItemWithAllUrl(String url) {
         DeleteBuilder<DownLoadInfoBusiness, Integer> deleteBuilder = dao.deleteBuilder();
         try {
-            deleteBuilder.where().eq("allUrl", allUrl);
+            deleteBuilder.where().eq("dataInfo", url);
             deleteBuilder.delete();
         } catch (Exception e) {
             e.printStackTrace();
@@ -123,7 +157,7 @@ public class DownLoadInfoBusiness extends BaseDbBusiness<DownLoadInfoBean> {
         List<DownLoadInfoBean> list;
 
         try {
-            qb.where().eq("allUrl", allUrl);
+            qb.where().eq("dataInfo", allUrl);
             list = qb.query();//dao.query(qb.prepare());
             if (list.size() > 0) {
                 return true;

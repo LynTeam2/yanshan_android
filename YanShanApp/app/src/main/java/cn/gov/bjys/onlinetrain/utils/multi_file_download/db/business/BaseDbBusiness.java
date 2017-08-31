@@ -5,13 +5,14 @@ import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
-import com.ycl.framework.db.DataBaseHelper;
 import com.ycl.framework.db.entity.DBEntity;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.gov.bjys.onlinetrain.utils.multi_file_download.db.DataDownLoadHelper;
 
 /**
  * Db操作base abstract类 on 2015/10/14.
@@ -21,10 +22,10 @@ public abstract class BaseDbBusiness<T extends DBEntity> {
     private final String TAG = "DBBusiness";
     protected Dao dao;
 
-    protected DataBaseHelper helper;
+    protected DataDownLoadHelper helper;
 
     protected BaseDbBusiness(Context context) {
-        helper = OpenHelperManager.getHelper(context, DataBaseHelper.class);
+        helper = OpenHelperManager.getHelper(context, DataDownLoadHelper.class);
     }
 
     public void insert(T entity) {
@@ -90,7 +91,7 @@ public abstract class BaseDbBusiness<T extends DBEntity> {
         }
     }
 
-    public void deleteById(int id) {
+    public void deleteById(T id) {
         try {
             dao.deleteById(id);
         } catch (SQLException e) {
