@@ -9,7 +9,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/check_version_lib" />
             <option value="$PROJECT_DIR$/framework" />
+            <option value="$PROJECT_DIR$/mulit_file_download_lib" />
             <option value="$PROJECT_DIR$/statusbarutil2" />
           </set>
         </option>
@@ -17,7 +19,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/check_version_lib" />
             <option value="$PROJECT_DIR$/framework" />
+            <option value="$PROJECT_DIR$/mulit_file_download_lib" />
             <option value="$PROJECT_DIR$/statusbarutil2" />
           </set>
         </option>

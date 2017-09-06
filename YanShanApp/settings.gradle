@@ -1,2 +1,2 @@
-include ':app', ':framework1', ':statusbarutil2'
+include ':app', ':framework1', ':statusbarutil2', ':check_version_lib', ':mulit_file_download_lib'
 project(':framework1').projectDir = new File('framework')

@@ -1,6 +1,7 @@
 package cn.gov.bjys.onlinetrain.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +20,13 @@ import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.api.UserApi;
-import cn.gov.bjys.onlinetrain.utils.multi_file_download.HttpDownManager;
-import cn.gov.bjys.onlinetrain.utils.multi_file_download.HttpProgressOnNextListener;
-import cn.gov.bjys.onlinetrain.utils.multi_file_download.db.business.DownLoadInfoBusiness;
-import cn.gov.bjys.onlinetrain.utils.multi_file_download.db.entity.DataInfo;
-import cn.gov.bjys.onlinetrain.utils.multi_file_download.db.entity.DownLoadInfoBean;
+import com.zls.www.mulit_file_download_lib.multi_file_download.HttpDownManager;
+import com.zls.www.mulit_file_download_lib.multi_file_download.HttpProgressOnNextListener;
+import com.zls.www.mulit_file_download_lib.multi_file_download.api.DownLoadApi;
+import com.zls.www.mulit_file_download_lib.multi_file_download.db.business.DataInfoBusiness;
+import com.zls.www.mulit_file_download_lib.multi_file_download.db.business.DownLoadInfoBusiness;
+import com.zls.www.mulit_file_download_lib.multi_file_download.db.entity.DataInfo;
+import com.zls.www.mulit_file_download_lib.multi_file_download.db.entity.DownLoadInfoBean;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -69,11 +72,11 @@ public class UndefinedThirdFragment extends FrameFragment {
                 break;
             case R.id.pause:
                 ToastUtil.showToast("pause");
-                HttpDownManager.getInstance().pause(mInfo);
+                HttpDownManager.getInstance().pause(mRealInfo);
                 break;
             case R.id.stop:
                 ToastUtil.showToast("stop");
-                HttpDownManager.getInstance().stopDown(mInfo);
+                HttpDownManager.getInstance().stopDown(mRealInfo);
                 break;
         }
     }
@@ -97,6 +100,7 @@ public class UndefinedThirdFragment extends FrameFragment {
     }
 
     DataInfo mInfo;
+    DataInfo mRealInfo;
     public DataInfo preparedData() {
         DataInfo di = new DataInfo();
         di.setBaseUrl("http://vfx.mtime.cn/");
@@ -116,8 +120,23 @@ public class UndefinedThirdFragment extends FrameFragment {
         if(null != bean  && null !=  bean.getDataInfo()) {
             mInfo = bean.getDataInfo();
         }
-        HttpDownManager.getInstance().startDown(mInfo);
+
+         mRealInfo = mInfo;
+        DataInfo info = DataInfoBusiness.getInstance(BaseApplication.getAppContext()).queryBykey(mInfo.getAllUrl());
+        if(!TextUtils.isEmpty(info.getAllUrl())){
+            mRealInfo = info;
+            if(null == mRealInfo.getListener()){
+                mRealInfo.setListener(listener);
+            }
+
+            if(null == mRealInfo.getService()){
+//                mRealInfo.setService(DownLoadApi.class);
+            }
+        }
+
+        HttpDownManager.getInstance().startDown(mRealInfo);
     }
+
 
 
     HttpProgressOnNextListener listener = new HttpProgressOnNextListener() {

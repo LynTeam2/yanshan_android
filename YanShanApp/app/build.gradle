@@ -127,4 +127,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile project(':framework1')
     compile project(':statusbarutil2')
+    compile project(':check_version_lib')
 }
