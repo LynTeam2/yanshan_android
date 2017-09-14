@@ -103,9 +103,7 @@ public class UndefinedThirdFragment extends FrameFragment {
     DataInfo mRealInfo;
     public DataInfo preparedData() {
         DataInfo di = new DataInfo();
-        di.setBaseUrl("http://vfx.mtime.cn/");
         di.setCountLength(0);
-        di.setUrl("Video/2017/02/18/mp4/170218171317773949.mp4");
         di.setAllUrl("http://vfx.mtime.cn/"+"Video/2017/02/18/mp4/170218171317773949.mp4");
         di.setSavePath(BaseApplication.getAppContext().getFilesDir().getParent() + File.separator + "video");
         di.setListener(listener);

@@ -21,12 +21,12 @@ public class DataInfo  extends DBEntity {
     @DatabaseField(canBeNull = true)
     private String savePath;
     /*下载url*/
-    @DatabaseField
-    private String url;
-    /*基础url*/
-    @DatabaseField
-    private String baseUrl;
-    /*唯一的总长度下载地址*/
+//    @DatabaseField
+//    private String url;
+//    /*基础url*/
+//    @DatabaseField
+//    private String baseUrl;
+//    /*唯一的总长度下载地址*/
 
     @DatabaseField(id = true,columnName = "main_url")
     private String allUrl;
@@ -90,21 +90,21 @@ public class DataInfo  extends DBEntity {
         this.savePath = savePath;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getBaseUrl() {
-        return baseUrl;
-    }
-
-    public void setBaseUrl(String baseUrl) {
-        this.baseUrl = baseUrl;
-    }
+//    public String getUrl() {
+//        return url;
+//    }
+//
+//    public void setUrl(String url) {
+//        this.url = url;
+//    }
+//
+//    public String getBaseUrl() {
+//        return baseUrl;
+//    }
+//
+//    public void setBaseUrl(String baseUrl) {
+//        this.baseUrl = baseUrl;
+//    }
 
     public long getCountLength() {
         return countLength;
@@ -154,7 +154,7 @@ public class DataInfo  extends DBEntity {
 
     @Override
     public boolean equals(Object obj) {
-        String localUrl = this.baseUrl + this.url;
+        String localUrl = allUrl;
         if(!TextUtils.isEmpty(obj.toString()) && !TextUtils.isEmpty(localUrl)){
             return localUrl.equals(obj);
         }else{

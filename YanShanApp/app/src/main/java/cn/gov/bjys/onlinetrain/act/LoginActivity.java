@@ -214,6 +214,7 @@ public class LoginActivity extends FrameActivity implements View.OnClickListener
                 break;
             case WX_LOGIN:
                 ToastUtil.showToast("微信");
+                startAct(MainActivity.class);
                 break;
         }
     }

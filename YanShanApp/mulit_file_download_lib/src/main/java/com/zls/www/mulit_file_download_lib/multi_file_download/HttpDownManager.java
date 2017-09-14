@@ -58,13 +58,13 @@ public class HttpDownManager {
      */
     public void startDown(final DataInfo info) {
         /*正在下载不处理*/
-        if (info == null || subMap.get(info.getUrl()) != null) {
+        if (info == null || subMap.get(info.getAllUrl()) != null) {
             return;
         }
         /*添加回调处理类*/
         ProgressDownSubscriber subscriber = new ProgressDownSubscriber(info);
         /*记录回调sub*/
-        subMap.put(info.getUrl(), subscriber);
+        subMap.put(info.getAllUrl(), subscriber);
         /*获取service，多次请求公用一个sercie*/
         DownLoadApi httpService;
         if (downInfos.contains(info)) {
@@ -79,14 +79,15 @@ public class HttpDownManager {
                     .client(builder.build())
                     .addConverterFactory(FastJsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .baseUrl(info.getBaseUrl())
+                    .baseUrl("http://www.abcd.com")
                     .build();
+
             httpService = retrofit.create(DownLoadApi.class);
             info.setService(httpService);
             downInfos.add(info);
         }
         /*得到rx对象-上一次下載的位置開始下載*/
-        ((DownLoadApi)httpService).downLoad("bytes=" + info.getReadLength() + "-", info.getUrl())
+        ((DownLoadApi)httpService).downLoad("bytes=" + info.getReadLength() + "-", info.getAllUrl())
                 /*指定线程*/
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
@@ -120,10 +121,10 @@ public class HttpDownManager {
         if (info == null) return;
         info.setState(DataInfo.DownState.STOP);
         info.getListener().onStop();
-        if (subMap.containsKey(info.getUrl())) {
-            ProgressDownSubscriber subscriber = subMap.get(info.getUrl());
+        if (subMap.containsKey(info.getAllUrl())) {
+            ProgressDownSubscriber subscriber = subMap.get(info.getAllUrl());
             subscriber.unsubscribe();
-            subMap.remove(info.getUrl());
+            subMap.remove(info.getAllUrl());
         }
         /*同步数据库*/
         DownLoadInfoBusiness.getInstance(FrameApplication.getFrameContext()).deleteItemWithAllUrl(info.getAllUrl());
@@ -138,11 +139,11 @@ public class HttpDownManager {
         if (info == null) return;
         info.setState(DataInfo.DownState.PAUSE);
         info.getListener().onPuase();
-        if (subMap.containsKey(info.getUrl())) {
-            ProgressDownSubscriber subscriber = subMap.get(info.getUrl());
+        if (subMap.containsKey(info.getAllUrl())) {
+            ProgressDownSubscriber subscriber = subMap.get(info.getAllUrl());
             //RxJava的另外一个好处就是它处理unsubscribing的时候，会停止整个调用链
             subscriber.unsubscribe();
-            subMap.remove(info.getUrl());
+            subMap.remove(info.getAllUrl());
         }
         /*这里需要讲info信息写入到数据中，可自由扩展，用自己项目的数据库*/
         DownLoadInfoBusiness.getInstance(FrameApplication.getFrameContext()).addDownLoadInfo(info);
