@@ -6,20 +6,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.ycl.framework.base.FrameFragment;
 import com.zls.www.check_version_lib.UpdateChecker;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
+import cn.gov.bjys.onlinetrain.act.LifeHelpActivity;
 
-/**
- * Created by dodozhou on 2017/8/7.
- */
+
 public class HomeFragment extends FrameFragment {
 
     @Bind(R.id.check_version_btn)
     Button mCheckVersionBtn;
+
+    @Bind(R.id.banner)
+    ConvenientBanner mBanner;
 
     @Override
     protected View inflaterView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
@@ -31,7 +34,8 @@ public class HomeFragment extends FrameFragment {
         int id = v.getId();
         switch (id){
             case R.id.check_version_btn:
-                UpdateChecker.checkForDialog(getContext());
+//                UpdateChecker.checkForDialog(getContext());
+                startAct(LifeHelpActivity.class);
                 break;
         }
     }

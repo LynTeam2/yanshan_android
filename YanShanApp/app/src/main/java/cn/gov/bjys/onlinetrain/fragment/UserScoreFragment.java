@@ -10,7 +10,7 @@ import com.ycl.framework.base.FrameFragment;
 /**
  * Created by dodozhou on 2017/8/7.
  */
-public class UndefinedSecondFragment extends FrameFragment {
+public class UserScoreFragment extends FrameFragment {
     @Override
     protected View inflaterView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         return new View(getContext());

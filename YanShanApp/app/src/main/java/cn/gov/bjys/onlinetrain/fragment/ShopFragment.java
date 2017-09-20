@@ -32,12 +32,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * Created by dodozhou on 2017/8/7.
- */
-public class UndefinedThirdFragment extends FrameFragment {
 
-    public final static String TAG = UndefinedThirdFragment.class.getSimpleName();
+public class ShopFragment extends FrameFragment {
+
+    public final static String TAG = ShopFragment.class.getSimpleName();
 
     public final String video_url = "http://vfx.mtime.cn/Video/2017/02/18/mp4/170218171317773949.mp4";
 

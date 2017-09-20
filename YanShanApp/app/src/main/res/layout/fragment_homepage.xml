@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:gravity="center"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#f0f">
+    android:layout_height="match_parent">
+    <com.bigkoo.convenientbanner.ConvenientBanner
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="350px">
+
+    </com.bigkoo.convenientbanner.ConvenientBanner>
+    <LinearLayout
+        android:layout_below="@id/banner"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <TextView
 
         android:layout_width="wrap_content"
@@ -18,4 +27,5 @@
         android:textSize="25sp"
         android:text="点我检测更新"
         android:background="#555555"/>
-</LinearLayout>
+    </LinearLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

@@ -18,8 +18,8 @@ import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.fragment.HomeFragment;
 import cn.gov.bjys.onlinetrain.fragment.OwnFragment;
-import cn.gov.bjys.onlinetrain.fragment.UndefinedSecondFragment;
-import cn.gov.bjys.onlinetrain.fragment.UndefinedThirdFragment;
+import cn.gov.bjys.onlinetrain.fragment.ShopFragment;
+import cn.gov.bjys.onlinetrain.fragment.UserScoreFragment;
 import cn.gov.bjys.onlinetrain.utils.AssetsHelper;
 import cn.gov.bjys.onlinetrain.utils.Helper;
 
@@ -97,8 +97,8 @@ public class MainActivity extends FrameActivity {
     public void initData() {
 
         mFragments = new Fragment[]{getFragment("homepage_fragment", HomeFragment.class, R.id.framelayout),
-                getFragment("second_fragment", UndefinedSecondFragment.class, R.id.framelayout),
-                getFragment("third_fragment", UndefinedThirdFragment.class, R.id.framelayout),
+                getFragment("user_score_fragment", UserScoreFragment.class, R.id.framelayout),
+                getFragment("shop_fragment", ShopFragment.class, R.id.framelayout),
                 getFragment("own_fragment", OwnFragment.class, R.id.framelayout),
 
         };
