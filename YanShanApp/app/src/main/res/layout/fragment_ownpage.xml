@@ -1,11 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="我的界面"/>
-</LinearLayout>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+    <cn.gov.bjys.onlinetrain.act.view.HeaderTopView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="150px" />
+    <RelativeLayout
+        android:visibility="gone"
+        android:layout_below="@id/header"
+        android:id="@+id/not_login_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+        <TextView
+            android:layout_centerInParent="true"
+            android:id="@+id/login_btn"
+            android:layout_width="800px"
+            android:layout_height="180px"
+            android:background="@color/normal_red"
+            android:gravity="center"
+            android:text="立即登录"
+            android:textColor="@drawable/tv_color_change"
+            android:textSize="48px" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/login_layout"
+        android:layout_below="@id/header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode
+            android:layout_centerHorizontal="true"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="10dp"
+            android:src="@mipmap/wx_login_icon"
+            app:type="circle" >
+        </cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode>
+
+
+        <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:gravity="center_vertical"
+            android:paddingLeft="44px"
+            android:paddingRight="44px">
+            <com.willy.ratingbar.ScaleRatingBar
+                android:background="@color/transparent"
+                android:id="@+id/ScaleRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="50px"
+                app:drawableEmpty="@drawable/star_unselected"
+                app:drawableFilled="@drawable/star_selected"
+                app:clearRatingEnabled="true"
+                app:numStars="5"
+                app:stepSize="0.1"
+                app:starPadding = "0px"
+                app:rating="4.6"
+                app:touchable="false" />
+        </LinearLayout>
+        <cn.gov.bjys.onlinetrain.act.view.DooLinear
+            android:id="@+id/doolinear1"
+            android:layout_width="match_parent"
+            android:layout_height="150px"
+            ></cn.gov.bjys.onlinetrain.act.view.DooLinear>
+            <cn.gov.bjys.onlinetrain.act.view.AnswerLayout
+                android:id="@+id/answer_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ></cn.gov.bjys.onlinetrain.act.view.AnswerLayout>
+
+                
+
+    </LinearLayout>
+    </RelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

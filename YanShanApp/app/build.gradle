@@ -120,6 +120,9 @@ dependencies {
     compile 'fm.jiecao:jiecaovideoplayer:5.7'
     //三方封装 BaseRecyclerViewAdapterHelper
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.9'
+
+    //SimpleRatingBar com.willy.ratingbar.ScaleRatingBar
+    compile 'com.github.ome450901:SimpleRatingBar:1.3.1'
     //logo加载三方库
     compile 'com.cleveroad:slidingtutorial:1.0.8'
     //三方画图库 MPAndroidChart

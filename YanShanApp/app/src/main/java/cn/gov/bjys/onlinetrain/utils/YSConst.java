@@ -14,5 +14,7 @@ public class YSConst {
 
     //assets文件目录下的 update文件夹名字
     public final static String UPDATE_ZIP = "update";
-
+    public static class UserInfo{
+        public final static String KEY_USER_TOKEN  = "key_user_token";
+    }
 }
