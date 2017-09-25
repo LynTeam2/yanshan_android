@@ -9,7 +9,7 @@ import rx.Observable;
 /**
  * Created by dodozhou on 2017/9/20.
  */
-public interface Weather  {
+public interface WeatherApi {
     @GET("open/api/weather/json.shtml")
     Observable<String> getWeatherInfos(@Query("city") String cityName);
 }

@@ -29,6 +29,12 @@ public class HomeFragment extends FrameFragment {
         return inflater.inflate(R.layout.fragment_homepage, container, false);
     }
 
+    @Override
+    protected void initViews() {
+        super.initViews();
+
+    }
+
     @OnClick({R.id.check_version_btn})
      public void onTabClick(View v){
         int id = v.getId();

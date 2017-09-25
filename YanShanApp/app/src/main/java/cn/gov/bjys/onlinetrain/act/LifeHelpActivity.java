@@ -13,20 +13,17 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.ycl.framework.base.FrameActivity;
-import com.ycl.framework.utils.util.BaseResp;
 import com.ycl.framework.utils.util.FastJSONParser;
 import com.ycl.framework.utils.util.HRetrofitNetHelper;
 
 import java.util.List;
-import java.util.Observable;
 
 import butterknife.Bind;
 import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
-import cn.gov.bjys.onlinetrain.api.Weather;
+import cn.gov.bjys.onlinetrain.api.WeatherApi;
 import cn.gov.bjys.onlinetrain.bean.WeatherInfoBean;
 import cn.gov.bjys.onlinetrain.service.SearchCityHelper;
-import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -65,7 +62,7 @@ public class LifeHelpActivity extends FrameActivity {
     private void requestCityName(){
         new SearchCityHelper(LifeHelpActivity.this).execute();
     }
-
+    //回调并查询天气
     private String mCityName = "";
     public void setCityName(List<Address> addresses){
         if(addresses != null && addresses.size() > 0){
@@ -80,7 +77,7 @@ public class LifeHelpActivity extends FrameActivity {
     private void reqWeatherInfos(String cityName){
         rx.Observable<String> obs;
         obs = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext()).
-                getSpeUrlService(WEATHER_BASE_URL, Weather.class).getWeatherInfos(cityName);
+                getSpeUrlService(WEATHER_BASE_URL, WeatherApi.class).getWeatherInfos(cityName);
         obs.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<String>() {
@@ -107,7 +104,8 @@ public class LifeHelpActivity extends FrameActivity {
     * requestCode:相当于一个标志，
     * permissions：需要传进的permission，不能为空
     * grantResults：用户进行操作之后，或同意或拒绝回调的传进的两个参数;
-    * */
+    *
+    */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
