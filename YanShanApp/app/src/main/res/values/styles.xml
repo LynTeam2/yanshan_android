@@ -24,6 +24,19 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+    <!--一个activity包含多个fragment 并且适配状态栏-->
+    <style name="ActFrgsFitsStatusBarStyle" parent="@style/AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="android:textAllCaps">false</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowAnimationStyle">@style/AnimationActivity</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
+
 
     <style name="AnimationActivity" parent="@android:style/Animation.Translucent">
         <!--    activityOpenEnterAnimation  // 用于设置打开新的Activity并进入新的Activity展示的动画
@@ -34,6 +47,7 @@
         <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
         <item name="android:activityCloseEnterAnimation">@anim/slide_in_right</item>
         <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
+
     </style>
 
 

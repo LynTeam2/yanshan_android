@@ -9,6 +9,7 @@ import android.widget.Button;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.ycl.framework.base.FrameFragment;
 import com.zls.www.check_version_lib.UpdateChecker;
+import com.zls.www.statusbarutil.StatusBarUtil;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -26,7 +27,9 @@ public class HomeFragment extends FrameFragment {
 
     @Override
     protected View inflaterView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflater.inflate(R.layout.fragment_homepage, container, false);
+        View view = inflater.inflate(R.layout.fragment_homepage, container, false);
+        StatusBarUtil.addStatusForFragment(getActivity(),view.findViewById(R.id.status_bar_layout));
+        return view;
     }
 
     @Override

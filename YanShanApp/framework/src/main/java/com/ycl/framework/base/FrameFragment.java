@@ -30,7 +30,9 @@ public abstract class FrameFragment extends Fragment {
     protected abstract View inflaterView(LayoutInflater inflater,
                                          ViewGroup container, Bundle bundle);
     //return inflater.inflate(R.layout.xxx, container, false);
+    protected void  initStatusBar(){
 
+    }
     protected void initViews() {
     }
 
@@ -44,8 +46,10 @@ public abstract class FrameFragment extends Fragment {
         viewRoot = inflaterView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, viewRoot);
         isReady = true;
+        initStatusBar();
         initViews();
         initData();
+
         return viewRoot;
     }
 

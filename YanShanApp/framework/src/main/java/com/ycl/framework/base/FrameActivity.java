@@ -43,8 +43,8 @@ public abstract class FrameActivity extends AutoLayoutActivity {
         super.onCreate(savedInstanceState);
         FrameActivityStack.create().addActivity(this);
         setRootView(); // 必须放在annotate之前调用
-        initStatusBar();
         ButterKnife.bind(this);
+        initStatusBar();
         retrofitNetHelper = HRetrofitNetHelper.getInstance(getApplicationContext());
         if (initBaseParams(savedInstanceState)) {
             initViews();

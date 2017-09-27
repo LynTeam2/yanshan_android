@@ -12,7 +12,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.zls.www.statusbarutil.R;
 
@@ -643,7 +645,8 @@ public class StatusBarUtil {
     private static int getStatusBarHeight(Context context) {
         // 获得状态栏高度
         int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
-        return context.getResources().getDimensionPixelSize(resourceId);
+        int statusHeight = context.getResources().getDimensionPixelSize(resourceId);
+        return statusHeight;
     }
 
     /**
@@ -665,5 +668,20 @@ public class StatusBarUtil {
         green = (int) (green * a + 0.5);
         blue = (int) (blue * a + 0.5);
         return 0xff << 24 | red << 16 | green << 8 | blue;
+    }
+
+    public static void addStatusForFragment(Context context,View v){
+        ViewGroup.LayoutParams lp = null;
+        if(v.getLayoutParams() instanceof RelativeLayout.LayoutParams){
+            lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight(context));
+        }else if(v.getLayoutParams() instanceof LinearLayout.LayoutParams){
+            lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight(context));
+        }else if(v.getLayoutParams() instanceof FrameLayout.LayoutParams){
+            lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight(context));
+        }else {
+            //如果都不匹配就退出
+            return;
+        }
+        v.setLayoutParams(lp);
     }
 }

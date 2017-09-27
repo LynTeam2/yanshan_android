@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ycl.framework.base.FrameFragment;
+import com.zls.www.statusbarutil.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +21,7 @@ import cn.gov.bjys.onlinetrain.adapter.DooClassRecycleAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooMultiItemQuickAdapter;
 import cn.gov.bjys.onlinetrain.bean.ClassBean;
 
-/**
- * Created by dodozhou on 2017/8/7.
- */
+
 public class UserScoreFragment extends FrameFragment {
 
     @Bind(R.id.rv1)
@@ -33,8 +32,12 @@ public class UserScoreFragment extends FrameFragment {
 
     @Override
     protected View inflaterView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflater.inflate(R.layout.fragment_score_layout, container, false);
+        View view = inflater.inflate(R.layout.fragment_score_layout, container, false);
+        StatusBarUtil.addStatusForFragment(getActivity(),view.findViewById(R.id.status_bar_layout));
+        return view;
     }
+
+
 
     @Override
     protected void initViews() {
