@@ -14,6 +14,7 @@ import com.zls.www.statusbarutil.StatusBarUtil;
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
+import cn.gov.bjys.onlinetrain.act.ExaminationActivity;
 import cn.gov.bjys.onlinetrain.act.LifeHelpActivity;
 
 
@@ -44,7 +45,8 @@ public class HomeFragment extends FrameFragment {
         switch (id){
             case R.id.check_version_btn:
 //                UpdateChecker.checkForDialog(getContext());
-                startAct(LifeHelpActivity.class);
+//                startAct(LifeHelpActivity.class);
+                 startAct(ExaminationActivity.class);
                 break;
         }
     }

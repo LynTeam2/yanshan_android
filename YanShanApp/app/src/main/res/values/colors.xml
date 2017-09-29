@@ -19,5 +19,5 @@
     <color name="color_gray_gift_line">#cecece</color>
     <color name="white">#fff5f5f5</color>
     <color name="line_normal_alpha30">#4cffffff</color>
-
+    <color name="color_gray_light2">#929292</color>
 </resources>

@@ -8,21 +8,30 @@ import android.widget.Button;
 
 import com.ycl.framework.base.FrameFragment;
 import com.ycl.framework.view.TitleHeaderView;
+import com.zls.www.statusbarutil.StatusBarUtil;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.view.ClientVideoPlayer;
+import cn.gov.bjys.onlinetrain.bean.ExamBean;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
  * Created by dodozhou on 2017/9/27.
  */
-public class VideoExaminationFragment extends FrameFragment {
+public class VideoExaminationFragment extends FrameFragment{
+    public final static String TAG = VideoExaminationFragment.class.getSimpleName();
 
-    @Bind(R.id.header)
-    TitleHeaderView mHeader;
+    public static VideoExaminationFragment newInstance(ExamBean bean) {
+        Bundle args = new Bundle();
+        args.putParcelable(TAG, bean);
+        VideoExaminationFragment fragment = new VideoExaminationFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Bind(R.id.client_player)
     ClientVideoPlayer mClientPlayer;
     @Bind(R.id.start_req)
@@ -30,7 +39,8 @@ public class VideoExaminationFragment extends FrameFragment {
 
     @Override
     protected View inflaterView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflater.inflate(R.layout.fragment_video_examination_layout,container,false);
+        View view = inflater.inflate(R.layout.fragment_video_examination_layout, container, false);
+        return view;
     }
 
     @OnClick({R.id.start_req})
