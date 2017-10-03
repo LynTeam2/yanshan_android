@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="match_parent"
+        android:layout_height="350px"
+        android:src="@mipmap/ic_launcher"/>
+    <TextView
+        android:layout_below="@id/img"
+        android:layout_marginTop="30px"
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="第五节课：安全生产教育培训"
+        android:textSize="48px"/>
+
+</com.zhy.autolayout.AutoRelativeLayout>

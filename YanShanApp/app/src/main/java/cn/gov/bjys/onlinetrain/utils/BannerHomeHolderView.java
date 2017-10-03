@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 
 import com.bigkoo.convenientbanner.holder.Holder;
-import com.ycl.framework.bean.BannerBean;
 import com.ycl.framework.utils.helper.ViewBindHelper;
 import com.ycl.framework.utils.util.GlideProxy;
 
