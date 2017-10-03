@@ -9,10 +9,12 @@ import android.widget.Button;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.ycl.framework.base.FrameFragment;
 import com.zls.www.check_version_lib.UpdateChecker;
+import com.zls.www.statusbarutil.StatusBarUtil;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
+import cn.gov.bjys.onlinetrain.act.ExaminationActivity;
 import cn.gov.bjys.onlinetrain.act.LifeHelpActivity;
 
 
@@ -26,7 +28,9 @@ public class HomeFragment extends FrameFragment {
 
     @Override
     protected View inflaterView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflater.inflate(R.layout.fragment_homepage, container, false);
+        View view = inflater.inflate(R.layout.fragment_homepage, container, false);
+        StatusBarUtil.addStatusForFragment(getActivity(),view.findViewById(R.id.status_bar_layout));
+        return view;
     }
 
     @Override
@@ -41,7 +45,8 @@ public class HomeFragment extends FrameFragment {
         switch (id){
             case R.id.check_version_btn:
 //                UpdateChecker.checkForDialog(getContext());
-                startAct(LifeHelpActivity.class);
+//                startAct(LifeHelpActivity.class);
+                 startAct(ExaminationActivity.class);
                 break;
         }
     }

@@ -27,6 +27,8 @@ import com.zls.www.mulit_file_download_lib.multi_file_download.db.business.DataI
 import com.zls.www.mulit_file_download_lib.multi_file_download.db.business.DownLoadInfoBusiness;
 import com.zls.www.mulit_file_download_lib.multi_file_download.db.entity.DataInfo;
 import com.zls.www.mulit_file_download_lib.multi_file_download.db.entity.DownLoadInfoBean;
+import com.zls.www.statusbarutil.StatusBarUtil;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,7 +56,9 @@ public class ShopFragment extends FrameFragment {
 
     @Override
     protected View inflaterView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflater.inflate(R.layout.fragment_download_layout, container, false);
+        View view = inflater.inflate(R.layout.fragment_download_layout, container, false);
+        StatusBarUtil.addStatusForFragment(getActivity(),view.findViewById(R.id.status_bar_layout));
+        return view;
     }
 
 

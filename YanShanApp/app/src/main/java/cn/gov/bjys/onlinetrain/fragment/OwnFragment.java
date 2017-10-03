@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 
 import com.ycl.framework.base.FrameFragment;
 import com.ycl.framework.utils.util.ToastUtil;
+import com.zls.www.statusbarutil.StatusBarUtil;
 
 import java.util.ArrayList;
 
@@ -26,9 +27,14 @@ public class OwnFragment extends FrameFragment {
     DooLinear mDooLinear;
     @Bind(R.id.answer_layout)
     AnswerLayout answerLayout;
+
+
+
     @Override
     protected View inflaterView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflater.inflate(R.layout.fragment_ownpage, container, false);
+        View view = inflater.inflate(R.layout.fragment_ownpage, container, false);
+        StatusBarUtil.addStatusForFragment(getActivity(),view.findViewById(R.id.status_bar_layout));
+        return view;
     }
 
     @Override

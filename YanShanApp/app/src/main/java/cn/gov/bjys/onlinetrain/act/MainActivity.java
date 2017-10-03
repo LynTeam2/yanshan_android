@@ -5,6 +5,7 @@ import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ import com.ycl.framework.utils.util.LogUtils;
 import com.ycl.framework.utils.util.SelectorUtil;
 import com.zls.www.statusbarutil.StatusBarUtil;
 
+import butterknife.Bind;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
@@ -30,6 +32,8 @@ public class MainActivity extends FrameActivity {
     private TextView[]  mTextViews;
     //当前Fragment 的 index
     private int  mCurrentTabIndex = 0;
+    @Bind(R.id.framelayout)
+    FrameLayout mFrameLayout;
 
     @Override
     protected void setRootView() {
@@ -38,8 +42,8 @@ public class MainActivity extends FrameActivity {
 
     @Override
     protected void initStatusBar() {
-        StatusBarUtil.setTranslucentForImageViewInFragment(this, null);
-    }
+        StatusBarUtil.setTranslucentForImageViewInFragment(this,null);
+    }   
 
 
     @OnClick({R.id.ll_main_page1, R.id.ll_main_page2, R.id.ll_main_page3, R.id.ll_main_page4})
@@ -57,7 +61,6 @@ public class MainActivity extends FrameActivity {
             case R.id.ll_main_page4:
                 fragmentChange(3);
                 break;
-
         }
     }
 

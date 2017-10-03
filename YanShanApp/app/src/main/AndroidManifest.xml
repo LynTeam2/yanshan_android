@@ -32,6 +32,11 @@
             android:screenOrientation="portrait"/>
 
         <activity
+            android:name=".act.ExaminationActivity"
+            android:theme="@style/FragmentStatusBarStyle"
+            android:screenOrientation="portrait"/>
+
+        <activity
             android:name=".act.GuideActivity"
             android:theme="@style/FragmentStatusBarStyle"
             android:screenOrientation="portrait"/>
@@ -39,7 +44,7 @@
             android:name=".act.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
+            android:screenOrientation="sensor"
             android:theme="@style/FragmentStatusBarStyle"/>
         <!--U盟多渠道-->
         <meta-data

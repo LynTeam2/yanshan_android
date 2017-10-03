@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_green_light"
+    >
+    <View
+        android:id="@+id/status_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60px"></View>
+    <cn.gov.bjys.onlinetrain.act.view.HeaderTopView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+    </cn.gov.bjys.onlinetrain.act.view.HeaderTopView>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv1"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1">
+    </android.support.v7.widget.RecyclerView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv2"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1">
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

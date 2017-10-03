@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/windowBackground">
+
+
+    <cn.gov.bjys.onlinetrain.act.view.ClientVideoPlayer
+    android:layout_below="@id/header"
+    android:id="@+id/client_player"
+    android:layout_width="match_parent"
+    android:layout_height="420px"
+    ></cn.gov.bjys.onlinetrain.act.view.ClientVideoPlayer>
+
+    <LinearLayout
+        android:id="@+id/hint_linear"
+        android:paddingLeft="30px"
+        android:paddingRight="30px"
+        android:layout_marginTop="20px"
+        android:layout_below="@id/client_player"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:paddingLeft="25px"
+            android:paddingRight="25px"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="视频"
+            android:textSize="42px"
+            android:textColor="@color/white"
+            android:background="@color/blue_light"
+            ></TextView>
+
+        <TextView
+            android:layout_marginLeft="25px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="42px"
+            android:text="请仔细观看以上视频,然后完成相关试题。"/>
+    </LinearLayout>
+    <Button
+        android:layout_marginTop="150px"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/hint_linear"
+        android:id="@+id/start_req"
+        android:layout_width="540px"
+        android:layout_height="120px"
+        android:text="开始答题"
+        android:background="@color/blue_light"
+        android:textColor="@color/white"
+        />
+</com.zhy.autolayout.AutoRelativeLayout>
