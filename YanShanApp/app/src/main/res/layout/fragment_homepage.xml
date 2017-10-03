@@ -11,7 +11,7 @@
         android:layout_height="60px">
     </View>
     <com.bigkoo.convenientbanner.ConvenientBanner
-        android:layout_below="@id/title_header"
+        android:layout_below="@id/status_bar_layout"
         android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="350px"
