@@ -13,7 +13,6 @@ public class YSClassBean implements MultiItemEntity {
 
     private String name;//课程名称
     private String mImgUrl;//图片路径
-    private int span;
 
     public String getName() {
         return name;
@@ -31,13 +30,7 @@ public class YSClassBean implements MultiItemEntity {
         this.mImgUrl = mImgUrl;
     }
 
-    public int getSpan() {
-        return span;
-    }
 
-    public void setSpan(int span) {
-        this.span = span;
-    }
 
     @Override
     public int getItemType() {
