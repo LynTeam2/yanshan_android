@@ -7,6 +7,8 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
  */
 public class YSClassBean implements MultiItemEntity {
 
+
+    public final static int GRID_ITEM_1 = 1;
     public final static int GRID_ITEM_2 = 2;
 
     private String name;//课程名称

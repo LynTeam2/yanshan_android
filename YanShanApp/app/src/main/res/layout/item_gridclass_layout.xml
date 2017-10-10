@@ -1,19 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/img"
+    android:orientation="vertical"
+    android:layout_height="301px">
+    <LinearLayout
+        android:padding="@dimen/px_40"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="350px"
-        android:src="@mipmap/ic_launcher"/>
-    <TextView
-        android:layout_below="@id/img"
-        android:layout_marginTop="30px"
-        android:id="@+id/name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="第五节课：安全生产教育培训"
-        android:textSize="48px"/>
+        android:gravity="center"
+        android:layout_height="300px">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_weight="2"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/icon"
+            android:src="@mipmap/ic_launcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_weight="7"
+        android:orientation="vertical"
+        android:layout_width="0px"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:text="人员密集场所"
+            android:textSize="48px"/>
+        <TextView
+            android:layout_marginTop="40px"
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:text="主要学习介绍有关化学品相关的知识和内容"
+            android:textSize="36px"/>
+    </LinearLayout>
+        <LinearLayout
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_width="0px"
+            android:gravity="center"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/next_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/next_right_btn"
+                />
 
-</com.zhy.autolayout.AutoRelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <include
+        layout="@layout/view_divider_layout"
+        ></include>
+</com.zhy.autolayout.AutoLinearLayout>

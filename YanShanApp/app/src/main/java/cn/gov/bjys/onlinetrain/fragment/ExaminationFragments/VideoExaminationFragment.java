@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.ycl.framework.base.FrameFragment;
-import com.ycl.framework.view.TitleHeaderView;
-import com.zls.www.statusbarutil.StatusBarUtil;
 
 import butterknife.Bind;
 import butterknife.OnClick;

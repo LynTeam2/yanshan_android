@@ -24,6 +24,7 @@ public class DooSimpleMultiAdapter extends BaseMultiItemQuickAdapter<YSClassBean
     public DooSimpleMultiAdapter(List<YSClassBean> data) {
         super(data);
         addItemType(YSClassBean.GRID_ITEM_2, R.layout.item_gridclass_layout);
+        addItemType(YSClassBean.GRID_ITEM_1,R.layout.item_linearclass_layout);
     }
 
     @Override
