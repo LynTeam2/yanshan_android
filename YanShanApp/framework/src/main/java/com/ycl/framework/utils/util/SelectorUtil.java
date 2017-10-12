@@ -8,6 +8,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 
 import com.ycl.framework.base.FrameApplication;
 
@@ -151,6 +152,29 @@ public class SelectorUtil {
         drawable.addState(new int[]{android.R.attr.state_selected}, ContextCompat.getDrawable(ctx, pressid));
         return drawable;
     }
+
+    public static StateListDrawable getDrawableWithDrawa(Context ctx, int pressid, int defaultid, int resColor) {
+        StateListDrawable drawable = new StateListDrawable();
+        //Non focused states
+        drawable.addState(new int[]{-android.R.attr.state_focused,
+                -android.R.attr.state_selected, -android.R.attr.state_pressed}, ContextCompat.getDrawable(ctx, defaultid));
+        //clickable
+        drawable.addState(new int[]{android.R.attr.clickable}, tintDrawable(ContextCompat.getDrawable(ctx, pressid),ColorStateList.valueOf(resColor)));
+        //clickable
+        drawable.addState(new int[]{android.R.attr.state_focused}, tintDrawable(ContextCompat.getDrawable(ctx, pressid),ColorStateList.valueOf(resColor)));
+        //Pressed
+        drawable.addState(new int[]{android.R.attr.state_pressed}, tintDrawable(ContextCompat.getDrawable(ctx, pressid),ColorStateList.valueOf(resColor)));
+        //Selected
+        drawable.addState(new int[]{android.R.attr.state_selected}, tintDrawable(ContextCompat.getDrawable(ctx, pressid),ColorStateList.valueOf(resColor)));
+        return drawable;
+    }
+
+    public static Drawable tintDrawable(Drawable drawable, ColorStateList colors) {
+        final Drawable wrappedDrawable = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTintList(wrappedDrawable, colors);
+        return wrappedDrawable;
+    }
+
 
 
     public static StateListDrawable getDrawableWithColor(Context ctx, int defaultid, int pressid) {

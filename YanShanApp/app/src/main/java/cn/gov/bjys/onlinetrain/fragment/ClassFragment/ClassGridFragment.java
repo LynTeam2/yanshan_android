@@ -27,13 +27,14 @@ import cn.gov.bjys.onlinetrain.bean.YSClassBean;
 public class ClassGridFragment extends FrameFragment {
 
     public static ClassGridFragment newInstance() {
-        
+
         Bundle args = new Bundle();
-        
+
         ClassGridFragment fragment = new ClassGridFragment();
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     protected View inflaterView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         return inflater.inflate(R.layout.fragment_linear_layout, container, false);
@@ -50,23 +51,25 @@ public class ClassGridFragment extends FrameFragment {
     protected void initViews() {
         super.initViews();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        List<YSClassBean> data = prepareTestData();
+        final List<YSClassBean> data = prepareTestData();
         final DooSimpleMultiAdapter multipleItemAdapter = new DooSimpleMultiAdapter(data);
         final GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
         mRecyclerView.setLayoutManager(manager);
         multipleItemAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
             @Override
             public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
-                return data.get(position).getSpanSize();
+                return data.get(position).getSpan();
             }
         });
         mRecyclerView.setAdapter(multipleItemAdapter);
     }
 
-    private List<YSClassBean> prepareTestData(){
+    private List<YSClassBean> prepareTestData() {
         List<YSClassBean> datas = new ArrayList<>();
-        for(int i=0;i<50;i++){
-
+        for (int i = 0; i < 50; i++) {
+            YSClassBean bean = new YSClassBean();
+            bean.setName("this is " + i);
+            datas.add(bean);
         }
         return datas;
     }

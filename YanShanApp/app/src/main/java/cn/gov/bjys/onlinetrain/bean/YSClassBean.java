@@ -36,4 +36,15 @@ public class YSClassBean implements MultiItemEntity {
     public int getItemType() {
         return 0;
     }
+
+
+    private int span = 1;
+
+    public int getSpan() {
+        return span;
+    }
+
+    public void setSpan(int span) {
+        this.span = span;
+    }
 }

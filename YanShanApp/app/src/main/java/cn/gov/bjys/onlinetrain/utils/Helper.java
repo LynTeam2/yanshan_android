@@ -35,7 +35,7 @@ public class Helper {
 
     //获取默认 颜色
     public static int getSelectedColor() {
-        return ContextCompat.getColor(BaseApplication.getAppContext(), R.color.color_select_main);
+        return ContextCompat.getColor(BaseApplication.getAppContext(), R.color.normal_blue);
     }
 
     //获取默认 颜色

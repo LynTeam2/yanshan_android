@@ -79,10 +79,10 @@ public class MainActivity extends FrameActivity {
         mImgs[2] = (ImageView) findViewById(R.id.act_main_iv_page3);
         mImgs[3] = (ImageView) findViewById(R.id.act_main_iv_page4);
 
-        mImgs[0].setImageDrawable(SelectorUtil.getDrawableWithDrawa(getApplicationContext(), R.mipmap.ic_launcher, R.mipmap.ic_launcher));
-        mImgs[1].setImageDrawable(SelectorUtil.getDrawableWithDrawa(getApplicationContext(), R.mipmap.ic_launcher, R.mipmap.ic_launcher));
-        mImgs[2].setImageDrawable(SelectorUtil.getDrawableWithDrawa(getApplicationContext(), R.mipmap.ic_launcher, R.mipmap.ic_launcher));
-        mImgs[3].setImageDrawable(SelectorUtil.getDrawableWithDrawa(getApplicationContext(), R.mipmap.ic_launcher, R.mipmap.ic_launcher));
+        mImgs[0].setImageDrawable(SelectorUtil.getDrawableWithDrawa(getApplicationContext(), R.drawable.home_page, R.drawable.home_page,getResources().getColor(R.color.normal_blue)));
+        mImgs[1].setImageDrawable(SelectorUtil.getDrawableWithDrawa(getApplicationContext(), R.drawable.score_page, R.drawable.score_page ,getResources().getColor(R.color.normal_blue)));
+        mImgs[2].setImageDrawable(SelectorUtil.getDrawableWithDrawa(getApplicationContext(), R.drawable.shop_page, R.drawable.shop_page,getResources().getColor(R.color.normal_blue)));
+        mImgs[3].setImageDrawable(SelectorUtil.getDrawableWithDrawa(getApplicationContext(), R.drawable.account_page, R.drawable.account_page,getResources().getColor(R.color.normal_blue)));
         mTextViews = new TextView[5];
         mTextViews[0] = (TextView) findViewById(R.id.act_main_tv_page1);
         mTextViews[1] = (TextView) findViewById(R.id.act_main_tv_page2);
