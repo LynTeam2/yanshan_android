@@ -1,30 +1,45 @@
 package cn.gov.bjys.onlinetrain.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.ycl.framework.base.FrameFragment;
-import com.zls.www.check_version_lib.UpdateChecker;
 import com.zls.www.statusbarutil.StatusBarUtil;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
-import cn.gov.bjys.onlinetrain.act.ExaminationActivity;
-import cn.gov.bjys.onlinetrain.act.LifeHelpActivity;
+import cn.gov.bjys.onlinetrain.act.view.DooItemTitleLayout;
+import cn.gov.bjys.onlinetrain.act.view.DooSearchLayout;
+import cn.gov.bjys.onlinetrain.utils.BannerComHelper;
 
 
 public class HomeFragment extends FrameFragment {
 
-    @Bind(R.id.check_version_btn)
-    Button mCheckVersionBtn;
 
     @Bind(R.id.banner)
     ConvenientBanner mBanner;
+
+
+    //search layout
+    @Bind(R.id.search_layout)
+    DooSearchLayout mDooSearchLayout;
+
+    @Bind(R.id.item_title_layout)
+    DooItemTitleLayout mDooItemTitleLayout;
+
+    @Bind(R.id.class_study_rv)
+    RecyclerView mClassStudyRv;
+
+    @Bind(R.id.anjian_rv)
+    RecyclerView mAnJianRv;
+
 
     @Override
     protected View inflaterView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
@@ -33,21 +48,37 @@ public class HomeFragment extends FrameFragment {
         return view;
     }
 
+    public static int[] res = {
+            R.mipmap.ic_launcher,
+            R.mipmap.wx_login_icon
+    };
+
     @Override
     protected void initViews() {
         super.initViews();
+        //banner
+        BannerComHelper.initLocationBanner(mBanner, res);
 
+        initClassStudyRv();
+
+        initAnjianRv();
     }
 
-    @OnClick({R.id.check_version_btn})
+    @OnClick({R.id.search_layout})
      public void onTabClick(View v){
         int id = v.getId();
         switch (id){
-            case R.id.check_version_btn:
-//                UpdateChecker.checkForDialog(getContext());
-//                startAct(LifeHelpActivity.class);
-                 startAct(ExaminationActivity.class);
+            case R.id.search_layout:
                 break;
         }
     }
+
+    private void initClassStudyRv(){
+
+    }
+
+    private void initAnjianRv(){
+
+    }
+
 }

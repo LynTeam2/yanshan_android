@@ -11,4 +11,6 @@
     <string name="string_check_password_lendth">密码长度由6~20位组成！</string>
     <string name="string_check_password_iseasy">密码太简单.请尝试字母和数字结合</string>
     <string name="string_check_fwtq">请阅读并同意服务条款</string>
+
+    <string name="string_home_search_hint">搜索</string>
 </resources>

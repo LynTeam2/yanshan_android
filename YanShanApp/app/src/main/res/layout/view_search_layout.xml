@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <EditText
+        android:id="@+id/edit_text"
+        android:enabled="false"
+        android:layout_marginTop="@dimen/px_30"
+        android:layout_marginBottom="@dimen/px_30"
+        android:layout_marginLeft="@dimen/px_40"
+        android:layout_marginRight="@dimen/px_40"
+        android:layout_width="match_parent"
+        android:layout_height="80px"
+        android:paddingLeft="80px"
+        android:textSize="30px"
+        android:hint="@string/string_home_search_hint"
+        android:background="@color/home_search_bg"
+        />
+    <RelativeLayout
+        android:id="@+id/search_btn_layout"
+        android:layout_marginTop="@dimen/px_30"
+        android:layout_marginLeft="@dimen/px_40"
+        android:layout_width="80px"
+        android:layout_height="80px">
+    <ImageView
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/search"/>
+    </RelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

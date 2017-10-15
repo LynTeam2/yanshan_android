@@ -2,7 +2,6 @@
 <com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_red_dark"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
     <View
@@ -10,6 +9,19 @@
         android:layout_width="match_parent"
         android:layout_height="60px">
     </View>
+    <ScrollView
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <cn.gov.bjys.onlinetrain.act.view.DooSearchLayout
+        android:id="@+id/search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ></cn.gov.bjys.onlinetrain.act.view.DooSearchLayout>
     <com.bigkoo.convenientbanner.ConvenientBanner
         android:layout_below="@id/status_bar_layout"
         android:id="@+id/banner"
@@ -17,24 +29,60 @@
         android:layout_height="350px"
         app:canLoop="true">
     </com.bigkoo.convenientbanner.ConvenientBanner>
-    <LinearLayout
-        android:layout_below="@id/banner"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <TextView
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="首页 "/>
-
-    <Button
-        android:id="@+id/check_version_btn"
-        android:layout_width="match_parent"
-        android:layout_height="150px"
-        android:textSize="25sp"
-        android:text="点我检测更新"
-        android:background="#555555"/>
-    </LinearLayout>
+        <cn.gov.bjys.onlinetrain.act.view.DooItemTitleLayout
+            android:id="@+id/item_title_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ></cn.gov.bjys.onlinetrain.act.view.DooItemTitleLayout>
+    <include
+        layout="@layout/layout_divider_line1px"
+        ></include>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="1000px"
+            android:gravity="center_horizontal"
+            >
+        <TextView
+            android:layout_margin="60px"
+            android:textColor="@color/normal_black"
+            android:textSize="42px"
+            android:text="课程学习"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/class_study_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20px"
+            android:background="@color/home_divider_line20px"
+            ></View>
+        <LinearLayout
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="1840px">
+        <TextView
+            android:layout_margin="60px"
+            android:textColor="@color/normal_black"
+            android:textSize="42px"
+            android:text="课程学习"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></TextView>
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/anjian_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+0            </android.support.v7.widget.RecyclerView>
+            </android.support.v4.widget.SwipeRefreshLayout>
+        </LinearLayout>
+</LinearLayout>
+    </ScrollView>
 </com.zhy.autolayout.AutoRelativeLayout>
