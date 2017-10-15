@@ -147,7 +147,7 @@ public class SwipeRefreshRecyclerView extends FrameLayout {
 
 
     //设置滚动监听
-    public void setRecyclerScrollListener(RecyclerView.OnScrollListener listener) {
+    public void setRecyclerScrollListener(cn.gov.bjys.onlinetrain.fragment.HomeFragment listener) {
         this.mOnScrollListener = listener;
         mRecyclerView.removeOnScrollListener(mOnScrollListener);
         mRecyclerView.addOnScrollListener(mOnScrollListener);
