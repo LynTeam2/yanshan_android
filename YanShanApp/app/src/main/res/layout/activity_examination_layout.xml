@@ -13,7 +13,13 @@
         android:id="@+id/bottom_layout"
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:layout_height="150px">
+        android:layout_height="wrap_content">
+        <cn.gov.bjys.onlinetrain.act.view.ExamBottomLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-1000px"
+            ></cn.gov.bjys.onlinetrain.act.view.ExamBottomLayout>
+
 
     </LinearLayout>
     <android.support.v4.view.ViewPager

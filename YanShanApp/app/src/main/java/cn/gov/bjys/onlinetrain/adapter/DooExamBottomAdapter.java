@@ -5,6 +5,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 
 import java.util.List;
 
+import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.bean.ExamXqBean;
 
 /**
@@ -20,14 +21,21 @@ public class DooExamBottomAdapter extends BaseMultiItemQuickAdapter<ExamXqBean,B
      */
     public DooExamBottomAdapter(List<ExamXqBean> data) {
         super(data);
-        addItemType(ExamXqBean.NOMAL,);
-        addItemType(ExamXqBean.CHOICE,);
-        addItemType(ExamXqBean.RIGHT,);
-        addItemType(ExamXqBean.FAIL,);
+        addItemType(ExamXqBean.NOMAL, R.layout.item_examxq_normal_item);
+        addItemType(ExamXqBean.CHOICE,R.layout.item_examxq_choice_item);
+        addItemType(ExamXqBean.RIGHT,R.layout.item_examxq_right_item);
+        addItemType(ExamXqBean.FAIL,R.layout.item_examxq_fail_item);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, ExamXqBean item) {
-
+        switch (helper.getItemViewType()){
+            case ExamXqBean.NOMAL:
+            case ExamXqBean.CHOICE:
+            case ExamXqBean.FAIL:
+            case ExamXqBean.RIGHT:
+                helper.setText(R.id.content,item.getmPosition()+"");
+                break;
+        }
     }
 }
