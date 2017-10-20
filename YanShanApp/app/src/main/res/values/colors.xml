@@ -21,11 +21,13 @@
     <color name="white">#fff5f5f5</color>
     <color name="line_normal_alpha30">#4cffffff</color>
     <color name="color_gray_light2">#929292</color>
-
+    <color name="windowBackgroundWhite">#fff</color>
     <color name="normal_blue">#1e81d2</color>
     <!--home area-->
     <color name="home_search_bg">#ececec</color>
     <color name="home_divider_line_color">#c2c2c2</color>
     <color name="home_divider_line20px">#737373</color>
     <color name="home_normal_gray">#333333</color>
+
+
 </resources>
