@@ -23,13 +23,22 @@ public class DooSimpleMultiAdapter extends BaseMultiItemQuickAdapter<YSClassBean
      */
     public DooSimpleMultiAdapter(List<YSClassBean> data) {
         super(data);
-        addItemType(YSClassBean.GRID_ITEM_2, R.layout.item_gridclass_layout);
-        addItemType(YSClassBean.GRID_ITEM_1,R.layout.item_linearclass_layout);
+        addItemType(YSClassBean.GRID_COLUMN_2,R.layout.item_grid_class_layout);
+        addItemType(YSClassBean.LINEAR_COLUMN_1, R.layout.item_linear_class_layout);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, YSClassBean item) {
-        GlideProxy.loadImgForUrlPlaceHolderDontAnimate((ImageView) helper.getView(R.id.img),item.getmImgUrl(),R.mipmap.ic_launcher);
-        helper.setText(R.id.name, item.getName());
+        switch (helper.getItemViewType()){
+            case YSClassBean.GRID_COLUMN_2:
+                GlideProxy.loadImgForUrlPlaceHolderDontAnimate((ImageView) helper.getView(R.id.img),item.getmImgUrl(),R.mipmap.ic_launcher);
+                helper.setText(R.id.name, item.getName());
+                break;
+            case YSClassBean.LINEAR_COLUMN_1:
+                GlideProxy.loadImgForUrlPlaceHolderDontAnimate((ImageView) helper.getView(R.id.icon),item.getmImgUrl(),R.mipmap.ic_launcher);
+                helper.setText(R.id.title, item.getName());
+                helper.setText(R.id.content, item.getContent());
+                break;
+        }
     }
 }

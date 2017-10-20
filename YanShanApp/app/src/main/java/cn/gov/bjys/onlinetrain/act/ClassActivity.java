@@ -39,7 +39,7 @@ public class ClassActivity extends FrameActivity {
                 getClassGridFragment(),
                 getClassLinearFragment()
         };
-
+        showFragment();
     }
 
     private void showFragment() {

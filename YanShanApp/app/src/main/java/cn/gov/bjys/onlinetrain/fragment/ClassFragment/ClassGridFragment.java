@@ -58,7 +58,7 @@ public class ClassGridFragment extends FrameFragment {
         multipleItemAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
             @Override
             public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
-                return data.get(position).getSpan();
+                return data.get(position).getSpanSize();
             }
         });
         mRecyclerView.setAdapter(multipleItemAdapter);

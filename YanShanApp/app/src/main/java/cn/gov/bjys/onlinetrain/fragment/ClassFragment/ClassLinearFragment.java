@@ -50,7 +50,6 @@ public class ClassLinearFragment extends FrameFragment {
     @Override
     protected void initViews() {
         super.initViews();
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         final List<YSClassBean> data = prepareTestData();
         final DooSimpleMultiAdapter multipleItemAdapter = new DooSimpleMultiAdapter(data);
         final GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
@@ -58,7 +57,7 @@ public class ClassLinearFragment extends FrameFragment {
         multipleItemAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
             @Override
             public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
-                return data.get(position).getSpan();
+                return data.get(position).getSpanSize();
             }
         });
         mRecyclerView.setAdapter(multipleItemAdapter);
@@ -67,8 +66,9 @@ public class ClassLinearFragment extends FrameFragment {
     private List<YSClassBean> prepareTestData() {
         List<YSClassBean> datas = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
-            YSClassBean bean = new YSClassBean();
+            YSClassBean bean = new YSClassBean(2,YSClassBean.LINEAR_COLUMN_1);
             bean.setName("this is " + i);
+            bean.setContent("content this is " + i);
             datas.add(bean);
         }
         return datas;

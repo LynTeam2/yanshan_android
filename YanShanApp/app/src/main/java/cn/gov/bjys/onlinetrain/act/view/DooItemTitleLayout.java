@@ -14,6 +14,7 @@ import java.util.List;
 
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.ClassActivity;
+import cn.gov.bjys.onlinetrain.act.ExaminationActivity;
 import cn.gov.bjys.onlinetrain.adapter.DooHomeGridViewAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooHomeGridViewAdapter.HomeGridBean;
 
@@ -53,7 +54,7 @@ public class DooItemTitleLayout extends DooRootLayout {
                         getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), ClassActivity.class));
                         break;
                     case 1:
-                        getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), ClassActivity.class));
+                        getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), ExaminationActivity.class));
                         break;
                     case 2:
                         getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), ClassActivity.class));
@@ -62,7 +63,6 @@ public class DooItemTitleLayout extends DooRootLayout {
                         getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), ClassActivity.class));
                         break;
                 }
-                getContext().startActivity(new Intent());
             }
         });
     }
@@ -81,19 +81,19 @@ public class DooItemTitleLayout extends DooRootLayout {
         beanArrayList.add(bean);
         //num 2
         HomeGridBean bean2 = new HomeGridBean();
-        bean.setName("测评考试");
-        bean.setSrcId(R.drawable.examing_test);
-        beanArrayList.add(bean);
+        bean2.setName("测评考试");
+        bean2.setSrcId(R.drawable.examing_test);
+        beanArrayList.add(bean2);
         //num 3
         HomeGridBean bean3 = new HomeGridBean();
-        bean.setName("法律法规");
-        bean.setSrcId(R.drawable.police);
-        beanArrayList.add(bean);
+        bean3.setName("法律法规");
+        bean3.setSrcId(R.drawable.police);
+        beanArrayList.add(bean3);
         //num 4
         HomeGridBean bean4 = new HomeGridBean();
-        bean.setName("生活助手");
-        bean.setSrcId(R.drawable.life_helpe);
-        beanArrayList.add(bean);
+        bean4.setName("生活助手");
+        bean4.setSrcId(R.drawable.life_helpe);
+        beanArrayList.add(bean4);
 
 
         return beanArrayList;

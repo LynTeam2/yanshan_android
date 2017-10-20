@@ -97,7 +97,7 @@ public class HomeFragment extends FrameFragment implements BaseQuickAdapter.Requ
 
     private List<ClassStudyBean> getClassStudyDatas(){
         List<ClassStudyBean> datas = new ArrayList<>();
-        for(int i=0; i < 10; i++){
+        for(int i=0; i < 4; i++){
             ClassStudyBean bean = new ClassStudyBean();
             bean.setClassName("测试标题+" + i);
             datas.add(bean);
