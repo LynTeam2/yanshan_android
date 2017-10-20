@@ -19,7 +19,6 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
  */
 public class ExaminationActivity extends FrameActivity {
 
-
     @Bind(R.id.viewpager)
     ViewPager mViewPager;
 
@@ -58,6 +57,7 @@ public class ExaminationActivity extends FrameActivity {
             }
         });
     }
+
 
     private List<ExamBean> prepareDatas(){
         List<ExamBean> list = new ArrayList<>();
