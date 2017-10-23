@@ -2,6 +2,7 @@ package cn.gov.bjys.onlinetrain.act.pop;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.ycl.framework.base.BasePopu;
 import com.ycl.framework.base.FrameActivity;
@@ -26,7 +27,15 @@ public class EndExamPop  extends BasePopu{
 
     @Override
     public void showLocation(int gravity) {
-        super.showLocation(gravity);
+        if (mActivity.isFinishing())
+            return;
+        setAnimationStyle(com.ycl.framework.R.style.Popup_Animation_UpDown);
+        beforeshow();
+        showAtLocation(mActivity.getWindow().getDecorView(), gravity, 0, heightNavigationBar);
+        WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
+        lp.alpha = 0.7f; //屏幕变暗 0.0-1.0
+        mActivity.getWindow().setAttributes(lp);
+        update();
     }
 
     @Override

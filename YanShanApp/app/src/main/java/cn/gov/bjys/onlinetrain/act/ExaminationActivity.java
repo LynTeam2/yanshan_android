@@ -3,6 +3,7 @@ package cn.gov.bjys.onlinetrain.act;
 import android.animation.ObjectAnimator;
 import android.support.v4.view.ViewPager;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -15,6 +16,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import cn.gov.bjys.onlinetrain.R;
+import cn.gov.bjys.onlinetrain.act.pop.EndExamPop;
 import cn.gov.bjys.onlinetrain.act.view.ExamBottomLayout;
 import cn.gov.bjys.onlinetrain.adapter.DooExamStateFragmentAdapter;
 import cn.gov.bjys.onlinetrain.bean.ExamBean;
@@ -23,7 +25,7 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 /**
  * Created by dodozhou on 2017/9/27.
  */
-public class ExaminationActivity extends FrameActivity {
+public class ExaminationActivity extends FrameActivity implements View.OnClickListener{
 
     @Bind(R.id.viewpager)
     ViewPager mViewPager;
@@ -76,7 +78,8 @@ public class ExaminationActivity extends FrameActivity {
     public void initViews() {
         super.initViews();
 //        prepareAnimator();
-
+        mExamBottomLayout.getView(R.id.hand_of_paper).setOnClickListener(this);
+        mExamBottomLayout.getView(R.id.show_all_layout).setOnClickListener(this);
         mGestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
@@ -90,12 +93,12 @@ public class ExaminationActivity extends FrameActivity {
                 }
 
                 // 手势向下 down
-                if ((e2.getRawY() - e1.getRawY()) > 200) {
+                if ((e2.getRawY() - e1.getRawY()) > 150) {
                     repeatBottomAnimator();//在此处控制关闭
                     return true;
                 }
                 // 手势向上 up
-                if ((e1.getRawY() - e2.getRawY()) > 200) {
+                if ((e1.getRawY() - e2.getRawY()) > 150) {
                     startBottomAnimator();
                     return true;
                 }
@@ -107,7 +110,7 @@ public class ExaminationActivity extends FrameActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 mGestureDetector.onTouchEvent(event);
-                return false;
+                return true;
             }
         });
     }
@@ -115,11 +118,13 @@ public class ExaminationActivity extends FrameActivity {
     private void prepareAnimator(){
 
         float translationsY  = mExamBottomLayout.getTranslationY();
-        bottomLayoutAnimator = ObjectAnimator.ofFloat(mExamBottomLayout,"translationY",translationsY,AutoUtils.getPercentWidthSize(1000))
+        bottomLayoutAnimator = ObjectAnimator.ofFloat(mExamBottomLayout,"translationY",translationsY,-AutoUtils.getPercentWidthSize(1000))
         .setDuration(300);
     }
 
+    private boolean isShowAll = false;
     private void startBottomAnimator(){
+        isShowAll = true;
         if(bottomLayoutAnimator == null){
             prepareAnimator();
         }
@@ -127,6 +132,7 @@ public class ExaminationActivity extends FrameActivity {
     }
 
     private void repeatBottomAnimator(){
+        isShowAll = false;
         if(bottomLayoutAnimator == null){
             prepareAnimator();
         }
@@ -147,5 +153,29 @@ public class ExaminationActivity extends FrameActivity {
             return;
         }
         super.onBackPressed();
+    }
+
+
+    EndExamPop mEndExamPop;
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.hand_of_paper:
+                //todo 交卷
+                if(mEndExamPop == null){
+                    mEndExamPop = new EndExamPop(this);
+                }
+                mEndExamPop.showLocation(Gravity.CENTER);
+                break;
+
+            case R.id.show_all_layout:
+                //todo 显示整个layout
+                if(isShowAll) {
+                    repeatBottomAnimator();
+                }else {
+                    startBottomAnimator();
+                }
+                break;
+        }
     }
 }

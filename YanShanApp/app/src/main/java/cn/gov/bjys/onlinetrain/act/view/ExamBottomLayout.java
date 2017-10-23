@@ -27,6 +27,10 @@ import cn.gov.bjys.onlinetrain.bean.ExamXqBean;
  * Created by dodozhou on 2017/10/20.
  */
 public class ExamBottomLayout extends DooRootLayout implements View.OnClickListener {
+
+
+
+
     public ExamBottomLayout(Context context) {
         super(context);
     }
@@ -135,6 +139,11 @@ public class ExamBottomLayout extends DooRootLayout implements View.OnClickListe
                 .create();
         mNowQuestion.setText(ssb);
     }
+
+    public View getView(int id){
+       return  findViewById(id);
+    }
+
 
     @Override
     public void onClick(View v) {
