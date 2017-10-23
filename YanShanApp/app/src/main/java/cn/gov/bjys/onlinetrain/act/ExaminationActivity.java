@@ -2,11 +2,13 @@ package cn.gov.bjys.onlinetrain.act;
 
 import android.animation.ObjectAnimator;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.ycl.framework.base.BasePopu;
 import com.ycl.framework.base.FrameActivity;
 import com.zhy.autolayout.utils.AutoUtils;
 import com.zls.www.statusbarutil.StatusBarUtil;
@@ -20,6 +22,7 @@ import cn.gov.bjys.onlinetrain.act.pop.EndExamPop;
 import cn.gov.bjys.onlinetrain.act.view.ExamBottomLayout;
 import cn.gov.bjys.onlinetrain.adapter.DooExamStateFragmentAdapter;
 import cn.gov.bjys.onlinetrain.bean.ExamBean;
+import cn.gov.bjys.onlinetrain.bean.ExamXqBean;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 /**
@@ -50,9 +53,6 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
     public void initData() {
         super.initData();
        List<ExamBean> list = prepareDatas();
-
-
-
         mExamAdapter = new DooExamStateFragmentAdapter(getSupportFragmentManager(), list);
         mViewPager.setAdapter(mExamAdapter);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -73,11 +73,26 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
         });
     }
 
+    private List<ExamXqBean> mDatas = new ArrayList<>();
+
+    public void createAllTestDatas(){
+        for(int i = 0; i<100; i++){
+            ExamXqBean bean = new ExamXqBean();
+            bean.setmPosition(i);
+            bean.setmSpanSize(1);
+            bean.setmType(ExamXqBean.NOMAL);
+            mDatas.add(bean);
+        }
+    }
+
+
     ObjectAnimator bottomLayoutAnimator;
     @Override
     public void initViews() {
         super.initViews();
 //        prepareAnimator();
+        createAllTestDatas();
+        mExamBottomLayout.setmDatas(mDatas);
         mExamBottomLayout.getView(R.id.hand_of_paper).setOnClickListener(this);
         mExamBottomLayout.getView(R.id.show_all_layout).setOnClickListener(this);
         mGestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
@@ -93,16 +108,36 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
                 }
 
                 // 手势向下 down
-                if ((e2.getRawY() - e1.getRawY()) > 150) {
+                if ((e2.getRawY() - e1.getRawY()) > 50) {
                     repeatBottomAnimator();//在此处控制关闭
                     return true;
                 }
                 // 手势向上 up
-                if ((e1.getRawY() - e2.getRawY()) > 150) {
+                if ((e1.getRawY() - e2.getRawY()) > 50) {
                     startBottomAnimator();
                     return true;
                 }
                 return super.onFling(e1, e2, velocityX, velocityY);
+            }
+
+
+            @Override
+            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+                // 手势向下 down
+                if ((e2.getRawY() - e1.getRawY()) > 0) {
+                    Log.d("dodoT","触发向下");
+                    repeatBottomAnimator();//在此处控制关闭
+                    return true;
+                }
+                // 手势向上 up
+                if ((e1.getRawY() - e2.getRawY()) > 0) {
+                    Log.d("dodoT","触发向上");
+                    startBottomAnimator();
+                    return true;
+                }
+
+
+                return super.onScroll(e1, e2, distanceX, distanceY);
             }
         });
 
@@ -164,6 +199,14 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
                 //todo 交卷
                 if(mEndExamPop == null){
                     mEndExamPop = new EndExamPop(this);
+                    mEndExamPop.setOnPupClicListener(new BasePopu.OnPupClickListener() {
+                        @Override
+                        public void onPupClick(int position) {
+                            if(EndExamPop.SURE_CLICK == position){
+
+                            }
+                        }
+                    });
                 }
                 mEndExamPop.showLocation(Gravity.CENTER);
                 break;
