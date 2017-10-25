@@ -2,20 +2,43 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="20px"
-    android:id="@+id/single_answer_layout"
     >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/single_layout"
+            android:layout_marginTop="70px"
+            android:layout_marginLeft="70px"
+            android:layout_marginRight="70px">
+        <RelativeLayout
+            android:id="@+id/choice_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
        <ImageView
+           android:visibility="gone"
            android:id="@+id/img_choice"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:src="@mipmap/ic_launcher"/>
+            <TextView
+                android:id="@+id/text_choice"
+                android:layout_centerInParent="true"
+                android:layout_width="80px"
+                android:layout_height="80px"
+                android:textColor="@color/normal_black"
+                android:text="A"
+                android:textSize="52px"
+                android:gravity="center"
+                android:background="@drawable/bg_exam_choice_normal"/>
+        </RelativeLayout>
         <TextView
             android:id="@+id/content"
             android:layout_marginLeft="20px"
-            android:layout_toRightOf="@id/img_choice"
+            android:layout_toRightOf="@id/choice_layout"
             android:layout_centerVertical="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical|left"
             android:text="答案很多哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦"/>
-</RelativeLayout>
+        </RelativeLayout>
+        </RelativeLayout>

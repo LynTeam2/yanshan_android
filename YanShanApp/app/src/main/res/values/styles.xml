@@ -12,7 +12,7 @@
         <item name="android:windowBackground">@color/windowBackground</item>
     </style>
 
-
+    <!--想要显示status bar半透明 fragment的样式 就是这个-->
     <style name="FragmentStatusBarStyle" parent="@style/AppTheme">
         <!-- Customize your theme here. -->
         <item name="android:textAllCaps">false</item>
@@ -52,7 +52,7 @@
 
 
 
-    <!--normal activity style-->
+    <!--想要显示status bar半透明 activity的样式 就是这个-->
     <style name="MainActivityStyle" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

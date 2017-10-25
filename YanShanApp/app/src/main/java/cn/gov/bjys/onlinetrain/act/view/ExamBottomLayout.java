@@ -157,4 +157,8 @@ public class ExamBottomLayout extends DooRootLayout implements View.OnClickListe
                 break;
         }
     }
+
+    public DooExamBottomAdapter getmDooExamBottomAdapter(){
+        return mDooExamBottomAdapter;
+    }
 }

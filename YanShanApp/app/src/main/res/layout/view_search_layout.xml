@@ -6,6 +6,7 @@
     <EditText
         android:id="@+id/edit_text"
         android:enabled="false"
+        android:focusable="false"
         android:layout_marginTop="@dimen/px_30"
         android:layout_marginBottom="@dimen/px_30"
         android:layout_marginLeft="@dimen/px_40"

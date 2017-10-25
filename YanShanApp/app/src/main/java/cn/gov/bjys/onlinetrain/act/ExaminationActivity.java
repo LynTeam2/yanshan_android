@@ -1,16 +1,14 @@
 package cn.gov.bjys.onlinetrain.act;
 
-import android.animation.ObjectAnimator;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.GestureDetector;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ycl.framework.base.BasePopu;
 import com.ycl.framework.base.FrameActivity;
-import com.zhy.autolayout.utils.AutoUtils;
 import com.zls.www.statusbarutil.StatusBarUtil;
 
 import java.util.ArrayList;
@@ -20,6 +18,7 @@ import butterknife.Bind;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.pop.EndExamPop;
 import cn.gov.bjys.onlinetrain.act.view.ExamBottomLayout;
+import cn.gov.bjys.onlinetrain.adapter.DooExamBottomAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooExamStateFragmentAdapter;
 import cn.gov.bjys.onlinetrain.bean.ExamBean;
 import cn.gov.bjys.onlinetrain.bean.ExamXqBean;
@@ -36,17 +35,18 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
 
     @Bind(R.id.exam_bottom_layout)
     ExamBottomLayout mExamBottomLayout;
-
+    BottomSheetBehavior mBehavior;
     DooExamStateFragmentAdapter mExamAdapter;
-
+    DooExamBottomAdapter mDooExamBottomAdapter;
     @Override
     protected void setRootView() {
         setContentView(R.layout.activity_examination_layout);
+        StatusBarUtil.addStatusForFragment(this,findViewById(R.id.status_bar_layout));
     }
 
     @Override
     protected void initStatusBar() {
-        StatusBarUtil.setTranslucent(this,StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA);
+        StatusBarUtil.setTranslucentForImageViewInFragment(this,null);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
 
             @Override
             public void onPageSelected(int position) {
-             mViewPager.setCurrentItem(position,false);
+             setViewPagerAndExamBottom(position);
             }
 
             @Override
@@ -71,6 +71,27 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
 
             }
         });
+        mViewPager.setCurrentItem(0,false);
+    }
+
+    private void setViewPagerAndExamBottom(int positions){
+        if(mViewPager != null) {
+            mViewPager.setCurrentItem(positions, true);
+        }
+        if(mDooExamBottomAdapter != null){
+          List<ExamXqBean> datas =  mDooExamBottomAdapter.getData();
+            if(datas != null && !datas.isEmpty()){
+                ExamXqBean bean = datas.get(positions);
+                for(ExamXqBean examXqBean:datas){
+                    if(examXqBean.getmType() == ExamXqBean.CHOICE)
+                    examXqBean.setmType(ExamXqBean.NOMAL);
+                }
+                if(bean.getmType() == ExamXqBean.NOMAL){
+                    bean.setmType(ExamXqBean.CHOICE);
+                }
+            }
+            mDooExamBottomAdapter.notifyDataSetChanged();
+        }
     }
 
     private List<ExamXqBean> mDatas = new ArrayList<>();
@@ -86,7 +107,6 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
     }
 
 
-    ObjectAnimator bottomLayoutAnimator;
     @Override
     public void initViews() {
         super.initViews();
@@ -95,89 +115,47 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
         mExamBottomLayout.setmDatas(mDatas);
         mExamBottomLayout.getView(R.id.hand_of_paper).setOnClickListener(this);
         mExamBottomLayout.getView(R.id.show_all_layout).setOnClickListener(this);
-        mGestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+        mExamBottomLayout.post(new Runnable() {
             @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                // if (Math.abs(e1.getRawX() - e2.getRawX()) > 250) {
-                // // System.out.println("水平方向移动距离过大");
-                // return true;
-                // }
-                if (Math.abs(velocityY) < 100) {
-                    // System.out.println("手指移动的太慢了");
-                    return true;
-                }
-
-                // 手势向下 down
-                if ((e2.getRawY() - e1.getRawY()) > 50) {
-                    repeatBottomAnimator();//在此处控制关闭
-                    return true;
-                }
-                // 手势向上 up
-                if ((e1.getRawY() - e2.getRawY()) > 50) {
-                    startBottomAnimator();
-                    return true;
-                }
-                return super.onFling(e1, e2, velocityX, velocityY);
-            }
-
-
-            @Override
-            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-                // 手势向下 down
-                if ((e2.getRawY() - e1.getRawY()) > 0) {
-                    Log.d("dodoT","触发向下");
-                    repeatBottomAnimator();//在此处控制关闭
-                    return true;
-                }
-                // 手势向上 up
-                if ((e1.getRawY() - e2.getRawY()) > 0) {
-                    Log.d("dodoT","触发向上");
-                    startBottomAnimator();
-                    return true;
-                }
-
-
-                return super.onScroll(e1, e2, distanceX, distanceY);
+            public void run() {
             }
         });
-
-        mExamBottomLayout.setOnTouchListener(new View.OnTouchListener() {
+        mDooExamBottomAdapter = mExamBottomLayout.getmDooExamBottomAdapter();
+        mDooExamBottomAdapter.getData().get(0).setmType(ExamXqBean.CHOICE);//初始化
+        mDooExamBottomAdapter.notifyDataSetChanged();
+        mDooExamBottomAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                mGestureDetector.onTouchEvent(event);
-                return true;
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                setViewPagerAndExamBottom(position);
+            }
+        });
+        mBehavior = BottomSheetBehavior.from(mExamBottomLayout);
+        mBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
             }
         });
     }
-    private GestureDetector mGestureDetector;
-    private void prepareAnimator(){
 
-        float translationsY  = mExamBottomLayout.getTranslationY();
-        bottomLayoutAnimator = ObjectAnimator.ofFloat(mExamBottomLayout,"translationY",translationsY,-AutoUtils.getPercentWidthSize(1000))
-        .setDuration(300);
-    }
-
-    private boolean isShowAll = false;
-    private void startBottomAnimator(){
-        isShowAll = true;
-        if(bottomLayoutAnimator == null){
-            prepareAnimator();
-        }
-        bottomLayoutAnimator.start();
-    }
-
-    private void repeatBottomAnimator(){
-        isShowAll = false;
-        if(bottomLayoutAnimator == null){
-            prepareAnimator();
-        }
-        bottomLayoutAnimator.reverse();
-    }
 
     private List<ExamBean> prepareDatas(){
         List<ExamBean> list = new ArrayList<>();
         for(int i=0;i<100;i++){
-            list.add(new ExamBean());
+            ExamBean bean = new ExamBean();
+            switch (i%2){
+                case ExamBean.VIDEO_EXAM:
+                    bean.setType(ExamBean.VIDEO_EXAM);
+                    break;
+                case ExamBean.TEXT_SINGLE_EXAM:
+                    bean.setType(ExamBean.TEXT_SINGLE_EXAM);
+                    break;
+            }
+            list.add(bean);
         }
         return list;
     }
@@ -213,11 +191,8 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
 
             case R.id.show_all_layout:
                 //todo 显示整个layout
-                if(isShowAll) {
-                    repeatBottomAnimator();
-                }else {
-                    startBottomAnimator();
-                }
+                mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED == mBehavior.getState() ?
+                        BottomSheetBehavior.STATE_EXPANDED : BottomSheetBehavior.STATE_COLLAPSED);
                 break;
         }
     }

@@ -3,13 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/windowBackground">
-
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
     <cn.gov.bjys.onlinetrain.act.view.ClientVideoPlayer
     android:layout_below="@id/header"
     android:id="@+id/client_player"
     android:layout_width="match_parent"
-    android:layout_height="420px"
+    android:layout_height="620px"
     ></cn.gov.bjys.onlinetrain.act.view.ClientVideoPlayer>
 
     <LinearLayout
@@ -30,7 +34,7 @@
             android:text="视频"
             android:textSize="42px"
             android:textColor="@color/white"
-            android:background="@color/blue_light"
+            android:background="@color/normal_blue"
             ></TextView>
 
         <TextView
@@ -48,7 +52,9 @@
         android:layout_width="540px"
         android:layout_height="120px"
         android:text="开始答题"
-        android:background="@color/blue_light"
+        android:background="@color/normal_blue"
         android:textColor="@color/white"
         />
+        </RelativeLayout>
+    </ScrollView>
 </com.zhy.autolayout.AutoRelativeLayout>

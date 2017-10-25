@@ -52,12 +52,21 @@ public class SingleAnswerLayout extends RelativeLayout{
         mChoiceImg.setImageDrawable(getResources().getDrawable(res));
     }
 
+
     public void setContent(int res){
         mContent.setText(getResources().getString(res));
     }
 
     public void setContent(CharSequence content){
         mContent.setText(content);
+    }
+
+     public void setTextById(String str,int id){
+         ((TextView)findViewById(id)).setText(str);
+     }
+
+    public void setResById(int res, int id){
+        ((TextView)findViewById(id)).setText(getResources().getString(res));
     }
 
     public View findRootViewById(int ids){

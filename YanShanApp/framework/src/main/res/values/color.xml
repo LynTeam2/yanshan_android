@@ -17,6 +17,7 @@
     <!-- 陌陌字体 黑 -->
     <color name="new_black">#FF333333</color>
 
+
     <color name="blue_light">#ff00aced</color>
 
     <color name="background_tab_pressed">#0033B5E5</color>

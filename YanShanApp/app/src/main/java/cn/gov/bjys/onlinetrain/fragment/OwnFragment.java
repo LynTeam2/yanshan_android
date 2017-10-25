@@ -54,12 +54,7 @@ public class OwnFragment extends FrameFragment {
                 ToastUtil.showToast("进入下一页");
             }
         });
-        ArrayList<String> list = new ArrayList<>();
-        list.add("吃饭");
-        list.add("睡觉");
-        list.add("打东东");
-        list.add("洗澡");
-        answerLayout.bindDatas(list);
+
     }
 
     @Override

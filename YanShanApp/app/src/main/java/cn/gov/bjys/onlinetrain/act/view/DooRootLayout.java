@@ -5,12 +5,13 @@ import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.RelativeLayout;
+
+import com.zhy.autolayout.AutoRelativeLayout;
 
 /**
  * Created by Administrator on 2017/10/15 0015.
  */
-public abstract class DooRootLayout extends RelativeLayout {
+public abstract class DooRootLayout extends AutoRelativeLayout {
     public DooRootLayout(Context context) {
         super(context);
         init();

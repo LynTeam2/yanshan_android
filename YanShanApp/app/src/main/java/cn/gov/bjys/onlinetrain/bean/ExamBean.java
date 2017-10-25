@@ -8,7 +8,11 @@ import android.os.Parcelable;
  */
 //试题类型
 public class ExamBean implements Parcelable {
-    public final static int VIDEO_EXAM = 0;
+
+    public final static int VIDEO_EXAM = 0;//视频题目
+    public final static int TEXT_SINGLE_EXAM = 1;//单选题
+    public final static int TEXT_MULTIPLE_EXAM = 2;//多选题
+    public final static int TEXT_JUDGMENT_EXAM = 3;//判断题
 
     private int type;
 
