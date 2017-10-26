@@ -4,14 +4,9 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
-import android.text.Layout;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-
-import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +82,7 @@ public class AnswerLayout extends LinearLayout implements View.OnClickListener {
                             layout.setTextById("A",R.id.text_choice);
                             break;
                         case 1:
-                            layout.setTextById("B",R.id.text_choice);
+                            layout.setTextById("B", R.id.text_choice);
                             break;
                         case 2:
                             layout.setTextById("C",R.id.text_choice);

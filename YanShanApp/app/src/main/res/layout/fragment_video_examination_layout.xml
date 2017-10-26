@@ -9,19 +9,18 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-    <cn.gov.bjys.onlinetrain.act.view.ClientVideoPlayer
-    android:layout_below="@id/header"
-    android:id="@+id/client_player"
-    android:layout_width="match_parent"
-    android:layout_height="620px"
-    ></cn.gov.bjys.onlinetrain.act.view.ClientVideoPlayer>
+        <cn.gov.bjys.onlinetrain.act.view.ClientVideoPlayer
+            android:id="@+id/video_player"
+            android:layout_width="match_parent"
+            android:layout_height="620px">
+        </cn.gov.bjys.onlinetrain.act.view.ClientVideoPlayer>
 
     <LinearLayout
+        android:layout_below="@id/video_player"
         android:id="@+id/hint_linear"
         android:paddingLeft="30px"
         android:paddingRight="30px"
         android:layout_marginTop="20px"
-        android:layout_below="@id/client_player"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">

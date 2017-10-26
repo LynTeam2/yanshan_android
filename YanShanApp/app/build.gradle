@@ -117,7 +117,7 @@ dependencies {
     //ViewPager指示器
     compile 'com.github.hackware1993:MagicIndicator:1.5.0'
     //视频播放器
-    compile 'fm.jiecao:jiecaovideoplayer:5.7'
+    compile 'cn.jzvd:jiaozivideoplayer:6.0.0'
     //三方封装 BaseRecyclerViewAdapterHelper
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.9'
 

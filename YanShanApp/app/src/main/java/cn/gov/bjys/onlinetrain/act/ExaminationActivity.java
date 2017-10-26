@@ -22,7 +22,7 @@ import cn.gov.bjys.onlinetrain.adapter.DooExamBottomAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooExamStateFragmentAdapter;
 import cn.gov.bjys.onlinetrain.bean.ExamBean;
 import cn.gov.bjys.onlinetrain.bean.ExamXqBean;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+
 
 /**
  * Created by dodozhou on 2017/9/27.
@@ -162,9 +162,6 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
 
     @Override
     public void onBackPressed() {
-        if (JCVideoPlayer.backPress()) {
-            return;
-        }
         super.onBackPressed();
     }
 
