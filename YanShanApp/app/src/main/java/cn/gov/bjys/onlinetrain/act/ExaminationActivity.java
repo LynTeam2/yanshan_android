@@ -22,6 +22,7 @@ import cn.gov.bjys.onlinetrain.adapter.DooExamBottomAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooExamStateFragmentAdapter;
 import cn.gov.bjys.onlinetrain.bean.ExamBean;
 import cn.gov.bjys.onlinetrain.bean.ExamXqBean;
+import cn.jzvd.JZVideoPlayer;
 
 
 /**
@@ -160,10 +161,6 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
         return list;
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
 
 
     EndExamPop mEndExamPop;
@@ -193,4 +190,18 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
                 break;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        if (JZVideoPlayer.backPress()) {
+            return;
+        }
+        super.onBackPressed();
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JZVideoPlayer.releaseAllVideos();
+    }
+
 }

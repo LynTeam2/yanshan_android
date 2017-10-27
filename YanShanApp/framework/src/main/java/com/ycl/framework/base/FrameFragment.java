@@ -49,7 +49,6 @@ public abstract class FrameFragment extends Fragment {
         initStatusBar();
         initViews();
         initData();
-
         return viewRoot;
     }
 

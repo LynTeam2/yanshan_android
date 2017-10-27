@@ -1,14 +1,18 @@
 package cn.gov.bjys.onlinetrain.act.view;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 
 import cn.gov.bjys.onlinetrain.R;
+import cn.jzvd.JZUtils;
 import cn.jzvd.JZVideoPlayerStandard;
 
 
@@ -23,16 +27,29 @@ public class ClientVideoPlayer extends JZVideoPlayerStandard {
         super(context, attrs);
     }
 
+    @Override
+    public int getLayoutId() {
+        return R.layout.layout_jc_client;
+    }
 
     SeekBar mVoiceSeekBar;
+    RelativeLayout mRlStart;//底下暂停开始的父布局
+    ImageView mImgStart;//底下的暂停开始图标
     @Override
     public void init(Context context) {
         //这是播放控件初始化的时候最先调用的
         super.init(context);
-        mVoiceSeekBar = (SeekBar) findViewById(R.id.voice_seek_progress);
+        initViews();
         initVoice();
-        retryTextView.setOnClickListener(this);
         showInWindowNormal();
+    }
+
+    private void initViews(){
+        mRlStart = (RelativeLayout) findViewById(R.id.rl_start);
+        mRlStart.setOnClickListener(this);
+        mImgStart = (ImageView) findViewById(R.id.small_start);
+        mVoiceSeekBar = (SeekBar) findViewById(R.id.voice_seek_progress);
+        retryTextView.setOnClickListener(this);
     }
 
     private void initVoice(){
@@ -73,10 +90,6 @@ public class ClientVideoPlayer extends JZVideoPlayerStandard {
         });
     }
 
-    @Override
-    public int getLayoutId() {
-        return R.layout.layout_jc_client;
-    }
 
     @Override
     public void onClick(View v) {
@@ -89,6 +102,11 @@ public class ClientVideoPlayer extends JZVideoPlayerStandard {
                 //播放完成之后显示如果被点击  就重新播放
                 startVideo();
             break;
+
+            case R.id.rl_start:
+                //暂停或者开始的逻辑
+                startButton.performClick();
+                break;
         }
     }
 
@@ -97,6 +115,13 @@ public class ClientVideoPlayer extends JZVideoPlayerStandard {
         //在JCVideoPlayer中此函数主要响应了全屏之后的手势控制音量和进度
         Log.d(TAG, "onTouch");
         return super.onTouch(v, event);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        Log.d(TAG,"dispatchTouchEvent");
+        super.dispatchTouchEvent(ev);
+        return true;
     }
 
     @Override
@@ -211,5 +236,24 @@ public class ClientVideoPlayer extends JZVideoPlayerStandard {
         findViewById(cn.jzvd.R.id.back_tiny).setVisibility(View.GONE);
         //back 作为横屏退出小屏的按钮
         findViewById(cn.jzvd.R.id.back).setVisibility(VISIBLE);
+        JZUtils.getAppCompActivity(getContext()).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    }
+
+    @Override
+    public void updateStartImage() {
+        if (currentState == CURRENT_STATE_PLAYING) {
+            startButton.setImageResource(cn.jzvd.R.drawable.jz_click_pause_selector);
+            mImgStart.setImageResource(cn.jzvd.R.drawable.jz_click_pause_selector);
+            retryTextView.setVisibility(INVISIBLE);
+        } else if (currentState == CURRENT_STATE_ERROR) {
+            startButton.setImageResource(cn.jzvd.R.drawable.jz_click_error_selector);
+            retryTextView.setVisibility(INVISIBLE);
+        } else if (currentState == CURRENT_STATE_AUTO_COMPLETE) {
+            startButton.setImageResource(cn.jzvd.R.drawable.jz_click_replay_selector);
+            retryTextView.setVisibility(VISIBLE);
+        } else {
+            startButton.setImageResource(cn.jzvd.R.drawable.jz_click_play_selector);
+            retryTextView.setVisibility(INVISIBLE);
+        }
     }
 }
