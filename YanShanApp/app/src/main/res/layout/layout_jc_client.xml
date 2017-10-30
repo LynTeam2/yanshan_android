@@ -44,15 +44,7 @@
             android:scaleType="fitXY"
             />
         </RelativeLayout>
-        <TextView
-            android:id="@+id/clarity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="clarity"
-            android:layout_gravity="center_vertical"
-            android:textColor="@color/white"
-            android:textSize="36px"
-            />
+
         <SeekBar
             android:id="@+id/bottom_seek_progress"
             android:layout_width="0px"
@@ -103,7 +95,15 @@
             android:minHeight="7px"
             android:paddingBottom="1dp"
             android:progressDrawable="@drawable/jc_client_seek_progress" />
-
+        <TextView
+            android:id="@+id/clarity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="clarity"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/white"
+            android:textSize="36px"
+            />
         <ImageView
             android:paddingLeft="41px"
             android:id="@+id/fullscreen"

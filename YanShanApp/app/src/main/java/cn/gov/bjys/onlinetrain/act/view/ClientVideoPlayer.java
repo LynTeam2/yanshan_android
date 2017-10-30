@@ -2,14 +2,21 @@ package cn.gov.bjys.onlinetrain.act.view;
 
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
+
+import java.util.LinkedHashMap;
 
 import cn.gov.bjys.onlinetrain.R;
 import cn.jzvd.JZUtils;
@@ -52,6 +59,59 @@ public class ClientVideoPlayer extends JZVideoPlayerStandard {
         retryTextView.setOnClickListener(this);
     }
 
+
+    public void setUp(String url, int screen, Object... objects) {
+        LinkedHashMap map = new LinkedHashMap();
+        map.put(URL_KEY_DEFAULT, url);
+        map.put(URL_KEY_DEFAULT+"1", url);
+        setUp(map, 0, screen, objects);
+    }
+
+    private int currentUrlMapIndexDefault;
+    private LinkedHashMap urlMapDefault;
+    public void setUp(LinkedHashMap urlMap, int defaultUrlMapIndex, int screen, Object... objects) {
+        super.setUp(urlMap, defaultUrlMapIndex, screen, objects);
+        this.currentUrlMapIndexDefault = defaultUrlMapIndex;
+        this.urlMapDefault = urlMap;
+        if (objects.length == 0) return;
+        titleTextView.setText(objects[0].toString());
+        if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
+            fullscreenButton.setImageResource(cn.jzvd.R.drawable.jz_shrink);
+            backButton.setVisibility(View.VISIBLE);
+            tinyBackImageView.setVisibility(View.INVISIBLE);
+            batteryTimeLayout.setVisibility(View.VISIBLE);
+            if (urlMap.size() == 1) {
+                clarity.setVisibility(GONE);
+            } else {
+                clarity.setText(JZUtils.getKeyFromLinkedMap(urlMap, currentUrlMapIndexDefault));
+                clarity.setVisibility(View.VISIBLE);
+            }
+            changeStartButtonSize((int) getResources().getDimension(cn.jzvd.R.dimen.jz_start_button_w_h_fullscreen));
+        } else if (currentScreen == SCREEN_LAYOUT_NORMAL
+                || currentScreen == SCREEN_LAYOUT_LIST) {
+            fullscreenButton.setImageResource(cn.jzvd.R.drawable.jz_enlarge);
+            backButton.setVisibility(View.GONE);
+            tinyBackImageView.setVisibility(View.INVISIBLE);
+            changeStartButtonSize((int) getResources().getDimension(cn.jzvd.R.dimen.jz_start_button_w_h_normal));
+            batteryTimeLayout.setVisibility(View.GONE);
+//            clarity.setVisibility(View.GONE);
+            if (urlMap.size() == 1) {
+                clarity.setVisibility(GONE);
+            } else {
+                clarity.setText(JZUtils.getKeyFromLinkedMap(urlMap, currentUrlMapIndexDefault));
+                clarity.setVisibility(View.VISIBLE);
+            }
+        } else if (currentScreen == SCREEN_WINDOW_TINY) {
+            tinyBackImageView.setVisibility(View.VISIBLE);
+            setAllControlsVisible(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
+                    View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
+            batteryTimeLayout.setVisibility(View.GONE);
+            clarity.setVisibility(View.GONE);
+        }
+        setSystemTimeAndBattery();
+
+    }
+
     private void initVoice(){
         //最大音量
        final int maxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
@@ -65,15 +125,11 @@ public class ClientVideoPlayer extends JZVideoPlayerStandard {
                 int mode = mAudioManager.getRingerMode();switch (mode){
                     case AudioManager.RINGER_MODE_NORMAL:
                         //普通模式
-                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVol, 0); //tempVolume:音量绝对值
-                        break;
                     case AudioManager.RINGER_MODE_VIBRATE:
                         //振动模式
-                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
-                        break;
                     case AudioManager.RINGER_MODE_SILENT:
                         //静音模式
-                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
+                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVol, 0);
                         break;
                 }
             }
@@ -94,7 +150,6 @@ public class ClientVideoPlayer extends JZVideoPlayerStandard {
     @Override
     public void onClick(View v) {
         //这是控件里所有控件的onClick响应函数，比如监听开始按钮的点击，全屏按钮的点击，空白的点击，retry按钮的点击，等。如果你想拦截这些点击的响应或者继承这些点击的响应，那么复写此函数
-        super.onClick(v);
         Log.d(TAG, "onClick()");
 
         switch (v.getId()){
@@ -106,6 +161,55 @@ public class ClientVideoPlayer extends JZVideoPlayerStandard {
             case R.id.rl_start:
                 //暂停或者开始的逻辑
                 startButton.performClick();
+                break;
+
+            case R.id.clarity:
+                LayoutInflater inflater = (LayoutInflater) getContext()
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                final LinearLayout layout = (LinearLayout) inflater.inflate(cn.jzvd.R.layout.jz_layout_clarity, null);
+
+                OnClickListener mQualityListener = new OnClickListener() {
+                    public void onClick(View v) {
+                        int index = (int) v.getTag();
+                        onStatePreparingChangingUrl(index, getCurrentPositionWhenPlaying());
+                        clarity.setText(JZUtils.getKeyFromLinkedMap(urlMapDefault, currentUrlMapIndexDefault));
+                        for (int j = 0; j < layout.getChildCount(); j++) {//设置点击之后的颜色
+                            if (j == currentUrlMapIndexDefault) {
+                                ((TextView) layout.getChildAt(j)).setTextColor(Color.parseColor("#fff85959"));
+                            } else {
+                                ((TextView) layout.getChildAt(j)).setTextColor(Color.parseColor("#ffffff"));
+                            }
+                        }
+                        if (clarityPopWindow != null) {
+                            clarityPopWindow.dismiss();
+                        }
+                    }
+                };
+
+                for (int j = 0; j < urlMapDefault.size(); j++) {
+                    String key = JZUtils.getKeyFromLinkedMap(urlMapDefault, j);
+                    TextView clarityItem = (TextView) View.inflate(getContext(), cn.jzvd.R.layout.jz_layout_clarity_item, null);
+                    clarityItem.setText(key);
+                    clarityItem.setTag(j);
+                    layout.addView(clarityItem, j);
+                    clarityItem.setOnClickListener(mQualityListener);
+                    if (j == currentUrlMapIndexDefault) {
+                        clarityItem.setTextColor(Color.parseColor("#fff85959"));
+                    }
+                }
+
+                clarityPopWindow = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
+                clarityPopWindow.setContentView(layout);
+                clarityPopWindow.showAsDropDown(clarity);
+                layout.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+                if(currentScreen == SCREEN_WINDOW_FULLSCREEN) {
+                    clarityPopWindow.update(clarity, -40, 46, Math.round(layout.getMeasuredWidth()), layout.getMeasuredHeight());
+                }else{
+                    clarityPopWindow.update(clarity, -40, -350, Math.round(layout.getMeasuredWidth()), layout.getMeasuredHeight());
+                }
+                    break;
+            default:
+                super.onClick(v);
                 break;
         }
     }
@@ -247,13 +351,24 @@ public class ClientVideoPlayer extends JZVideoPlayerStandard {
             retryTextView.setVisibility(INVISIBLE);
         } else if (currentState == CURRENT_STATE_ERROR) {
             startButton.setImageResource(cn.jzvd.R.drawable.jz_click_error_selector);
+            mImgStart.setImageResource(cn.jzvd.R.drawable.jz_click_error_selector);
             retryTextView.setVisibility(INVISIBLE);
         } else if (currentState == CURRENT_STATE_AUTO_COMPLETE) {
             startButton.setImageResource(cn.jzvd.R.drawable.jz_click_replay_selector);
+            mImgStart.setImageResource(cn.jzvd.R.drawable.jz_click_replay_selector);
             retryTextView.setVisibility(VISIBLE);
         } else {
             startButton.setImageResource(cn.jzvd.R.drawable.jz_click_play_selector);
+            mImgStart.setImageResource(cn.jzvd.R.drawable.jz_click_play_selector);
             retryTextView.setVisibility(INVISIBLE);
         }
+    }
+
+
+    @Override
+    public void showVolumeDialog(float deltaY, int volumePercent) {
+        super.showVolumeDialog(deltaY, volumePercent);
+        //设置本地seekBar for voice
+        mVoiceSeekBar.setProgress(volumePercent);
     }
 }
