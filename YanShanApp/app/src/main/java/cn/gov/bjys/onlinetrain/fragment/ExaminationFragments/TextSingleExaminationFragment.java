@@ -12,6 +12,7 @@ import com.ycl.framework.base.FrameFragment;
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
+import cn.gov.bjys.onlinetrain.act.ExaminationActivity;
 import cn.gov.bjys.onlinetrain.act.view.AnswerLayout;
 import cn.gov.bjys.onlinetrain.bean.ExamBean;
 
@@ -21,10 +22,12 @@ import cn.gov.bjys.onlinetrain.bean.ExamBean;
  */
 public class TextSingleExaminationFragment extends FrameFragment {
     public final static String TAG = TextSingleExaminationFragment.class.getSimpleName();
+    public final static String POSITION = "POSTION";
 
-    public static TextSingleExaminationFragment newInstance(ExamBean bean) {
+
+    public static TextSingleExaminationFragment newInstance(int position) {
         Bundle args = new Bundle();
-        args.putParcelable(TAG, bean);
+        args.putInt(TAG, position);
         TextSingleExaminationFragment fragment = new TextSingleExaminationFragment();
         fragment.setArguments(args);
         return fragment;
@@ -48,8 +51,8 @@ public class TextSingleExaminationFragment extends FrameFragment {
     @Override
     protected void initViews() {
         super.initViews();
-        Bundle mBundle =   getArguments();
-        ExamBean bean =  mBundle.getParcelable(TAG);
+        int position = getArguments().getInt(TAG);
+        ExamBean bean = ((ExaminationActivity)getActivity()).getDatas().get(position);
         single_answer_layout.bindDatas(bean);
     }
 

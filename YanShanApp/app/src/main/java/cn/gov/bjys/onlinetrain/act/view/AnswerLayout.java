@@ -20,6 +20,11 @@ import cn.gov.bjys.onlinetrain.bean.ExamBean;
  * 2、选择的结果逻辑交给上层Fragment实现
  */
 public class AnswerLayout extends LinearLayout implements View.OnClickListener {
+
+   public  interface ClickResult{
+       public void clickRet(int[] ints);
+    }
+
     private Context mContext;
     public AnswerLayout(Context context) {
         super(context);
@@ -104,7 +109,6 @@ public class AnswerLayout extends LinearLayout implements View.OnClickListener {
 
 
     }
-
 
     boolean isClicked = false;
     @Override

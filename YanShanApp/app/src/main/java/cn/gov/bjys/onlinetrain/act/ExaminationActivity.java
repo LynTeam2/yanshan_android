@@ -1,5 +1,7 @@
 package cn.gov.bjys.onlinetrain.act;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.view.ViewPager;
@@ -9,10 +11,13 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ycl.framework.base.BasePopu;
 import com.ycl.framework.base.FrameActivity;
+import com.ycl.framework.view.TitleHeaderView;
 import com.zls.www.statusbarutil.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.Bind;
 import cn.gov.bjys.onlinetrain.R;
@@ -32,13 +37,26 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
 
     @Bind(R.id.viewpager)
     ViewPager mViewPager;
-
-
     @Bind(R.id.exam_bottom_layout)
     ExamBottomLayout mExamBottomLayout;
+
+    @Bind(R.id.header)
+    TitleHeaderView mHeader;
+
     BottomSheetBehavior mBehavior;
     DooExamStateFragmentAdapter mExamAdapter;
     DooExamBottomAdapter mDooExamBottomAdapter;
+
+    TimerTask mTimerTask;
+    private long mTimes = 50*60;
+    private Timer mTimer;
+    private Handler mHandler;
+    private int mTimerType = TIMER_END;//定时器的情况
+
+    public final static int TIMER_START = 1;
+
+    public final static int TIMER_END = 2;
+
     @Override
     protected void setRootView() {
         setContentView(R.layout.activity_examination_layout);
@@ -73,7 +91,62 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
             }
         });
         mViewPager.setCurrentItem(0,false);
+        initTimer();
     }
+
+    private void initTimer(){
+
+        mHandler = new Handler(Looper.getMainLooper());
+        mTimerTask = new TimerTask() {
+            @Override
+            public void run() {
+             //定时器要做的事情
+                if(mTimes > 0){
+                    mTimes--;
+                }else{
+                    mTimerType = TIMER_END;
+                }
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                    //UI线程
+                        if(mTimerType == TIMER_END){
+                            cancelTimer();
+                            //TODO 定时器时间结束
+                        }else{
+                            setTimeToHeader();
+                        }
+                    }
+                });
+            }
+        };
+        mTimer = new Timer();
+        mTimer.schedule(mTimerTask, 1000, 1000);
+        mTimerType = TIMER_START;
+    }
+    private void setTimeToHeader(){
+        String time = getTimesStr(mTimes);
+        String content = "倒计时 "+time;
+        mHeader.setTitleText(content);
+    }
+
+    private String getTimesStr(long time){
+        String ret = "";
+        ret = ret + (time/3600 == 0 ? "" : time/3600 +":");//小时数
+        long fen = time % 3600;
+        ret = ret  + (fen/60 > 9 ? fen/60 :"0" + fen/60) +  ":";
+        long miao = fen%60;
+        ret = ret  + (miao%60 > 9 ? miao%60 :"0" + miao%60);
+        return ret;
+    }
+
+    private void cancelTimer(){
+        if(null != mTimer){
+            mTimer.cancel();
+            mTimer = null;
+        }
+    }
+
 
     private void setViewPagerAndExamBottom(int positions){
         if(mViewPager != null) {
@@ -175,7 +248,7 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
                         @Override
                         public void onPupClick(int position) {
                             if(EndExamPop.SURE_CLICK == position){
-
+                                cancelTimer();
                             }
                         }
                     });
@@ -204,4 +277,17 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
         JZVideoPlayer.releaseAllVideos();
     }
 
+
+    public List<ExamBean> getDatas(){
+        return  mExamAdapter.getmDatas();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        if(mTimer != null){
+            mTimer.cancel();
+            mTimer = null;
+        }
+    }
 }

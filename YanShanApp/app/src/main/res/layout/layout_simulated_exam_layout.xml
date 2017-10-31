@@ -18,6 +18,7 @@
         layout="@layout/layout_divider_line1px"
         ></include>
     <cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode
+        android:id="@+id/simulated_exam_avatar"
         android:layout_marginTop="60px"
         android:layout_centerHorizontal="true"
         android:layout_width="180px"
@@ -124,6 +125,7 @@
         </LinearLayout>
     </LinearLayout>
     <TextView
+        android:id="@+id/exam_hint"
         android:layout_margin="140px"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -131,6 +133,7 @@
         android:text="温习提示：温习提示温习提示温习提示温习提示温习提示温习提示温习提示温习提示温习提示温习提示温习提示温习提示温习提示温习提示温习提示温习提示温习提示温习提示温习提示"/>
     </LinearLayout>
         <Button
+            android:id="@+id/start_exam"
             android:layout_marginLeft="85px"
             android:layout_marginRight="85px"
             android:gravity="center"

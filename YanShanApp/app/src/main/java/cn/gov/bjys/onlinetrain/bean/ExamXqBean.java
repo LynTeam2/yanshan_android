@@ -64,6 +64,8 @@ public class ExamXqBean extends ExamBean implements MultiItemEntity {
     public ExamXqBean() {
     }
 
+
+
     protected ExamXqBean(Parcel in) {
         super(in);
         this.mType = in.readInt();

@@ -14,6 +14,7 @@ import java.util.List;
 
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.ClassActivity;
+import cn.gov.bjys.onlinetrain.act.ExamAnalysisActivity;
 import cn.gov.bjys.onlinetrain.act.ExaminationActivity;
 import cn.gov.bjys.onlinetrain.adapter.DooHomeGridViewAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooHomeGridViewAdapter.HomeGridBean;
@@ -60,7 +61,7 @@ public class DooItemTitleLayout extends DooRootLayout {
                         getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), ClassActivity.class));
                         break;
                     case 3:
-                        getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), ClassActivity.class));
+                        getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), ExamAnalysisActivity.class));
                         break;
                 }
             }

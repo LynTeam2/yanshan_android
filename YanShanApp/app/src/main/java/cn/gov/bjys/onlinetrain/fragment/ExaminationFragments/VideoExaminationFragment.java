@@ -12,6 +12,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.view.ClientVideoPlayer;
+import cn.gov.bjys.onlinetrain.act.view.DooQuestionAnalysisLayout;
 import cn.gov.bjys.onlinetrain.bean.ExamBean;
 import cn.jzvd.JZVideoPlayerStandard;
 
@@ -22,9 +23,10 @@ import cn.jzvd.JZVideoPlayerStandard;
 public class VideoExaminationFragment extends FrameFragment{
     public final static String TAG = VideoExaminationFragment.class.getSimpleName();
 
-    public static VideoExaminationFragment newInstance(ExamBean bean) {
+
+    public static VideoExaminationFragment newInstance(int position) {
         Bundle args = new Bundle();
-        args.putParcelable(TAG, bean);
+        args.putInt(TAG, position);
         VideoExaminationFragment fragment = new VideoExaminationFragment();
         fragment.setArguments(args);
         return fragment;
@@ -33,6 +35,9 @@ public class VideoExaminationFragment extends FrameFragment{
 
     @Bind(R.id.start_req)
     Button mStartReq;
+
+    @Bind(R.id.analysis_layout)
+    DooQuestionAnalysisLayout mDooQuestionAnalysisLayout;
 
     @Override
     protected View inflaterView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {

@@ -5,10 +5,10 @@
     android:background="@color/windowBackground">
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
         <cn.gov.bjys.onlinetrain.act.view.ClientVideoPlayer
             android:id="@+id/video_player"
             android:layout_width="match_parent"
@@ -54,6 +54,14 @@
         android:background="@color/normal_blue"
         android:textColor="@color/white"
         />
+            <cn.gov.bjys.onlinetrain.act.view.DooQuestionAnalysisLayout
+                android:visibility="gone"
+                android:layout_below="@id/start_req"
+                android:layout_marginTop="50px"
+                android:id="@+id/analysis_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ></cn.gov.bjys.onlinetrain.act.view.DooQuestionAnalysisLayout>
         </RelativeLayout>
     </ScrollView>
 </com.zhy.autolayout.AutoRelativeLayout>

@@ -53,13 +53,13 @@ public class DooExamStateFragmentAdapter<T> extends FragmentStatePagerAdapter {
 
             switch (examType){
                 case ExamBean.VIDEO_EXAM:
-                    f = VideoExaminationFragment.newInstance((ExamBean) bean);
+                    f = VideoExaminationFragment.newInstance(position);
                     break;
                 case ExamBean.TEXT_SINGLE_EXAM:
-                    f = TextSingleExaminationFragment.newInstance((ExamBean) bean);
+                    f = TextSingleExaminationFragment.newInstance(position);
                     break;
                 default:
-                    f = VideoExaminationFragment.newInstance((ExamBean) bean);
+                    f = VideoExaminationFragment.newInstance(position);
                     break;
             }
 
@@ -80,5 +80,9 @@ public class DooExamStateFragmentAdapter<T> extends FragmentStatePagerAdapter {
     @Override
     public int getCount() {
         return mDatas.size();
+    }
+
+    public List<T> getmDatas() {
+        return mDatas;
     }
 }
