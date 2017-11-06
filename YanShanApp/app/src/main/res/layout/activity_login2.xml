@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#6490ff">
+    <com.ycl.framework.view.TitleHeaderView
+        android:id="@+id/login_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title_back_visibility="false"
+        app:title_text = "登录" />
+    <LinearLayout
+        android:background="#fff"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal">
+        <LinearLayout
+            android:layout_marginTop="100px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <TextView
+            android:layout_marginLeft="120px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="42px"
+            android:text="用户名:"
+            android:textColor="@color/normal_black"/>
+        <RelativeLayout
+            android:id="@+id/rl_login_et_userid"
+            android:layout_width="match_parent"
+            android:layout_height="140px"
+            android:layout_below="@id/login_header"
+            android:layout_marginLeft="120px"
+            android:layout_marginRight="150px">
+
+            <EditText
+                android:id="@+id/login_et_userid"
+                android:layout_width="920px"
+                android:layout_height="130px"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/bg_bottom_line_1px"
+                android:gravity="center_vertical"
+                android:hint="请输入用户名"
+                android:inputType="number"
+                android:paddingRight="145px"
+                android:singleLine="true"
+                android:textColor="@color/normal_black"
+                android:textColorHint="@color/normal_gray_light1"
+                android:textSize="42px" />
+
+            <ImageView
+                android:id="@+id/login_cancel"
+                android:layout_width="50px"
+                android:layout_height="50px"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="100px"
+                android:src="@drawable/register_cancel"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="100px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_marginLeft="120px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="42px"
+                android:text="密 码:"
+                android:textColor="@color/normal_black"/>
+            <RelativeLayout
+                android:id="@+id/rl_login_et_password"
+                android:layout_width="match_parent"
+                android:layout_height="140px"
+                android:layout_below="@id/login_header"
+                android:layout_marginLeft="120px"
+                android:layout_marginRight="150px">
+
+                <EditText
+                    android:id="@+id/login_et_password"
+                    android:layout_width="920px"
+                    android:layout_height="130px"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/bg_bottom_line_1px"
+                    android:gravity="center_vertical"
+                    android:hint="请输入密码"
+                    android:inputType="number"
+                    android:paddingRight="145px"
+                    android:singleLine="true"
+                    android:textColor="@color/normal_black"
+                    android:textColorHint="@color/normal_gray_light1"
+                    android:textSize="42px" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/act_login_btn"
+            android:layout_width="920px"
+            android:layout_height="130px"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="120px"
+            android:background="@drawable/bg_login_btn_blue"
+            android:gravity="center"
+            android:text="登 录"
+            android:textColor="@drawable/tv_color_change"
+            android:textSize="60px" />
+    </LinearLayout>
+</LinearLayout>

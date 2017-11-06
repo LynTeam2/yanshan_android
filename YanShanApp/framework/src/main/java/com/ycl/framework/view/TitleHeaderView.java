@@ -38,6 +38,7 @@ public class TitleHeaderView extends AutoFrameLayout {
                 R.styleable.styleable_titleHeaderView);
 //        if (typedArray.getString(R.styleable.styleable_titleHeaderView_title_name) != null)
         tvTitle.setText(typedArray.getString(R.styleable.styleable_titleHeaderView_title_name));
+        ivBack.setVisibility(typedArray.getBoolean(R.styleable.styleable_titleHeaderView_title_back_visibility, true)? View.VISIBLE :View.GONE);
         typedArray.recycle();
 
         initViews();

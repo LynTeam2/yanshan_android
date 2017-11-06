@@ -26,6 +26,7 @@
             android:textSize="48px" />
 
         <ImageView
+            android:visibility="gone"
             android:id="@+id/iv_title_header_back"
             android:layout_width="82px"
             android:layout_height="61px"

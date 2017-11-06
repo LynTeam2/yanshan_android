@@ -37,6 +37,7 @@
         <attr name="title_left_img_res" format="reference|color" />
         <attr name="title_divider_visibility" format="boolean" />
         <attr name="title_guide_more_visibility" format="boolean" />
+        <attr name="title_back_visibility" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="styleable_edit_itemView">
