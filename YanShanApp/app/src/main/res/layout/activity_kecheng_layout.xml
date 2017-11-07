@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <com.ycl.framework.view.TitleHeaderView
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:title_name = "课程"
+        app:title_back_visibility = "true"
+        >
     </com.ycl.framework.view.TitleHeaderView>
     <include
         layout="@layout/layout_divider_line1px"
@@ -13,11 +18,22 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0px"
+        android:layout_weight="1">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </android.support.v7.widget.RecyclerView>
     </android.support.v4.widget.SwipeRefreshLayout>
+    <include
+        layout="@layout/layout_divider_line1px"
+        ></include>
+    <Button
+        android:id="@+id/loading_more"
+        android:background="@null"
+        android:layout_width="match_parent"
+        android:layout_height="259px"
+        android:gravity="center"
+        android:text="更多考试内容"/>
 </LinearLayout>

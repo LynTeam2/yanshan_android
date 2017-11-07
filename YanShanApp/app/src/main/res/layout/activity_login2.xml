@@ -98,7 +98,15 @@
                     android:textColor="@color/normal_black"
                     android:textColorHint="@color/normal_gray_light1"
                     android:textSize="42px" />
-
+                <CheckBox
+                    android:id="@+id/login_yanjing"
+                    android:layout_width="50px"
+                    android:layout_height="50px"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="100px"
+                    android:background="@drawable/bg_pwd_eye"
+                    android:button="@null" />
             </RelativeLayout>
 
         </LinearLayout>

@@ -3,13 +3,13 @@
     android:id="@+id/ll_title_root_parent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/color_gray_default">
+    android:background="@color/normal_blue_light1">
     <!--android:paddingTop="@dimen/statue_bar_top_padding"-->
 
     <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/ll_title_root"
         android:layout_width="match_parent"
-        android:layout_height="120px">
+        android:layout_height="160px">
 
         <TextView
             android:id="@+id/tv_title_header_titleText"
@@ -22,7 +22,7 @@
             android:text="sss"
             android:paddingEnd="42dp"
             android:paddingStart="45dp"
-            android:textColor="#333333"
+            android:textColor="#fff"
             android:textSize="48px" />
 
         <ImageView

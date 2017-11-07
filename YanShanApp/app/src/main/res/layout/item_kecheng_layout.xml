@@ -8,8 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="300px"
-        android:paddingLeft="30px"
-        android:paddingRight="30px"
+        android:paddingLeft="40px"
+        android:paddingRight="40px"
         android:gravity="center_vertical"
         >
     <RelativeLayout
@@ -19,8 +19,8 @@
         <ImageView
             android:id="@+id/img"
             android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="190px"
+            android:layout_height="170px"
             android:src="@mipmap/ic_launcher"/>
     </RelativeLayout>
     <LinearLayout
@@ -29,13 +29,15 @@
         android:layout_width="0px"
         android:layout_height="match_parent">
         <TextView
-            android:layout_marginTop="50px"
+            android:layout_marginTop="60px"
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:text="习近平:金砖国家是国际安全秩序的建设者"
             android:textSize="40px"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textColor="@color/normal_black"
             />
         <TextView

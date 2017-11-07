@@ -40,11 +40,11 @@ public class LoginActivity extends FrameActivity implements View.OnClickListener
     @Bind(R.id.login_et_password)
     EditText login_et_password;
 
-    @Bind(R.id.forget_password_btn)
-    TextView forget_password_btn;
-
-    @Bind(R.id.register_btn)
-    TextView register_btn;
+//    @Bind(R.id.forget_password_btn)
+//    TextView forget_password_btn;
+//
+//    @Bind(R.id.register_btn)
+//    TextView register_btn;
 
     @Bind(R.id.act_login_btn)
     Button act_login_btn;
@@ -58,14 +58,10 @@ public class LoginActivity extends FrameActivity implements View.OnClickListener
     @Bind(R.id.login_header)
     TitleHeaderView login_header;
 
-    @Bind(R.id.qq_login)
-    LinearLayout qq_login;
 
-    @Bind(R.id.wx_login)
-    LinearLayout wx_login;
     @Override
     protected void setRootView() {
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login2);
     }
 
     @Override
@@ -96,8 +92,8 @@ public class LoginActivity extends FrameActivity implements View.OnClickListener
             }
         });
         login_header.setTitleText("登录");
-        forget_password_btn.setOnClickListener(this);
-        register_btn.setOnClickListener(this);
+//        forget_password_btn.setOnClickListener(this);
+//        register_btn.setOnClickListener(this);
         act_login_btn.setOnClickListener(this);
 
         login_et_userid.addTextChangedListener(new TextWatcher() {
@@ -174,7 +170,7 @@ public class LoginActivity extends FrameActivity implements View.OnClickListener
 
     private int mLastPwdType;
 
-    @OnClick({R.id.login_cancel, R.id.login_yanjing, R.id.qq_login, R.id.wx_login})
+    @OnClick({R.id.login_cancel, R.id.login_yanjing})
     void tabClick(View view) {
         switch (view.getId()) {
             case R.id.login_cancel:
@@ -194,30 +190,9 @@ public class LoginActivity extends FrameActivity implements View.OnClickListener
                 login_et_password.setSelection(login_et_password.getText().length());
                 break;
 
-            case R.id.qq_login:
-                startOtherLogin(QQ_LOGIN);
-                break;
-            case R.id.wx_login:
-                startOtherLogin(WX_LOGIN);
-                break;
         }
     }
-    /**
-     * @param type  1为qq 2为wx
-     */
-    public final static int QQ_LOGIN = 1;
-    public final static int WX_LOGIN = 2;
-    private void startOtherLogin(int type) {
-        switch (type) {
-            case QQ_LOGIN:
-                ToastUtil.showToast("腾讯QQ");
-                break;
-            case WX_LOGIN:
-                ToastUtil.showToast("微信");
-                startAct(MainActivity.class);
-                break;
-        }
-    }
+
 
 
 }

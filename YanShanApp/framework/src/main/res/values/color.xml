@@ -19,7 +19,7 @@
 
 
     <color name="blue_light">#ff00aced</color>
-
+    <color name="normal_blue_light1">#6490ff</color>
     <color name="background_tab_pressed">#0033B5E5</color>
     <color name="color_gray_default">#fff5f5f5</color>
 </resources>
