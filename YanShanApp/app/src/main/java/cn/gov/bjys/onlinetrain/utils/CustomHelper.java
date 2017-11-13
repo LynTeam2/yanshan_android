@@ -49,7 +49,7 @@ public class CustomHelper {
     final static int COMPRESS_H = 300;//px 裁剪的高
     final static boolean SHOW_PROGRESS = true;// 是否显示压缩进度条
     final static boolean SAVE_SIM_PIC = true;// 拍照后是否保存原图
-    final static boolean isNativeCompressTool = false;// 压缩工具是本地的还是Luban
+    final static boolean isNativeCompressTool = true;// 压缩工具是本地的还是Luban
 
     //裁剪模块
     final static boolean NEED_CROP = true;//需要剪裁  反之false
@@ -57,7 +57,7 @@ public class CustomHelper {
     final static int CROP_H = 300;
     final static boolean IS_ASPECT = true;// true:"宽/高" false:"宽x高"
 
-
+    final static boolean IS_FORM_PHOTO = true;//是否相册选择  true相册 false文件
     //相册部分
     final static boolean isNativePickTool = true;// 是否使用TakePhoto自带相册
     final static boolean isCorrect = false;// 纠正拍照的照片旋转角度
@@ -80,39 +80,27 @@ public class CustomHelper {
         configCompress(takePhoto,IS_COMPRESS,MAX_PIC_SIZE,COMPRESS_W,COMPRESS_H,SHOW_PROGRESS,SAVE_SIM_PIC,isNativeCompressTool);
         configTakePhotoOption(takePhoto,isNativePickTool,isCorrect);
         switch (view.getId()){
-            case R.id.btnPickBySelect:
+            case R.id.photo_btn:
                 //选择照片
-                int limit= Integer.parseInt(etLimit.getText().toString());
-                if(limit>1){
-                    if(rgCrop.getCheckedRadioButtonId()==R.id.rbCropYes){//是否裁切
-                        takePhoto.onPickMultipleWithCrop(limit,getCropOptions());
+                int limit= CHOOSE_MAX_SIZE;
+                if(limit > 1){
+                    if(NEED_CROP){//是否裁切
+                        takePhoto.onPickMultipleWithCrop(limit,getCropOptions(NEED_CROP,CROP_W,CROP_H,IS_ASPECT));
                     }else {
                         takePhoto.onPickMultiple(limit);
                     }
                     return;
                 }
-                if(rgFrom.getCheckedRadioButtonId()==R.id.rbFile){ //从文件or 相册
-                    if(rgCrop.getCheckedRadioButtonId()==R.id.rbCropYes){
-                        takePhoto.onPickFromDocumentsWithCrop(imageUri,getCropOptions());
-                    }else {
-                        takePhoto.onPickFromDocuments();
-                    }
+                if(!IS_FORM_PHOTO){ //从文件or 相册
+                        takePhoto.onPickFromDocumentsWithCrop(imageUri,getCropOptions(NEED_CROP,CROP_W,CROP_H,IS_ASPECT));//文件
                     return;
                 }else {
-                    if(rgCrop.getCheckedRadioButtonId()==R.id.rbCropYes){
-                        takePhoto.onPickFromGalleryWithCrop(imageUri,getCropOptions());
-                    }else {
-                        takePhoto.onPickFromGallery();
-                    }
+                        takePhoto.onPickFromGalleryWithCrop(imageUri,getCropOptions(NEED_CROP,CROP_W,CROP_H,IS_ASPECT));//相册
                 }
                 break;
-            case R.id.btnPickByTake:
+            case R.id.shoot_btn:
                 //拍照
-                if(rgCrop.getCheckedRadioButtonId()==R.id.rbCropYes){
-                    takePhoto.onPickFromCaptureWithCrop(imageUri,getCropOptions());
-                }else {
-                    takePhoto.onPickFromCapture(imageUri);
-                }
+                    takePhoto.onPickFromCaptureWithCrop(imageUri,getCropOptions(NEED_CROP,CROP_W,CROP_H,IS_ASPECT));
                 break;
             default:
                 break;

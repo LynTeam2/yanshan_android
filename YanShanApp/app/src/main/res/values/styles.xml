@@ -52,11 +52,24 @@
 
 
 
+
     <!--想要显示status bar半透明 activity的样式 就是这个-->
     <style name="MainActivityStyle" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:fitsSystemWindows">true</item>
+    </style>
+
+
+
+    <!-- 透明背景activity-->
+    <style name="half_ActivityStyle" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/half_transparent</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
     </style>
 
     <style name="Theme.AppStartLoad" parent="Theme.AppCompat.Light.NoActionBar">

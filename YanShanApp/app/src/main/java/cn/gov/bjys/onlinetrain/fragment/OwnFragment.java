@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -13,12 +12,10 @@ import com.ycl.framework.utils.util.ToastUtil;
 import com.ycl.framework.view.TitleHeaderView;
 import com.zls.www.statusbarutil.StatusBarUtil;
 
-import java.util.ArrayList;
-
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
-import cn.gov.bjys.onlinetrain.act.view.AnswerLayout;
+import cn.gov.bjys.onlinetrain.act.UserAvatarChooseActivity;
 import cn.gov.bjys.onlinetrain.act.view.DooLinear;
 import cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode;
 import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
@@ -127,6 +124,7 @@ public class OwnFragment extends FrameFragment {
     public void onTabClick(View v){
         switch (v.getId()){
             case R.id.user_avatar:
+                startAct(UserAvatarChooseActivity.class);
                 break;
         }
     }

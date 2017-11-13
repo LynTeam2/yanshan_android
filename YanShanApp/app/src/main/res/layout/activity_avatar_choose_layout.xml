@@ -9,13 +9,15 @@
 
     <ImageView
         android:layout_marginTop="300px"
-        android:id="@+id/my_head"
-        android:layout_width="300px"
-        android:layout_height="300px"
+        android:id="@+id/my_avatar"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_centerHorizontal="true"
         tools:ignore="ContentDescription" />
 
     <LinearLayout
+        android:paddingLeft="50px"
+        android:paddingRight="50px"
         android:id="@+id/pop_layout"
         android:layout_width="match_parent"
         android:layout_height="298px"

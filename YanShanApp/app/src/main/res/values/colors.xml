@@ -7,7 +7,7 @@
     <color name="navigationBarColor">#000</color>
 
     <color name="transparent">#00ffffff</color>
-
+    <color name="half_transparent">#bf000000</color>
     <color name="color_gray_default">#fff5f5f5</color>
     <color name="color_select_main">#cc0f2f</color>
     <color name="color_gray_main">#929292</color>

@@ -125,6 +125,7 @@ public class LoginActivity extends FrameActivity implements View.OnClickListener
         switch (id) {
             case R.id.act_login_btn:
                 startAct(MainActivity.class);
+                finish();
 //                checkLogin();
                 break;
             case R.id.register_btn:

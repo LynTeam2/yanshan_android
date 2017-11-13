@@ -62,6 +62,10 @@
             android:name=".act.ExamAnalysisActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivityStyle" />
+        <activity
+            android:name=".act.UserAvatarChooseActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/half_ActivityStyle" />
 
         <activity
             android:name=".act.MainActivity"
