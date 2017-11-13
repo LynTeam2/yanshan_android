@@ -40,6 +40,7 @@ public class LifeHelpActivity extends FrameActivity {
     TextView mCityNameTv;
 
 
+
     @Override
     protected void setRootView() {
         setContentView(R.layout.activity_lifehelp_layout);

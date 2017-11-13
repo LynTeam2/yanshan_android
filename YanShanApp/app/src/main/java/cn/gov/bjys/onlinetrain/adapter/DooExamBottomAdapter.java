@@ -1,7 +1,11 @@
 package cn.gov.bjys.onlinetrain.adapter;
 
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.List;
 
@@ -25,6 +29,13 @@ public class DooExamBottomAdapter extends BaseMultiItemQuickAdapter<ExamXqBean,B
         addItemType(ExamXqBean.CHOICE,R.layout.item_examxq_choice_item);
         addItemType(ExamXqBean.RIGHT,R.layout.item_examxq_right_item);
         addItemType(ExamXqBean.FAIL,R.layout.item_examxq_fail_item);
+    }
+
+    @Override
+    protected View getItemView(int layoutResId, ViewGroup parent) {
+        View view = super.getItemView(layoutResId, parent);
+        AutoUtils.autoSize(view);
+        return view;
     }
 
     @Override

@@ -3,94 +3,98 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    android:background="@color/normal_blue_light1">
     <View
         android:id="@+id/status_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="60px">
     </View>
-    <cn.gov.bjys.onlinetrain.act.view.HeaderTopView
+    <com.ycl.framework.view.TitleHeaderView
         android:layout_below="@+id/status_bar_layout"
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="150px" />
-    <RelativeLayout
-        android:visibility="gone"
-        android:layout_below="@id/header"
-        android:id="@+id/not_login_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        app:title_name="登录成功"
+        android:layout_height="160px"
+        app:title_back_visibility = "false"/>
 
-
-
-        <TextView
-            android:layout_centerInParent="true"
-            android:id="@+id/login_btn"
-            android:layout_width="800px"
-            android:layout_height="180px"
-            android:background="@color/normal_red"
-            android:gravity="center"
-            android:text="立即登录"
-            android:textColor="@drawable/tv_color_change"
-            android:textSize="48px" />
-    </RelativeLayout>
     <RelativeLayout
         android:id="@+id/login_layout"
         android:layout_below="@id/header"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/windowBackgroundWhite"
+        >
 
         <cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode
+            android:id="@+id/user_avatar"
             android:layout_centerHorizontal="true"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="240px"
+            android:layout_height="240px"
             android:layout_margin="10dp"
             android:src="@mipmap/wx_login_icon"
             app:type="circle" >
         </cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode>
 
-
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="用户名"
+            android:textSize="48px"
+            android:textColor="@color/normal_black"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/user_avatar"
+            android:layout_marginTop="40px"/>
         <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            >
-        <LinearLayout
+            android:id="@+id/user_wealth_layout"
+            android:layout_marginTop="20px"
+            android:layout_below="@id/user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipChildren="false"
-            android:gravity="center_vertical"
-            android:paddingLeft="44px"
-            android:paddingRight="44px">
-            <com.willy.ratingbar.ScaleRatingBar
-                android:background="@color/transparent"
-                android:id="@+id/ScaleRatingBar"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="50px"
-                app:drawableEmpty="@drawable/star_unselected"
-                app:drawableFilled="@drawable/star_selected"
-                app:clearRatingEnabled="true"
-                app:numStars="5"
-                app:stepSize="0.1"
-                app:starPadding = "0px"
-                app:rating="4.6"
-                app:touchable="false" />
-        </LinearLayout>
-        <cn.gov.bjys.onlinetrain.act.view.DooLinear
-            android:id="@+id/doolinear1"
-            android:layout_width="match_parent"
-            android:layout_height="150px"
-            ></cn.gov.bjys.onlinetrain.act.view.DooLinear>
-            <cn.gov.bjys.onlinetrain.act.view.AnswerLayout
-                android:id="@+id/answer_layout"
-                android:layout_width="match_parent"
+                android:text="财富值:"
+                android:textSize="36px"
+                android:textColor="@color/normal_black"
+                />
+            <TextView
+                android:id="@+id/user_wealth"
+                android:layout_marginLeft="20px"
+                android:layout_marginRight="10px"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                ></cn.gov.bjys.onlinetrain.act.view.AnswerLayout>
+                android:text="100"
+                android:textSize="36px"
+                android:textColor="@color/normal_red_light1"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="安全豆"
+                android:textSize="36px"
+                android:textColor="@color/normal_black"
+                />
+        </LinearLayout>
+        <include
+            android:id="@+id/divider_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_wealth_layout"
+            android:layout_marginTop="50px"
+            layout="@layout/layout_divider_line1px"
+            ></include>
+        <LinearLayout
+            android:id="@+id/user_functions_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/divider_line"
+            >
 
-                
+        </LinearLayout>
 
-    </LinearLayout>
     </RelativeLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

@@ -128,9 +128,10 @@ dependencies {
     //三方画图库 MPAndroidChart
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     compile 'com.android.support:appcompat-v7:25.3.1'
+    //TakePhoto三方库
+    compile 'com.jph.takephoto:takephoto_library:4.0.3'
 
-
-    compile 'com.android.support:design:24.2.0'
+    compile 'com.android.support:design:25.1.0'
     compile project(':framework1')
     compile project(':statusbarutil2')
     compile project(':check_version_lib')

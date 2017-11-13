@@ -5,17 +5,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.ycl.framework.base.FrameFragment;
 import com.ycl.framework.utils.util.ToastUtil;
+import com.ycl.framework.view.TitleHeaderView;
 import com.zls.www.statusbarutil.StatusBarUtil;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.view.AnswerLayout;
 import cn.gov.bjys.onlinetrain.act.view.DooLinear;
+import cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode;
 import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 
 /**
@@ -23,17 +28,27 @@ import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
  */
 public class OwnFragment extends FrameFragment {
 
-    @Bind(R.id.doolinear1)
-    DooLinear mDooLinear;
-    @Bind(R.id.answer_layout)
-    AnswerLayout answerLayout;
+    @Bind(R.id.header)
+    TitleHeaderView mHeader;
+
+    @Bind(R.id.user_avatar)
+    RoundImageViewByXfermode user_avatar;
 
 
+    @Bind(R.id.user_name)
+    TextView user_name;
+
+    @Bind(R.id.user_wealth)
+    TextView user_wealth;
+
+
+    @Bind(R.id.user_functions_layout)
+    LinearLayout user_functions_layout;
 
     @Override
     protected View inflaterView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         View view = inflater.inflate(R.layout.fragment_ownpage, container, false);
-        StatusBarUtil.addStatusForFragment(getActivity(),view.findViewById(R.id.status_bar_layout));
+        StatusBarUtil.addStatusForFragment(getActivity(), view.findViewById(R.id.status_bar_layout));
         return view;
     }
 
@@ -45,16 +60,54 @@ public class OwnFragment extends FrameFragment {
     @Override
     protected void initViews() {
         super.initViews();
-        mDooLinear.setImgIcon(R.drawable.menu_turnnext);
-        mDooLinear.setImgNext(R.mipmap.ic_launcher);
-        mDooLinear.setTvContent("点击进入下一页");
-        mDooLinear.setCustomClick(R.id.next_btn, new View.OnClickListener() {
+
+        initUserBaseInfos();
+        initUserFunctionsLayout();
+    }
+
+    public void initUserBaseInfos(){
+        //TODO 设置用户基本信息
+
+    }
+
+    public void initUserFunctionsLayout() {
+        user_functions_layout.removeAllViews();
+        //个人设置
+        DooLinear userSetting = new DooLinear(getActivity());
+        userSetting.setImgIcon(R.mipmap.wx_login_icon);
+        userSetting.setImgNext(R.drawable.next_right_btn);
+        userSetting.setTvContent("个人设置");
+        userSetting.setCustomClick(R.id.next_btn, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showToast("进入下一页");
+                ToastUtil.showToast("个人设置");
             }
         });
-
+        user_functions_layout.addView(userSetting);
+        //签到有礼
+        DooLinear userFlag = new DooLinear(getActivity());
+        userFlag.setImgIcon(R.mipmap.wx_login_icon);
+        userFlag.setImgNext(R.drawable.next_right_btn);
+        userFlag.setTvContent("签到有礼");
+        userFlag.setCustomClick(R.id.next_btn, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showToast("签到有礼");
+            }
+        });
+        user_functions_layout.addView(userFlag);
+        //签到有礼
+        DooLinear userMessage = new DooLinear(getActivity());
+        userMessage.setImgIcon(R.mipmap.wx_login_icon);
+        userMessage.setImgNext(R.drawable.next_right_btn);
+        userMessage.setTvContent("我的消息");
+        userMessage.setCustomClick(R.id.next_btn, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showToast("我的消息");
+            }
+        });
+        user_functions_layout.addView(userMessage);
     }
 
     @Override
@@ -69,4 +122,13 @@ public class OwnFragment extends FrameFragment {
             }
         }
     }
+
+    @OnClick({R.id.user_avatar})
+    public void onTabClick(View v){
+        switch (v.getId()){
+            case R.id.user_avatar:
+                break;
+        }
+    }
+
 }

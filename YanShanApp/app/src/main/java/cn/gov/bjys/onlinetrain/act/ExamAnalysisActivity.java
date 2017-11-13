@@ -1,6 +1,9 @@
 package cn.gov.bjys.onlinetrain.act;
 
 import android.graphics.Typeface;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -12,6 +15,7 @@ import com.github.mikephil.charting.data.RadarData;
 import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.ycl.framework.base.FrameActivity;
@@ -19,6 +23,7 @@ import com.ycl.framework.base.FrameActivity;
 import java.util.ArrayList;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.view.RadarMarkerView;
 
@@ -31,6 +36,51 @@ public class ExamAnalysisActivity extends FrameActivity {
     
     @Bind(R.id.radar_chart)
     RadarChart mRadarChart;
+
+    @Bind(R.id.bg_change)
+    Button bg_change;
+    @Bind(R.id.value_gone)
+    Button value_gone;
+    @Bind(R.id.switch_animate)
+    Button switch_animate;
+
+
+    @OnClick({R.id.bg_change,R.id.value_gone,R.id.switch_animate})
+    public void onTabClick(View v){
+        switch (v.getId()){
+            case R.id.bg_change: {
+                ArrayList<IRadarDataSet> sets = (ArrayList<IRadarDataSet>) mRadarChart.getData()
+                        .getDataSets();
+                for (IRadarDataSet set : sets) {
+                    if (set.isDrawFilledEnabled())
+                        set.setDrawFilled(false);
+                    else
+                        set.setDrawFilled(true);
+                }
+                mRadarChart.invalidate();
+                break;
+            }
+            case R.id.value_gone:
+            {
+                for (IDataSet<?> set : mRadarChart.getData().getDataSets())
+                    set.setDrawValues(!set.isDrawValuesEnabled());
+
+                mRadarChart.invalidate();
+                break;
+            }
+            case R.id.switch_animate:
+            {
+                if (mRadarChart.isRotationEnabled())
+                    mRadarChart.setRotationEnabled(false);
+                else
+                    mRadarChart.setRotationEnabled(true);
+                mRadarChart.invalidate();
+                break;
+            }
+        }
+    }
+
+
     @Override
     protected void setRootView() {
         setContentView(R.layout.activity_exam_analysis_layout);
@@ -47,7 +97,6 @@ public class ExamAnalysisActivity extends FrameActivity {
     }
 
 
-
     public void initRadar(){
         // 描述，在底部
         mRadarChart.getDescription().setEnabled(false);
@@ -55,11 +104,11 @@ public class ExamAnalysisActivity extends FrameActivity {
         desc.setText("我是描述");
         mRadarChart.setDescription(desc);
         // 绘制线条宽度，圆形向外辐射的线条
-        mRadarChart.setWebLineWidth(1.5f);
+        mRadarChart.setWebLineWidth(1.0f);
         // 内部线条宽度，外面的环状线条
         mRadarChart.setWebLineWidthInner(1.0f);
         // 所有线条WebLine透明度
-        mRadarChart.setWebAlpha(100);
+        mRadarChart.setWebAlpha(255);
 
         // create a custom MarkerView (extend MarkerView) and specify the layout
         // to use for it
@@ -75,7 +124,7 @@ public class ExamAnalysisActivity extends FrameActivity {
         // X坐标值字体样式
         xAxis.setTypeface(mTfLight);
         // X坐标值字体大小
-        xAxis.setTextSize(12f);
+        xAxis.setTextSize(14f);
 
         YAxis yAxis = mRadarChart.getYAxis();
         //设定Y坐标的最大值
@@ -85,7 +134,7 @@ public class ExamAnalysisActivity extends FrameActivity {
         // Y坐标值标签个数
         yAxis.setLabelCount(3, true);
         // Y坐标值字体大小
-        yAxis.setTextSize(15f);
+        yAxis.setTextSize(8f);
 
 
         xAxis.setValueFormatter(new IAxisValueFormatter() {
@@ -117,6 +166,8 @@ public class ExamAnalysisActivity extends FrameActivity {
         l.setXEntrySpace(7f);
         // 图例Y间距
         l.setYEntrySpace(5f);
+
+
     }
 
 
