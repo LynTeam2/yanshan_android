@@ -124,7 +124,9 @@ public class LoginActivity extends FrameActivity implements View.OnClickListener
         Bundle bundle;
         switch (id) {
             case R.id.act_login_btn:
-                checkLogin();
+                startAct(MainActivity.class);
+                finish();
+//                checkLogin();
                 break;
             case R.id.register_btn:
                 ToastUtil.showToast("register");

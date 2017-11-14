@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android">
+            <corners
+                android:topRightRadius="30px"
+                android:topLeftRadius="30px"
+                android:bottomRightRadius="30px"
+                android:bottomLeftRadius="30px"></corners>
+
+            <!--  这里改填充颜色 -->
+            <solid android:color="@color/normal_blue_light1"/>
+
+        </shape>
+    </item>
+
+</layer-list>

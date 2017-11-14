@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="150px">
+    android:layout_height="wrap_content"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="160px"
+        android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1">
     <ImageView
         android:id="@+id/img"
         android:layout_marginLeft="40px"
@@ -20,6 +29,9 @@
             android:text="此处输入内容"
             android:textSize="48px"/>
     <ImageView
+        android:paddingLeft="100px"
+        android:paddingTop="40px"
+        android:paddingBottom="40px"
         android:id="@+id/next_btn"
         android:layout_marginRight="40px"
         android:layout_centerVertical="true"
@@ -27,4 +39,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/menu_turnnext"/>
+    </RelativeLayout>
+    <include
+        layout="@layout/layout_divider_line1px"
+        ></include>
+    </LinearLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

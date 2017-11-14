@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
+        <ImageView
+            android:layout_marginTop="60px"
+            android:id="@+id/icon"
+            android:layout_width="320px"
+            android:layout_height="320px"
+            android:src="@mipmap/wx_login_icon"/>
+    <LinearLayout
+        android:layout_marginTop="60px"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/normal_black"
+                android:text="今日签到可领取"/>
+        <TextView
+            android:id="@+id/money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/normal_red_light2"
+            android:text="10"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/normal_black"
+            android:text="安全豆"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="10px"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/normal_black"
+                android:text="连续签到有更多惊喜哦"/>
+    </LinearLayout>
+    
+    <GridView
+        android:layout_margin="60px"
+        android:id="@+id/grid_view"
+        android:layout_width="920px"
+        android:layout_height="320px"
+        android:horizontalSpacing="20px"
+        android:verticalSpacing="10px"
+        android:numColumns="4"
+        ></GridView>
+    <include
+        layout="@layout/layout_divider_line1px"
+        ></include>
+
+    <TextView
+        android:layout_marginTop="60px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="48px"
+        android:textColor="@color/normal_black"
+        android:text="商品兑换"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="40px"
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="400px">
+    </android.support.v7.widget.RecyclerView>
+
+</com.zhy.autolayout.AutoLinearLayout>

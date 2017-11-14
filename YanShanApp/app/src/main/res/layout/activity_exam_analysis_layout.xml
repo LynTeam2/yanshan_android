@@ -7,4 +7,28 @@
         android:layout_width="match_parent"
         android:layout_height="900px"
         />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/bg_change"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="底色翻转"/>
+        <Button
+            android:id="@+id/value_gone"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="数值隐藏"/>
+
+        <Button
+            android:id="@+id/switch_animate"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="开关动画"/>
+
+    </LinearLayout>
 </LinearLayout>

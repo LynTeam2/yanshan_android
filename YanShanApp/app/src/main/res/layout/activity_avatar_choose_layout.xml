@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="45px"
+    android:paddingRight="45px">
+
+    <ImageView
+        android:layout_marginTop="300px"
+        android:id="@+id/my_avatar"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        tools:ignore="ContentDescription" />
+
+    <LinearLayout
+        android:paddingLeft="50px"
+        android:paddingRight="50px"
+        android:id="@+id/pop_layout"
+        android:layout_width="match_parent"
+        android:layout_height="298px"
+        android:layout_marginBottom="20px"
+        android:gravity="center_horizontal"
+        android:background="@drawable/photo_choose_btn_bg"
+        android:orientation="vertical"
+        android:layout_above="@+id/photo_cancel"
+        tools:ignore="UselessParent" >
+
+        <TextView
+            android:gravity="center"
+            android:layout_width="890px"
+            android:layout_height="148px"
+            android:textColor="@color/normal_blue"
+            android:textSize="54px"
+            android:id="@+id/shoot_btn"
+            android:text="@string/string_myinfo_camera"
+            />
+        <include
+            layout="@layout/layout_divider_line1px"
+            ></include>
+        <TextView
+            android:gravity="center"
+            android:id="@+id/photo_btn"
+            android:text="@string/string_myinfo_photo"
+            android:layout_width="890px"
+            android:layout_height="148px"
+            android:textColor="@color/normal_blue"
+            android:textSize="54px"
+            />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/photo_cancel"
+        android:layout_marginBottom="26px"
+        android:layout_alignParentBottom="true"
+        android:text="@string/string_myinfo_cancel"
+        android:textSize="54px"
+        android:textColor="@color/normal_blue"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="148px"
+        android:background="@drawable/photo_choose_btn_bg"
+        />
+</RelativeLayout>

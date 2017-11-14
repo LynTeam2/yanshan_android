@@ -13,4 +13,13 @@
     <string name="string_check_fwtq">请阅读并同意服务条款</string>
 
     <string name="string_home_search_hint">搜索</string>
+
+    <string name="string_nickname">请输入您的昵称</string>
+
+    <string name="string_myinfo_head">头像</string>
+    <string name="string_myinfo_photo">从相册选择</string>
+    <string name="string_myinfo_camera">拍照</string>
+    <string name="string_myinfo_accomplish">完成</string>
+    <string name="string_myinfo_edit">编辑</string>
+    <string name="string_myinfo_cancel">取消</string>
 </resources>

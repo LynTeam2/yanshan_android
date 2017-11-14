@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title_back_visibility="false"
-        app:title_text = "登录" />
+        app:title_name = "登录" />
     <LinearLayout
         android:background="#fff"
         android:orientation="vertical"

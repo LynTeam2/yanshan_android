@@ -39,7 +39,6 @@ public class HomeFragment extends FrameFragment implements BaseQuickAdapter.Requ
     @Bind(R.id.banner)
     ConvenientBanner mBanner;
 
-
     //search layout
     @Bind(R.id.search_layout)
     DooSearchLayout mDooSearchLayout;
@@ -114,7 +113,6 @@ public class HomeFragment extends FrameFragment implements BaseQuickAdapter.Requ
         mDooHomePullRefreshAdapter.setOnLoadMoreListener(this,mAnJianRv);
         mAnJianRv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAnJianRv.setAdapter(mDooHomePullRefreshAdapter);
-
     }
 
 
