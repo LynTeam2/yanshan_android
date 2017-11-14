@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/normal_blue_light1">
+    <com.ycl.framework.view.TitleHeaderView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="160px"
+        app:title_name = "个人设置"
+        >
+    </com.ycl.framework.view.TitleHeaderView>
+        <RelativeLayout
+            android:id="@+id/content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/windowBackgroundWhite">
+            <LinearLayout
+                android:id="@+id/setting_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+            <Button
+                android:layout_alignParentBottom="true"
+                android:id="@+id/quite_btn"
+                android:layout_width="920px"
+                android:layout_height="140px"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="480px"
+                android:background="@drawable/bg_login_btn_blue"
+                android:gravity="center"
+                android:text="退出登录"
+                android:textColor="@drawable/tv_color_change"
+                android:textSize="48px" />
+        </RelativeLayout>
+</LinearLayout>

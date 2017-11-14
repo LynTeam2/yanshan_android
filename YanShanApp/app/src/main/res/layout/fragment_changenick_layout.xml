@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:background="@color/windowBackgroundWhite"
+    >
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/new_nick"
+            android:layout_marginTop="50px"
+            android:layout_width="890px"
+            android:layout_height="160px"
+            android:textSize="48px"
+            android:textColor="@color/normal_black"
+            android:hint="@string/string_nickname"/>
+
+    <Button
+        android:layout_marginTop="80px"
+        android:id="@+id/save_btn"
+        android:layout_width="890px"
+        android:layout_height="140px"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bg_login_btn_blue"
+        android:gravity="center"
+        android:text="保 存"
+        android:textColor="@drawable/tv_color_change"
+        android:textSize="60px" />
+</LinearLayout>
+</LinearLayout>

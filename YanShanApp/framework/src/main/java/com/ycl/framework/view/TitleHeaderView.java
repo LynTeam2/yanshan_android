@@ -78,6 +78,7 @@ public class TitleHeaderView extends AutoFrameLayout {
         findViewById(rId).setOnClickListener(listener);
     }
 
+
     private TextView rightAlbum_tv;
 
     //相册选中多图

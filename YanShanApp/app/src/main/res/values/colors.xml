@@ -15,6 +15,7 @@
 
     <color name="normal_red">#cc0f2f</color>
     <color name="normal_red_light1">#ff5b5b</color>
+    <color name="normal_red_light2">#ff6476</color>
     <color name="normal_gray">#929292</color>
     <color name="normal_black">#151515</color>
 
@@ -25,7 +26,10 @@
     <color name="windowBackgroundWhite">#fff</color>
     <color name="normal_blue">#1e81d2</color>
     <color name="normal_gray_light1">#999999</color>
+    <color name="normal_gray_light2">#e7e7e7</color>
+    <color name="normal_gray_light3">#cbcbcb</color>
     <color name="normal_blue_light1">#6490ff</color>
+    <color name="normal_blue_light2">#4690ff</color>
     <!--home area-->
     <color name="home_search_bg">#ececec</color>
     <color name="home_divider_line_color">#c2c2c2</color>

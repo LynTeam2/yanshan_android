@@ -30,7 +30,7 @@
             android:layout_centerHorizontal="true"
             android:layout_width="240px"
             android:layout_height="240px"
-            android:layout_margin="10dp"
+            android:layout_marginTop="65px"
             android:src="@mipmap/wx_login_icon"
             app:type="circle" >
         </cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode>

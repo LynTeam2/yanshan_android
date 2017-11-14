@@ -68,6 +68,21 @@
             android:theme="@style/half_ActivityStyle" />
 
         <activity
+            android:name=".act.UserSettingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivityStyle" />
+
+        <activity
+            android:name=".act.CommonActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivityStyle" />
+
+        <activity
+            android:name=".act.UserMessageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivityStyle" />
+
+        <activity
             android:name=".act.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"

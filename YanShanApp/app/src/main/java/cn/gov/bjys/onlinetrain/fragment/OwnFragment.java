@@ -15,7 +15,10 @@ import com.zls.www.statusbarutil.StatusBarUtil;
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
+import cn.gov.bjys.onlinetrain.act.CommonActivity;
 import cn.gov.bjys.onlinetrain.act.UserAvatarChooseActivity;
+import cn.gov.bjys.onlinetrain.act.UserMessageActivity;
+import cn.gov.bjys.onlinetrain.act.UserSettingActivity;
 import cn.gov.bjys.onlinetrain.act.view.DooLinear;
 import cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode;
 import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
@@ -78,6 +81,7 @@ public class OwnFragment extends FrameFragment {
             @Override
             public void onClick(View v) {
                 ToastUtil.showToast("个人设置");
+                startAct(UserSettingActivity.class);
             }
         });
         user_functions_layout.addView(userSetting);
@@ -90,6 +94,9 @@ public class OwnFragment extends FrameFragment {
             @Override
             public void onClick(View v) {
                 ToastUtil.showToast("签到有礼");
+                Bundle bundle = new Bundle();
+                bundle.putInt(CommonActivity.TAG,CommonActivity.SIGN_IN);
+                startAct(CommonActivity.class,bundle);
             }
         });
         user_functions_layout.addView(userFlag);
@@ -102,6 +109,7 @@ public class OwnFragment extends FrameFragment {
             @Override
             public void onClick(View v) {
                 ToastUtil.showToast("我的消息");
+                startAct(UserMessageActivity.class);
             }
         });
         user_functions_layout.addView(userMessage);
