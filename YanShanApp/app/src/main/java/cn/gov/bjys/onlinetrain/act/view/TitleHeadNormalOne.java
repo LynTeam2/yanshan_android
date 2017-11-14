@@ -1,4 +1,6 @@
-package com.ycl.framework.view;
+package cn.gov.bjys.onlinetrain.act.view;
+
+
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -12,30 +14,29 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ycl.framework.R;
 import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.utils.string.DensityUtils;
 import com.ycl.framework.utils.util.SelectorUtil;
 import com.zhy.autolayout.AutoFrameLayout;
 
 /**
- * 顶部栏 (通用) on 2015/10/16.
+ * 顶部栏 样式1
  */
-public class TitleHeaderView extends AutoFrameLayout {
+public class TitleHeadNormalOne extends AutoFrameLayout {
 
     private TextView tvTitle;
     private ImageView ivBack;
 
-    public TitleHeaderView(Context context, AttributeSet attrs) {
+    public TitleHeadNormalOne(Context context, AttributeSet attrs) {
         super(context, attrs);
-        addView(LayoutInflater.from(context).inflate(R.layout.view_title_header, this, false));
-        tvTitle = (TextView) findViewById(R.id.tv_title_header_titleText);
-        ivBack = (ImageView) findViewById(R.id.iv_title_header_back);
+        addView(LayoutInflater.from(context).inflate(com.ycl.framework.R.layout.view_title_header, this, false));
+        tvTitle = (TextView) findViewById(com.ycl.framework.R.id.tv_title_header_titleText);
+        ivBack = (ImageView) findViewById(com.ycl.framework.R.id.iv_title_header_back);
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs,
-                R.styleable.styleable_titleHeaderView);
+                com.ycl.framework.R.styleable.styleable_titleHeaderView);
 //        if (typedArray.getString(R.styleable.styleable_titleHeaderView_title_name) != null)
-        tvTitle.setText(typedArray.getString(R.styleable.styleable_titleHeaderView_title_name));
-        ivBack.setVisibility(typedArray.getBoolean(R.styleable.styleable_titleHeaderView_title_back_visibility, true)? View.VISIBLE :View.GONE);
+        tvTitle.setText(typedArray.getString(com.ycl.framework.R.styleable.styleable_titleHeaderView_title_name));
+        ivBack.setVisibility(typedArray.getBoolean(com.ycl.framework.R.styleable.styleable_titleHeaderView_title_back_visibility, true)? View.VISIBLE :View.GONE);
         typedArray.recycle();
 
         initViews();
@@ -91,13 +92,13 @@ public class TitleHeaderView extends AutoFrameLayout {
             int paddingTop = DensityUtils.dp2px(2, getContext());
             int paddingLeft = DensityUtils.dp2px(12, getContext());
             rightAlbum_tv.setPadding(paddingLeft, paddingTop, paddingLeft, paddingTop);
-            rightAlbum_tv.setBackgroundResource(R.drawable.bg_btn_titleview_album);
-            rightAlbum_tv.setTextColor(SelectorUtil.getColorListState(getContext(), R.color.me_data_icon, R.color.money_color));
+            rightAlbum_tv.setBackgroundResource(com.ycl.framework.R.drawable.bg_btn_titleview_album);
+            rightAlbum_tv.setTextColor(SelectorUtil.getColorListState(getContext(), com.ycl.framework.R.color.me_data_icon, com.ycl.framework.R.color.money_color));
 
             rightAlbum_tv.setOnClickListener(onClickListener);
-            RelativeLayout title_root = (RelativeLayout) findViewById(R.id.ll_title_root);
+            RelativeLayout title_root = (RelativeLayout) findViewById(com.ycl.framework.R.id.ll_title_root);
             title_root.addView(rightAlbum_tv);
-            rightAlbum_tv.setId(R.id.title_view_right_id);
+            rightAlbum_tv.setId(com.ycl.framework.R.id.title_view_right_id);
         }
 
         if (length > 0) {
@@ -131,9 +132,9 @@ public class TitleHeaderView extends AutoFrameLayout {
             rightAlbum_tv.setTextSize(15);
 
             rightAlbum_tv.setOnClickListener(onClickListener);
-            RelativeLayout title_root = (RelativeLayout) findViewById(R.id.ll_title_root);
+            RelativeLayout title_root = (RelativeLayout) findViewById(com.ycl.framework.R.id.ll_title_root);
             title_root.addView(rightAlbum_tv);
-            rightAlbum_tv.setId(R.id.title_view_right_id);
+            rightAlbum_tv.setId(com.ycl.framework.R.id.title_view_right_id);
         }
         rightAlbum_tv.setText(str);
     }
@@ -145,7 +146,7 @@ public class TitleHeaderView extends AutoFrameLayout {
      * @param ids 文本 onClickListener 点击回调
      */
     public void addRightImg(int ids, OnClickListener onClickListener) {
-        ImageView ivRight = (ImageView) findViewById(R.id.title_view_right_id);
+        ImageView ivRight = (ImageView) findViewById(com.ycl.framework.R.id.title_view_right_id);
         if (ivRight == null) {
             ivRight = new ImageView(getContext());
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
@@ -161,9 +162,9 @@ public class TitleHeaderView extends AutoFrameLayout {
             ivRight.setImageResource(ids);
 
             ivRight.setOnClickListener(onClickListener);
-            RelativeLayout title_root = (RelativeLayout) findViewById(R.id.ll_title_root);
+            RelativeLayout title_root = (RelativeLayout) findViewById(com.ycl.framework.R.id.ll_title_root);
             title_root.addView(ivRight);
-            ivRight.setId(R.id.title_view_right_id);
+            ivRight.setId(com.ycl.framework.R.id.title_view_right_id);
         }
     }
 
@@ -175,7 +176,7 @@ public class TitleHeaderView extends AutoFrameLayout {
 
     //设置backGround 的透明度
     public void setBgAlpha(int alpha) {
-        findViewById(R.id.ll_title_root_parent).getBackground().setAlpha(alpha);
+        findViewById(com.ycl.framework.R.id.ll_title_root_parent).getBackground().setAlpha(alpha);
     }
 
     public void setLeftViewRes(int ids) {
@@ -189,7 +190,7 @@ public class TitleHeaderView extends AutoFrameLayout {
      * @param onClickListener 点击回调
      */
     public void addRightSelectedImg(StateListDrawable drawables, OnClickListener onClickListener) {
-        ImageView ivRight = (ImageView) findViewById(R.id.title_view_right_id);
+        ImageView ivRight = (ImageView) findViewById(com.ycl.framework.R.id.title_view_right_id);
         if (ivRight == null) {
             ivRight = new ImageView(getContext());
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
@@ -205,9 +206,9 @@ public class TitleHeaderView extends AutoFrameLayout {
             ivRight.setImageDrawable(drawables);
 
             ivRight.setOnClickListener(onClickListener);
-            RelativeLayout title_root = (RelativeLayout) findViewById(R.id.ll_title_root);
+            RelativeLayout title_root = (RelativeLayout) findViewById(com.ycl.framework.R.id.ll_title_root);
             title_root.addView(ivRight);
-            ivRight.setId(R.id.title_view_right_id);
+            ivRight.setId(com.ycl.framework.R.id.title_view_right_id);
         }
     }
 
@@ -216,13 +217,13 @@ public class TitleHeaderView extends AutoFrameLayout {
      * right Img按钮
      */
     public void addCustomView(Drawable drawable, OnClickListener onClickListener) {
-        ImageView ivRight = (ImageView) findViewById(R.id.title_view_middle_id);
+        ImageView ivRight = (ImageView) findViewById(com.ycl.framework.R.id.title_view_middle_id);
         if (ivRight == null) {
             ivRight = new ImageView(getContext());
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
                     LayoutParams.WRAP_CONTENT);
             layoutParams.addRule(RelativeLayout.CENTER_VERTICAL);
-            layoutParams.addRule(RelativeLayout.START_OF, R.id.title_view_right_id);
+            layoutParams.addRule(RelativeLayout.START_OF, com.ycl.framework.R.id.title_view_right_id);
             ivRight.setLayoutParams(layoutParams);
             int paddingTop = DensityUtils.dp2px(2, getContext());
             int paddingLeft = DensityUtils.dp2px(3, getContext());
@@ -230,14 +231,14 @@ public class TitleHeaderView extends AutoFrameLayout {
             ivRight.setImageDrawable(drawable);
 
             ivRight.setOnClickListener(onClickListener);
-            RelativeLayout title_root = (RelativeLayout) findViewById(R.id.ll_title_root);
+            RelativeLayout title_root = (RelativeLayout) findViewById(com.ycl.framework.R.id.ll_title_root);
             title_root.addView(ivRight);
-            ivRight.setId(R.id.title_view_middle_id);
+            ivRight.setId(com.ycl.framework.R.id.title_view_middle_id);
         }
     }
 
     public void setCustomViewState(boolean state) {
-        ImageView ivCustom = (ImageView) findViewById(R.id.title_view_middle_id);
+        ImageView ivCustom = (ImageView) findViewById(com.ycl.framework.R.id.title_view_middle_id);
         if (ivCustom != null) {
             ivCustom.setSelected(state);
         }
@@ -258,7 +259,7 @@ public class TitleHeaderView extends AutoFrameLayout {
         tvSumbit.setTextColor(SelectorUtil.getColorStateListSelected(0xffcc0f2f,0xff999999));
         tvSumbit.setTag("submitView");
         tvSumbit.setOnClickListener(onClickListener);
-        RelativeLayout title_root = (RelativeLayout) findViewById(R.id.ll_title_root);
+        RelativeLayout title_root = (RelativeLayout) findViewById(com.ycl.framework.R.id.ll_title_root);
         title_root.addView(tvSumbit);
         tvSumbit.setText("保存");
     }

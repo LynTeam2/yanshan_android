@@ -18,10 +18,10 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
+import cn.gov.bjys.onlinetrain.fragment.HomeClassFragment;
 import cn.gov.bjys.onlinetrain.fragment.HomeFragment;
 import cn.gov.bjys.onlinetrain.fragment.OwnFragment;
 import cn.gov.bjys.onlinetrain.fragment.ShopFragment;
-import cn.gov.bjys.onlinetrain.fragment.UserScoreFragment;
 import cn.gov.bjys.onlinetrain.utils.AssetsHelper;
 import cn.gov.bjys.onlinetrain.utils.Helper;
 
@@ -100,7 +100,7 @@ public class MainActivity extends FrameActivity {
     public void initData() {
 
         mFragments = new Fragment[]{getFragment("homepage_fragment", HomeFragment.class, R.id.framelayout),
-                getFragment("user_score_fragment", UserScoreFragment.class, R.id.framelayout),
+                getFragment("user_score_fragment", HomeClassFragment.class, R.id.framelayout),
                 getFragment("shop_fragment", ShopFragment.class, R.id.framelayout),
                 getFragment("own_fragment", OwnFragment.class, R.id.framelayout),
 

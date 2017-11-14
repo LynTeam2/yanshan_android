@@ -7,12 +7,11 @@ import android.widget.FrameLayout;
 
 import com.ycl.framework.base.FrameActivity;
 
-import java.io.BufferedReader;
-
 import butterknife.Bind;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.fragment.ClassFragment.ClassGridFragment;
 import cn.gov.bjys.onlinetrain.fragment.ClassFragment.ClassLinearFragment;
+
 
 /**
  * Created by Administrator on 2017/10/10 0010.
