@@ -28,14 +28,10 @@ public class DooSigninGridAdapter extends SimpleBaseAdapter {
     @Override
     public View getItemView(int position, View convertView, ViewHolder holder) {
         SignInBean bean = (SignInBean) data.get(position);
-
         TextView mouth = (TextView) holder.getView(R.id.mouth);
         mouth.setText(bean.getMouth());
-
         TextView day = (TextView) holder.getView(R.id.day);
         day.setText(bean.getDay());
-
-
         TextView signType = (TextView) holder.getView(R.id.sign_type);
         if (bean.getType() == SignInBean.FINISH) {
             signType.setBackground(context.getResources().getDrawable(R.drawable.bg_corner30px_normalgraylight3));
@@ -44,7 +40,6 @@ public class DooSigninGridAdapter extends SimpleBaseAdapter {
             signType.setBackground(context.getResources().getDrawable(R.drawable.bg_corner30px_normalbluelight1));
             signType.setText("签到");
         }
-
-        return null;
+        return convertView;
     }
 }
