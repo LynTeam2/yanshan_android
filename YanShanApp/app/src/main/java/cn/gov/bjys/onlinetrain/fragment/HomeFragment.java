@@ -6,16 +6,22 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ycl.framework.base.FrameFragment;
+import com.ycl.framework.utils.util.ToastUtil;
 import com.ycl.framework.view.recycleview.SwipeRefreshRecyclerView;
+import com.zhy.autolayout.utils.AutoUtils;
 import com.zls.www.statusbarutil.StatusBarUtil;
 
 import java.util.ArrayList;
@@ -33,11 +39,14 @@ import cn.gov.bjys.onlinetrain.bean.ClassStudyBean;
 import cn.gov.bjys.onlinetrain.utils.BannerComHelper;
 
 
-public class HomeFragment extends FrameFragment implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
+public class HomeFragment extends FrameFragment {
 
 
     @Bind(R.id.banner)
     ConvenientBanner mBanner;
+
+    @Bind(R.id.anjian_loadmore)
+    TextView anjian_loadmore;
 
     //search layout
     @Bind(R.id.search_layout)
@@ -52,8 +61,9 @@ public class HomeFragment extends FrameFragment implements BaseQuickAdapter.Requ
     @Bind(R.id.anjian_rv)
     RecyclerView mAnJianRv;
 
-    @Bind(R.id.swipe_refresh_layout)
-    SwipeRefreshLayout mSwipeRefreshLayout;
+
+    @Bind(R.id.anjian_layout)
+    LinearLayout anjian_layout;
 
     @Override
     protected View inflaterView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
@@ -78,12 +88,25 @@ public class HomeFragment extends FrameFragment implements BaseQuickAdapter.Requ
         initAnjianRv();
     }
 
-    @OnClick({R.id.search_layout})
+    @OnClick({R.id.search_layout, R.id.anjian_loadmore})
      public void onTabClick(View v){
         int id = v.getId();
         switch (id){
             case R.id.search_layout:
-                break;
+                ToastUtil.showToast(getString(R.string.string_function_dismiss));
+            break;
+                case R.id.anjian_loadmore:
+                     List<AnjianBean> temList = mDooHomePullRefreshAdapter.getData();
+                      int before = temList.size();
+                      temList.addAll(getAnjianDatas());
+                      int last = temList.size();
+                    Log.d("dodo","h  linearlayout= "+anjian_layout.getHeight());
+                      int i  = anjian_layout.getHeight()+(last - before)* AutoUtils.getPercentHeightSize(300);
+                        LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,i);
+                        anjian_layout.setLayoutParams(llp);
+                    Log.d("dodo","h = "+anjian_loadmore.getHeight());
+                    break;
+                default:break;
         }
     }
     DooHomeClassStudyAdapter mDooHomeClassStudyAdapter;
@@ -91,7 +114,6 @@ public class HomeFragment extends FrameFragment implements BaseQuickAdapter.Requ
         mDooHomeClassStudyAdapter = new DooHomeClassStudyAdapter(R.layout.item_home_classstudy_layout,getClassStudyDatas());
         mClassStudyRv.setLayoutManager(new GridLayoutManager(getContext(),2));
         mClassStudyRv.setAdapter(mDooHomeClassStudyAdapter);
-
     }
 
     private List<ClassStudyBean> getClassStudyDatas(){
@@ -107,10 +129,10 @@ public class HomeFragment extends FrameFragment implements BaseQuickAdapter.Requ
 
     DooHomePullRefreshAdapter mDooHomePullRefreshAdapter;
     private void initAnjianRv(){
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
+//        mSwipeRefreshLayout.setOnRefreshListener(this);
+//        mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
         mDooHomePullRefreshAdapter = new DooHomePullRefreshAdapter(R.layout.item_home_anjian_layout, getAnjianDatas());
-        mDooHomePullRefreshAdapter.setOnLoadMoreListener(this,mAnJianRv);
+//        mDooHomePullRefreshAdapter.setOnLoadMoreListener(this,mAnJianRv);
         mAnJianRv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAnJianRv.setAdapter(mDooHomePullRefreshAdapter);
     }
@@ -118,7 +140,7 @@ public class HomeFragment extends FrameFragment implements BaseQuickAdapter.Requ
 
     private List<AnjianBean> getAnjianDatas(){
         List<AnjianBean> datas = new ArrayList<>();
-        for(int i=0; i < 10; i++){
+        for(int i=0; i < 5; i++){
             AnjianBean bean = new AnjianBean();
             bean.setContent("测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容");
             bean.setTitle("测试标题+" + i);
@@ -127,13 +149,4 @@ public class HomeFragment extends FrameFragment implements BaseQuickAdapter.Requ
         return datas;
     }
 
-    @Override
-    public void onRefresh() {
-
-    }
-
-    @Override
-    public void onLoadMoreRequested() {
-
-    }
 }

@@ -62,13 +62,14 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="20px"
-            android:background="@color/home_divider_line20px"
+            android:background="@color/color_gray_light2"
             ></View>
-        <LinearLayout
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/anjian_layout"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="1840px">
+            android:layout_height="1820px">
         <TextView
             android:layout_margin="60px"
             android:textColor="@color/normal_black"
@@ -76,17 +77,20 @@
             android:text="安监动态"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"></TextView>
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/swipe_refresh_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/anjian_rv"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-0            </android.support.v7.widget.RecyclerView>
-            </android.support.v4.widget.SwipeRefreshLayout>
-        </LinearLayout>
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+        </com.zhy.autolayout.AutoLinearLayout>
+        <TextView
+            android:id="@+id/anjian_loadmore"
+            android:layout_width="match_parent"
+            android:layout_height="200px"
+            android:textColor="@color/normal_black"
+            android:textSize="38px"
+            android:text="查看更多"
+            android:gravity="center"/>
 </LinearLayout>
     </ScrollView>
 </com.zhy.autolayout.AutoRelativeLayout>

@@ -22,4 +22,8 @@
     <string name="string_myinfo_accomplish">完成</string>
     <string name="string_myinfo_edit">编辑</string>
     <string name="string_myinfo_cancel">取消</string>
+
+
+    <string name="string_function_dismiss">功能暂未开放</string>
+
 </resources>
