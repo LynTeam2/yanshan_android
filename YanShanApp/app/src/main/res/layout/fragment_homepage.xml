@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/windowBackground"
+    android:background="@color/normal_blue_light1"
     >
     <View
         android:id="@+id/status_bar_layout"
@@ -24,7 +24,8 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/windowBackgroundWhite">
     <com.bigkoo.convenientbanner.ConvenientBanner
         android:layout_below="@id/status_bar_layout"
         android:id="@+id/banner"
@@ -64,12 +65,12 @@
             android:layout_height="20px"
             android:background="@color/color_gray_light2"
             ></View>
-        <com.zhy.autolayout.AutoLinearLayout
+        <LinearLayout
             android:id="@+id/anjian_layout"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="1820px">
+            android:layout_height="1865px">
         <TextView
             android:layout_margin="60px"
             android:textColor="@color/normal_black"
@@ -82,15 +83,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             </android.support.v7.widget.RecyclerView>
-        </com.zhy.autolayout.AutoLinearLayout>
-        <TextView
-            android:id="@+id/anjian_loadmore"
-            android:layout_width="match_parent"
-            android:layout_height="200px"
-            android:textColor="@color/normal_black"
-            android:textSize="38px"
-            android:text="查看更多"
-            android:gravity="center"/>
+            <TextView
+                android:id="@+id/anjian_loadmore"
+                android:layout_width="match_parent"
+                android:layout_height="200px"
+                android:textColor="@color/normal_black"
+                android:textSize="38px"
+                android:text="查看更多"
+                android:gravity="center"/>
+        </LinearLayout>
 </LinearLayout>
     </ScrollView>
 </com.zhy.autolayout.AutoRelativeLayout>

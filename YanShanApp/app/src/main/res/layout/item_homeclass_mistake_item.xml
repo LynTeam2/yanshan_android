@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="288px"
+        android:layout_height="360px"
+        android:background="@drawable/bg_corner_3dp">
+        <cn.gov.bjys.onlinetrain.act.view.DooCircleView
+            android:id="@+id/flag_view"
+            android:layout_marginLeft="15px"
+            android:layout_marginTop="15px"
+            android:layout_width="20px"
+            android:layout_height="20px"
+            android:background="@color/normal_blue_light1"
+            ></cn.gov.bjys.onlinetrain.act.view.DooCircleView>
+
+            <TextView
+                android:id="@+id/content"
+                android:layout_marginLeft="36px"
+                android:layout_marginRight="36px"
+                android:layout_marginTop="44px"
+                android:maxLines="5"
+                android:textSize="36px"
+                android:lineSpacingExtra="3px"
+                android:lineSpacingMultiplier="1.1"
+                android:textColor="@color/home_normal_gray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:text="翻译是在准确、通顺的基础上，把一种语言信息转变成另一种语言信息的行为。翻译是将一种相对陌生的表达方式，转换成相对熟悉的表达方式的过程。其内容有语言、文字、图形、符号和视频翻译。其中，在甲语和乙语中，“翻”是指的这两种语言的转换，即先把一句甲语转换为一句乙语，然后再把一句乙语转换为甲语；“译”是指这两种语言转换的过程，把甲语转换成乙语，在译成当地语言的文字中，进而明白乙语的含义。二者构成了一般意义上的翻译，让更多人了解其他语言的含义"/>
+
+    </RelativeLayout>
+</LinearLayout>

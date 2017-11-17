@@ -5,6 +5,7 @@ import android.content.Context;
 import com.mcxiaoke.packer.helper.PackerNg;
 import com.umeng.analytics.MobclickAgent;
 import com.ycl.framework.base.FrameApplication;
+import com.zhy.autolayout.config.AutoLayoutConifg;
 
 /**
  * Created by dodozhou on 2017/8/2.
@@ -16,6 +17,7 @@ public class BaseApplication extends FrameApplication {
     public void onCreate() {
         super.onCreate();
         ctx = getApplicationContext();
+        initAutoLayoutConfig();
         init360WithUmeng();
     }
 
@@ -35,4 +37,9 @@ public class BaseApplication extends FrameApplication {
         // 之后就可以使用了，比如友盟可以这样设置
         MobclickAgent. startWithConfigure( new MobclickAgent.UMAnalyticsConfig(getBaseApplication(), "5959a1c204e2053cda000474", market, MobclickAgent.EScenarioType.E_UM_NORMAL,true));
     }
+
+    private void initAutoLayoutConfig(){
+        AutoLayoutConifg.getInstance().useDeviceSize();
+    }
+
 }

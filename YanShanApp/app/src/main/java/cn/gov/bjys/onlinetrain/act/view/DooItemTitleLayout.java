@@ -15,6 +15,7 @@ import java.util.List;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.ClassActivity;
 import cn.gov.bjys.onlinetrain.act.ExamAnalysisActivity;
+import cn.gov.bjys.onlinetrain.act.ExamPrepareActivity;
 import cn.gov.bjys.onlinetrain.act.ExaminationActivity;
 import cn.gov.bjys.onlinetrain.adapter.DooHomeGridViewAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooHomeGridViewAdapter.HomeGridBean;
@@ -55,7 +56,7 @@ public class DooItemTitleLayout extends DooRootLayout {
                         getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), ClassActivity.class));
                         break;
                     case 1:
-                        getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), ExaminationActivity.class));
+                        getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), ExamPrepareActivity.class));
                         break;
                     case 2:
                         getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), ClassActivity.class));
@@ -73,7 +74,7 @@ public class DooItemTitleLayout extends DooRootLayout {
         return View.inflate(getContext(), R.layout.view_item_title_layout, null);
     }
 
-    private List<HomeGridBean> getDatas(){
+    public static List<HomeGridBean> getDatas(){
         ArrayList<HomeGridBean> beanArrayList = new ArrayList<>();
         //num 1
         HomeGridBean bean = new HomeGridBean();

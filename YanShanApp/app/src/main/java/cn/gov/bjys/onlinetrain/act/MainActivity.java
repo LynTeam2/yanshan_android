@@ -100,7 +100,7 @@ public class MainActivity extends FrameActivity {
     public void initData() {
 
         mFragments = new Fragment[]{getFragment("homepage_fragment", HomeFragment.class, R.id.framelayout),
-                getFragment("user_score_fragment", HomeClassFragment.class, R.id.framelayout),
+                getFragment("home_class_fragment", HomeClassFragment.class, R.id.framelayout),
                 getFragment("shop_fragment", ShopFragment.class, R.id.framelayout),
                 getFragment("own_fragment", OwnFragment.class, R.id.framelayout),
 

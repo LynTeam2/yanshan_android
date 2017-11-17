@@ -123,6 +123,7 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
         mTimer = new Timer();
         mTimer.schedule(mTimerTask, 1000, 1000);
         mTimerType = TIMER_START;
+        setTimeToHeader();//进入activity显示时间
     }
     private void setTimeToHeader(){
         String time = getTimesStr(mTimes);

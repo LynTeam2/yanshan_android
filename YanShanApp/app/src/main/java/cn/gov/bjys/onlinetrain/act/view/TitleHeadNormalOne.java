@@ -19,6 +19,8 @@ import com.ycl.framework.utils.string.DensityUtils;
 import com.ycl.framework.utils.util.SelectorUtil;
 import com.zhy.autolayout.AutoFrameLayout;
 
+import cn.gov.bjys.onlinetrain.R;
+
 /**
  * 顶部栏 样式1
  */
@@ -29,7 +31,7 @@ public class TitleHeadNormalOne extends AutoFrameLayout {
 
     public TitleHeadNormalOne(Context context, AttributeSet attrs) {
         super(context, attrs);
-        addView(LayoutInflater.from(context).inflate(com.ycl.framework.R.layout.view_title_header, this, false));
+        addView(LayoutInflater.from(context).inflate(R.layout.view_title_normal_header, this, false));
         tvTitle = (TextView) findViewById(com.ycl.framework.R.id.tv_title_header_titleText);
         ivBack = (ImageView) findViewById(com.ycl.framework.R.id.iv_title_header_back);
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs,

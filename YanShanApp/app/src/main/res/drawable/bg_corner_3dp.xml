@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- This is bottom line -->
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android">
+            <corners
+                android:topRightRadius="3dp"
+                android:topLeftRadius="3dp"
+                android:bottomRightRadius="3dp"
+                android:bottomLeftRadius="3dp"></corners>
+
+            <!--  这里改填充颜色 -->
+            <solid android:color="@color/windowBackground"/>
+            <!--  这里改底部线条颜色 -->
+            <stroke
+                android:color="@color/normal_gray" android:width="1px"/>
+
+        </shape>
+    </item>
+
+
+
+</layer-list>
