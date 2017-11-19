@@ -56,8 +56,8 @@ public class HomeClassFragment extends FrameFragment {
 
 
     public static int[] res = {
-            R.mipmap.ic_launcher,
-            R.mipmap.wx_login_icon
+            R.drawable.home_page_normal_img,
+            R.drawable.home_page_normal_img
     };
 
     @Override

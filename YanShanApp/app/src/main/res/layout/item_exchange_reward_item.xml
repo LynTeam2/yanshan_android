@@ -11,7 +11,7 @@
         <RelativeLayout
             android:layout_width="800px"
             android:layout_height="160px"
-            android:background="@drawable/bg_corner80px_normalbluelight1">
+            android:background="@drawable/sign_in_bottom_exchange">
             <TextView
                 android:id="@+id/name"
                 android:layout_centerVertical="true"
@@ -25,14 +25,15 @@
 
             <TextView
                 android:id="@+id/reward_btn"
-                android:layout_marginRight="20px"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:layout_width="120px"
-                android:layout_height="120px"
-                android:background="@drawable/bg_corner60px_white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/sign_in_exchange"
                 android:text="兑换"
                 android:textColor="@color/normal_blue_light1"
+                android:textSize="32px"
+                android:paddingBottom="10px"
                 android:gravity="center"/>
 
         </RelativeLayout>

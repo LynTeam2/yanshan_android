@@ -4,6 +4,8 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -44,6 +46,16 @@ public class ExamAnalysisActivity extends FrameActivity {
     @Bind(R.id.switch_animate)
     Button switch_animate;
 
+
+    @Bind(R.id.content_layout)
+    LinearLayout content_layout;
+
+
+    @Bind(R.id.score)
+    TextView score;
+
+    @Bind(R.id.ret)
+    TextView ret;
 
     @OnClick({R.id.bg_change,R.id.value_gone,R.id.switch_animate})
     public void onTabClick(View v){
@@ -91,6 +103,8 @@ public class ExamAnalysisActivity extends FrameActivity {
     public void initViews() {
         super.initViews();
         initRadarView();
+        initScore();
+        initContentLayout();
     }
     private void initRadarView(){
         initRadar();
@@ -172,15 +186,6 @@ public class ExamAnalysisActivity extends FrameActivity {
 
 
 
-
-
-
-
-
-
-
-
-
     private String[] mParties = new String[] {
             "单选", "判断", "视频", "阅读", "多选"
     };
@@ -243,4 +248,28 @@ public class ExamAnalysisActivity extends FrameActivity {
         mRadarChart.setData(data);
         mRadarChart.invalidate();
     }
+
+    public void initScore(){
+        //TODO 数据确定后接入
+        score.setText("100分");
+        ret.setText("答错0题，成绩合格");
+    }
+
+
+    public void initContentLayout(){
+        //TODO 数据确定后接入
+    for(int i=0;i<5;i++){
+      content_layout.addView(getSimpleLayout());
+    }
+    }
+
+    public View getSimpleLayout(){
+        View view =   View.inflate(this,R.layout.item_mistakes_analysis_item,null);
+        TextView tvName = (TextView) view.findViewById(R.id.name);
+        tvName.setText("单选题");
+        TextView tvContent = (TextView) view.findViewById(R.id.content);
+        tvContent.setText("错题率100%");
+        return view;
+    }
+
 }

@@ -16,6 +16,7 @@ public class BaseApplication extends FrameApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        AutoLayoutConifg.getInstance().useDeviceSize();
         ctx = getApplicationContext();
         initAutoLayoutConfig();
         init360WithUmeng();

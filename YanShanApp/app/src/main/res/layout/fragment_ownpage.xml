@@ -31,7 +31,7 @@
             android:layout_width="240px"
             android:layout_height="240px"
             android:layout_marginTop="65px"
-            android:src="@mipmap/wx_login_icon"
+            android:src="@drawable/user_normal_avatar"
             app:type="circle" >
         </cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode>
 

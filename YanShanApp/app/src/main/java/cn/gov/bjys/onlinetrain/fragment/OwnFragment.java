@@ -74,7 +74,7 @@ public class OwnFragment extends FrameFragment {
         user_functions_layout.removeAllViews();
         //个人设置
         DooLinear userSetting = new DooLinear(getActivity());
-        userSetting.setImgIcon(R.mipmap.wx_login_icon);
+        userSetting.setImgIcon(R.drawable.user_setting_icon);
         userSetting.setImgNext(R.drawable.next_right_btn);
         userSetting.setTvContent("个人设置");
         userSetting.setCustomClick(R.id.next_btn, new View.OnClickListener() {
@@ -87,7 +87,7 @@ public class OwnFragment extends FrameFragment {
         user_functions_layout.addView(userSetting);
         //签到有礼
         DooLinear userFlag = new DooLinear(getActivity());
-        userFlag.setImgIcon(R.mipmap.wx_login_icon);
+        userFlag.setImgIcon(R.drawable.sign_in_icon);
         userFlag.setImgNext(R.drawable.next_right_btn);
         userFlag.setTvContent("签到有礼");
         userFlag.setCustomClick(R.id.next_btn, new View.OnClickListener() {
@@ -100,9 +100,9 @@ public class OwnFragment extends FrameFragment {
             }
         });
         user_functions_layout.addView(userFlag);
-        //签到有礼
+        //我的消息
         DooLinear userMessage = new DooLinear(getActivity());
-        userMessage.setImgIcon(R.mipmap.wx_login_icon);
+        userMessage.setImgIcon(R.drawable.user_message_icon);
         userMessage.setImgNext(R.drawable.next_right_btn);
         userMessage.setTvContent("我的消息");
         userMessage.setCustomClick(R.id.next_btn, new View.OnClickListener() {

@@ -71,7 +71,7 @@ public class UserSettingActivity extends FrameActivity {
         setting_layout.removeAllViews();
         avatarLinear = new DooUserSettingLinear(this);
         avatarLinear.setTitle("头像");
-        avatarLinear.setAvatar(R.mipmap.wx_login_icon);
+        avatarLinear.setAvatar(R.drawable.user_normal_avatar);
         avatarLinear.setCustomClick(R.id.next_layout, new View.OnClickListener() {
             @Override
             public void onClick(View v) {

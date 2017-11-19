@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -30,7 +30,7 @@
         android:layout_below="@id/status_bar_layout"
         android:id="@+id/banner"
         android:layout_width="match_parent"
-        android:layout_height="350px"
+        android:layout_height="585px"
         app:canLoop="true">
     </com.bigkoo.convenientbanner.ConvenientBanner>
         <cn.gov.bjys.onlinetrain.act.view.DooItemTitleLayout
@@ -94,4 +94,4 @@
         </LinearLayout>
 </LinearLayout>
     </ScrollView>
-</com.zhy.autolayout.AutoRelativeLayout>
+</RelativeLayout>
