@@ -2,6 +2,7 @@ package cn.gov.bjys.onlinetrain;
 
 import android.content.Context;
 
+import com.blankj.utilcode.util.Utils;
 import com.mcxiaoke.packer.helper.PackerNg;
 import com.umeng.analytics.MobclickAgent;
 import com.ycl.framework.base.FrameApplication;
@@ -17,6 +18,7 @@ public class BaseApplication extends FrameApplication {
     public void onCreate() {
         super.onCreate();
         ctx = getApplicationContext();
+        Utils.init(this);
         initAutoLayoutConfig();
         init360WithUmeng();
     }

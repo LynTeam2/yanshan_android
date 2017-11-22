@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <View
+        android:id="@+id/status_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60px"></View>
+    <com.ycl.framework.view.TitleHeaderView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        app:title_name="商城"
+        android:layout_height="160px"
+        app:title_back_visibility = "false"/>
+    <com.ycl.framework.view.ProgressWebView
+        android:id="@+id/web_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.ycl.framework.view.ProgressWebView>
+</LinearLayout>
