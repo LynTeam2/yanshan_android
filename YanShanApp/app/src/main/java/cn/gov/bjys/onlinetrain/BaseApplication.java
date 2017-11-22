@@ -17,6 +17,7 @@ public class BaseApplication extends FrameApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        AutoLayoutConifg.getInstance().useDeviceSize();
         ctx = getApplicationContext();
         Utils.init(this);
         initAutoLayoutConfig();
