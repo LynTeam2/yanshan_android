@@ -40,7 +40,8 @@ public class YSUserInfoManager {
     //是否登录
     //  true  登录
     public boolean isLogin() {
-        return !TextUtils.isEmpty(getAuthToken());
+//        return !TextUtils.isEmpty(getAuthToken());
+        return true;
     }
 
 

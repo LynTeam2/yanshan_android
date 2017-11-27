@@ -7,14 +7,13 @@
         android:layout_width="288px"
         android:layout_height="360px"
         android:background="@drawable/bg_corner_3dp">
-        <cn.gov.bjys.onlinetrain.act.view.DooCircleView
+        <ImageView
             android:id="@+id/flag_view"
             android:layout_marginLeft="15px"
             android:layout_marginTop="15px"
             android:layout_width="20px"
             android:layout_height="20px"
-            android:background="@color/normal_blue_light1"
-            ></cn.gov.bjys.onlinetrain.act.view.DooCircleView>
+            ></ImageView>
 
             <TextView
                 android:id="@+id/content"

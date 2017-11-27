@@ -16,5 +16,7 @@ public class YSConst {
     public final static String UPDATE_ZIP = "update";
     public static class UserInfo{
         public final static String KEY_USER_TOKEN  = "key_user_token";
-    }
+        public final static String USER_AVATAR_PATH = "user_avatar_path";
+
+     }
 }

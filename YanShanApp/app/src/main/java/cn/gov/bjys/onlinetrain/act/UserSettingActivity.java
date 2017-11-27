@@ -1,22 +1,28 @@
 package cn.gov.bjys.onlinetrain.act;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.ycl.framework.base.FrameActivity;
+import com.ycl.framework.utils.sp.SavePreference;
+import com.ycl.framework.utils.util.GlideProxy;
 import com.ycl.framework.utils.util.ToastUtil;
 import com.ycl.framework.view.TitleHeaderView;
 import com.zls.www.statusbarutil.StatusBarUtil;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.view.DooUserSettingLinear;
 import cn.gov.bjys.onlinetrain.fragment.UserFragment.SaveNickFragment;
+import cn.gov.bjys.onlinetrain.utils.YSConst;
 
 /**
  * Created by dodozhou on 2017/11/14.
@@ -24,6 +30,9 @@ import cn.gov.bjys.onlinetrain.fragment.UserFragment.SaveNickFragment;
 public class UserSettingActivity extends FrameActivity {
 
     public final static int SET_NICK_BACK = 1;
+
+    public final static int SAVE_USER_AVATAR = 2;
+
 
     @Bind(R.id.header)
     TitleHeaderView header;
@@ -71,12 +80,17 @@ public class UserSettingActivity extends FrameActivity {
         setting_layout.removeAllViews();
         avatarLinear = new DooUserSettingLinear(this);
         avatarLinear.setTitle("头像");
-        avatarLinear.setAvatar(R.drawable.user_normal_avatar);
+        String userAvatar = SavePreference.getStr(BaseApplication.getAppContext(), YSConst.UserInfo.USER_AVATAR_PATH);
+        if(!TextUtils.isEmpty(userAvatar)){
+            avatarLinear.setAvatar(userAvatar);
+        }else {
+            avatarLinear.setAvatar(R.drawable.user_normal_avatar);
+        }
         avatarLinear.setCustomClick(R.id.next_layout, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO 设置头像
-                startAct(UserAvatarChooseActivity.class);
+                startActForResult(UserAvatarChooseActivity.class, SAVE_USER_AVATAR);
             }
         });
         setting_layout.addView(avatarLinear);
@@ -117,7 +131,17 @@ public class UserSettingActivity extends FrameActivity {
                    String nick = (String) bundle.get(SaveNickFragment.TAG);
                     nickLinear.setName(nick);
                 }
-
+                break;
+            case SAVE_USER_AVATAR:
+                if(resultCode == UserAvatarChooseActivity.AVATAR_SAVE_OK){
+                    Bundle bundle =  data.getExtras();
+                    String avatarPath = (String) bundle.get(UserAvatarChooseActivity.TAG);
+                    if(!TextUtils.isEmpty(avatarPath)){
+                        SavePreference.save(BaseApplication.getAppContext(),YSConst.UserInfo.USER_AVATAR_PATH,avatarPath);
+//                        avatarLinear.setAvatar(Uri.parse(avatarPath));
+                       avatarLinear.setAvatar(avatarPath);
+                    }
+                }
                 break;
         }
     }

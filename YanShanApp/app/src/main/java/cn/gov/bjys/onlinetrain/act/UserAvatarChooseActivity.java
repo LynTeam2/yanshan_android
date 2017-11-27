@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,10 @@ import cn.gov.bjys.onlinetrain.utils.CustomHelper;
  * Created by dodozhou on 2017/11/13.
  */
 public class UserAvatarChooseActivity extends FrameActivity implements TakePhoto.TakeResultListener,InvokeListener {
-    private static final String TAG = UserAvatarChooseActivity.class.getName();
+    public static final String TAG = UserAvatarChooseActivity.class.getName();
+
+    public final static int AVATAR_SAVE_OK = 98;
+
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
     private CustomHelper customHelper;
@@ -53,6 +57,13 @@ public class UserAvatarChooseActivity extends FrameActivity implements TakePhoto
     public void onTabClick(View v){
         switch (v.getId()){
             case R.id.photo_cancel:
+                if(!TextUtils.isEmpty(avatarPath)) {
+                    Intent intent = new Intent();
+                    Bundle mBundle = new Bundle();
+                    mBundle.putString(TAG, avatarPath);
+                    intent.putExtras(mBundle);
+                    setResult(AVATAR_SAVE_OK, intent);
+                }
                 finish();
                 break;
             case R.id.shoot_btn:
@@ -119,9 +130,12 @@ public class UserAvatarChooseActivity extends FrameActivity implements TakePhoto
         }
         return takePhoto;
     }
+
+    private String avatarPath;
     @Override
     public void takeSuccess(TResult result) {
         Log.i(TAG,"takeSuccess：" + result.getImage().getCompressPath());
+        avatarPath = result.getImage().getCompressPath();
         final Bitmap bitmap = getDiskBitmap(result.getImage().getCompressPath());
         if(bitmap != null) {
             my_avatar.post(new Runnable() {
@@ -152,7 +166,7 @@ public class UserAvatarChooseActivity extends FrameActivity implements TakePhoto
     }
 
 
-    private Bitmap getDiskBitmap(String pathString)
+    public static Bitmap getDiskBitmap(String pathString)
     {
         Bitmap bitmap = null;
         try

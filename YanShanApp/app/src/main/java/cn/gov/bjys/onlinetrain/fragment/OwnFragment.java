@@ -1,19 +1,24 @@
 package cn.gov.bjys.onlinetrain.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.sina.weibo.sdk.api.share.Base;
 import com.ycl.framework.base.FrameFragment;
+import com.ycl.framework.utils.sp.SavePreference;
+import com.ycl.framework.utils.util.GlideProxy;
 import com.ycl.framework.utils.util.ToastUtil;
 import com.ycl.framework.view.TitleHeaderView;
 import com.zls.www.statusbarutil.StatusBarUtil;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.CommonActivity;
 import cn.gov.bjys.onlinetrain.act.UserAvatarChooseActivity;
@@ -21,6 +26,7 @@ import cn.gov.bjys.onlinetrain.act.UserMessageActivity;
 import cn.gov.bjys.onlinetrain.act.UserSettingActivity;
 import cn.gov.bjys.onlinetrain.act.view.DooLinear;
 import cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode;
+import cn.gov.bjys.onlinetrain.utils.YSConst;
 import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 
 /**
@@ -122,9 +128,21 @@ public class OwnFragment extends FrameFragment {
             //fragment展示
             if (YSUserInfoManager.getsInstance().isLogin()) {
                 //登录显示
+                setUserBaseInfo();
             } else {
 
             }
+        }
+    }
+
+    public void setUserBaseInfo(){
+        setUserAvatar();
+    }
+
+    public void setUserAvatar(){
+        String avatarPath = SavePreference.getStr(BaseApplication.getAppContext(), YSConst.UserInfo.USER_AVATAR_PATH);
+        if(!TextUtils.isEmpty(avatarPath)){
+            GlideProxy.loadImgForUrlPlaceHolderDontAnimate(user_avatar,avatarPath,R.drawable.user_normal_avatar);
         }
     }
 

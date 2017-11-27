@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/normal_blue_light1">
     <View
         android:id="@+id/status_bar_layout"
         android:layout_width="match_parent"
@@ -15,6 +16,7 @@
         android:layout_height="160px"
         app:title_back_visibility = "false"/>
     <com.ycl.framework.view.ProgressWebView
+        android:background="@color/windowBackgroundWhite"
         android:id="@+id/web_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

@@ -63,7 +63,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="20px"
-            android:background="@color/color_gray_light2"
+            android:background="@color/normal_gray_light2"
             ></View>
         <LinearLayout
             android:id="@+id/anjian_layout"

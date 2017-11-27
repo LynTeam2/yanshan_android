@@ -1,12 +1,14 @@
 package cn.gov.bjys.onlinetrain.act.view;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.ycl.framework.utils.util.GlideProxy;
 
 import cn.gov.bjys.onlinetrain.R;
@@ -34,14 +36,14 @@ public class DooUserSettingLinear extends DooRootLayout {
 
     private TextView title;
     private TextView name;
-    private ImageView avatar;
+    private RoundImageViewByXfermode avatar;
     private ImageView nextBtn;
     private LinearLayout nextLayout;
     @Override
     public void initViews() {
             title = (TextView) findViewById(R.id.content);
             name = (TextView) findViewById(R.id.name);
-            avatar = (ImageView) findViewById(R.id.avatar);
+            avatar = (RoundImageViewByXfermode) findViewById(R.id.avatar);
             nextBtn = (ImageView) findViewById(R.id.next_btn);
             nextLayout = (LinearLayout) findViewById(R.id.next_layout);
     }
@@ -61,8 +63,15 @@ public class DooUserSettingLinear extends DooRootLayout {
     }
 
     public void setAvatar(String url){
-        GlideProxy.loadImgForUrlPlaceHolderDontAnimate(avatar,url,R.mipmap.ic_launcher);
+        GlideProxy.loadImgForUrlPlaceHolderDontAnimate(avatar,url,R.drawable.user_normal_avatar);
         avatar.setVisibility(View.VISIBLE);
+    }
+
+    public void setAvatar(Uri uri){
+        Glide.with(getContext())
+                .load(uri)
+                .into(avatar);
+        avatar.setVisibility(VISIBLE);
     }
 
 

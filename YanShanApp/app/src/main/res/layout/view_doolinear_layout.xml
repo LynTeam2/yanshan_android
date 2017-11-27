@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     >
     <LinearLayout
+        android:layout_marginLeft="72px"
         android:layout_width="match_parent"
         android:layout_height="160px"
         android:orientation="vertical">
@@ -13,7 +14,6 @@
         android:layout_weight="1">
     <ImageView
         android:id="@+id/img"
-        android:layout_marginLeft="40px"
         android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

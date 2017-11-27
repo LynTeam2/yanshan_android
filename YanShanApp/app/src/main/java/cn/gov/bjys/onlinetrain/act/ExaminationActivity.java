@@ -7,11 +7,14 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ycl.framework.base.BasePopu;
 import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.view.TitleHeaderView;
+import com.zhy.autolayout.utils.AutoUtils;
 import com.zls.www.statusbarutil.StatusBarUtil;
 
 import java.util.ArrayList;
@@ -33,7 +36,7 @@ import cn.jzvd.JZVideoPlayer;
 /**
  * Created by dodozhou on 2017/9/27.
  */
-public class ExaminationActivity extends FrameActivity implements View.OnClickListener{
+public class ExaminationActivity extends FrameActivity implements View.OnClickListener {
 
     @Bind(R.id.viewpager)
     ViewPager mViewPager;
@@ -48,7 +51,7 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
     DooExamBottomAdapter mDooExamBottomAdapter;
 
     TimerTask mTimerTask;
-    private long mTimes = 50*60;
+    private long mTimes = 50 * 60;
     private Timer mTimer;
     private Handler mHandler;
     private int mTimerType = TIMER_END;//定时器的情况
@@ -60,18 +63,18 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
     @Override
     protected void setRootView() {
         setContentView(R.layout.activity_examination_layout);
-        StatusBarUtil.addStatusForFragment(this,findViewById(R.id.status_bar_layout));
+        StatusBarUtil.addStatusForFragment(this, findViewById(R.id.status_bar_layout));
     }
 
     @Override
     protected void initStatusBar() {
-        StatusBarUtil.setTranslucentForImageViewInFragment(this,null);
+        StatusBarUtil.setTranslucentForImageViewInFragment(this, null);
     }
 
     @Override
     public void initData() {
         super.initData();
-       List<ExamBean> list = prepareDatas();
+        List<ExamBean> list = prepareDatas();
         mExamAdapter = new DooExamStateFragmentAdapter(getSupportFragmentManager(), list);
         mViewPager.setAdapter(mExamAdapter);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -82,7 +85,7 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
 
             @Override
             public void onPageSelected(int position) {
-             setViewPagerAndExamBottom(position);
+                setViewPagerAndExamBottom(position);
             }
 
             @Override
@@ -90,30 +93,30 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
 
             }
         });
-        mViewPager.setCurrentItem(0,false);
+        mViewPager.setCurrentItem(0, false);
         initTimer();
     }
 
-    private void initTimer(){
+    private void initTimer() {
 
         mHandler = new Handler(Looper.getMainLooper());
         mTimerTask = new TimerTask() {
             @Override
             public void run() {
-             //定时器要做的事情
-                if(mTimes > 0){
+                //定时器要做的事情
+                if (mTimes > 0) {
                     mTimes--;
-                }else{
+                } else {
                     mTimerType = TIMER_END;
                 }
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                    //UI线程
-                        if(mTimerType == TIMER_END){
+                        //UI线程
+                        if (mTimerType == TIMER_END) {
                             cancelTimer();
                             //TODO 定时器时间结束
-                        }else{
+                        } else {
                             setTimeToHeader();
                         }
                     }
@@ -125,43 +128,44 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
         mTimerType = TIMER_START;
         setTimeToHeader();//进入activity显示时间
     }
-    private void setTimeToHeader(){
+
+    private void setTimeToHeader() {
         String time = getTimesStr(mTimes);
-        String content = "倒计时 "+time;
+        String content = "倒计时 " + time;
         mHeader.setTitleText(content);
     }
 
-    private String getTimesStr(long time){
+    private String getTimesStr(long time) {
         String ret = "";
-        ret = ret + (time/3600 == 0 ? "" : time/3600 +":");//小时数
+        ret = ret + (time / 3600 == 0 ? "" : time / 3600 + ":");//小时数
         long fen = time % 3600;
-        ret = ret  + (fen/60 > 9 ? fen/60 :"0" + fen/60) +  ":";
-        long miao = fen%60;
-        ret = ret  + (miao%60 > 9 ? miao%60 :"0" + miao%60);
+        ret = ret + (fen / 60 > 9 ? fen / 60 : "0" + fen / 60) + ":";
+        long miao = fen % 60;
+        ret = ret + (miao % 60 > 9 ? miao % 60 : "0" + miao % 60);
         return ret;
     }
 
-    private void cancelTimer(){
-        if(null != mTimer){
+    private void cancelTimer() {
+        if (null != mTimer) {
             mTimer.cancel();
             mTimer = null;
         }
     }
 
 
-    private void setViewPagerAndExamBottom(int positions){
-        if(mViewPager != null) {
+    private void setViewPagerAndExamBottom(int positions) {
+        if (mViewPager != null) {
             mViewPager.setCurrentItem(positions, true);
         }
-        if(mDooExamBottomAdapter != null){
-          List<ExamXqBean> datas =  mDooExamBottomAdapter.getData();
-            if(datas != null && !datas.isEmpty()){
+        if (mDooExamBottomAdapter != null) {
+            List<ExamXqBean> datas = mDooExamBottomAdapter.getData();
+            if (datas != null && !datas.isEmpty()) {
                 ExamXqBean bean = datas.get(positions);
-                for(ExamXqBean examXqBean:datas){
-                    if(examXqBean.getmType() == ExamXqBean.CHOICE)
-                    examXqBean.setmType(ExamXqBean.NOMAL);
+                for (ExamXqBean examXqBean : datas) {
+                    if (examXqBean.getmType() == ExamXqBean.CHOICE)
+                        examXqBean.setmType(ExamXqBean.NOMAL);
                 }
-                if(bean.getmType() == ExamXqBean.NOMAL){
+                if (bean.getmType() == ExamXqBean.NOMAL) {
                     bean.setmType(ExamXqBean.CHOICE);
                 }
             }
@@ -171,8 +175,8 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
 
     private List<ExamXqBean> mDatas = new ArrayList<>();
 
-    public void createAllTestDatas(){
-        for(int i = 0; i<100; i++){
+    public void createAllTestDatas() {
+        for (int i = 0; i < 100; i++) {
             ExamXqBean bean = new ExamXqBean();
             bean.setmPosition(i);
             bean.setmSpanSize(1);
@@ -187,14 +191,13 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
         super.initViews();
 //        prepareAnimator();
         createAllTestDatas();
+        ViewGroup.LayoutParams blp = mExamBottomLayout.getLayoutParams();
+        blp.height = AutoUtils.getPercentHeightSize(1120);//重置高度
+        mExamBottomLayout.setLayoutParams(blp);
         mExamBottomLayout.setmDatas(mDatas);
         mExamBottomLayout.getView(R.id.hand_of_paper).setOnClickListener(this);
         mExamBottomLayout.getView(R.id.show_all_layout).setOnClickListener(this);
-        mExamBottomLayout.post(new Runnable() {
-            @Override
-            public void run() {
-            }
-        });
+
         mDooExamBottomAdapter = mExamBottomLayout.getmDooExamBottomAdapter();
         mDooExamBottomAdapter.getData().get(0).setmType(ExamXqBean.CHOICE);//初始化
         mDooExamBottomAdapter.notifyDataSetChanged();
@@ -205,6 +208,7 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
             }
         });
         mBehavior = BottomSheetBehavior.from(mExamBottomLayout);
+        mBehavior.setPeekHeight(AutoUtils.getPercentHeightSize(120));
         mBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
@@ -218,11 +222,11 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
     }
 
 
-    private List<ExamBean> prepareDatas(){
+    private List<ExamBean> prepareDatas() {
         List<ExamBean> list = new ArrayList<>();
-        for(int i=0;i<100;i++){
+        for (int i = 0; i < 100; i++) {
             ExamBean bean = new ExamBean();
-            switch (i%2){
+            switch (i % 2) {
                 case ExamBean.VIDEO_EXAM:
                     bean.setType(ExamBean.VIDEO_EXAM);
                     break;
@@ -236,19 +240,19 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
     }
 
 
-
     EndExamPop mEndExamPop;
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.hand_of_paper:
                 //todo 交卷
-                if(mEndExamPop == null){
+                if (mEndExamPop == null) {
                     mEndExamPop = new EndExamPop(this);
                     mEndExamPop.setOnPupClicListener(new BasePopu.OnPupClickListener() {
                         @Override
                         public void onPupClick(int position) {
-                            if(EndExamPop.SURE_CLICK == position){
+                            if (EndExamPop.SURE_CLICK == position) {
                                 cancelTimer();
                             }
                         }
@@ -272,6 +276,7 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
         }
         super.onBackPressed();
     }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -279,14 +284,14 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
     }
 
 
-    public List<ExamBean> getDatas(){
-        return  mExamAdapter.getmDatas();
+    public List<ExamBean> getDatas() {
+        return mExamAdapter.getmDatas();
     }
 
     @Override
     public void finish() {
         super.finish();
-        if(mTimer != null){
+        if (mTimer != null) {
             mTimer.cancel();
             mTimer = null;
         }
