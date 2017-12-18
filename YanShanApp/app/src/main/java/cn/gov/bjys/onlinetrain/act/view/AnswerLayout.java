@@ -119,6 +119,7 @@ public class AnswerLayout extends LinearLayout implements View.OnClickListener {
         }
         SingleAnswerLayout layout = mLayoutList.get(i);
         layout.findViewById(R.id.text_choice).setBackground(getResources().getDrawable(R.drawable.bg_exam_choice_select));
+
         isClicked = true;
     }
 }

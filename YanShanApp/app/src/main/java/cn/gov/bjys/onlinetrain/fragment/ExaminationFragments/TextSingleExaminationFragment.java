@@ -14,6 +14,7 @@ import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.ExaminationActivity;
 import cn.gov.bjys.onlinetrain.act.view.AnswerLayout;
+import cn.gov.bjys.onlinetrain.act.view.DooQuestionAnalysisLayout;
 import cn.gov.bjys.onlinetrain.bean.ExamBean;
 
 
@@ -39,6 +40,9 @@ public class TextSingleExaminationFragment extends FrameFragment {
 
     @Bind(R.id.single_answer_layout)
     AnswerLayout single_answer_layout;
+
+    @Bind(R.id.question_layout)
+    DooQuestionAnalysisLayout question_layout;
 
     @Override
     protected View inflaterView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
