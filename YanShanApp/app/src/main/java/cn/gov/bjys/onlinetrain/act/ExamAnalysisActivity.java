@@ -47,8 +47,8 @@ public class ExamAnalysisActivity extends FrameActivity {
     Button switch_animate;
 
 
-    @Bind(R.id.content_layout)
-    LinearLayout content_layout;
+    @Bind(R.id.question_layout)
+    LinearLayout question_layout;
 
 
     @Bind(R.id.score)
@@ -115,7 +115,7 @@ public class ExamAnalysisActivity extends FrameActivity {
         // 描述，在底部
         mRadarChart.getDescription().setEnabled(false);
         Description desc = new Description();
-        desc.setText("我是描述");
+        desc.setText("最近一次测试错题分布");
         mRadarChart.setDescription(desc);
         // 绘制线条宽度，圆形向外辐射的线条
         mRadarChart.setWebLineWidth(1.0f);
@@ -216,9 +216,9 @@ public class ExamAnalysisActivity extends FrameActivity {
         for (int i = 0; i < cnt; i++)
             xVals.add(mParties[i % mParties.length]);
 
-        RadarDataSet set1 = new RadarDataSet(yVals1, "Set 1");
+        RadarDataSet set1 = new RadarDataSet(yVals1, "错题分布");
         // Y数据颜色设置
-        set1.setColor(ColorTemplate.VORDIPLOM_COLORS[0]);
+        set1.setColor(getResources().getColor(R.color.normal_blue_light1));
         // 是否实心填充区域
         set1.setDrawFilled(true);
         // 数据线条宽度
@@ -258,8 +258,8 @@ public class ExamAnalysisActivity extends FrameActivity {
 
     public void initContentLayout(){
         //TODO 数据确定后接入
-    for(int i=0;i<5;i++){
-      content_layout.addView(getSimpleLayout());
+    for(int i=0; i<5; i++){
+        question_layout.addView(getSimpleLayout());
     }
     }
 

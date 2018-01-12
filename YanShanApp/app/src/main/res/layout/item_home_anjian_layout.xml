@@ -15,7 +15,7 @@
         android:layout_width="0px"
         android:layout_height="match_parent">
         <ImageView
-            android:layout_marginTop="60px"
+            android:layout_marginTop="53px"
             android:id="@+id/img"
             android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"

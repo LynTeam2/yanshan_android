@@ -35,9 +35,9 @@ public class DooSimpleMultiAdapter extends BaseMultiItemQuickAdapter<YSClassBean
                 helper.setText(R.id.name, item.getName());
                 break;
             case YSClassBean.LINEAR_COLUMN_1:
-                GlideProxy.loadImgForUrlPlaceHolderDontAnimate((ImageView) helper.getView(R.id.icon),item.getmImgUrl(),R.mipmap.ic_launcher);
-                helper.setText(R.id.title, item.getName());
-                helper.setText(R.id.content, item.getContent());
+                GlideProxy.loadImgForUrlPlaceHolderDontAnimate((ImageView) helper.getView(R.id.icon),item.getmImgUrl(),R.drawable.icon_190_175);
+//                helper.setText(R.id.title, item.getName());
+//                helper.setText(R.id.content, item.getContent());
                 break;
         }
     }
