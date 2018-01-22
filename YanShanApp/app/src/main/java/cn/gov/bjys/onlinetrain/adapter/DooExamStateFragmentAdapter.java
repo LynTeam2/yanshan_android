@@ -70,7 +70,6 @@ public class DooExamStateFragmentAdapter<T> extends FragmentStatePagerAdapter {
                     f = VideoExaminationFragment.newInstance(position);
                     break;
             }
-
             mFragments.set(position,f);
         }
         return f;

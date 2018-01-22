@@ -122,7 +122,7 @@ public class HomeFragment extends FrameFragment {
         List<ClassStudyBean> datas = new ArrayList<>();
         for(int i=0; i < 4; i++){
             ClassStudyBean bean = new ClassStudyBean();
-            bean.setClassName("测试标题+" + i);
+            bean.setClassName("第" + i + "节课:安全生产教育培训");
             datas.add(bean);
         }
         return datas;
@@ -150,8 +150,8 @@ public class HomeFragment extends FrameFragment {
         List<AnjianBean> datas = new ArrayList<>();
         for(int i=0; i < 5; i++){
             AnjianBean bean = new AnjianBean();
-            bean.setContent("测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容");
-            bean.setTitle("测试标题+" + i);
+            bean.setContent("中国通过国家主席习近平3日出席能赚国家工商中国通过国家主席习近平3日出席能赚国家工商");
+            bean.setTitle(i+"习近平:金砖国家是国际安全秩序的建设者");
             datas.add(bean);
         }
         return datas;

@@ -30,7 +30,6 @@ public class RoundImageViewByXfermode extends ImageView {
     private Paint mPaint;
     private Xfermode mXfermode = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
     private Bitmap mMaskBitmap;
-
     private WeakReference<Bitmap> mWeakBitmap;
 
     /**

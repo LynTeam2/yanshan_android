@@ -73,7 +73,6 @@
 
                     <GridView
                         android:id="@+id/class_gridview"
-
                         android:gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="260px"
