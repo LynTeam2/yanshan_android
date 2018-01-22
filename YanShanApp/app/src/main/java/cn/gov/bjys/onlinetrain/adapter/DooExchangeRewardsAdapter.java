@@ -26,7 +26,9 @@ public class DooExchangeRewardsAdapter extends BaseQuickAdapter<RewardBean,BaseV
             helper.getView(R.id.reward_btn).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ToastUtil.showToast("兑换"+item.getName());
+                    ToastUtil.showToast("兑换成功"
+//                            +item.getName()
+                    );
                 }
             });
     }

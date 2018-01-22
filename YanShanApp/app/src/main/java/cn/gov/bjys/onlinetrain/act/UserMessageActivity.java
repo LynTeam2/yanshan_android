@@ -3,6 +3,7 @@ package cn.gov.bjys.onlinetrain.act;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ycl.framework.base.FrameActivity;
@@ -50,6 +51,13 @@ public class UserMessageActivity extends FrameActivity implements BaseQuickAdapt
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mRecyclerView.setAdapter(mDooUserMessageAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mDooUserMessageAdapter.setNewData(prepareDatas());
+        mDooUserMessageAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                startAct(UserMessageDetailActivity.class);
+            }
+        });
     }
 
     public List<UserMessageBean>  prepareDatas(){
@@ -66,7 +74,7 @@ public class UserMessageActivity extends FrameActivity implements BaseQuickAdapt
 
     @Override
     public void onRefresh() {
-        mDooUserMessageAdapter.setNewData(  prepareDatas());
+        mDooUserMessageAdapter.setNewData(prepareDatas());
         mSwipeRefreshLayout.setRefreshing(false);//关闭旋转
     }
 

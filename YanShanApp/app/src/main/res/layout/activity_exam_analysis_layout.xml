@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <com.ycl.framework.view.TitleHeaderView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title_name = "成绩统计"
+        >
+    </com.ycl.framework.view.TitleHeaderView>
     <com.github.mikephil.charting.charts.RadarChart
         android:id="@+id/radar_chart"
         android:layout_width="match_parent"
-        android:layout_height="900px"
+        android:layout_height="700px"
         />
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
@@ -34,6 +43,8 @@
     </LinearLayout>
     
     <RelativeLayout
+        android:layout_marginTop="20px"
+        android:layout_marginBottom="20px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout

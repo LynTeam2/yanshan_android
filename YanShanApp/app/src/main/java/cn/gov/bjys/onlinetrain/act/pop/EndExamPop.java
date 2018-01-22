@@ -1,5 +1,6 @@
 package cn.gov.bjys.onlinetrain.act.pop;
 
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -39,12 +40,21 @@ public class EndExamPop  extends BasePopu{
         update();
     }
 
+    @Override
+    public void update() {
+        if(Build.VERSION.SDK_INT == 24){
+
+        }else {
+            super.update();
+        }
+    }
+
     public final static int SURE_CLICK = 2;
     @Override
     public void onClick(View v) {
     switch (v.getId()){
         case R.id.cancel:
-            dismiss();
+                dismiss();
             break;
         case R.id.sure:
             listener.onPupClick(SURE_CLICK);
@@ -53,4 +63,6 @@ public class EndExamPop  extends BasePopu{
             break;
     }
     }
+
+
 }

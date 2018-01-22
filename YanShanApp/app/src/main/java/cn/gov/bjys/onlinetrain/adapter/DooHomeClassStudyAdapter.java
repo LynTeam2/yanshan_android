@@ -31,7 +31,7 @@ public class DooHomeClassStudyAdapter extends BaseQuickAdapter<ClassStudyBean,Ba
 
     @Override
     protected void convert(BaseViewHolder helper, ClassStudyBean item) {
-        GlideProxy.loadImgForUrlPlaceHolderDontAnimate((ImageView) helper.getView(R.id.img),item.getImgSrc(), R.mipmap.ic_launcher);
-        helper.setText(R.id.class_name, item.getClassName());
+        GlideProxy.loadImgForUrlPlaceHolderDontAnimate((ImageView) helper.getView(R.id.img),item.getImgSrc(), R.drawable.icon_465_215);
+//        helper.setText(R.id.class_name, item.getClassName());
     }
 }

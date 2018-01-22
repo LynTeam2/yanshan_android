@@ -68,7 +68,7 @@ public class MainActivity extends FrameActivity {
     @Override
     public void initViews() {
         try {
-            AssetsHelper.unZipAssetOneFileContains(BaseApplication.getAppContext(), UPDATE_ZIP);
+//            AssetsHelper.unZipAssetOneFileContains(BaseApplication.getAppContext(), UPDATE_ZIP);
         }catch (Exception e){
             e.printStackTrace();
             LogUtils.d(e.getMessage());

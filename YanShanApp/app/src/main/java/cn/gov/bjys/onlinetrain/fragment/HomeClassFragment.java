@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 
@@ -18,6 +19,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
+import cn.gov.bjys.onlinetrain.act.ClassActivity;
+import cn.gov.bjys.onlinetrain.act.PracticePrepareActivity;
 import cn.gov.bjys.onlinetrain.act.view.DooItemTitleLayout;
 import cn.gov.bjys.onlinetrain.act.view.TitleHeadNormalOne;
 import cn.gov.bjys.onlinetrain.adapter.DooHomeClassAdapter;
@@ -73,12 +76,14 @@ public class HomeClassFragment extends FrameFragment {
         switch (v.getId()){
             case R.id.more_class:
                 ToastUtil.showToast("更多课程");
+                startAct(ClassActivity.class);
                 break;
             case R.id.more_practice:
                 ToastUtil.showToast("更多练习");
+                startAct(ClassActivity.class);
                 break;
             case R.id.more_mistakes:
-                ToastUtil.showToast("更多错误");
+                ToastUtil.showToast("更多错题");
                 break;
         }
     }
@@ -101,6 +106,12 @@ public class HomeClassFragment extends FrameFragment {
             mDooHomeClassAdapter = new DooHomeClassAdapter(getActivity(), getDatas());
         }
         class_gridview.setAdapter(mDooHomeClassAdapter);
+        class_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startAct(PracticePrepareActivity.class);
+            }
+        });
     }
 
 
@@ -164,6 +175,12 @@ public class HomeClassFragment extends FrameFragment {
             mDooHomeClassPracticeAdapter = new DooHomeClassPracticeAdapter(getActivity(), getDatas());
         }
         practice_gridview.setAdapter(mDooHomeClassPracticeAdapter);
+        practice_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startAct(PracticePrepareActivity.class);
+            }
+        });
     }
     DooHomeClassMistakesAdapter mDooHomeClassMistakesAdapter;
     public void initMistakesGv(){

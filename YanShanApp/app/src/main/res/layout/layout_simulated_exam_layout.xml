@@ -132,7 +132,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/normal_gray"
-        android:text="温习提示：温习提示温习提示温习提示温习提示温习提示温习提示温习提示温习提示温习提示温习提示温习提示温习提示温习提示温习提示温习提示温习提示温习提示温习提示温习提示"/>
+        android:text="温馨提示：本次考试属于模拟真实考试环境总分100分，考核需要在90分以上成绩方可合格，中途考试交卷不可继续考试"/>
     </LinearLayout>
         <Button
             android:id="@+id/start_exam"

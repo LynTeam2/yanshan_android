@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/windowBackgroundWhite">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <RelativeLayout
+                android:id="@+id/hint_linear"
+                android:paddingLeft="30px"
+                android:paddingRight="30px"
+                android:layout_marginTop="30px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/type_name"
+                    android:paddingTop="10px"
+                    android:paddingBottom="10px"
+                    android:paddingLeft="30px"
+                    android:paddingRight="30px"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="判断"
+                    android:textSize="42px"
+                    android:textColor="@color/white"
+                    android:background="@color/normal_blue"
+                    ></TextView>
+
+                <TextView
+                    android:id="@+id/question_content"
+                    android:layout_marginTop="10px"
+                    android:gravity="center_vertical"
+                    android:lineSpacingExtra="25px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="42px"
+                    android:text="\t\t\t\t\t\t\t\t\tAndroid的TextView控件会在文字上下加上默认的padding值，该值随着文字大小成正比变化，只要为TextView设置android:includeFontPadding=”false”;就可以减少大部分上下空白，而且如果文字sp值小，也就看不出空白了。"/>
+            </RelativeLayout>
+
+            <cn.gov.bjys.onlinetrain.act.view.AnswerLayout
+                android:layout_marginTop="20px"
+                android:layout_below="@id/hint_linear"
+                android:id="@+id/single_answer_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ></cn.gov.bjys.onlinetrain.act.view.AnswerLayout>
+
+            <cn.gov.bjys.onlinetrain.act.view.DooQuestionAnalysisLayout
+                android:visibility="gone"
+                android:layout_below="@+id/single_answer_layout"
+                android:layout_marginTop="30px"
+                android:id="@+id/analysis_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ></cn.gov.bjys.onlinetrain.act.view.DooQuestionAnalysisLayout>
+        </RelativeLayout>
+
+    </ScrollView>
+</com.zhy.autolayout.AutoRelativeLayout>

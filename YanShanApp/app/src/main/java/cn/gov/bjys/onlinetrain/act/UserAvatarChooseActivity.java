@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -57,14 +58,7 @@ public class UserAvatarChooseActivity extends FrameActivity implements TakePhoto
     public void onTabClick(View v){
         switch (v.getId()){
             case R.id.photo_cancel:
-                if(!TextUtils.isEmpty(avatarPath)) {
-                    Intent intent = new Intent();
-                    Bundle mBundle = new Bundle();
-                    mBundle.putString(TAG, avatarPath);
-                    intent.putExtras(mBundle);
-                    setResult(AVATAR_SAVE_OK, intent);
-                }
-                finish();
+                backAboveAct();
                 break;
             case R.id.shoot_btn:
                 customHelper.onClick(shoot_btn,getTakePhoto());
@@ -75,7 +69,25 @@ public class UserAvatarChooseActivity extends FrameActivity implements TakePhoto
         }
     }
 
+    public void backAboveAct(){
+        if(!TextUtils.isEmpty(avatarPath)) {
+            Intent intent = new Intent();
+            Bundle mBundle = new Bundle();
+            mBundle.putString(TAG, avatarPath);
+            intent.putExtras(mBundle);
+            setResult(AVATAR_SAVE_OK, intent);
+        }
+        finish();
+    }
 
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            backAboveAct();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,8 +1,6 @@
 package cn.gov.bjys.onlinetrain.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,17 +8,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ycl.framework.base.FrameFragment;
 import com.ycl.framework.utils.util.ToastUtil;
-import com.ycl.framework.view.recycleview.SwipeRefreshRecyclerView;
 import com.zhy.autolayout.utils.AutoUtils;
 import com.zls.www.statusbarutil.StatusBarUtil;
 
@@ -30,6 +24,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
+import cn.gov.bjys.onlinetrain.act.AnJianDetailActivity;
+import cn.gov.bjys.onlinetrain.act.PracticePrepareActivity;
 import cn.gov.bjys.onlinetrain.act.view.DooItemTitleLayout;
 import cn.gov.bjys.onlinetrain.act.view.DooSearchLayout;
 import cn.gov.bjys.onlinetrain.adapter.DooHomeClassStudyAdapter;
@@ -114,6 +110,12 @@ public class HomeFragment extends FrameFragment {
         mDooHomeClassStudyAdapter = new DooHomeClassStudyAdapter(R.layout.item_home_classstudy_layout,getClassStudyDatas());
         mClassStudyRv.setLayoutManager(new GridLayoutManager(getContext(),2));
         mClassStudyRv.setAdapter(mDooHomeClassStudyAdapter);
+        mDooHomeClassStudyAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                startAct(PracticePrepareActivity.class);
+            }
+        });
     }
 
     private List<ClassStudyBean> getClassStudyDatas(){
@@ -135,6 +137,12 @@ public class HomeFragment extends FrameFragment {
 //        mDooHomePullRefreshAdapter.setOnLoadMoreListener(this,mAnJianRv);
         mAnJianRv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAnJianRv.setAdapter(mDooHomePullRefreshAdapter);
+        mDooHomePullRefreshAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                startAct(AnJianDetailActivity.class);
+            }
+        });
     }
 
 

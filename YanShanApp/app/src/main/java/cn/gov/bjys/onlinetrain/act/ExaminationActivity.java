@@ -6,9 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ycl.framework.base.BasePopu;
@@ -19,6 +19,7 @@ import com.zls.www.statusbarutil.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -30,6 +31,7 @@ import cn.gov.bjys.onlinetrain.adapter.DooExamBottomAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooExamStateFragmentAdapter;
 import cn.gov.bjys.onlinetrain.bean.ExamBean;
 import cn.gov.bjys.onlinetrain.bean.ExamXqBean;
+import cn.gov.bjys.onlinetrain.bean.SingleExamBean;
 import cn.jzvd.JZVideoPlayer;
 
 
@@ -97,6 +99,7 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
         initTimer();
     }
 
+
     private void initTimer() {
 
         mHandler = new Handler(Looper.getMainLooper());
@@ -116,6 +119,7 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
                         if (mTimerType == TIMER_END) {
                             cancelTimer();
                             //TODO 定时器时间结束
+                            startAct(ExamAnalysisActivity.class);
                         } else {
                             setTimeToHeader();
                         }
@@ -154,6 +158,10 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
 
 
     private void setViewPagerAndExamBottom(int positions) {
+        if(positions > 99){
+            return;
+        }
+        mExamBottomLayout.setNormalQuestionContent(positions+1);
         if (mViewPager != null) {
             mViewPager.setCurrentItem(positions, true);
         }
@@ -207,6 +215,13 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
                 setViewPagerAndExamBottom(position);
             }
         });
+
+        mHeader.setCustomClickListener(com.ycl.framework.R.id.iv_title_header_back, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handOfPaper();
+            }
+        });
         mBehavior = BottomSheetBehavior.from(mExamBottomLayout);
         mBehavior.setPeekHeight(AutoUtils.getPercentHeightSize(120));
         mBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
@@ -224,14 +239,22 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
 
     private List<ExamBean> prepareDatas() {
         List<ExamBean> list = new ArrayList<>();
+        Random random = new Random();
         for (int i = 0; i < 100; i++) {
+           int rInt = random.nextInt(3);
             ExamBean bean = new ExamBean();
-            switch (i % 2) {
-                case ExamBean.VIDEO_EXAM:
-                    bean.setType(ExamBean.VIDEO_EXAM);
+            switch (rInt % 3) {
+                case ExamBean.TEXT_JUDGMENT_EXAM:
+                    bean.setType(ExamBean.TEXT_JUDGMENT_EXAM);
                     break;
                 case ExamBean.TEXT_SINGLE_EXAM:
                     bean.setType(ExamBean.TEXT_SINGLE_EXAM);
+                    break;
+                case ExamBean.TEXT_MULTIPLE_EXAM:
+                    bean.setType(ExamBean.TEXT_MULTIPLE_EXAM);
+                    break;
+                case ExamBean.VIDEO_EXAM:
+                    bean.setType(ExamBean.VIDEO_EXAM);
                     break;
             }
             list.add(bean);
@@ -247,18 +270,7 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.hand_of_paper:
                 //todo 交卷
-                if (mEndExamPop == null) {
-                    mEndExamPop = new EndExamPop(this);
-                    mEndExamPop.setOnPupClicListener(new BasePopu.OnPupClickListener() {
-                        @Override
-                        public void onPupClick(int position) {
-                            if (EndExamPop.SURE_CLICK == position) {
-                                cancelTimer();
-                            }
-                        }
-                    });
-                }
-                mEndExamPop.showLocation(Gravity.CENTER);
+                handOfPaper();
                 break;
 
             case R.id.show_all_layout:
@@ -267,6 +279,33 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
                         BottomSheetBehavior.STATE_EXPANDED : BottomSheetBehavior.STATE_COLLAPSED);
                 break;
         }
+    }
+
+    private void handOfPaper(){
+        //todo 交卷
+        if (mEndExamPop == null) {
+            mEndExamPop = new EndExamPop(this);
+            mEndExamPop.setOnPupClicListener(new BasePopu.OnPupClickListener() {
+                @Override
+                public void onPupClick(int position) {
+                    if (EndExamPop.SURE_CLICK == position) {
+                        cancelTimer();
+                        startAct(ExamAnalysisActivity.class);
+                        finish();
+                    }
+                }
+            });
+        }
+        mEndExamPop.showLocation(Gravity.CENTER);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            handOfPaper();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
@@ -286,6 +325,87 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
 
     public List<ExamBean> getDatas() {
         return mExamAdapter.getmDatas();
+    }
+
+
+    public void userChoiceResult(ExamBean bean, int position){
+        int c = bean.getmChoose().get(0);
+        int i;
+        switch (bean.getType()){
+            case ExamBean.TEXT_JUDGMENT_EXAM:
+                 i = SingleExamBean.Judgment.isTrue;
+                if(c != i){
+                    //错
+                    refreshBottomCircleUI(position, false);//更新圆圈UI
+                    mExamBottomLayout.setErrorNum();//错题目数量自增一
+                }else{
+                    //对
+                    refreshBottomCircleUI(position, true);
+                    mExamBottomLayout.setRightNums();//对题目数量自增一
+                }
+                break;
+            case ExamBean.TEXT_SINGLE_EXAM:
+                 i = SingleExamBean.SingleChoose.isTrue;
+                if(c != i){
+                    //错
+                    refreshBottomCircleUI(position, false);//更新圆圈UI
+                    mExamBottomLayout.setErrorNum();//错题目数量自增一
+                }else{
+                    //对
+                    refreshBottomCircleUI(position, true);
+                    mExamBottomLayout.setRightNums();//对题目数量自增一
+                }
+                break;
+            case ExamBean.TEXT_MULTIPLE_EXAM:
+               List<Integer> lists =  bean.getmChoose();
+               int []  cc = cn.gov.bjys.onlinetrain.bean.SingleExamBean.MultiChoose.isTrue;
+                if(lists.size() == cc.length){
+                    boolean isEq = false;
+                    boolean isRealNotEq = false;
+                    int count = 0;
+                    for(int tempc : cc){
+                        isEq = false;
+                        for(int k=0; k < lists.size();k++){
+                           int tempUserC = lists.get(k);
+                            if(tempUserC == tempc){
+                                isEq = true;
+                                break;
+                            }
+                            if(k == lists.size() -1){
+                                if(!isEq){
+                                    isRealNotEq = true;
+                                }
+                            }
+                        }
+                    }
+                    if(!isRealNotEq){
+                        //全对
+                        refreshBottomCircleUI(position, true);
+                        mExamBottomLayout.setRightNums();//对题目数量自增一
+                    }else{
+                        refreshBottomCircleUI(position, false);//更新圆圈UI
+                        mExamBottomLayout.setErrorNum();//错题目数量自增一
+                    }
+                }else{
+                    refreshBottomCircleUI(position, false);//更新圆圈UI
+                    mExamBottomLayout.setErrorNum();//错题目数量自增一
+                }
+
+                break;
+        }
+        setViewPagerAndExamBottom(position+1);
+    }
+
+
+    public void refreshBottomCircleUI(int positions, boolean isRight){
+        if (mDooExamBottomAdapter != null) {
+            List<ExamXqBean> datas = mDooExamBottomAdapter.getData();
+            if (datas != null && !datas.isEmpty()) {
+                ExamXqBean bean = datas.get(positions);
+                bean.setmType(isRight?ExamXqBean.RIGHT:ExamXqBean.FAIL);
+            }
+            mDooExamBottomAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

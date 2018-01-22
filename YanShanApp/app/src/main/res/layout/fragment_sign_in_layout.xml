@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal">
     <RelativeLayout
+        android:id="@+id/sign_layout"
         android:layout_marginTop="60px"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">

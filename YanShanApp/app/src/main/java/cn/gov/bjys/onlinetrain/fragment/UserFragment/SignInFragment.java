@@ -3,19 +3,23 @@ package cn.gov.bjys.onlinetrain.fragment.UserFragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ycl.framework.base.FrameFragment;
+import com.ycl.framework.utils.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.adapter.DooExchangeRewardsAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooSigninGridAdapter;
@@ -46,6 +50,8 @@ public class SignInFragment  extends FrameFragment{
     @Bind(R.id.rv)
     RecyclerView rv;
 
+    @Bind(R.id.sign_layout)
+    RelativeLayout mSignLayout;
 
 
     @Override
@@ -100,4 +106,14 @@ public class SignInFragment  extends FrameFragment{
         }
         return list;
     }
+
+    @OnClick({R.id.sign_layout})
+    public void onTabClick(View v){
+        switch (v.getId()){
+            case R.id.sign_layout:
+                ToastUtil.showToast("签到成功");
+                break;
+        }
+    }
+
 }

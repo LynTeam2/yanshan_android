@@ -130,6 +130,7 @@ public class UserSettingActivity extends FrameActivity {
                   Bundle bundle =  data.getExtras();
                    String nick = (String) bundle.get(SaveNickFragment.TAG);
                     nickLinear.setName(nick);
+                    SavePreference.save(BaseApplication.getAppContext(),YSConst.UserInfo.USER_SAVE_NICK,nick);
                 }
                 break;
             case SAVE_USER_AVATAR:

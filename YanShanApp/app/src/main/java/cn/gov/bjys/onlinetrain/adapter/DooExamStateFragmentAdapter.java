@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.gov.bjys.onlinetrain.bean.ExamBean;
+import cn.gov.bjys.onlinetrain.fragment.ExaminationFragments.JudegmentExaminationFragment;
+import cn.gov.bjys.onlinetrain.fragment.ExaminationFragments.TextMultExaminationFragment;
 import cn.gov.bjys.onlinetrain.fragment.ExaminationFragments.TextSingleExaminationFragment;
 import cn.gov.bjys.onlinetrain.fragment.ExaminationFragments.VideoExaminationFragment;
 
@@ -57,6 +59,12 @@ public class DooExamStateFragmentAdapter<T> extends FragmentStatePagerAdapter {
                     break;
                 case ExamBean.TEXT_SINGLE_EXAM:
                     f = TextSingleExaminationFragment.newInstance(position);
+                    break;
+                case ExamBean.TEXT_MULTIPLE_EXAM:
+                    f = TextMultExaminationFragment.newInstance(position);
+                    break;
+                case ExamBean.TEXT_JUDGMENT_EXAM:
+                    f = JudegmentExaminationFragment.newInstance(position);
                     break;
                 default:
                     f = VideoExaminationFragment.newInstance(position);

@@ -52,6 +52,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 ></cn.gov.bjys.onlinetrain.act.view.AnswerLayout>
+
+            <cn.gov.bjys.onlinetrain.act.view.DooQuestionAnalysisLayout
+                android:visibility="gone"
+                android:layout_below="@+id/single_answer_layout"
+                android:layout_marginTop="30px"
+                android:id="@+id/analysis_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ></cn.gov.bjys.onlinetrain.act.view.DooQuestionAnalysisLayout>
         </RelativeLayout>
 
     </ScrollView>

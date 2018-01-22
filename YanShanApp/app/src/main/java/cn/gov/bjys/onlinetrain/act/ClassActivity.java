@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.widget.FrameLayout;
 
 import com.ycl.framework.base.FrameActivity;
+import com.zls.www.statusbarutil.StatusBarUtil;
 
 import butterknife.Bind;
 import cn.gov.bjys.onlinetrain.R;
@@ -24,6 +25,11 @@ public class ClassActivity extends FrameActivity {
     @Bind(R.id.frame_layout)
     FrameLayout mFrameLayout;
     private Fragment[] mFragments;
+
+    @Override
+    protected void initStatusBar() {
+        StatusBarUtil.setTranslucent(this, StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA);
+    }
 
     @Override
     protected void setRootView() {

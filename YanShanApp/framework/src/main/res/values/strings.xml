@@ -6,10 +6,10 @@
     <string name="main_page1">首页</string>
     <string name="main_page2">名人堂</string>
     <string name="main_page3">名师汇</string>
-    <string name="main_page4">我</string>
+    <string name="main_page4">我的</string>
 
-    <string name="main_page5">直播</string>
-    <string name="main_page6">点播</string>
+    <string name="main_page5">课程</string>
+    <string name="main_page6">商城</string>
 
 
     <string name="xlv_header_hint_loading">正在加载...</string>

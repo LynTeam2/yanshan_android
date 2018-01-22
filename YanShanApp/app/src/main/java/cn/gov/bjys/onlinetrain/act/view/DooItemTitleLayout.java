@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.ycl.framework.utils.helper.ContextHelper;
+import com.ycl.framework.utils.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,10 +60,14 @@ public class DooItemTitleLayout extends DooRootLayout {
                         getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), ExamPrepareActivity.class));
                         break;
                     case 2:
-                        getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), ClassActivity.class));
+                        ToastUtil.showToast("功能暂未开发");
+
+//                        getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), ClassActivity.class));
                         break;
                     case 3:
-                        getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), ExamAnalysisActivity.class));
+                        ToastUtil.showToast("功能暂未开发");
+
+//                        getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), ExamAnalysisActivity.class));
                         break;
                 }
             }

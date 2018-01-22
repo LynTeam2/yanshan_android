@@ -60,6 +60,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/jiedu"
+            android:textStyle="bold"
+            android:textColor="@color/normal_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="官方解读"/>
+        <TextView
+            android:layout_marginTop="20px"
+            android:layout_below="@id/jiedu"
             android:id="@+id/analysis_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

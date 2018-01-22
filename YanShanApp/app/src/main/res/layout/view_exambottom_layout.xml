@@ -19,13 +19,16 @@
             android:orientation="horizontal"
             android:gravity="center_vertical">
         <ImageView
+            android:id="@+id/handofpagerstart"
             android:layout_marginLeft="10px"
             android:layout_marginRight="10px"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/exam_commit"
             />
         <TextView
+            android:id="@+id/handofpager"
+            android:layout_marginLeft="20px"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/normal_black"
@@ -43,9 +46,11 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"/>
+                android:src="@drawable/exam_right"/>
 
             <TextView
+                android:id="@+id/right_nums"
+                android:layout_marginLeft="20px"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -56,9 +61,11 @@
                 android:layout_marginLeft="90px"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"/>
+                android:src="@drawable/exam_error"/>
 
             <TextView
+                android:id="@+id/error_nums"
+                android:layout_marginLeft="20px"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -70,9 +77,10 @@
                 android:layout_marginLeft="90px"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"/>
+                android:src="@drawable/exam_nums"/>
 
             <TextView
+                android:layout_marginLeft="20px"
                 android:id="@+id/now_question"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
