@@ -1,4 +1,4 @@
-package com.zls.www.mulit_file_download_lib.multi_file_download;
+package com.zls.www.mulit_file_download_lib.multi_file_download.manager;
 
 import java.io.IOException;
 

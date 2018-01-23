@@ -3,6 +3,7 @@ package com.zls.www.mulit_file_download_lib.multi_file_download.db.business;
 import android.content.Context;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
 
 import java.io.IOException;
@@ -43,8 +44,6 @@ public class DataInfoBusiness  extends BaseDbBusiness<DataInfo>  {
     public void addDownInfo(DataInfo di){
         try {
             dao.createOrUpdate(di);
-//            helper.getDao(DataInfo.class).createOrUpdate(bean.getDataInfo());
-//            helper.getDao(DataInfo.class).refresh(bean.getDataInfo());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -86,5 +85,24 @@ public class DataInfoBusiness  extends BaseDbBusiness<DataInfo>  {
             }
         }
         return new DataInfo();
+    }
+
+
+    //删除   根据allUrl
+    public void deleteItemWithAllUrl(String url) {
+        DeleteBuilder<DataInfoBusiness, Integer> deleteBuilder = dao.deleteBuilder();
+        try {
+            deleteBuilder.where().eq("main_url", url);
+            deleteBuilder.delete();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            dao.clearObjectCache();
+            try {
+                dao.closeLastIterator();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

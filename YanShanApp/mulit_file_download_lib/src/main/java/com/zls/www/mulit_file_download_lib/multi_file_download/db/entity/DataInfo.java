@@ -6,7 +6,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.ycl.framework.db.entity.DBEntity;
 
-import com.zls.www.mulit_file_download_lib.multi_file_download.HttpProgressOnNextListener;
+import com.zls.www.mulit_file_download_lib.multi_file_download.manager.HttpProgressOnNextListener;
 import com.zls.www.mulit_file_download_lib.multi_file_download.api.DownLoadApi;
 
 /**
@@ -20,14 +20,6 @@ public class DataInfo  extends DBEntity {
     /*存储位置*/
     @DatabaseField(canBeNull = true)
     private String savePath;
-    /*下载url*/
-//    @DatabaseField
-//    private String url;
-//    /*基础url*/
-//    @DatabaseField
-//    private String baseUrl;
-//    /*唯一的总长度下载地址*/
-
     @DatabaseField(id = true,columnName = "main_url")
     private String allUrl;
     /*文件总长度*/

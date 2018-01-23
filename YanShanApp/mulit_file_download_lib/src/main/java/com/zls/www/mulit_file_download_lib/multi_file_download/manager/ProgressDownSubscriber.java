@@ -1,5 +1,6 @@
-package com.zls.www.mulit_file_download_lib.multi_file_download;
+package com.zls.www.mulit_file_download_lib.multi_file_download.manager;
 
+import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 
 import com.zls.www.mulit_file_download_lib.multi_file_download.api.DownloadProgressListener;
@@ -20,6 +21,12 @@ public class ProgressDownSubscriber<T> extends Subscriber<T> implements Download
 
 
     public ProgressDownSubscriber(DataInfo downInfo) {
+        this.mSubscriberOnNextListener = new WeakReference<>(downInfo.getListener());
+        this.downInfo = downInfo;
+    }
+
+
+    public void setDownInfo(DataInfo downInfo) {
         this.mSubscriberOnNextListener = new WeakReference<>(downInfo.getListener());
         this.downInfo=downInfo;
     }
@@ -42,7 +49,7 @@ public class ProgressDownSubscriber<T> extends Subscriber<T> implements Download
     @Override
     public void onCompleted() {
         if(mSubscriberOnNextListener.get()!=null){
-            mSubscriberOnNextListener.get().onComplete(downInfo);
+            mSubscriberOnNextListener.get().onComplete();
         }
         downInfo.setState(DataInfo.DownState.FINISH);
     }

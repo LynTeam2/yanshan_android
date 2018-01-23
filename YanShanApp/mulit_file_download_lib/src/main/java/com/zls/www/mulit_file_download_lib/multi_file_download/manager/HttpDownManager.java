@@ -1,4 +1,4 @@
-package com.zls.www.mulit_file_download_lib.multi_file_download;
+package com.zls.www.mulit_file_download_lib.multi_file_download.manager;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +13,7 @@ import com.ycl.framework.base.FrameApplication;
 import com.zls.www.mulit_file_download_lib.multi_file_download.api.DownLoadApi;
 import com.zls.www.mulit_file_download_lib.multi_file_download.db.business.DownLoadInfoBusiness;
 import com.zls.www.mulit_file_download_lib.multi_file_download.db.entity.DataInfo;
+import com.zls.www.mulit_file_download_lib.multi_file_download.exception.RetryWhenNetworkException;
 
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -59,6 +60,8 @@ public class HttpDownManager {
     public void startDown(final DataInfo info) {
         /*正在下载不处理*/
         if (info == null || subMap.get(info.getAllUrl()) != null) {
+            //重新赋值
+            subMap.get(info.getAllUrl()).setDownInfo(info);
             return;
         }
         /*添加回调处理类*/
@@ -79,7 +82,7 @@ public class HttpDownManager {
                     .client(builder.build())
                     .addConverterFactory(FastJsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .baseUrl("http://www.abcd.com")
+                    .baseUrl(getBasUrl(info.getAllUrl()))
                     .build();
 
             httpService = retrofit.create(DownLoadApi.class);
@@ -87,12 +90,12 @@ public class HttpDownManager {
             downInfos.add(info);
         }
         /*得到rx对象-上一次下載的位置開始下載*/
-        ((DownLoadApi)httpService).downLoad("bytes=" + info.getReadLength() + "-", info.getAllUrl())
+        httpService.downLoad("bytes=" + info.getReadLength() + "-", info.getAllUrl())
                 /*指定线程*/
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                    /*失败后的retry配置*/
-//                .retryWhen( new RetryWhenNetworkException())
+                .retryWhen( new RetryWhenNetworkException())
                 /*读取下载写入文件*/
                 .map(new Func1<ResponseBody, DataInfo>() {
                     @Override
@@ -147,8 +150,6 @@ public class HttpDownManager {
         }
         /*这里需要讲info信息写入到数据中，可自由扩展，用自己项目的数据库*/
         DownLoadInfoBusiness.getInstance(FrameApplication.getFrameContext()).addDownLoadInfo(info);
-//        DownLoadInfoBusiness.getInstance(BaseApplication.getAppContext()).create(info);
-
     }
 
     /**
@@ -210,5 +211,25 @@ public class HttpDownManager {
         if (randomAccessFile != null) {
             randomAccessFile.close();
         }
+    }
+
+
+    /**
+     * 读取baseurl
+     * @param url
+     * @return
+     */
+    public static String getBasUrl(String url) {
+        String head = "";
+        int index = url.indexOf("://");
+        if (index != -1) {
+            head = url.substring(0, index + 3);
+            url = url.substring(index + 3);
+        }
+        index = url.indexOf("/");
+        if (index != -1) {
+            url = url.substring(0, index + 1);
+        }
+        return head + url;
     }
 }

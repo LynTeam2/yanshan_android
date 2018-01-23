@@ -44,7 +44,6 @@ public class DownLoadInfoBusiness extends BaseDbBusiness<DownLoadInfoBean> {
         DownLoadInfoBean bean = new DownLoadInfoBean();
         bean.setDataInfo(di);
         List<DownLoadInfoBean>  beanList = new ArrayList<>();
-
         try {
            beanList = dao.queryBuilder().
                     where().
@@ -58,35 +57,12 @@ public class DownLoadInfoBusiness extends BaseDbBusiness<DownLoadInfoBean> {
             bean.setDbId(beanList.get(0).getDbId());
         }
         try {
-            dao.createOrUpdate(bean);
+            //先将datainfo加入数据库
             DataInfoBusiness.getInstance(FrameApplication.getFrameContext()).addDownInfo(bean.getDataInfo());
-//            helper.getDao(DataInfo.class).createOrUpdate(bean.getDataInfo());
-//            helper.getDao(DataInfo.class).refresh(bean.getDataInfo());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    //有就更新 没有就插入
-    public void createOrUpdate(DataInfo nc) {
-        DownLoadInfoBean bean = new DownLoadInfoBean();
-        try {
-            DownLoadInfoBean cache = queryBykey("data_info_bean", nc.getAllUrl());
-            if (cache.getDataInfo() != null && !TextUtils.isEmpty(cache.getDataInfo().getAllUrl())) {
-                bean.setDbId(cache.getDbId());
-            }
-            bean.setDataInfo(nc);
+            //再把downLoadingInfobean加入数据库
             dao.createOrUpdate(bean);
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            dao.clearObjectCache();
-            try {
-                dao.closeLastIterator();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -113,7 +89,10 @@ public class DownLoadInfoBusiness extends BaseDbBusiness<DownLoadInfoBean> {
             qb.where().eq(key, values);
             list = qb.query();//dao.query(qb.prepare());
             if (list.size() > 0) {
-                return list.get(0);
+                //恢复 DownLoadInfoBean 里面的  datainfo
+                DownLoadInfoBean bean  = list.get(0);
+                DataInfoBusiness.getInstance(FrameApplication.getFrameContext()).dao.refresh(bean.getDataInfo());
+                return bean;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -129,12 +108,16 @@ public class DownLoadInfoBusiness extends BaseDbBusiness<DownLoadInfoBean> {
     }
 
 
-    //删除   根据id
+
+    //删除  DownLoadInfoBean 根据allUrl
     public void deleteItemWithAllUrl(String url) {
+        //先删除DownLoadInfoBean表
         DeleteBuilder<DownLoadInfoBusiness, Integer> deleteBuilder = dao.deleteBuilder();
         try {
-            deleteBuilder.where().eq("dataInfo", url);
+            deleteBuilder.where().eq("data_info_bean", url);
             deleteBuilder.delete();
+            //删除完了之后  删除DataInfo表
+            DataInfoBusiness.getInstance(FrameApplication.getFrameContext()).deleteItemWithAllUrl(url);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

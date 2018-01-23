@@ -40,8 +40,10 @@ public class DataDownLoadHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, ConnectionSource arg1, int arg2, int arg3) {
         try {
+            // 删除表
             TableUtils.dropTable(connectionSource, DownLoadInfoBean.class, true);
             TableUtils.dropTable(connectionSource, DataInfo.class, true);
+            // 再建表
             onCreate(db, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -62,7 +64,9 @@ public class DataDownLoadHelper extends OrmLiteSqliteOpenHelper {
         return dao;
     }
 
-
+    /**
+     * 释放
+     */
     @Override
     public void close() {
         super.close();

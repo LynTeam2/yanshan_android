@@ -1,4 +1,4 @@
-package com.zls.www.mulit_file_download_lib.multi_file_download;
+package com.zls.www.mulit_file_download_lib.multi_file_download.manager;
 
 
 
@@ -24,7 +24,7 @@ public abstract class HttpProgressOnNextListener<T>  {
     /**
      * 完成下载
      */
-    public abstract void onComplete(T t);
+    public abstract void onComplete();
 
 
     /**
