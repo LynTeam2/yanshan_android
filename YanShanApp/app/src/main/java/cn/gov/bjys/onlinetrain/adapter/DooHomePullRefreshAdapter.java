@@ -41,9 +41,9 @@ public class DooHomePullRefreshAdapter extends BaseQuickAdapter<AnjianBean, Base
     protected void convert(BaseViewHolder helper, AnjianBean item) {
         GlideProxy.loadImgForUrlPlaceHolderDontAnimate((ImageView) helper.getView(R.id.img),item.getImgSrc(),R.drawable.icon_165_165);
 
-        helper.setText(R.id.title,item.getTitle());
-
-        helper.setText(R.id.content, item.getContent());
+//        helper.setText(R.id.title,item.getTitle());
+//
+//        helper.setText(R.id.content, item.getContent());
 
     }
 }

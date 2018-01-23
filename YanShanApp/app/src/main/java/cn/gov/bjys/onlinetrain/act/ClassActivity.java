@@ -27,6 +27,11 @@ public class ClassActivity extends FrameActivity {
     private Fragment[] mFragments;
 
     @Override
+    protected void initStatusBar() {
+        StatusBarUtil.setTranslucent(this, StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA);
+    }
+
+    @Override
     protected void setRootView() {
         setContentView(R.layout.activity_class_layout);
     }

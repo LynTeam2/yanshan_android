@@ -37,6 +37,17 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/FragmentStatusBarStyle" />
+        <activity
+            android:name=".act.PracticeActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/FragmentStatusBarStyle" />
+
+        <activity
+            android:name=".act.PracticePrepareActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivityStyle" />
 
         <activity
             android:name=".act.GuideActivity"
@@ -79,6 +90,16 @@
 
         <activity
             android:name=".act.UserMessageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivityStyle" />
+
+        <activity
+            android:name=".act.UserMessageDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivityStyle" />
+
+        <activity
+            android:name=".act.AnJianDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivityStyle" />
 

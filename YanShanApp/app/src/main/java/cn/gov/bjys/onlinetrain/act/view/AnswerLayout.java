@@ -7,12 +7,15 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.bean.ExamBean;
+import cn.gov.bjys.onlinetrain.bean.ExamXqBean;
+import cn.gov.bjys.onlinetrain.bean.SingleExamBean;
 
 /**
  * 答题界面
@@ -21,11 +24,21 @@ import cn.gov.bjys.onlinetrain.bean.ExamBean;
  */
 public class AnswerLayout extends LinearLayout implements View.OnClickListener {
 
-   public  interface ClickResult{
-       public void clickRet(int[] ints);
+    public interface ClickResult {
+        public void clickRet(ExamBean bean);
     }
 
+    public void registerClickResult(ClickResult cr) {
+        this.mClickResult = cr;
+    }
+
+    public void removeAllLis() {
+        this.mClickResult = null;
+    }
+
+    private ClickResult mClickResult;
     private Context mContext;
+
     public AnswerLayout(Context context) {
         super(context);
         mContext = context;
@@ -50,10 +63,11 @@ public class AnswerLayout extends LinearLayout implements View.OnClickListener {
         mContext = context;
         initViews();
     }
+
     private List<SingleAnswerLayout> mLayoutList;
 
-    private void initViews(){
-        if(mLayoutList == null){
+    private void initViews() {
+        if (mLayoutList == null) {
             mLayoutList = new ArrayList<>();
         }
         this.setOrientation(LinearLayout.VERTICAL);
@@ -62,16 +76,31 @@ public class AnswerLayout extends LinearLayout implements View.OnClickListener {
 
     /**
      * UI线程 避免超时任务
+     *
      * @param bean
      */
-    public void bindDatas(ExamBean bean){
+    private ExamBean mExamBean;
+
+    public void bindDatas(ExamBean bean) {
+        mExamBean = bean;
         Handler handler = new Handler(getContext().getMainLooper());
         handler.post(new Runnable() {
             @Override
             public void run() {
                 AnswerLayout.this.removeAllViews();
                 mLayoutList.clear();
-                for(int i=0; i < 4; i++){
+                switch (mExamBean.getType()) {
+                    case ExamBean.TEXT_JUDGMENT_EXAM:
+                        gotoJudgment();
+                        break;
+                    case ExamBean.TEXT_SINGLE_EXAM:
+                        gotoSingle();
+                        break;
+                    case ExamBean.TEXT_MULTIPLE_EXAM:
+                        gotoMulti();
+                        break;
+                }
+/*                for(int i=0; i < 4; i++){
                     String s = "this is "+i;
                     SingleAnswerLayout layout =  new SingleAnswerLayout(mContext);
 //                    RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -100,26 +129,294 @@ public class AnswerLayout extends LinearLayout implements View.OnClickListener {
                     layout.setOnClickListener(AnswerLayout.this);
                     AnswerLayout.this.addView(layout);
                     mLayoutList.add(layout);
-                }
+                }*/
             }
         });
     }
 
-    public void addOneOrderData(){
+
+    public void gotoJudgment() {
+        for (int i = 0; i < SingleExamBean.Judgment.answers.length; i++) {
+            String s = SingleExamBean.SingleChoose.answers[i];
+            SingleAnswerLayout layout = new SingleAnswerLayout(mContext);
+            layout.setContent(s);
+            switch (i) {
+                case 0:
+                    layout.setTextById("A", R.id.text_choice);
+                    break;
+                case 1:
+                    layout.setTextById("B", R.id.text_choice);
+                    break;
+                case 2:
+                    layout.setTextById("C", R.id.text_choice);
+                    break;
+                case 3:
+                    layout.setTextById("D", R.id.text_choice);
+                    break;
+            }
+            layout.setTag(i);
+            layout.setOnClickListener(AnswerLayout.this);
+            AnswerLayout.this.addView(layout);
+            mLayoutList.add(layout);
+        }
+
+        if (mExamBean.isDeal()) {
+            int j = cn.gov.bjys.onlinetrain.bean.SingleExamBean.Judgment.isTrue;
+            SingleAnswerLayout layout = mLayoutList.get(j);
+            TextView textChoice = (TextView) layout.findViewById(R.id.text_choice);
+            textChoice.setBackground(getResources().getDrawable(R.drawable.dati_right));
+            textChoice.setText("");
+            if (mExamBean.getmChoose().get(0) != j) {
+                SingleAnswerLayout layout1 = mLayoutList.get(mExamBean.getmChoose().get(0));
+                TextView textChoice1 = (TextView) layout1.findViewById(R.id.text_choice);
+                textChoice1.setBackground(getResources().getDrawable(R.drawable.dati_error));
+                textChoice1.setText("");
+            }
+        }
+    }
+
+    public void gotoSingle() {
+        for (int i = 0; i < SingleExamBean.SingleChoose.answers.length; i++) {
+            String s = SingleExamBean.SingleChoose.answers[i];
+            SingleAnswerLayout layout = new SingleAnswerLayout(mContext);
+            layout.setContent(s);
+            switch (i) {
+                case 0:
+                    layout.setTextById("A", R.id.text_choice);
+                    break;
+                case 1:
+                    layout.setTextById("B", R.id.text_choice);
+                    break;
+                case 2:
+                    layout.setTextById("C", R.id.text_choice);
+                    break;
+                case 3:
+                    layout.setTextById("D", R.id.text_choice);
+                    break;
+            }
+            layout.setTag(i);
+            layout.setOnClickListener(AnswerLayout.this);
+            AnswerLayout.this.addView(layout);
+            mLayoutList.add(layout);
+        }
+
+        if (mExamBean.isDeal()) {
+            int j = cn.gov.bjys.onlinetrain.bean.SingleExamBean.SingleChoose.isTrue;
+            SingleAnswerLayout layout = mLayoutList.get(j);
+            TextView textChoice = (TextView) layout.findViewById(R.id.text_choice);
+            textChoice.setBackground(getResources().getDrawable(R.drawable.dati_right));
+            textChoice.setText("");
+            if (mExamBean.getmChoose().get(0) != j) {
+                SingleAnswerLayout layout1 = mLayoutList.get(mExamBean.getmChoose().get(0));
+                TextView textChoice1 = (TextView) layout1.findViewById(R.id.text_choice);
+                textChoice1.setBackground(getResources().getDrawable(R.drawable.dati_error));
+                textChoice1.setText("");
+            }
+        }
+    }
+
+    public void gotoMulti() {
+        for (int i = 0; i < SingleExamBean.MultiChoose.answers.length; i++) {
+            String s = SingleExamBean.MultiChoose.answers[i];
+            SingleAnswerLayout layout = new SingleAnswerLayout(mContext);
+            layout.setContent(s);
+            switch (i) {
+                case 0:
+                    layout.setTextById("A", R.id.text_choice);
+                    break;
+                case 1:
+                    layout.setTextById("B", R.id.text_choice);
+                    break;
+                case 2:
+                    layout.setTextById("C", R.id.text_choice);
+                    break;
+                case 3:
+                    layout.setTextById("D", R.id.text_choice);
+                    break;
+            }
+            layout.setTag(i);
+            layout.setOnClickListener(AnswerLayout.this);
+            AnswerLayout.this.addView(layout);
+            mLayoutList.add(layout);
+        }
+
+        if (mExamBean.isDeal()) {
+            //正确答案
+            int[] j = cn.gov.bjys.onlinetrain.bean.SingleExamBean.MultiChoose.isTrue;
+            //用户答案
+            List<Integer> user = mExamBean.getmChoose();
+            for (int k = 0; k < SingleExamBean.MultiChoose.answers.length; k++) {
+                int type = 0;//-1默认 正确答案1  错误0
+                for (int right : j) {
+                    if (right == k) {
+                        type = 1;
+                        break;
+                    }
+                }
+                int userT = 0;//选择1 未选择0
+                for (Integer userC : user) {
+                    if (userC == k) {
+                        userT = 1;
+                        break;
+                    }
+                }
+                if (type == 1 && userT == 1) {
+                    SingleAnswerLayout layout = mLayoutList.get(k);
+                    TextView textChoice = (TextView) layout.findViewById(R.id.text_choice);
+                    textChoice.setBackground(getResources().getDrawable(R.drawable.dati_right));
+                    textChoice.setText("");
+                } else if (type == 1 && userT == 0) {
+                    SingleAnswerLayout layout = mLayoutList.get(k);
+                    TextView textChoice = (TextView) layout.findViewById(R.id.text_choice);
+                    textChoice.setBackground(getResources().getDrawable(R.drawable.bg_exam_choice_select));
+                    textChoice.setText("");
+                } else if (type == 0 && userT == 1) {
+                    SingleAnswerLayout layout = mLayoutList.get(k);
+                    TextView textChoice = (TextView) layout.findViewById(R.id.text_choice);
+                    textChoice.setBackground(getResources().getDrawable(R.drawable.dati_error));
+                    textChoice.setText("");
+                } else {
+
+                }
+            }
+
+
+        }
+    }
+
+    public void addOneOrderData() {
 
 
     }
 
     boolean isClicked = false;
+
     @Override
     public void onClick(View v) {
-       int i = (int) v.getTag();
-        if(isClicked){
-            return;
-        }
-        SingleAnswerLayout layout = mLayoutList.get(i);
-        layout.findViewById(R.id.text_choice).setBackground(getResources().getDrawable(R.drawable.bg_exam_choice_select));
+        int i = (int) v.getTag();
+//        if(isClicked){
+//            return;
+//        }
 
-        isClicked = true;
+        if (mExamBean.isDeal()) {
+            return;//用户已经做过这个题目了
+        }
+
+        switch (mExamBean.getType()) {
+            case ExamBean.TEXT_SINGLE_EXAM:
+                resolveSingleExamClick(i);
+                break;
+
+            case ExamBean.TEXT_JUDGMENT_EXAM:
+                resolveJudgementExamClick(i);
+                break;
+            case ExamBean.TEXT_MULTIPLE_EXAM:
+                resolveMultiExamClick(i);
+                break;
+        }
+    }
+
+    public void resolveSingleExamClick(int i) {
+        mExamBean.setDeal(true);
+        List<Integer> datas = new ArrayList<>();
+        datas.add(i);
+        mExamBean.setmChoose(datas);
+
+        int j = cn.gov.bjys.onlinetrain.bean.SingleExamBean.SingleChoose.isTrue;
+
+        SingleAnswerLayout layout = mLayoutList.get(j);
+        TextView textChoice = (TextView) layout.findViewById(R.id.text_choice);
+        textChoice.setBackground(getResources().getDrawable(R.drawable.dati_right));
+        textChoice.setText("");
+        if (i != j) {
+            SingleAnswerLayout layout1 = mLayoutList.get(i);
+            TextView textChoice1 = (TextView) layout1.findViewById(R.id.text_choice);
+            textChoice1.setBackground(getResources().getDrawable(R.drawable.dati_error));
+            textChoice1.setText("");
+        }
+        if (mClickResult != null) {
+            mClickResult.clickRet(mExamBean);
+        }
+
+    }
+
+    public void resolveJudgementExamClick(int i) {
+        mExamBean.setDeal(true);
+        List<Integer> datas = new ArrayList<>();
+        datas.add(i);
+        mExamBean.setmChoose(datas);
+        int j = cn.gov.bjys.onlinetrain.bean.SingleExamBean.Judgment.isTrue;
+        SingleAnswerLayout layout = mLayoutList.get(j);
+        TextView textChoice = (TextView) layout.findViewById(R.id.text_choice);
+        textChoice.setBackground(getResources().getDrawable(R.drawable.dati_right));
+        textChoice.setText("");
+        if (i != j) {
+            SingleAnswerLayout layout1 = mLayoutList.get(i);
+            TextView textChoice1 = (TextView) layout1.findViewById(R.id.text_choice);
+            textChoice1.setBackground(getResources().getDrawable(R.drawable.dati_error));
+            textChoice1.setText("");
+        }
+        if (mClickResult != null) {
+            mClickResult.clickRet(mExamBean);
+        }
+
+    }
+
+    public void resolveMultiExamClick(int i) {
+        List<Integer> datas = mExamBean.getmChoose();
+        if (datas.contains(i)) {
+            datas.remove(i);
+            SingleAnswerLayout layout = mLayoutList.get(i);
+            TextView textChoice = (TextView) layout.findViewById(R.id.text_choice);
+            textChoice.setBackground(getResources().getDrawable(R.drawable.bg_exam_choice_normal));
+        } else {
+            datas.add(i);
+            SingleAnswerLayout layout = mLayoutList.get(i);
+            TextView textChoice = (TextView) layout.findViewById(R.id.text_choice);
+            textChoice.setBackground(getResources().getDrawable(R.drawable.bg_exam_choice_select));
+        }
+    }
+
+    public void sureMulti(ExamBean bean) {
+            //正确答案
+            int[] j = cn.gov.bjys.onlinetrain.bean.SingleExamBean.MultiChoose.isTrue;
+            //用户答案
+            List<Integer> user = bean.getmChoose();
+            for (int k = 0; k < SingleExamBean.MultiChoose.answers.length; k++) {
+                int type = 0;//-1默认 正确答案1  错误0
+                for (int right : j) {
+                    if (right == k) {
+                        type = 1;
+                        break;
+                    }
+                }
+                int userT = 0;//选择1 未选择0
+                for (Integer userC : user) {
+                    if (userC == k) {
+                        userT = 1;
+                        break;
+                    }
+                }
+                if (type == 1 && userT == 1) {
+                    SingleAnswerLayout layout = mLayoutList.get(k);
+                    TextView textChoice = (TextView) layout.findViewById(R.id.text_choice);
+                    textChoice.setBackground(getResources().getDrawable(R.drawable.dati_right));
+                    textChoice.setText("");
+                } else if (type == 1 && userT == 0) {
+                    SingleAnswerLayout layout = mLayoutList.get(k);
+                    TextView textChoice = (TextView) layout.findViewById(R.id.text_choice);
+                    textChoice.setBackground(getResources().getDrawable(R.drawable.bg_exam_choice_select));
+                } else if (type == 0 && userT == 1) {
+                    SingleAnswerLayout layout = mLayoutList.get(k);
+                    TextView textChoice = (TextView) layout.findViewById(R.id.text_choice);
+                    textChoice.setBackground(getResources().getDrawable(R.drawable.dati_error));
+                    textChoice.setText("");
+                } else {
+
+                }
+        }
+        if(mClickResult != null){
+            mClickResult.clickRet(mExamBean);
+        }
     }
 }

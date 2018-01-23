@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="301px"
+    android:layout_height="300px"
+    android:paddingLeft="30px"
+    android:paddingRight="30px"
     >
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="300px"
-        android:paddingLeft="30px"
-        android:paddingRight="30px"
-        android:gravity="center_vertical">
     <RelativeLayout
         android:layout_weight="200"
         android:layout_width="0px"
         android:layout_height="match_parent">
         <ImageView
-            android:layout_marginTop="53px"
-            android:id="@+id/img"
+            android:layout_marginTop="60px"
             android:layout_centerHorizontal="true"
+            android:id="@+id/img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/icon_165_165"/>
@@ -44,8 +40,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/home_normal_gray"
-            android:maxLines="2"
-            android:ellipsize="end"
             android:text="中国通过国家主席习近平3日出席能赚国家工商中国通过国家主席习近平3日出席能赚国家工商"
             />
     </LinearLayout>
@@ -61,13 +55,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/home_next_img"
             />
+
+
     </RelativeLayout>
-    </LinearLayout>
-    <View
-        android:layout_marginLeft="48px"
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/normal_gray_light2"
-        ></View>
-</RelativeLayout>
+</LinearLayout>

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 
@@ -18,6 +19,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
+import cn.gov.bjys.onlinetrain.act.ClassActivity;
+import cn.gov.bjys.onlinetrain.act.PracticePrepareActivity;
 import cn.gov.bjys.onlinetrain.act.view.DooItemTitleLayout;
 import cn.gov.bjys.onlinetrain.act.view.TitleHeadNormalOne;
 import cn.gov.bjys.onlinetrain.adapter.DooHomeClassAdapter;
@@ -73,12 +76,14 @@ public class HomeClassFragment extends FrameFragment {
         switch (v.getId()){
             case R.id.more_class:
                 ToastUtil.showToast("更多课程");
+                startAct(ClassActivity.class);
                 break;
             case R.id.more_practice:
                 ToastUtil.showToast("更多练习");
+                startAct(ClassActivity.class);
                 break;
             case R.id.more_mistakes:
-                ToastUtil.showToast("更多错误");
+                ToastUtil.showToast("更多错题");
                 break;
         }
     }
@@ -98,18 +103,84 @@ public class HomeClassFragment extends FrameFragment {
     DooHomeClassAdapter mDooHomeClassAdapter;
     public void initClassGv(){
         if(mDooHomeClassAdapter == null){
-            mDooHomeClassAdapter = new DooHomeClassAdapter(getActivity(), DooItemTitleLayout.getDatas());
+            mDooHomeClassAdapter = new DooHomeClassAdapter(getActivity(), getDatas());
         }
         class_gridview.setAdapter(mDooHomeClassAdapter);
+        class_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startAct(PracticePrepareActivity.class);
+            }
+        });
     }
 
+
+    public static List<DooHomeGridViewAdapter.HomeGridBean> getDatas(){
+        ArrayList<DooHomeGridViewAdapter.HomeGridBean> beanArrayList = new ArrayList<>();
+        //num 1
+        DooHomeGridViewAdapter.HomeGridBean bean = new DooHomeGridViewAdapter.HomeGridBean();
+        bean.setName("危险化学");
+        bean.setSrcId(R.drawable.dangerous_chemistry);
+        beanArrayList.add(bean);
+        //num 2
+        DooHomeGridViewAdapter.HomeGridBean bean2 = new DooHomeGridViewAdapter.HomeGridBean();
+        bean2.setName("工业企业");
+        bean2.setSrcId(R.drawable.industry);
+        beanArrayList.add(bean2);
+        //num 3
+        DooHomeGridViewAdapter.HomeGridBean bean3 = new DooHomeGridViewAdapter.HomeGridBean();
+        bean3.setName("交通运输");
+        bean3.setSrcId(R.drawable.transportation);
+        beanArrayList.add(bean3);
+        //num 4
+        DooHomeGridViewAdapter.HomeGridBean bean4 = new DooHomeGridViewAdapter.HomeGridBean();
+        bean4.setName("消防管理");
+        bean4.setSrcId(R.drawable.fire_control_management);
+        beanArrayList.add(bean4);
+
+
+        return beanArrayList;
+    }
+
+    public static List<DooHomeGridViewAdapter.HomeGridBean> getDatas2(){
+        ArrayList<DooHomeGridViewAdapter.HomeGridBean> beanArrayList = new ArrayList<>();
+        //num 1
+        DooHomeGridViewAdapter.HomeGridBean bean = new DooHomeGridViewAdapter.HomeGridBean();
+        bean.setName("野外自救");
+        bean.setSrcId(R.drawable.dangerous_chemistry);
+        beanArrayList.add(bean);
+        //num 2
+        DooHomeGridViewAdapter.HomeGridBean bean2 = new DooHomeGridViewAdapter.HomeGridBean();
+        bean2.setName("防洪防汛");
+        bean2.setSrcId(R.drawable.industry);
+        beanArrayList.add(bean2);
+        //num 3
+        DooHomeGridViewAdapter.HomeGridBean bean3 = new DooHomeGridViewAdapter.HomeGridBean();
+        bean3.setName("防盗预警");
+        bean3.setSrcId(R.drawable.transportation);
+        beanArrayList.add(bean3);
+        //num 4
+        DooHomeGridViewAdapter.HomeGridBean bean4 = new DooHomeGridViewAdapter.HomeGridBean();
+        bean4.setName("天气遇冷");
+        bean4.setSrcId(R.drawable.fire_control_management);
+        beanArrayList.add(bean4);
+
+
+        return beanArrayList;
+    }
 
     DooHomeClassPracticeAdapter mDooHomeClassPracticeAdapter;
     public void initPracticeGv(){
         if(mDooHomeClassPracticeAdapter == null){
-            mDooHomeClassPracticeAdapter = new DooHomeClassPracticeAdapter(getActivity(), DooItemTitleLayout.getDatas());
+            mDooHomeClassPracticeAdapter = new DooHomeClassPracticeAdapter(getActivity(), getDatas());
         }
         practice_gridview.setAdapter(mDooHomeClassPracticeAdapter);
+        practice_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startAct(PracticePrepareActivity.class);
+            }
+        });
     }
     DooHomeClassMistakesAdapter mDooHomeClassMistakesAdapter;
     public void initMistakesGv(){

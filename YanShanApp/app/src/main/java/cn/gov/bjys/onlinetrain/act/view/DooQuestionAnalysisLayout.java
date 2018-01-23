@@ -39,6 +39,14 @@ public class DooQuestionAnalysisLayout<T> extends DooRootLayout {
         mAnalysisContent = (TextView) findViewById(R.id.analysis_content);
     }
 
+    public void setmAnalysisAnswer(String str){
+        mAnalysisAnswer.setText(str);
+    }
+
+    public void setmAnalysisContent(String str){
+        mAnalysisContent.setText(str);
+    }
+
     @Override
     public View getRootView() {
         return View.inflate(getContext(), R.layout.layout_question_analysis_layout, null);

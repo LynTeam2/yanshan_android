@@ -51,7 +51,12 @@ public class ExamBottomLayout extends DooRootLayout implements View.OnClickListe
     private LinearLayout mHandOfPaper;//交卷
     private LinearLayout mShowAllLayout;//点击显示全部区域
     private TextView mNowQuestion;//目前题目的位置
+    private TextView mErrorNums;//错题数
+    private TextView mRightNums;//对题目数
 
+
+    private int mRightNum = 0;
+    private int mErrorNum = 0;
 
     @Override
     public void initViews() {
@@ -60,7 +65,19 @@ public class ExamBottomLayout extends DooRootLayout implements View.OnClickListe
         setNormalQuestionContent(0);//设置"0/100"
         mHandOfPaper = (LinearLayout) findViewById(R.id.hand_of_paper);
         mShowAllLayout = (LinearLayout) findViewById(R.id.show_all_layout);
+        mErrorNums = (TextView) findViewById(R.id.error_nums);
+        mRightNums   = (TextView) findViewById(R.id.right_nums);
         initRecyView();
+    }
+
+    public void setRightNums(){
+        mRightNum++;
+        mRightNums.setText(mRightNum+"");
+    }
+
+    public void setErrorNum(){
+        mErrorNum ++;
+        mErrorNums.setText(mErrorNum+"");
     }
 
     RecyclerView mRecyclerView;
@@ -127,11 +144,11 @@ public class ExamBottomLayout extends DooRootLayout implements View.OnClickListe
     }
 
     public final static int NORMAL_ALL_QUESTIONS = 100;
-    private void setNormalQuestionContent(int nowPostion){
+    public void setNormalQuestionContent(int nowPostion){
             setNowQuesitonContent(nowPostion,NORMAL_ALL_QUESTIONS);
     }
 
-    private void setNowQuesitonContent(int nowPostion,int allNums){
+    public void setNowQuesitonContent(int nowPostion,int allNums){
 
         SpannableStringBuilder ssb = new SpannableStringUtils.Builder()
                 .append(nowPostion + "").setForegroundColor(getResources().getColor(R.color.normal_black))

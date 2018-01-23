@@ -17,6 +17,7 @@ public class YSConst {
     public static class UserInfo{
         public final static String KEY_USER_TOKEN  = "key_user_token";
         public final static String USER_AVATAR_PATH = "user_avatar_path";
+        public final static String USER_SAVE_NICK = "user_save_nick";
 
      }
 }

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/windowBackground">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ScrollView
+                android:id="@+id/sc_linear"
+                android:layout_width="match_parent"
+                android:layout_height="880px">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+            <TextView
+                android:id="@+id/article"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="央视网消息：12月29日，全国政协在北京举行新年茶话会。习近平出席茶话会并发表重要讲话。
+十九大新一届政治局常委悉数到场。
+回顾2017：岁末盘点 一年来成绩沉甸甸
+习近平指出，2017年是党和国家发展进程中具有里程碑意义的一年，中国特色社会主义各项事业取得新的重大成就。他特别提到了几个重大事件
+
+我们举行朱日和沙场点兵，庆祝中国人民解放军建军90周年，集中展示了人民军队在中国特色强军之路上迈出的坚定步伐。
+
+我们庆祝香港回归祖国20周年，鲜明宣示“一国两制”方针不会变、不动摇，“一国两制”实践不变形、不走样。
+
+我们坚持一个中国原则与和平统一，促进两岸交流交往，坚决反对“台独”。
+
+我们开展全方位外交，积极推动构建人类命运共同体。
+
+推进全面深化改革，完成79个重点改革任务，中央和国家机关有关部门完成211个改革任务，各方面共出台399个改革方案。
+
+中国共产党坚持全面从严治党永远在路上，反腐败斗争压倒性态势已经形成并不断发展巩固。
+
+
+中国共产党召开了第十九次全国代表大会，描绘了决胜全面建成小康社会、开启全面建设社会主义现代化国家新征程、实现中华民族伟大复兴中国梦的宏伟蓝图，吹响了新时代沿着中国特色社会主义道路奋勇前进的嘹亮号角。
+
+展望2018：开局之年 纪念之年 关键一年
+
+2018年是贯彻党的十九大精神的开局之年，是改革开放40周年，是决胜全面建成小康社会、实施“十三五”规划承上启下的关键一年。
+
+因此，习近平指出，2018年，我们要全面贯彻中共十九大精神，以新时代中国特色社会主义思想为指导。
+
+我们要以改革的实际行动庆祝改革开放40周年，继续沿着改革开放的康庄大道奋勇前进。
+
+从现在起到实现决胜全面建成小康社会的奋斗目标，只有1000多天了。讲话中，习近平引用孔子的“逝者如斯夫！不舍昼夜”，用以形容时间如白驹过隙，表现实现目标的紧迫性。从而提出要求：我们必须走在时间前面，成为时代的弄潮儿。
+
+掌舵领航：围绕中心 劲往一处使
+
+
+习近平指出，中共十八大以来，在新中国成立，特别是改革开放以来长期努力的基础上，全党全国各族人民团结奋斗，推动中国特色社会主义进入了新时代。我国发展取得的成就万涓成水，汇流成海，形成了推动中华民族阔步前进的历史洪流。讲话结尾引用唐诗“潮平两岸阔，风正一帆悬”,传神般表现出当前良好的环境和正确的前进方向，以及灿烂的前景！
+
+新时代中国特色社会主义的航线已经明确，中华民族伟大复兴的巨轮正在乘风破浪前行。在这艘巨轮上，每一份力量都不可或缺。
+
+2017即将过去，2018正在走来。我们坚信，有中国共产党掌舵领航，有中国改革发展的浩荡东风，有全国各族人民扬帆划桨，中华民族伟大复兴的巨轮一定能够抵达光辉的彼岸！"
+                android:textColor="@color/normal_black"
+                android:textSize="42px"/>
+                </LinearLayout>
+            </ScrollView>
+            <LinearLayout
+                android:layout_below="@id/sc_linear"
+                android:id="@+id/hint_linear"
+                android:paddingLeft="30px"
+                android:paddingRight="30px"
+                android:layout_marginTop="220px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:paddingLeft="25px"
+                    android:paddingRight="25px"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="文章"
+                    android:textSize="42px"
+                    android:textColor="@color/white"
+                    android:background="@color/normal_blue"
+                    ></TextView>
+
+                <TextView
+                    android:layout_marginLeft="25px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="42px"
+                    android:text="请仔细阅读以上文章,然后完成相关试题。"/>
+            </LinearLayout>
+            <Button
+                android:layout_marginTop="150px"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/hint_linear"
+                android:id="@+id/start_req"
+                android:layout_width="540px"
+                android:layout_height="120px"
+                android:text="开始答题"
+                android:background="@color/normal_blue"
+                android:textColor="@color/white"
+                />
+            <cn.gov.bjys.onlinetrain.act.view.DooQuestionAnalysisLayout
+                android:visibility="gone"
+                android:layout_below="@id/start_req"
+                android:layout_marginTop="50px"
+                android:id="@+id/analysis_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ></cn.gov.bjys.onlinetrain.act.view.DooQuestionAnalysisLayout>
+        </RelativeLayout>
+
+</com.zhy.autolayout.AutoRelativeLayout>

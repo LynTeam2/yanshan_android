@@ -48,7 +48,7 @@ public class ExamAnalysisActivity extends FrameActivity {
 
 
     @Bind(R.id.question_layout)
-    LinearLayout question_layout;
+    LinearLayout content_layout;
 
 
     @Bind(R.id.score)
@@ -115,7 +115,7 @@ public class ExamAnalysisActivity extends FrameActivity {
         // 描述，在底部
         mRadarChart.getDescription().setEnabled(false);
         Description desc = new Description();
-        desc.setText("最近一次测试错题分布");
+        desc.setText("错题分布网状图");
         mRadarChart.setDescription(desc);
         // 绘制线条宽度，圆形向外辐射的线条
         mRadarChart.setWebLineWidth(1.0f);
@@ -216,16 +216,16 @@ public class ExamAnalysisActivity extends FrameActivity {
         for (int i = 0; i < cnt; i++)
             xVals.add(mParties[i % mParties.length]);
 
-        RadarDataSet set1 = new RadarDataSet(yVals1, "错题分布");
-        // Y数据颜色设置
-        set1.setColor(getResources().getColor(R.color.normal_blue_light1));
-        // 是否实心填充区域
-        set1.setDrawFilled(true);
-        // 数据线条宽度
-        set1.setLineWidth(2f);
+//        RadarDataSet set1 = new RadarDataSet(yVals1, "Set 1");
+//        // Y数据颜色设置
+//        set1.setColor(ColorTemplate.VORDIPLOM_COLORS[0]);
+//        // 是否实心填充区域
+//        set1.setDrawFilled(true);
+//        // 数据线条宽度
+//        set1.setLineWidth(2f);
 
-        RadarDataSet set2 = new RadarDataSet(yVals2, "Set 2");
-        set2.setColor(ColorTemplate.VORDIPLOM_COLORS[4]);
+        RadarDataSet set2 = new RadarDataSet(yVals2, "错题分布");
+        set2.setColor(getResources().getColor(R.color.normal_blue));
         set2.setDrawFilled(true);
         set2.setLineWidth(2f);
         //画出小圆圈
@@ -234,7 +234,7 @@ public class ExamAnalysisActivity extends FrameActivity {
         set2.setDrawHighlightIndicators(false);
 
         ArrayList<IRadarDataSet> sets = new ArrayList<IRadarDataSet>();
-        sets.add(set1);
+//        sets.add(set1);
         sets.add(set2);
 
         RadarData data = new RadarData(sets);
@@ -258,15 +258,40 @@ public class ExamAnalysisActivity extends FrameActivity {
 
     public void initContentLayout(){
         //TODO 数据确定后接入
-    for(int i=0; i<5; i++){
-        question_layout.addView(getSimpleLayout());
+    for(int i=0;i<5;i++){
+      content_layout.addView(getSimpleLayout(getName(i)));
     }
     }
 
-    public View getSimpleLayout(){
+    private String getName(int i){
+        String str = "";
+        switch (i){
+            case 0:
+                str = "判断题";
+                break;
+            case 1:
+                str = "单选题";
+                break;
+            case 2:
+                str = "多选题";
+                break;
+            case 3:
+                str = "阅读题";
+                break;
+            case 4:
+                str = "视频题";
+                break;
+            default:
+                break;
+
+        }
+        return str;
+    }
+
+    public View getSimpleLayout(String name){
         View view =   View.inflate(this,R.layout.item_mistakes_analysis_item,null);
         TextView tvName = (TextView) view.findViewById(R.id.name);
-        tvName.setText("单选题");
+        tvName.setText(name);
         TextView tvContent = (TextView) view.findViewById(R.id.content);
         tvContent.setText("错题率100%");
         return view;

@@ -1,5 +1,6 @@
 package cn.gov.bjys.onlinetrain.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -137,6 +138,7 @@ public class OwnFragment extends FrameFragment {
 
     public void setUserBaseInfo(){
         setUserAvatar();
+        setUserNickName();
     }
 
     public void setUserAvatar(){
@@ -146,13 +148,35 @@ public class OwnFragment extends FrameFragment {
         }
     }
 
+    public void setUserNickName(){
+        String nick = SavePreference.getStr(BaseApplication.getAppContext(), YSConst.UserInfo.USER_SAVE_NICK);
+        if(!TextUtils.isEmpty(nick)){
+           user_name.setText(nick);
+        }
+    }
+    private final static int REQ_CHANGE_AVATAR = 0X03;
     @OnClick({R.id.user_avatar})
     public void onTabClick(View v){
         switch (v.getId()){
             case R.id.user_avatar:
-                startAct(UserAvatarChooseActivity.class);
+                startActivityForResult(new Intent(getActivity(), UserAvatarChooseActivity.class),REQ_CHANGE_AVATAR);
                 break;
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQ_CHANGE_AVATAR){
+            if(resultCode == UserAvatarChooseActivity.AVATAR_SAVE_OK){
+                Bundle bundle =  data.getExtras();
+                String avatarPath = (String) bundle.get(UserAvatarChooseActivity.TAG);
+                if(!TextUtils.isEmpty(avatarPath)){
+                    SavePreference.save(BaseApplication.getAppContext(),YSConst.UserInfo.USER_AVATAR_PATH,avatarPath);
+//                        avatarLinear.setAvatar(Uri.parse(avatarPath));
+                    GlideProxy.loadImgForUrlPlaceHolderDontAnimate(user_avatar,avatarPath,R.drawable.user_normal_avatar);
+                }
+            }
+        }
+    }
 }

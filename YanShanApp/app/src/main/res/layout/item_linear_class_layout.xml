@@ -45,6 +45,7 @@
             android:textSize="36px"/>
     </LinearLayout>
         <LinearLayout
+            android:id="@+id/next_linear"
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_width="0px"
@@ -59,7 +60,8 @@
 
         </LinearLayout>
     </LinearLayout>
-    <include
-        layout="@layout/view_divider_layout"
-        ></include>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/normal_gray_light2"></View>
 </com.zhy.autolayout.AutoLinearLayout>
