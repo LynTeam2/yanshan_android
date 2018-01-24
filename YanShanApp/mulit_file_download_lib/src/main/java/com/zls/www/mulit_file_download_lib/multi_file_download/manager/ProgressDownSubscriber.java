@@ -1,5 +1,7 @@
 package com.zls.www.mulit_file_download_lib.multi_file_download.manager;
 
+import android.util.Log;
+
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 
@@ -98,7 +100,11 @@ public class ProgressDownSubscriber<T> extends Subscriber<T> implements Download
                         public void call(Long aLong) {
                       /*如果暂停或者停止状态延迟，不需要继续发送回调，影响显示*/
                             if(downInfo.getState()== DataInfo.DownState.PAUSE||downInfo.getState()== DataInfo.DownState.STOP)return;
-                            downInfo.setState(DataInfo.DownState.DOWN);
+                            if(downInfo.getCountLength() <= downInfo.getReadLength()){
+                                downInfo.setState(DataInfo.DownState.FINISH);
+                            }else{
+                                downInfo.setState(DataInfo.DownState.DOWN);
+                            }
                             mSubscriberOnNextListener.get().updateProgress(aLong,downInfo.getCountLength());
                         }
                     });

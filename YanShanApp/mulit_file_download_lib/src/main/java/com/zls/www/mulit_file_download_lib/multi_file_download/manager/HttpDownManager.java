@@ -1,5 +1,7 @@
 package com.zls.www.mulit_file_download_lib.multi_file_download.manager;
 
+import android.util.Log;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -104,6 +106,7 @@ public class HttpDownManager {
                             writeCache(responseBody, new File(info.getSavePath()), info);
                         } catch (IOException e) {
                             /*失败抛出异常*/
+                            Log.d("dodoE",e.getMessage());
 //                            throw new HttpTimeException(e.getMessage());
                         }
                         return info;
@@ -149,6 +152,10 @@ public class HttpDownManager {
             subMap.remove(info.getAllUrl());
         }
         /*这里需要讲info信息写入到数据中，可自由扩展，用自己项目的数据库*/
+        DownLoadInfoBusiness.getInstance(FrameApplication.getFrameContext()).addDownLoadInfo(info);
+    }
+
+    public void save(DataInfo info){
         DownLoadInfoBusiness.getInstance(FrameApplication.getFrameContext()).addDownLoadInfo(info);
     }
 

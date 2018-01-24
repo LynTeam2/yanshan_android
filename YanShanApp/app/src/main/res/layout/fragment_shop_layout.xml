@@ -19,6 +19,12 @@
         android:background="@color/windowBackgroundWhite"
         android:id="@+id/web_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
     </com.ycl.framework.view.ProgressWebView>
+        <com.zls.www.mulit_file_download_lib.multi_file_download.view.MultiDownView
+            android:id="@+id/multi_down_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            ></com.zls.www.mulit_file_download_lib.multi_file_download.view.MultiDownView>
 </LinearLayout>
