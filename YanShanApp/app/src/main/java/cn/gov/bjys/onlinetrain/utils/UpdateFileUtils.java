@@ -19,7 +19,7 @@ public class UpdateFileUtils {
 
     public static final String UPDATE  = "update";
     /**
-     * assets/update/4.3.13.zip ===>/data/user/0/cn.gov.bjys.onlinetrain/cache/4.3.13.zip
+     * assets/update/文件名.zip ===>/data/user/0/cn.gov.bjys.onlinetrain/cache/文件名.zip
      * @param context
      * @param fileName  assets文件下的update下的Zip文件名
      * @return

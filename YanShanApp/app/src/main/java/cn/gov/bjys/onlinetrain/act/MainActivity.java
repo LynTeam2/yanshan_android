@@ -22,6 +22,7 @@ import cn.gov.bjys.onlinetrain.fragment.HomeClassFragment;
 import cn.gov.bjys.onlinetrain.fragment.HomeFragment;
 import cn.gov.bjys.onlinetrain.fragment.OwnFragment;
 import cn.gov.bjys.onlinetrain.fragment.ShopFragment;
+import cn.gov.bjys.onlinetrain.task.ExamQuestionsTask;
 import cn.gov.bjys.onlinetrain.utils.AssetsHelper;
 import cn.gov.bjys.onlinetrain.utils.Helper;
 
@@ -64,16 +65,10 @@ public class MainActivity extends FrameActivity {
         }
     }
 
-    public final static String UPDATE_ZIP = "update";
     @Override
     public void initViews() {
-        try {
-//            AssetsHelper.unZipAssetOneFileContains(BaseApplication.getAppContext(), UPDATE_ZIP);
-        }catch (Exception e){
-            e.printStackTrace();
-            LogUtils.d(e.getMessage());
-        }
-            mImgs = new ImageView[5];
+
+        mImgs = new ImageView[5];
         mImgs[0] = (ImageView) findViewById(R.id.act_main_iv_page1);
         mImgs[1] = (ImageView) findViewById(R.id.act_main_iv_page2);
         mImgs[2] = (ImageView) findViewById(R.id.act_main_iv_page3);
@@ -98,7 +93,7 @@ public class MainActivity extends FrameActivity {
 
     @Override
     public void initData() {
-
+        saveZipDatas();
         mFragments = new Fragment[]{getFragment("homepage_fragment", HomeFragment.class, R.id.framelayout),
                 getFragment("home_class_fragment", HomeClassFragment.class, R.id.framelayout),
                 getFragment("shop_fragment", ShopFragment.class, R.id.framelayout),
@@ -163,4 +158,14 @@ public class MainActivity extends FrameActivity {
 //        }
         moveTaskToBack(true);
     }
+
+    private void saveZipDatas(){
+        saveExamQuestions();
+    }
+
+    private void saveExamQuestions(){
+        new ExamQuestionsTask().execute();
+    }
+
+
 }

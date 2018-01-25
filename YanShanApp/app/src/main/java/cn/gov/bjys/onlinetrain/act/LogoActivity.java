@@ -4,10 +4,10 @@ import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.CountDownTimer;
+import android.os.Environment;
 import android.provider.Settings;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,11 +15,17 @@ import android.widget.Button;
 import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.utils.sp.SavePreference;
 import com.ycl.framework.utils.util.ToastUtil;
+import com.zls.www.mulit_file_download_lib.multi_file_download.db.entity.DataInfo;
+import com.zls.www.mulit_file_download_lib.multi_file_download.manager.HttpDownManager;
+import com.zls.www.mulit_file_download_lib.multi_file_download.manager.HttpProgressOnNextListener;
 import com.zls.www.statusbarutil.StatusBarUtil;
+
+import java.io.File;
 
 import butterknife.Bind;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.utils.PermissionUtil;
+import cn.gov.bjys.onlinetrain.task.UnZipTask;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 
 /**
@@ -41,7 +47,7 @@ public class LogoActivity extends FrameActivity {
 
     @Override
     protected void initStatusBar() {
-        StatusBarUtil.setTranslucent(this,StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA);
+        StatusBarUtil.setTranslucent(this, StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA);
     }
 
     @Override
@@ -51,14 +57,14 @@ public class LogoActivity extends FrameActivity {
         mCountDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(countDownTimer != null){
+                if (countDownTimer != null) {
                     countDownTimer.cancel();
                 }
                 startNextActivity();
                 LogoActivity.this.finish();
             }
         });
-        }
+    }
 
     //定时器
     CountDownTimer countDownTimer;
@@ -73,14 +79,14 @@ public class LogoActivity extends FrameActivity {
                     count = 1;
                 }
 
-                mCountDown.setText(--count+"秒后可进入");
-                Log.d(TAG,count+"秒后可进入");
+                mCountDown.setText(--count + "秒后可进入");
+                Log.d(TAG, count + "秒后可进入");
             }
 
             @Override
             public void onFinish() {
                 startNextActivity();
-                if(countDownTimer != null) {
+                if (countDownTimer != null) {
                     countDownTimer.cancel();
                 }
                 LogoActivity.this.finish();
@@ -103,9 +109,10 @@ public class LogoActivity extends FrameActivity {
     private static final int REQUEST_EXTERNAL_STORAGE = 0x01;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE };
+            Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
     private void requestPermiss() {
-        PermissionUtil.checkPermission(LogoActivity.this,mCoordinatorLayout , PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE, new PermissionUtil.permissionInterface() {
+        PermissionUtil.checkPermission(LogoActivity.this, mCoordinatorLayout, PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE, new PermissionUtil.permissionInterface() {
             @Override
             public void success() {
                 reqPermissionRefreshUi(true);
@@ -128,11 +135,11 @@ public class LogoActivity extends FrameActivity {
                 reqPermissionRefreshUi(true);
             } else {
                 //没有权限
-                if (!PermissionUtil.shouldShowPermissions(this,permissions)) {//这个返回false 表示勾选了不再提示
-                     showSnackBar(mCoordinatorLayout, "请去设置界面设置权限","去设置");
+                if (!PermissionUtil.shouldShowPermissions(this, permissions)) {//这个返回false 表示勾选了不再提示
+                    showSnackBar(mCoordinatorLayout, "请去设置界面设置权限", "去设置");
                 } else {
                     //表示没有权限 ,但是没勾选不再提示
-                    showSnackBar(mCoordinatorLayout, "没有权限无法更新最新课程内容!","去设置");
+                    showSnackBar(mCoordinatorLayout, "没有权限无法更新最新课程内容!", "去设置");
 
                 }
             }
@@ -141,10 +148,10 @@ public class LogoActivity extends FrameActivity {
         }
     }
 
-    private void showSnackBar(View view,String content, String action){
+    private void showSnackBar(View view, String content, String action) {
         Snackbar snackbar = Snackbar.make(view, content,
                 Snackbar.LENGTH_INDEFINITE);
-        if(action != null){
+        if (action != null) {
             snackbar.setAction(action, new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -155,8 +162,9 @@ public class LogoActivity extends FrameActivity {
         snackbar.show();
     }
 
-    public static int  REQUEST_PERMISSION_SEETING = 0x02;
-    private void startToSetting(){
+    public static int REQUEST_PERMISSION_SEETING = 0x02;
+
+    private void startToSetting() {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         Uri uri = Uri.fromParts("package", getPackageName(), null);
         intent.setData(uri);
@@ -176,19 +184,81 @@ public class LogoActivity extends FrameActivity {
         }
     }
 
-    private void reqPermissionRefreshUi(boolean reqOk){
+    private void reqPermissionRefreshUi(boolean reqOk) {
         initCountDownTimer();
-        if(reqOk){
+        if (reqOk) {
             updateZip();
         }
     }
 
     int count = 0;
-    private void updateZip(){
+
+    /**
+     * 更新zip包分为2部分
+     * 1、当应用未解压zip时应该先解压zip
+     * 2、再进行获取网络数据的操作
+     */
+    private void updateZip() {
         //TODO 下载更新包
-        count++ ;
-        Log.d("dodoT","updateZip  " + count);
+        count++;
+        Log.d("dodoT", "updateZip  " + count);
         ToastUtil.showToast("updateZip  " + count);
+        new UnZipTask(true, null, null).execute();//开始解压压缩包，解压好了就不解压了
+//        downloadZip();
     }
+
+    DataInfo mInfo;
+
+    private void downloadZip() {
+        mInfo = new DataInfo();
+        mInfo.setAllUrl("http://jzvd.nathen.cn/c6e3dc12a1154626b3476d9bf3bd7266/6b56c5f0dc31428083757a45764763b0-5287d2089db37e62345123a1be272f8b.mp4");
+        mInfo.setSavePath(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "dodoMp4.mp4");
+        mInfo.setState(DataInfo.DownState.START);
+        mInfo.setListener(httpProgressOnNextListener);
+        HttpDownManager.getInstance().startDown(mInfo);
+    }
+
+    /*下载回调*/
+    HttpProgressOnNextListener<DataInfo> httpProgressOnNextListener = new HttpProgressOnNextListener<DataInfo>() {
+        @Override
+        public void onNext(DataInfo baseDownEntity) {
+            Log.d("dodoT", "onNext");
+        }
+
+        @Override
+        public void onStart() {
+            Log.d("dodoT", "onStart");
+        }
+
+        @Override
+        public void onComplete() {
+            Log.d("dodoT", "onComplete");
+            new UnZipTask(false, mInfo.getSavePath(), getFilesDir().getParent()+File.separator + YSConst.UPDATE_ZIP).execute();//开始解压压缩包，解压好了就不解压了
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            super.onError(e);
+            Log.d("dodoT", "onError");
+        }
+
+
+        @Override
+        public void onPuase() {
+            super.onPuase();
+            Log.d("dodoT", "onPuase");
+        }
+
+        @Override
+        public void onStop() {
+            super.onStop();
+            Log.d("dodoT", "onStop");
+        }
+
+        @Override
+        public void updateProgress(long readLength, long countLength) {
+            Log.d("dodoT", "updateProgress");
+        }
+    };
 
 }

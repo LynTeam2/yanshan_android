@@ -74,7 +74,25 @@ public class AssetsHelper {
     }
 
 
+    public static String getAssetUpdateZipName(Context context,String fileName){
+        AssetManager manager = context.getAssets();
+        String aimFileNameAll = null;
+        String aimFileName = null;
+        try{
+            String[] fileNames = manager
+                    .list(fileName);
 
+            if (fileNames != null && fileNames[0] != null) {
+                aimFileNameAll = fileNames[0];
+                aimFileName = getFileName(aimFileNameAll);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            LogUtils.e(e.getMessage());
+            return "";
+        }
+        return aimFileName;
+    }
 
 
     /**
@@ -104,14 +122,6 @@ public class AssetsHelper {
         }
 
         if(!TextUtils.isEmpty(aimFileNameAll)) {
-//            String appDirPath = context.getFilesDir().getParent();
-//            String dirPath = appDirPath + File.separator
-//                    + fileName;
-//            String aimPath = dirPath + File.separator + aimFileName;
-//            File file = new File(aimPath);
-//           if(!file.exists()){
-//               file.mkdirs();
-//           }
             String retName = getOnlyOneAssetsFile(context,fileName);
             InputStream  inputStream = manager.open(retName);
             unZipInputStream(context, inputStream, outputDirectory, true);
