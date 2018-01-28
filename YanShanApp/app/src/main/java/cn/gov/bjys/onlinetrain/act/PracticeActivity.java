@@ -28,12 +28,14 @@ import java.util.Timer;
 
 import butterknife.Bind;
 import cn.gov.bjys.onlinetrain.R;
+import cn.gov.bjys.onlinetrain.act.dialog.EndPracticeDialog;
 import cn.gov.bjys.onlinetrain.act.pop.EndExamPop;
 import cn.gov.bjys.onlinetrain.act.view.ExamBottomLayout;
 import cn.gov.bjys.onlinetrain.adapter.DooExamBottomAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooExamStateFragmentAdapter;
 import cn.gov.bjys.onlinetrain.bean.ExamXqBean;
 import cn.gov.bjys.onlinetrain.bean.SingleExamBean;
+import cn.gov.bjys.onlinetrain.utils.PracticeHelper;
 import cn.jzvd.JZVideoPlayer;
 
 
@@ -75,11 +77,39 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         StatusBarUtil.setTranslucentForImageViewInFragment(this, null);
     }
 
+    public void initPracticeData(){
+        PracticeHelper.getInstance().getmCourseBean();
+        //TODO 根据CourseBean里面的题目去题库选择题目
+
+        //初始化错误
+        mErrorQuestionsList = new ArrayList<>();
+        //初始化正确
+        mRightQuestionsList = new ArrayList<>();
+    }
+    List<ExamBean> mQuestionsList;
+    List<ExamBean> mErrorQuestionsList;
+    List<ExamBean> mRightQuestionsList;
+
+    EndPracticeDialog mEndPracticeDialog;
+
+    public void CalAnswer(ExamBean bean, boolean isRight){
+            if(isRight){
+                mRightQuestionsList.add(bean);
+            }else{
+                mErrorQuestionsList.add(bean);
+            }
+        if(mRightQuestionsList.size() + mErrorQuestionsList.size() >= mQuestionsList.size()){
+            //结束弹框
+         handOfPractice();
+        }
+    }
+
+
+
     @Override
     public void initData() {
         super.initData();
-        List<ExamBean> list = prepareDatas();
-        mExamAdapter = new DooExamStateFragmentAdapter(getSupportFragmentManager(), list);
+        mExamAdapter = new DooExamStateFragmentAdapter(getSupportFragmentManager(), mQuestionsList);
         mViewPager.setAdapter(mExamAdapter);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -129,10 +159,10 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
 
 
     private void setViewPagerAndExamBottom(int positions) {
-        if (positions > 99) {
+        if (positions > mQuestionsList.size() -1) {
             return;
         }
-        mExamBottomLayout.setNormalQuestionContent(positions + 1);
+        mExamBottomLayout.setNowQuesitonContent(positions + 1, mQuestionsList.size());
         if (mViewPager != null) {
             mViewPager.setCurrentItem(positions, true);
         }
@@ -154,8 +184,10 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
 
     private List<ExamXqBean> mDatas = new ArrayList<>();
 
-    public void createAllTestDatas() {
-        for (int i = 0; i < 100; i++) {
+
+    public void createBottomDatas() {
+        mDatas.clear();
+        for (int i = 0; i < mQuestionsList.size(); i++) {
             ExamXqBean bean = new ExamXqBean();
             bean.setmPosition(i);
             bean.setmSpanSize(1);
@@ -169,19 +201,24 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
     public void initViews() {
         super.initViews();
 //        prepareAnimator();
+
+        //初始化数据
+        initPracticeData();
+        mQuestionsList = prepareDatas();
+
         mHeader.setTitleText("课程练习");
-        createAllTestDatas();
+        mHeader.hideLeftImg();
+        createBottomDatas();//创造底下的选择按钮个数
         ViewGroup.LayoutParams blp = mExamBottomLayout.getLayoutParams();
         blp.height = AutoUtils.getPercentHeightSize(1120);//重置高度
         mExamBottomLayout.setLayoutParams(blp);
         mExamBottomLayout.setmDatas(mDatas);
         mExamBottomLayout.getView(R.id.hand_of_paper).setOnClickListener(this);
+        mExamBottomLayout.getView(R.id.hand_of_paper).setTag(false);
         ((TextView)mExamBottomLayout.getView(R.id.handofpager)).setText("收藏");
         ((ImageView)mExamBottomLayout.getView(R.id.handofpagerstart)).setImageResource(R.drawable.collection_icon);
 
         mExamBottomLayout.getView(R.id.show_all_layout).setOnClickListener(this);
-
-
 
         mDooExamBottomAdapter = mExamBottomLayout.getmDooExamBottomAdapter();
         mDooExamBottomAdapter.getData().get(0).setmType(ExamXqBean.CHOICE);//初始化
@@ -241,7 +278,16 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.hand_of_paper:
-
+                boolean tag = (boolean) mExamBottomLayout.getView(R.id.hand_of_paper).getTag();
+                if(tag){
+                    //TODO 收藏状态图片资源
+                    mExamBottomLayout.getView(R.id.hand_of_paper).setTag(!tag);
+                    ((ImageView)mExamBottomLayout.getView(R.id.handofpagerstart)).setImageResource(R.drawable.collection_icon);
+                }else {
+                    //TODO 未收藏状态图片资源
+                    mExamBottomLayout.getView(R.id.hand_of_paper).setTag(!tag);
+                    ((ImageView)mExamBottomLayout.getView(R.id.handofpagerstart)).setImageResource(R.drawable.collection_icon);
+                }
                 ToastUtil.showToast("收藏");
                 //todo 交卷
 //                handOfPaper();
@@ -272,13 +318,21 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         }
         mEndExamPop.showLocation(Gravity.CENTER);
     }
+    private void handOfPractice() {
+        //todo 结束练习
+        if(mEndPracticeDialog == null){
+            mEndPracticeDialog = new EndPracticeDialog(this);
+        }
+        mEndPracticeDialog.bindDatas(mRightQuestionsList.size(),mErrorQuestionsList.size(),mQuestionsList.size());
+        mEndPracticeDialog.show();
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (keyCode == KeyEvent.KEYCODE_BACK) {
-//            handOfPaper();
-//            return true;
-//        }
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if(mEndPracticeDialog.isShowing())
+            return true;
+        }
         return super.onKeyDown(keyCode, event);
     }
 
@@ -304,31 +358,60 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
 
     public void userChoiceResult(ExamBean bean, int position) {
         int c = bean.getmChoose().get(0);
+        String answer = bean.getAnswer();
         int i;
         switch (bean.getQuestionType()) {
             case ExamBean.TEXT_JUDGMENT_EXAM:
-                i = SingleExamBean.Judgment.isTrue;
+//                i = SingleExamBean.Judgment.isTrue;
+                if(answer.equals("true")){
+                    i = 0;
+                }else {
+                    i = 0;
+                }
                 if (c != i) {
                     //错
                     errorGo(position);
+                    bean.setDoRight(ExamBean.ERROR);
+                    CalAnswer(bean,false);
                     refreshBottomCircleUI(position, false);//更新圆圈UI
                     mExamBottomLayout.setErrorNum();//错题目数量自增一
                 } else {
                     //对
                     rightGo(position);
+                    bean.setDoRight(ExamBean.RIGHT);
+                    CalAnswer(bean,true);
                     refreshBottomCircleUI(position, true);
                     mExamBottomLayout.setRightNums();//对题目数量自增一
                 }
                 break;
             case ExamBean.TEXT_SINGLE_EXAM:
-                i = SingleExamBean.SingleChoose.isTrue;
+//                i = SingleExamBean.SingleChoose.isTrue;
+                if(answer.equals("choiceA")){
+                    i = 0;
+                }else if (answer.equals("choiceB")) {
+                    i = 1;
+                }else if(answer.equals("choiceC")){
+                    i = 2;
+                }else if(answer.equals("choiceD")){
+                    i = 3;
+                }else {
+                    i = 0;
+                }
+
+
                 if (c != i) {
                     //错
+                    bean.setDoRight(ExamBean.ERROR);
+                    CalAnswer(bean,false);
                     refreshBottomCircleUI(position, false);//更新圆圈UI
                     mExamBottomLayout.setErrorNum();//错题目数量自增一
                     errorGo(position);
                 } else {
                     //对
+
+                    bean.setDoRight(ExamBean.RIGHT);
+                    CalAnswer(bean,true);
+
                     refreshBottomCircleUI(position, true);
                     mExamBottomLayout.setRightNums();//对题目数量自增一
                     rightGo(position);
@@ -336,8 +419,26 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
                 break;
             case ExamBean.TEXT_MULTIPLE_EXAM:
                 List<Integer> lists = bean.getmChoose();
-                int[] cc = cn.gov.bjys.onlinetrain.bean.SingleExamBean.MultiChoose.isTrue;
-                if (lists.size() == cc.length) {
+//                int[] cc = cn.gov.bjys.onlinetrain.bean.SingleExamBean.MultiChoose.isTrue;
+                List<Integer> cc = new ArrayList<>();
+                String[] res = answer.split(",");
+                for(String s : res){
+                    int k;
+                    if(s.equals("choiceA")){
+                        k = 0;
+                    }else if (s.equals("choiceB")) {
+                        k = 1;
+                    }else if(s.equals("choiceC")){
+                        k = 2;
+                    }else if(s.equals("choiceD")){
+                        k = 3;
+                    }else{
+                        k=0;
+                    }
+                    cc.add(k);
+                }
+
+                if (lists.size() == cc.size()) {
                     boolean isEq = false;
                     boolean isRealNotEq = false;
                     int count = 0;
@@ -358,16 +459,22 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
                     }
                     if (!isRealNotEq) {
                         //全对
+                        bean.setDoRight(ExamBean.RIGHT);
+                        CalAnswer(bean,true);
                         refreshBottomCircleUI(position, true);
                         mExamBottomLayout.setRightNums();//对题目数量自增一
                         rightGo(position);
                     } else {
                         errorGo(position);
+                        bean.setDoRight(ExamBean.ERROR);
+                        CalAnswer(bean,false);
                         refreshBottomCircleUI(position, false);//更新圆圈UI
                         mExamBottomLayout.setErrorNum();//错题目数量自增一
                     }
                 } else {
                     errorGo(position);
+                    bean.setDoRight(ExamBean.ERROR);
+                    CalAnswer(bean,false);
                     refreshBottomCircleUI(position, false);//更新圆圈UI
                     mExamBottomLayout.setErrorNum();//错题目数量自增一
                 }
@@ -403,5 +510,10 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
             mTimer.cancel();
             mTimer = null;
         }
+    }
+
+    public void finishPractice(){
+        //TODO 保存数据 退出activity
+
     }
 }

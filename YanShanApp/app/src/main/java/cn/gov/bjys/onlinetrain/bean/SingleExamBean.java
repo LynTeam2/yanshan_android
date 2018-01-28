@@ -20,7 +20,7 @@ public  class SingleExamBean {
         public static class SingleChoose{
             public static String question = "驾驶机动车在道路上违反道路交通安全法的行为，属于什么行为？";
             public static String[] answers = {
-              "违章行为",
+                    "违章行为",
                     "违法行为",
                     "过失行为",
                     "违规行为"

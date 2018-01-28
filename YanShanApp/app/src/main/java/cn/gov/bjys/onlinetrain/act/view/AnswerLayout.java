@@ -136,8 +136,13 @@ public class AnswerLayout extends LinearLayout implements View.OnClickListener {
 
 
     public void gotoJudgment() {
-        for (int i = 0; i < SingleExamBean.Judgment.answers.length; i++) {
-            String s = SingleExamBean.SingleChoose.answers[i];
+        for (int i = 0; i < 2; i++) {
+            String s;
+            if(i == 0){
+                s = "正确";
+            }else{
+                s = "错误";
+            }
             SingleAnswerLayout layout = new SingleAnswerLayout(mContext);
             layout.setContent(s);
             switch (i) {
@@ -161,7 +166,14 @@ public class AnswerLayout extends LinearLayout implements View.OnClickListener {
         }
 
         if (mExamBean.isDeal()) {
-            int j = cn.gov.bjys.onlinetrain.bean.SingleExamBean.Judgment.isTrue;
+
+            String as = mExamBean.getAnswer();
+            int j;
+            if("true".equals(as)){
+                j = 0;
+            }else{
+                j = 1;
+            }
             SingleAnswerLayout layout = mLayoutList.get(j);
             TextView textChoice = (TextView) layout.findViewById(R.id.text_choice);
             textChoice.setBackground(getResources().getDrawable(R.drawable.dati_right));
@@ -176,8 +188,23 @@ public class AnswerLayout extends LinearLayout implements View.OnClickListener {
     }
 
     public void gotoSingle() {
-        for (int i = 0; i < SingleExamBean.SingleChoose.answers.length; i++) {
-            String s = SingleExamBean.SingleChoose.answers[i];
+        for (int i = 0; i < 4; i++) {
+//            String s = SingleExamBean.SingleChoose.answers[i];
+            String s= "";
+            switch (i){
+                case 0:
+                    s = mExamBean.getChoiceA();
+                    break;
+                case 1:
+                    s = mExamBean.getChoiceB();
+                    break;
+                case 2:
+                    s = mExamBean.getChoiceC();
+                    break;
+                case 3:
+                    s = mExamBean.getChoiceD();
+                    break;
+            }
             SingleAnswerLayout layout = new SingleAnswerLayout(mContext);
             layout.setContent(s);
             switch (i) {
@@ -201,7 +228,21 @@ public class AnswerLayout extends LinearLayout implements View.OnClickListener {
         }
 
         if (mExamBean.isDeal()) {
-            int j = cn.gov.bjys.onlinetrain.bean.SingleExamBean.SingleChoose.isTrue;
+
+            String as = mExamBean.getAnswer();
+            int j =0;
+            if("choiceA".equals(as)){
+                j=0;
+            }else if("choiceB".equals(as)){
+                j=1;
+            }
+            else if("choiceC".equals(as)){
+                j=2;
+            }
+            else if("choiceD".equals(as)){
+                j=3;
+            }
+
             SingleAnswerLayout layout = mLayoutList.get(j);
             TextView textChoice = (TextView) layout.findViewById(R.id.text_choice);
             textChoice.setBackground(getResources().getDrawable(R.drawable.dati_right));
@@ -216,8 +257,22 @@ public class AnswerLayout extends LinearLayout implements View.OnClickListener {
     }
 
     public void gotoMulti() {
-        for (int i = 0; i < SingleExamBean.MultiChoose.answers.length; i++) {
-            String s = SingleExamBean.MultiChoose.answers[i];
+        for (int i = 0; i < 4; i++) {
+            String s= "";
+            switch (i){
+                case 0:
+                    s = mExamBean.getChoiceA();
+                    break;
+                case 1:
+                    s = mExamBean.getChoiceB();
+                    break;
+                case 2:
+                    s = mExamBean.getChoiceC();
+                    break;
+                case 3:
+                    s = mExamBean.getChoiceD();
+                    break;
+            }
             SingleAnswerLayout layout = new SingleAnswerLayout(mContext);
             layout.setContent(s);
             switch (i) {
@@ -242,12 +297,31 @@ public class AnswerLayout extends LinearLayout implements View.OnClickListener {
 
         if (mExamBean.isDeal()) {
             //正确答案
-            int[] j = cn.gov.bjys.onlinetrain.bean.SingleExamBean.MultiChoose.isTrue;
+//            int[] j = cn.gov.bjys.onlinetrain.bean.SingleExamBean.MultiChoose.isTrue;
+
+
+            List<Integer> cc = new ArrayList<>();
+            String[] res = mExamBean.getAnswer().split(",");
+            for(String s : res){
+                int k;
+                if(s.equals("choiceA")){
+                    k = 0;
+                }else if (s.equals("choiceB")) {
+                    k = 1;
+                }else if(s.equals("choiceC")){
+                    k = 2;
+                }else if(s.equals("choiceD")){
+                    k = 3;
+                }else{
+                    k=0;
+                }
+                cc.add(k);
+            }
             //用户答案
             List<Integer> user = mExamBean.getmChoose();
-            for (int k = 0; k < SingleExamBean.MultiChoose.answers.length; k++) {
+            for (int k = 0; k < 4; k++) {
                 int type = 0;//-1默认 正确答案1  错误0
-                for (int right : j) {
+                for (int right : cc) {
                     if (right == k) {
                         type = 1;
                         break;
@@ -345,7 +419,12 @@ public class AnswerLayout extends LinearLayout implements View.OnClickListener {
         List<Integer> datas = new ArrayList<>();
         datas.add(i);
         mExamBean.setmChoose(datas);
-        int j = cn.gov.bjys.onlinetrain.bean.SingleExamBean.Judgment.isTrue;
+        int j = 0; //= cn.gov.bjys.onlinetrain.bean.SingleExamBean.Judgment.isTrue;
+        if(mExamBean.getAnswer().equals("true")){
+            j = 0;
+        }else{
+            j = 1;
+        }
         SingleAnswerLayout layout = mLayoutList.get(j);
         TextView textChoice = (TextView) layout.findViewById(R.id.text_choice);
         textChoice.setBackground(getResources().getDrawable(R.drawable.dati_right));
@@ -379,12 +458,30 @@ public class AnswerLayout extends LinearLayout implements View.OnClickListener {
 
     public void sureMulti(ExamBean bean) {
             //正确答案
-            int[] j = cn.gov.bjys.onlinetrain.bean.SingleExamBean.MultiChoose.isTrue;
+//            int[] j = cn.gov.bjys.onlinetrain.bean.SingleExamBean.MultiChoose.isTrue;
+        List<Integer> cc = new ArrayList<>();
+        String[] res = mExamBean.getAnswer().split(",");
+        for(String s : res){
+            int k;
+            if(s.equals("choiceA")){
+                k = 0;
+            }else if (s.equals("choiceB")) {
+                k = 1;
+            }else if(s.equals("choiceC")){
+                k = 2;
+            }else if(s.equals("choiceD")){
+                k = 3;
+            }else{
+                k=0;
+            }
+            cc.add(k);
+        }
+
             //用户答案
             List<Integer> user = bean.getmChoose();
             for (int k = 0; k < SingleExamBean.MultiChoose.answers.length; k++) {
                 int type = 0;//-1默认 正确答案1  错误0
-                for (int right : j) {
+                for (int right : cc) {
                     if (right == k) {
                         type = 1;
                         break;

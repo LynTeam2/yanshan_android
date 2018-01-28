@@ -10,20 +10,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ycl.framework.base.FrameActivity;
-import com.ycl.framework.utils.util.LogUtils;
 import com.ycl.framework.utils.util.SelectorUtil;
 import com.zls.www.statusbarutil.StatusBarUtil;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.fragment.HomeClassFragment;
 import cn.gov.bjys.onlinetrain.fragment.HomeFragment;
 import cn.gov.bjys.onlinetrain.fragment.OwnFragment;
 import cn.gov.bjys.onlinetrain.fragment.ShopFragment;
 import cn.gov.bjys.onlinetrain.task.ExamQuestionsTask;
-import cn.gov.bjys.onlinetrain.utils.AssetsHelper;
 import cn.gov.bjys.onlinetrain.utils.Helper;
 
 public class MainActivity extends FrameActivity {

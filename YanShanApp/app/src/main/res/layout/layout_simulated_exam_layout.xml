@@ -25,7 +25,7 @@
         android:layout_centerHorizontal="true"
         android:layout_width="180px"
         android:layout_height="180px"
-        android:src="@mipmap/wx_login_icon"
+        android:src="@drawable/user_normal_avatar"
         app:type="circle" >
     </cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode>
     <TextView

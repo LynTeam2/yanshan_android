@@ -10,8 +10,6 @@ import com.zls.www.statusbarutil.StatusBarUtil;
 
 import butterknife.Bind;
 import cn.gov.bjys.onlinetrain.R;
-import cn.gov.bjys.onlinetrain.fragment.ClassFragment.ClassGridFragment;
-import cn.gov.bjys.onlinetrain.fragment.ClassFragment.ClassLinearFragment;
 import cn.gov.bjys.onlinetrain.fragment.ClassFragment.HomeClassStudySecondFragment;
 
 /**

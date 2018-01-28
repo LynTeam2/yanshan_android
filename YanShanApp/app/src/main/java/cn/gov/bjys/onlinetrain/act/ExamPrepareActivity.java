@@ -18,6 +18,8 @@ import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode;
+import cn.gov.bjys.onlinetrain.bean.ExamsBean;
+import cn.gov.bjys.onlinetrain.utils.ExamHelper;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 
 /**
@@ -45,6 +47,21 @@ public class ExamPrepareActivity extends FrameActivity {
         StatusBarUtil.setTranslucent(this, StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA);
     }
 
+    @Bind(R.id.exam_type_name) //综合试题
+    TextView exam_type_name;
+
+    @Bind(R.id.exam_time) //90分钟
+    TextView exam_time;
+
+    @Bind(R.id.exam_value)//90分
+    TextView exam_value;
+
+    @Bind(R.id.exam_biaozhun)//根据企业安全标准
+    TextView exam_biaozhun;
+
+    @Bind(R.id.exam_hint)//温馨提示
+    TextView exam_hint;
+
     @Override
     public void initViews() {
         super.initViews();
@@ -58,6 +75,8 @@ public class ExamPrepareActivity extends FrameActivity {
             GlideProxy.loadImgForUrlPlaceHolderDontAnimate(simulated_exam_avatar, url, R.drawable.user_normal_avatar);
         }
 
+        ExamsBean bean =  ExamHelper.getInstance().getmExamsBean();
+        //TODO 设置值
     }
 
 

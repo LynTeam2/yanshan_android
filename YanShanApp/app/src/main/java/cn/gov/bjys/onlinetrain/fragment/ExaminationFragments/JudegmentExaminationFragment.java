@@ -22,8 +22,9 @@ import cn.gov.bjys.onlinetrain.bean.SingleExamBean;
 /**
  * Created by Administrator on 2017/12/30 0030.
  */
-public class JudegmentExaminationFragment extends FrameFragment  implements AnswerLayout.ClickResult{
+public class JudegmentExaminationFragment extends FrameFragment implements AnswerLayout.ClickResult {
     public final static String TAG = JudegmentExaminationFragment.class.getSimpleName();
+
     public static JudegmentExaminationFragment newInstance(int position) {
         Bundle args = new Bundle();
         args.putInt(TAG, position);
@@ -55,20 +56,21 @@ public class JudegmentExaminationFragment extends FrameFragment  implements Answ
     protected void initViews() {
         super.initViews();
         mPosition = getArguments().getInt(TAG);
-        if(getActivity() instanceof  ExaminationActivity) {
-            mBean = ((ExaminationActivity)getActivity()).getDatas().get(mPosition);
+        if (getActivity() instanceof ExaminationActivity) {
+            mBean = ((ExaminationActivity) getActivity()).getDatas().get(mPosition);
         }
 
 
-        if(getActivity() instanceof PracticeActivity) {
-            mBean = ((PracticeActivity)getActivity()).getDatas().get(mPosition);
+        if (getActivity() instanceof PracticeActivity) {
+            mBean = ((PracticeActivity) getActivity()).getDatas().get(mPosition);
         }
 
-        question_content.setText("                             "+ SingleExamBean.Judgment.question);
-        if(mBean.isDeal()){
+//        question_content.setText("                             "+ SingleExamBean.Judgment.question);
+        question_content.setText("                             " + mBean.getQuestions());
+        if (mBean.isDeal()) {
             //用户做答之后
             gotoResultLayout();
-        }else{
+        } else {
             //用户未答题
             gotoDealLayout();
         }
@@ -76,29 +78,34 @@ public class JudegmentExaminationFragment extends FrameFragment  implements Answ
         single_answer_layout.registerClickResult(this);
     }
 
-    public void gotoResultLayout(){
+    public void gotoResultLayout() {
         analysis_layout.setVisibility(View.VISIBLE);
-        int i  = SingleExamBean.Judgment.isTrue;
-        analysis_layout.setmAnalysisAnswer("答案  " + getRealAnswer(i));
-        analysis_layout.setmAnalysisContent(SingleExamBean.Judgment.fx);
+        String as = mBean.getAnswer();
+        analysis_layout.setmAnalysisAnswer("答案  " + getRealAnswer(as));
+        analysis_layout.setmAnalysisContent(mBean.getAnalysis());
     }
 
-    public String getRealAnswer(int input){
-        switch (input){
-            case 0:
-                return "A";
-            case 1:
-                return "B";
-            case 2:
-                return "C";
-            case 3:
-                return "D";
-            default:
-                return "";
+    public String getRealAnswer(String input) {
+        String ret = "";
+        if ("choiceA".equals(input)) {
+            ret = "A";
+
+        } else if ("choiceB".equals(input)) {
+            ret = "B";
+
+        } else if ("choiceC".equals(input)) {
+            ret = "C";
+
+        } else if ("choiceD".equals(input)) {
+            ret = "D";
+
+        } else {
+            ret = "";
         }
+        return ret;
     }
 
-    public void gotoDealLayout(){
+    public void gotoDealLayout() {
 
     }
 
@@ -106,17 +113,17 @@ public class JudegmentExaminationFragment extends FrameFragment  implements Answ
     public void clickRet(ExamBean bean) {
 
 
-        if(getActivity() instanceof  ExaminationActivity) {
-            List<ExamBean> listDatas =  ((ExaminationActivity) getActivity()).getDatas();
-            listDatas.set(mPosition,bean);
+        if (getActivity() instanceof ExaminationActivity) {
+            List<ExamBean> listDatas = ((ExaminationActivity) getActivity()).getDatas();
+            listDatas.set(mPosition, bean);
             ((ExaminationActivity) getActivity()).userChoiceResult(bean, mPosition);
             gotoResultLayout();
         }
 
 
-        if(getActivity() instanceof PracticeActivity) {
-            List<ExamBean> listDatas =  ((PracticeActivity) getActivity()).getDatas();
-            listDatas.set(mPosition,bean);
+        if (getActivity() instanceof PracticeActivity) {
+            List<ExamBean> listDatas = ((PracticeActivity) getActivity()).getDatas();
+            listDatas.set(mPosition, bean);
             ((PracticeActivity) getActivity()).userChoiceResult(bean, mPosition);
             gotoResultLayout();
         }

@@ -215,7 +215,7 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
                 setViewPagerAndExamBottom(position);
             }
         });
-
+        mHeader.hideLeftImg();
         mHeader.setCustomClickListener(com.ycl.framework.R.id.iv_title_header_back, new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -21,6 +21,10 @@ public class ExamBean extends DBEntity implements Parcelable {
     public final static int VIDEO_EXAM = 3;//视频题目
 
 
+    public final static int NOT_DO = 0;//未做
+    public final static int RIGHT = 1;//正确
+    public final static int ERROR = 2;//错误
+
     @DatabaseField(generatedId = true)
     private long dbId; //数据库自增长id
 
@@ -28,7 +32,7 @@ public class ExamBean extends DBEntity implements Parcelable {
     private long id;
 
     @DatabaseField
-    private String question;
+    private String questions;
 
     @DatabaseField
     private String difficulty;
@@ -62,6 +66,17 @@ public class ExamBean extends DBEntity implements Parcelable {
     private boolean isDeal = false;//是否做题
 
     private List<Integer> mChoose = new ArrayList<>();
+
+
+    private int doRight = NOT_DO;//0为未做 1 为正确 2为错误
+
+    public int getDoRight() {
+        return doRight;
+    }
+
+    public void setDoRight(int doRight) {
+        this.doRight = doRight;
+    }
 
     public int getQuestionType() {
         return questionType;
@@ -103,12 +118,12 @@ public class ExamBean extends DBEntity implements Parcelable {
         this.id = id;
     }
 
-    public String getQuestion() {
-        return question;
+    public String getQuestions() {
+        return questions;
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
+    public void setQuestions(String questions) {
+        this.questions = questions;
     }
 
     public String getDifficulty() {
@@ -192,6 +207,9 @@ public class ExamBean extends DBEntity implements Parcelable {
     }
 
 
+    public ExamBean() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -201,7 +219,7 @@ public class ExamBean extends DBEntity implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(this.dbId);
         dest.writeLong(this.id);
-        dest.writeString(this.question);
+        dest.writeString(this.questions);
         dest.writeString(this.difficulty);
         dest.writeString(this.ajType);
         dest.writeString(this.analysis);
@@ -215,15 +233,13 @@ public class ExamBean extends DBEntity implements Parcelable {
         dest.writeInt(this.questionType);
         dest.writeByte(this.isDeal ? (byte) 1 : (byte) 0);
         dest.writeList(this.mChoose);
-    }
-
-    public ExamBean() {
+        dest.writeInt(this.doRight);
     }
 
     protected ExamBean(Parcel in) {
         this.dbId = in.readLong();
         this.id = in.readLong();
-        this.question = in.readString();
+        this.questions = in.readString();
         this.difficulty = in.readString();
         this.ajType = in.readString();
         this.analysis = in.readString();
@@ -238,6 +254,7 @@ public class ExamBean extends DBEntity implements Parcelable {
         this.isDeal = in.readByte() != 0;
         this.mChoose = new ArrayList<Integer>();
         in.readList(this.mChoose, Integer.class.getClassLoader());
+        this.doRight = in.readInt();
     }
 
     public static final Creator<ExamBean> CREATOR = new Creator<ExamBean>() {

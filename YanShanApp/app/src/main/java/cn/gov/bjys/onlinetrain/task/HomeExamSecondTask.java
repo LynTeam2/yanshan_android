@@ -7,23 +7,21 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 import cn.gov.bjys.onlinetrain.api.ZipCallBackListener;
-import cn.gov.bjys.onlinetrain.bean.CategoryBean;
+import cn.gov.bjys.onlinetrain.bean.ExamsListBean;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by Administrator on 2018/1/27 0027.
+ * Created by Administrator on 2018/1/28 0028.
  */
-public class HomeClassStudySencondTask  extends BaseAsyncTask {
+public class HomeExamSecondTask  extends BaseAsyncTask {
+    public final static String RELATIVE_PATH = "exam" + File.separator+"exam.json";//相对路径
 
-    public final static String RELATIVE_PATH = "course" + File.separator+"category.json";//相对路径
-
-    public HomeClassStudySencondTask(ZipCallBackListener listener) {
-    mListenerWeakReference = new WeakReference<ZipCallBackListener>(listener);
+    public HomeExamSecondTask(ZipCallBackListener listener) {
+        mListenerWeakReference = new WeakReference<ZipCallBackListener>(listener);
     }
 
     @Override
@@ -57,18 +55,18 @@ public class HomeClassStudySencondTask  extends BaseAsyncTask {
                 .subscribe(new Subscriber<String>() {
                     @Override
                     public void onCompleted() {
-                    success();
+                        success();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                    fail();
+                        fail();
                     }
 
                     @Override
                     public void onNext(String s) {
-                        CategoryBean bean = FastJSONParser.getBean(s, CategoryBean.class);
-                        callback(bean.getCategories());
+                        ExamsListBean bean = FastJSONParser.getBean(s, ExamsListBean.class);
+                        callback(bean.getExams());
                     }
                 });
         return super.doInBackground(params);
