@@ -26,7 +26,7 @@
         android:layout_width="180px"
         android:layout_height="180px"
         android:src="@mipmap/wx_login_icon"
-        app:questionType="circle" >
+        app:type="circle" >
     </cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode>
     <TextView
         android:layout_marginTop="40px"

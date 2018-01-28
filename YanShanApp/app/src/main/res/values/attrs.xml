@@ -10,7 +10,7 @@
 
 
     <attr name="borderRadius" format="dimension" />
-    <attr name="questionType">
+    <attr name="type">
         <enum name="circle" value="0" />
         <enum name="round" value="1" />
     </attr>
@@ -18,6 +18,7 @@
 
     <declare-styleable name="RoundImageViewByXfermode">
         <attr name="borderRadius" />
-        <attr name="questionType" />
+        <attr name="type" />
+
     </declare-styleable>
 </resources>
