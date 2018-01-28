@@ -5,6 +5,8 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.ycl.framework.module.CustomImageSizeModel;
 
+import java.io.File;
+
 /**
  * Glide代理 by yuchaoliang on 16/4/19.
  */
@@ -39,6 +41,12 @@ public class GlideProxy {
     public static void loadImgForUrlPlaceHolderDontAnimate(ImageView mImageView, String url, int ids) {
         Glide.with(mImageView.getContext().getApplicationContext()).load(url).placeholder(ids).dontAnimate().into(mImageView);
     }
+
+    //带预加载图  url加载 禁止动画
+    public static void loadImgForFilePlaceHolderDontAnimate(ImageView mImageView, File path, int ids) {
+        Glide.with(mImageView.getContext().getApplicationContext()).load(path).placeholder(ids).dontAnimate().into(mImageView);
+    }
+
     //带预加载图  url加载
     public static void loadImgForUrlPlaceFadeHolder(ImageView mImageView, String url, int ids) {
         Glide.with(mImageView.getContext()).load(url).asBitmap().placeholder(ids)

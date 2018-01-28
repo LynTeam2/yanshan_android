@@ -6,22 +6,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.ycl.framework.base.FrameFragment;
-
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.PracticeActivity;
 import cn.gov.bjys.onlinetrain.act.view.ClientVideoPlayer;
 import cn.gov.bjys.onlinetrain.act.view.DooQuestionAnalysisLayout;
-import cn.gov.bjys.onlinetrain.bean.ExamBean;
+import cn.gov.bjys.onlinetrain.bean.CourseBean;
+import cn.gov.bjys.onlinetrain.fragment.PracticeFragment.PracticeBaseFragment;
+import cn.gov.bjys.onlinetrain.utils.PracticeHelper;
 import cn.jzvd.JZVideoPlayerStandard;
 
 
 /**
  * Created by dodozhou on 2017/9/27.
  */
-public class VideoExaminationFragment extends FrameFragment{
+public class VideoExaminationFragment extends PracticeBaseFragment {
     public final static String TAG = VideoExaminationFragment.class.getSimpleName();
 
 
@@ -34,13 +34,14 @@ public class VideoExaminationFragment extends FrameFragment{
     }
 
     public static VideoExaminationFragment newInstance() {
-        
+
         Bundle args = new Bundle();
-        
+
         VideoExaminationFragment fragment = new VideoExaminationFragment();
         fragment.setArguments(args);
         return fragment;
     }
+
 
 
     @Bind(R.id.start_req)
@@ -53,6 +54,15 @@ public class VideoExaminationFragment extends FrameFragment{
     protected View inflaterView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         View view = inflater.inflate(R.layout.fragment_video_examination_layout, container, false);
         return view;
+    }
+
+    @Override
+    public void bindData() {
+      CourseBean bean = PracticeHelper.getInstance().getmCourseBean();
+      String content = bean.getContent();
+      ClientVideoPlayer jzVideoPlayerStandard = (ClientVideoPlayer) findViews(viewRoot, R.id.video_player);
+      jzVideoPlayerStandard.setUp(content
+                , JZVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "视频题");
     }
 
     @OnClick({R.id.start_req})

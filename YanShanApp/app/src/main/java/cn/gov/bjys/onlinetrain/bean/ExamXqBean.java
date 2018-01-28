@@ -4,6 +4,7 @@ package cn.gov.bjys.onlinetrain.bean;
 import android.os.Parcel;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.ycl.framework.db.entity.ExamBean;
 
 //维护题目列表的展示bean 记录题目的完成情况
 public class ExamXqBean extends ExamBean implements MultiItemEntity {

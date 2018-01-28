@@ -6,11 +6,11 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 
 import com.ycl.framework.base.FrameFragment;
+import com.ycl.framework.db.entity.ExamBean;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.gov.bjys.onlinetrain.bean.ExamBean;
 import cn.gov.bjys.onlinetrain.fragment.ExaminationFragments.JudegmentExaminationFragment;
 import cn.gov.bjys.onlinetrain.fragment.ExaminationFragments.TextMultExaminationFragment;
 import cn.gov.bjys.onlinetrain.fragment.ExaminationFragments.TextSingleExaminationFragment;
@@ -50,7 +50,7 @@ public class DooExamStateFragmentAdapter<T> extends FragmentStatePagerAdapter {
             //确定bean的类型 取type
             int examType = 0;
             if(bean instanceof ExamBean){
-                examType = ((ExamBean) bean).getType();
+                examType = ((ExamBean) bean).getQuestionType();
             }
 
             switch (examType){

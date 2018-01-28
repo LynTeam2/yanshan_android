@@ -3,7 +3,7 @@ package cn.gov.bjys.onlinetrain.task;
 import android.os.AsyncTask;
 
 import com.ycl.framework.db.business.QuestionInfoBusiness;
-import com.ycl.framework.db.entity.QuestionBean;
+import com.ycl.framework.db.entity.ExamBean;
 import com.ycl.framework.utils.util.FastJSONParser;
 
 import java.io.BufferedReader;
@@ -32,11 +32,13 @@ public class ExamQuestionsTask extends AsyncTask<Integer,Integer,Boolean> {
     private int count = 0;
     @Override
     protected Boolean doInBackground(Integer... integers) {
-
        String rootDir =  BaseApplication.getAppContext().getFilesDir().getParent()+ File.separator + YSConst.UPDATE_ZIP;
        String rootName =  AssetsHelper.getAssetUpdateZipName(BaseApplication.getAppContext(),YSConst.UPDATE_ZIP);
        File queFile = new File(rootDir+File.separator+rootName+File.separator+QUESTION_NAME);
        File[] files = queFile.listFiles();
+        if(files == null || files.length <=0){
+            return false;
+        }
        Observable.from(files)
                .filter(new Func1<File, Boolean>() {
                    @Override
@@ -60,11 +62,10 @@ public class ExamQuestionsTask extends AsyncTask<Integer,Integer,Boolean> {
                .subscribeOn(Schedulers.io())
                .observeOn(Schedulers.computation())
                .subscribe(new Action1<String>() {
-
                    @Override
                    public void call(String s) {
-                     List<QuestionBean>  lists = FastJSONParser.getBeanList(s, QuestionBean.class);
-                     for(QuestionBean temp: lists){
+                     List<ExamBean>  lists = FastJSONParser.getBeanList(s, ExamBean.class);
+                     for(ExamBean temp: lists){
                          QuestionInfoBusiness.getInstance(BaseApplication.getAppContext()).createOrUpdate(temp);
                      }
                    }

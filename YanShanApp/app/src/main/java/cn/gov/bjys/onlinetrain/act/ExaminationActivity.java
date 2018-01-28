@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ycl.framework.base.BasePopu;
 import com.ycl.framework.base.FrameActivity;
+import com.ycl.framework.db.entity.ExamBean;
 import com.ycl.framework.view.TitleHeaderView;
 import com.zhy.autolayout.utils.AutoUtils;
 import com.zls.www.statusbarutil.StatusBarUtil;
@@ -29,7 +30,6 @@ import cn.gov.bjys.onlinetrain.act.pop.EndExamPop;
 import cn.gov.bjys.onlinetrain.act.view.ExamBottomLayout;
 import cn.gov.bjys.onlinetrain.adapter.DooExamBottomAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooExamStateFragmentAdapter;
-import cn.gov.bjys.onlinetrain.bean.ExamBean;
 import cn.gov.bjys.onlinetrain.bean.ExamXqBean;
 import cn.gov.bjys.onlinetrain.bean.SingleExamBean;
 import cn.jzvd.JZVideoPlayer;
@@ -245,16 +245,16 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
             ExamBean bean = new ExamBean();
             switch (rInt % 3) {
                 case ExamBean.TEXT_JUDGMENT_EXAM:
-                    bean.setType(ExamBean.TEXT_JUDGMENT_EXAM);
+                    bean.setQuestionType(ExamBean.TEXT_JUDGMENT_EXAM);
                     break;
                 case ExamBean.TEXT_SINGLE_EXAM:
-                    bean.setType(ExamBean.TEXT_SINGLE_EXAM);
+                    bean.setQuestionType(ExamBean.TEXT_SINGLE_EXAM);
                     break;
                 case ExamBean.TEXT_MULTIPLE_EXAM:
-                    bean.setType(ExamBean.TEXT_MULTIPLE_EXAM);
+                    bean.setQuestionType(ExamBean.TEXT_MULTIPLE_EXAM);
                     break;
                 case ExamBean.VIDEO_EXAM:
-                    bean.setType(ExamBean.VIDEO_EXAM);
+                    bean.setQuestionType(ExamBean.VIDEO_EXAM);
                     break;
             }
             list.add(bean);
@@ -331,7 +331,7 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
     public void userChoiceResult(ExamBean bean, int position){
         int c = bean.getmChoose().get(0);
         int i;
-        switch (bean.getType()){
+        switch (bean.getQuestionType()){
             case ExamBean.TEXT_JUDGMENT_EXAM:
                  i = SingleExamBean.Judgment.isTrue;
                 if(c != i){

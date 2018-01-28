@@ -14,10 +14,17 @@ import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import cn.gov.bjys.onlinetrain.BaseApplication;
+
 /**
  * Created by dodozhou on 2017/8/8.
  */
 public class AssetsHelper {
+
+    public static String getYSPicPath(String relativePath){
+        return BaseApplication.getAppContext().getFilesDir().getParent()+ File.separator + YSConst.UPDATE_ZIP+File.separator+relativePath;
+    }
+
 
     /**
      * 解压assets的zip压缩文件到指定目录

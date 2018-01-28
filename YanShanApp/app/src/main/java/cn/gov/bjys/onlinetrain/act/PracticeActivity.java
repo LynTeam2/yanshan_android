@@ -2,7 +2,6 @@
 package cn.gov.bjys.onlinetrain.act;
 
 import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.view.ViewPager;
@@ -16,6 +15,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ycl.framework.base.BasePopu;
 import com.ycl.framework.base.FrameActivity;
+import com.ycl.framework.db.entity.ExamBean;
 import com.ycl.framework.utils.util.ToastUtil;
 import com.ycl.framework.view.TitleHeaderView;
 import com.zhy.autolayout.utils.AutoUtils;
@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.Bind;
 import cn.gov.bjys.onlinetrain.R;
@@ -33,7 +32,6 @@ import cn.gov.bjys.onlinetrain.act.pop.EndExamPop;
 import cn.gov.bjys.onlinetrain.act.view.ExamBottomLayout;
 import cn.gov.bjys.onlinetrain.adapter.DooExamBottomAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooExamStateFragmentAdapter;
-import cn.gov.bjys.onlinetrain.bean.ExamBean;
 import cn.gov.bjys.onlinetrain.bean.ExamXqBean;
 import cn.gov.bjys.onlinetrain.bean.SingleExamBean;
 import cn.jzvd.JZVideoPlayer;
@@ -219,16 +217,16 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
             ExamBean bean = new ExamBean();
             switch (rInt % 3) {
                 case ExamBean.TEXT_JUDGMENT_EXAM:
-                    bean.setType(ExamBean.TEXT_JUDGMENT_EXAM);
+                    bean.setQuestionType(ExamBean.TEXT_JUDGMENT_EXAM);
                     break;
                 case ExamBean.TEXT_SINGLE_EXAM:
-                    bean.setType(ExamBean.TEXT_SINGLE_EXAM);
+                    bean.setQuestionType(ExamBean.TEXT_SINGLE_EXAM);
                     break;
                 case ExamBean.TEXT_MULTIPLE_EXAM:
-                    bean.setType(ExamBean.TEXT_MULTIPLE_EXAM);
+                    bean.setQuestionType(ExamBean.TEXT_MULTIPLE_EXAM);
                     break;
                 case ExamBean.VIDEO_EXAM:
-                    bean.setType(ExamBean.VIDEO_EXAM);
+                    bean.setQuestionType(ExamBean.VIDEO_EXAM);
                     break;
             }
             list.add(bean);
@@ -243,6 +241,7 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.hand_of_paper:
+
                 ToastUtil.showToast("收藏");
                 //todo 交卷
 //                handOfPaper();
@@ -306,7 +305,7 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
     public void userChoiceResult(ExamBean bean, int position) {
         int c = bean.getmChoose().get(0);
         int i;
-        switch (bean.getType()) {
+        switch (bean.getQuestionType()) {
             case ExamBean.TEXT_JUDGMENT_EXAM:
                 i = SingleExamBean.Judgment.isTrue;
                 if (c != i) {

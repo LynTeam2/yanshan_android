@@ -32,7 +32,7 @@
             android:layout_height="240px"
             android:layout_marginTop="65px"
             android:src="@drawable/user_normal_avatar"
-            app:type="circle" >
+            app:questionType="circle" >
         </cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode>
 
         <TextView

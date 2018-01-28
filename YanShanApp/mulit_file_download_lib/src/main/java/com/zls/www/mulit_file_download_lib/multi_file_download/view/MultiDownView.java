@@ -1,5 +1,6 @@
 package com.zls.www.mulit_file_download_lib.multi_file_download.view;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -11,8 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.daimajia.numberprogressbar.NumberProgressBar;
-import com.ycl.framework.utils.util.ToastUtil;
+
 import com.zls.www.mulit_file_download_lib.R;
 import com.zls.www.mulit_file_download_lib.multi_file_download.db.entity.DataInfo;
 import com.zls.www.mulit_file_download_lib.multi_file_download.manager.HttpDownManager;
@@ -39,6 +39,7 @@ public class MultiDownView extends RelativeLayout implements View.OnClickListene
         initView();
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public MultiDownView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -63,7 +64,7 @@ public class MultiDownView extends RelativeLayout implements View.OnClickListene
         mPause.setOnClickListener(this);
         mStopDel = (TextView) mRootView.findViewById(R.id.stop);
         mStopDel.setOnClickListener(this);
-        mType = (TextView) mRootView.findViewById(R.id.type);
+        mType = (TextView) mRootView.findViewById(R.id.questionType);
 
         mNumberProgressBar  = (NumberProgressBar2) findViewById(R.id.number_progress_bar);
 

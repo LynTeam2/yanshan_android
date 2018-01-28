@@ -9,12 +9,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ycl.framework.db.entity.ExamBean;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.gov.bjys.onlinetrain.R;
-import cn.gov.bjys.onlinetrain.bean.ExamBean;
-import cn.gov.bjys.onlinetrain.bean.ExamXqBean;
 import cn.gov.bjys.onlinetrain.bean.SingleExamBean;
 
 /**
@@ -89,7 +89,7 @@ public class AnswerLayout extends LinearLayout implements View.OnClickListener {
             public void run() {
                 AnswerLayout.this.removeAllViews();
                 mLayoutList.clear();
-                switch (mExamBean.getType()) {
+                switch (mExamBean.getQuestionType()) {
                     case ExamBean.TEXT_JUDGMENT_EXAM:
                         gotoJudgment();
                         break;
@@ -302,7 +302,7 @@ public class AnswerLayout extends LinearLayout implements View.OnClickListener {
             return;//用户已经做过这个题目了
         }
 
-        switch (mExamBean.getType()) {
+        switch (mExamBean.getQuestionType()) {
             case ExamBean.TEXT_SINGLE_EXAM:
                 resolveSingleExamClick(i);
                 break;

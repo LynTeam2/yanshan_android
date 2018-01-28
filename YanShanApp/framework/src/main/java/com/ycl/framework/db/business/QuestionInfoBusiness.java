@@ -4,10 +4,7 @@ import android.content.Context;
 
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.ycl.framework.base.FrameApplication;
-import com.ycl.framework.db.entity.QuestionBean;
-import com.ycl.framework.db.entity.UserDetailBean;
-import com.ycl.framework.utils.sp.SavePreference;
+import com.ycl.framework.db.entity.ExamBean;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -17,14 +14,14 @@ import java.util.List;
  * Created by dodo on 2018/1/25.
  */
 
-public class QuestionInfoBusiness extends  BaseDbBusiness<QuestionBean> {
+public class QuestionInfoBusiness extends  BaseDbBusiness<ExamBean> {
 
     private static QuestionInfoBusiness instance = null;
 
     private QuestionInfoBusiness(Context context) {
         super(context);
         try {
-            dao = helper.getDao(QuestionBean.class);
+            dao = helper.getDao(ExamBean.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -39,9 +36,9 @@ public class QuestionInfoBusiness extends  BaseDbBusiness<QuestionBean> {
 
 
     //有就更新 没有就插入
-    public void createOrUpdate(QuestionBean qb) {
+    public void createOrUpdate(ExamBean qb) {
         try {
-            QuestionBean cache = queryBykey(qb.getId()+"");
+            ExamBean cache = queryBykey(qb.getId()+"");
             if (cache.getId() > 0){
                 qb.setDbId(cache.getDbId());
             }
@@ -58,13 +55,13 @@ public class QuestionInfoBusiness extends  BaseDbBusiness<QuestionBean> {
         }
     }
 
-    public QuestionBean queryBykey(String key) {
+    public ExamBean queryBykey(String key) {
         return queryBykey("id", key);
     }
 
-    public QuestionBean queryBykey(String key, Object values) {
-        QueryBuilder<QuestionBean, Integer> qb = dao.queryBuilder();
-        List<QuestionBean> list;
+    public ExamBean queryBykey(String key, Object values) {
+        QueryBuilder<ExamBean, Integer> qb = dao.queryBuilder();
+        List<ExamBean> list;
         try {
             qb.where().eq(key, values);
             list = qb.query();//dao.query(qb.prepare());
@@ -81,7 +78,7 @@ public class QuestionInfoBusiness extends  BaseDbBusiness<QuestionBean> {
                 e.printStackTrace();
             }
         }
-        return new QuestionBean();
+        return new ExamBean();
     }
 
     //删除   根据id

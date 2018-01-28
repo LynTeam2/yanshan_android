@@ -6,19 +6,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.hp.hpl.sparta.Text;
 import com.ycl.framework.base.FrameFragment;
+import com.ycl.framework.db.entity.ExamBean;
 
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.ExaminationActivity;
 import cn.gov.bjys.onlinetrain.act.PracticeActivity;
 import cn.gov.bjys.onlinetrain.act.view.AnswerLayout;
 import cn.gov.bjys.onlinetrain.act.view.DooQuestionAnalysisLayout;
-import cn.gov.bjys.onlinetrain.bean.ExamBean;
 import cn.gov.bjys.onlinetrain.bean.SingleExamBean;
 
 
