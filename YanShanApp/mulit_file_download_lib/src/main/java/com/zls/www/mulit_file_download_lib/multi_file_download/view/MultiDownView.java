@@ -64,7 +64,7 @@ public class MultiDownView extends RelativeLayout implements View.OnClickListene
         mPause.setOnClickListener(this);
         mStopDel = (TextView) mRootView.findViewById(R.id.stop);
         mStopDel.setOnClickListener(this);
-        mType = (TextView) mRootView.findViewById(R.id.questionType);
+        mType = (TextView) mRootView.findViewById(R.id.type);
 
         mNumberProgressBar  = (NumberProgressBar2) findViewById(R.id.number_progress_bar);
 

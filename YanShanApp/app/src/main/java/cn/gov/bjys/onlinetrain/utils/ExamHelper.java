@@ -1,5 +1,9 @@
 package cn.gov.bjys.onlinetrain.utils;
 
+import com.ycl.framework.db.entity.ExamBean;
+
+import java.util.List;
+
 import cn.gov.bjys.onlinetrain.bean.ExamsBean;
 
 /**
@@ -31,5 +35,16 @@ public class ExamHelper {
 
     public  void setmExamsBean(ExamsBean mExamsBean) {
         ExamHelper.mExamsBean = mExamsBean;
+    }
+
+
+    public static List<ExamBean> mExamPagers;
+
+    public  List<ExamBean> getmExamPagers() {
+        return mExamPagers;
+    }
+
+    public  void setmExamPagers(List<ExamBean> mExamPagers) {
+        ExamHelper.mExamPagers = mExamPagers;
     }
 }

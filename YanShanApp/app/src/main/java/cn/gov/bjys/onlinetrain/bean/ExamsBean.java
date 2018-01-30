@@ -13,6 +13,16 @@ public class ExamsBean {
     private String icon;//
     private String content;//
 
+    private ExamsRole role;
+
+    public ExamsRole getRole() {
+        return role;
+    }
+
+    public void setRole(ExamsRole role) {
+        this.role = role;
+    }
+
     public String getIcon() {
         return icon;
     }

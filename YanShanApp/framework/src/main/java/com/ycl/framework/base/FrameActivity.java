@@ -1,8 +1,6 @@
 package com.ycl.framework.base;
 
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -24,7 +22,6 @@ import com.ycl.framework.utils.util.HRetrofitNetHelper;
 import com.ycl.framework.utils.util.SystemBarTintManager;
 import com.ycl.framework.utils.util.ToastUtil;
 import com.ycl.framework.utils.util.YisLoger;
-import com.ycl.framework.view.recycleview.FrameViewHolder;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 import butterknife.ButterKnife;
@@ -81,7 +78,8 @@ public abstract class FrameActivity extends AutoLayoutActivity {
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends FrameFragment> T getFragment(String tag, Class<T> clazz, int ids) {
+    public <T extends FrameFragment> T
+    getFragment(String tag, Class<T> clazz, int ids) {
         T framgnt = (T) getSupportFragmentManager().findFragmentByTag(tag);
         if (framgnt == null)
             framgnt = FrameFragment.newInstance(clazz);

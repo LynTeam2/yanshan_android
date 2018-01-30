@@ -50,7 +50,7 @@ public class DooExamStateFragmentAdapter<T> extends FragmentStatePagerAdapter {
             //确定bean的类型 取type
             int examType = 0;
             if(bean instanceof ExamBean){
-                examType = ((ExamBean) bean).getQuestionType();
+                examType = ((ExamBean) bean).getExamBeanType();
             }
 
             switch (examType){

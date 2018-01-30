@@ -34,7 +34,6 @@ import cn.gov.bjys.onlinetrain.act.view.ExamBottomLayout;
 import cn.gov.bjys.onlinetrain.adapter.DooExamBottomAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooExamStateFragmentAdapter;
 import cn.gov.bjys.onlinetrain.bean.ExamXqBean;
-import cn.gov.bjys.onlinetrain.bean.SingleExamBean;
 import cn.gov.bjys.onlinetrain.utils.PracticeHelper;
 import cn.jzvd.JZVideoPlayer;
 
@@ -254,16 +253,16 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
             ExamBean bean = new ExamBean();
             switch (rInt % 3) {
                 case ExamBean.TEXT_JUDGMENT_EXAM:
-                    bean.setQuestionType(ExamBean.TEXT_JUDGMENT_EXAM);
+                    bean.setExamBeanType(ExamBean.TEXT_JUDGMENT_EXAM);
                     break;
                 case ExamBean.TEXT_SINGLE_EXAM:
-                    bean.setQuestionType(ExamBean.TEXT_SINGLE_EXAM);
+                    bean.setExamBeanType(ExamBean.TEXT_SINGLE_EXAM);
                     break;
                 case ExamBean.TEXT_MULTIPLE_EXAM:
-                    bean.setQuestionType(ExamBean.TEXT_MULTIPLE_EXAM);
+                    bean.setExamBeanType(ExamBean.TEXT_MULTIPLE_EXAM);
                     break;
                 case ExamBean.VIDEO_EXAM:
-                    bean.setQuestionType(ExamBean.VIDEO_EXAM);
+                    bean.setExamBeanType(ExamBean.VIDEO_EXAM);
                     break;
             }
             list.add(bean);
@@ -360,7 +359,7 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         int c = bean.getmChoose().get(0);
         String answer = bean.getAnswer();
         int i;
-        switch (bean.getQuestionType()) {
+        switch (bean.getExamBeanType()) {
             case ExamBean.TEXT_JUDGMENT_EXAM:
 //                i = SingleExamBean.Judgment.isTrue;
                 if(answer.equals("true")){

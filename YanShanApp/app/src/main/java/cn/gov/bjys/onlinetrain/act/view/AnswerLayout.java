@@ -89,7 +89,7 @@ public class AnswerLayout extends LinearLayout implements View.OnClickListener {
             public void run() {
                 AnswerLayout.this.removeAllViews();
                 mLayoutList.clear();
-                switch (mExamBean.getQuestionType()) {
+                switch (mExamBean.getExamBeanType()) {
                     case ExamBean.TEXT_JUDGMENT_EXAM:
                         gotoJudgment();
                         break;
@@ -376,7 +376,7 @@ public class AnswerLayout extends LinearLayout implements View.OnClickListener {
             return;//用户已经做过这个题目了
         }
 
-        switch (mExamBean.getQuestionType()) {
+        switch (mExamBean.getExamBeanType()) {
             case ExamBean.TEXT_SINGLE_EXAM:
                 resolveSingleExamClick(i);
                 break;

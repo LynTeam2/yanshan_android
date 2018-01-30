@@ -8,6 +8,7 @@ import com.ycl.framework.db.entity.ExamBean;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,6 +33,27 @@ public class QuestionInfoBusiness extends  BaseDbBusiness<ExamBean> {
             instance = new QuestionInfoBusiness(context);
         }
         return instance;
+    }
+
+    public List<ExamBean> queryAll(){
+        QueryBuilder<ExamBean, Integer> qb = dao.queryBuilder();
+        List<ExamBean> list;
+        try {
+           list =  qb.query();
+           if(list != null && list.size() > 0){
+               return list;
+           }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            dao.clearObjectCache();
+            try {
+                dao.closeLastIterator();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return  new ArrayList<>();
     }
 
 

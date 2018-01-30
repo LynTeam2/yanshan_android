@@ -20,6 +20,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.ClassActivity;
+import cn.gov.bjys.onlinetrain.act.HomeClassStudySecondActivity;
 import cn.gov.bjys.onlinetrain.act.PracticePrepareActivity;
 import cn.gov.bjys.onlinetrain.act.view.DooItemTitleLayout;
 import cn.gov.bjys.onlinetrain.act.view.TitleHeadNormalOne;
@@ -76,7 +77,8 @@ public class HomeClassFragment extends FrameFragment {
         switch (v.getId()){
             case R.id.more_class:
                 ToastUtil.showToast("更多课程");
-                startAct(ClassActivity.class);
+//                startAct(ClassActivity.class);
+                startAct(HomeClassStudySecondActivity.class);
                 break;
             case R.id.more_practice:
                 ToastUtil.showToast("更多练习");

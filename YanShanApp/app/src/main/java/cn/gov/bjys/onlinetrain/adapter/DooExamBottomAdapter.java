@@ -45,7 +45,7 @@ public class DooExamBottomAdapter extends BaseMultiItemQuickAdapter<ExamXqBean,B
             case ExamXqBean.CHOICE:
             case ExamXqBean.FAIL:
             case ExamXqBean.RIGHT:
-                helper.setText(R.id.content,item.getmPosition()+"");
+                helper.setText(R.id.content,(1+item.getmPosition())+"");
                 break;
         }
     }

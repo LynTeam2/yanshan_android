@@ -61,7 +61,9 @@ public class ExamBean extends DBEntity implements Parcelable {
     @DatabaseField
     private String choiceD;
     @DatabaseField
-    private int questionType;
+    private String questionType;//
+
+    private int ExamBeanType;
 
     private boolean isDeal = false;//是否做题
 
@@ -78,12 +80,20 @@ public class ExamBean extends DBEntity implements Parcelable {
         this.doRight = doRight;
     }
 
-    public int getQuestionType() {
+    public String getQuestionType() {
         return questionType;
     }
 
-    public void setQuestionType(int questionType) {
+    public void setQuestionType(String questionType) {
         this.questionType = questionType;
+    }
+
+    public int getExamBeanType() {
+        return ExamBeanType;
+    }
+
+    public void setExamBeanType(int examBeanType) {
+        this.ExamBeanType = examBeanType;
     }
 
     public boolean isDeal() {
@@ -230,7 +240,7 @@ public class ExamBean extends DBEntity implements Parcelable {
         dest.writeString(this.choiceB);
         dest.writeString(this.choiceC);
         dest.writeString(this.choiceD);
-        dest.writeInt(this.questionType);
+        dest.writeInt(this.ExamBeanType);
         dest.writeByte(this.isDeal ? (byte) 1 : (byte) 0);
         dest.writeList(this.mChoose);
         dest.writeInt(this.doRight);
@@ -250,7 +260,7 @@ public class ExamBean extends DBEntity implements Parcelable {
         this.choiceB = in.readString();
         this.choiceC = in.readString();
         this.choiceD = in.readString();
-        this.questionType = in.readInt();
+        this.ExamBeanType = in.readInt();
         this.isDeal = in.readByte() != 0;
         this.mChoose = new ArrayList<Integer>();
         in.readList(this.mChoose, Integer.class.getClassLoader());
