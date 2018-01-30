@@ -21,21 +21,25 @@ import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.ycl.framework.base.FrameActivity;
+import com.ycl.framework.db.entity.ExamBean;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.view.RadarMarkerView;
+import cn.gov.bjys.onlinetrain.bean.ExamsBean;
+import cn.gov.bjys.onlinetrain.utils.ExamHelper;
 
 /**
  * Created by dodozhou on 2017/10/30.
  */
-public class ExamAnalysisActivity extends FrameActivity {
-    
+public class ExamAnalysisActivity extends FrameActivity implements View.OnClickListener{
+
     protected Typeface mTfLight;
-    
+
     @Bind(R.id.radar_chart)
     RadarChart mRadarChart;
 
@@ -57,9 +61,9 @@ public class ExamAnalysisActivity extends FrameActivity {
     @Bind(R.id.ret)
     TextView ret;
 
-    @OnClick({R.id.bg_change,R.id.value_gone,R.id.switch_animate})
-    public void onTabClick(View v){
-        switch (v.getId()){
+    @OnClick({R.id.bg_change, R.id.value_gone, R.id.switch_animate})
+    public void onTabClick(View v) {
+        switch (v.getId()) {
             case R.id.bg_change: {
                 ArrayList<IRadarDataSet> sets = (ArrayList<IRadarDataSet>) mRadarChart.getData()
                         .getDataSets();
@@ -72,16 +76,14 @@ public class ExamAnalysisActivity extends FrameActivity {
                 mRadarChart.invalidate();
                 break;
             }
-            case R.id.value_gone:
-            {
+            case R.id.value_gone: {
                 for (IDataSet<?> set : mRadarChart.getData().getDataSets())
                     set.setDrawValues(!set.isDrawValuesEnabled());
 
                 mRadarChart.invalidate();
                 break;
             }
-            case R.id.switch_animate:
-            {
+            case R.id.switch_animate: {
                 if (mRadarChart.isRotationEnabled())
                     mRadarChart.setRotationEnabled(false);
                 else
@@ -102,16 +104,96 @@ public class ExamAnalysisActivity extends FrameActivity {
     @Override
     public void initViews() {
         super.initViews();
+        initAllDatas();
         initRadarView();
         initScore();
         initContentLayout();
     }
-    private void initRadarView(){
+
+    ExamsBean mExamsBean;
+
+    List<ExamBean> rightNums = new ArrayList<>();
+    List<ExamBean> errorNums = new ArrayList<>();
+    List<ExamBean> notDoNums = new ArrayList<>();
+
+
+    List<ExamBean> multipleNums = new ArrayList<>();
+    List<ExamBean> simpleNums = new ArrayList<>();
+    List<ExamBean> truefalseNums = new ArrayList<>();
+
+
+    List<ExamBean> multipleErrorNums = new ArrayList<>();
+    List<ExamBean> simpleErrorNums = new ArrayList<>();
+    List<ExamBean> truefalseErrorNums = new ArrayList<>();
+
+    private int scoreNum = 0;
+
+    private void initAllDatas() {
+        rightNums.clear();
+        errorNums.clear();
+        notDoNums.clear();
+
+        multipleNums.clear();
+        simpleNums.clear();
+        truefalseNums.clear();
+
+        multipleErrorNums.clear();
+        simpleErrorNums.clear();
+        truefalseErrorNums.clear();
+
+
+
+        mExamsBean = ExamHelper.getInstance().getmExamsBean();
+        List<ExamBean> mExamPagers = ExamHelper.getInstance().getmExamPagers();
+        for (ExamBean examBean : mExamPagers) {
+           String questionType = examBean.getQuestionType();
+           if("multiplechoice".equals(questionType)){
+                multipleNums.add(examBean);
+               switch (examBean.getDoRight()) {
+                   case ExamBean.ERROR:
+                       multipleErrorNums.add(examBean);
+                       break;
+               }
+           }else if("simplechoice".equals(questionType)){
+                simpleNums.add(examBean);
+               switch (examBean.getDoRight()) {
+                   case ExamBean.ERROR:
+                       simpleErrorNums.add(examBean);
+                       break;
+               }
+           }else if("truefalse".equals(questionType)){
+                truefalseNums.add(examBean);
+                switch (examBean.getDoRight()) {
+                   case ExamBean.ERROR:
+                       truefalseErrorNums.add(examBean);
+                       break;
+               }
+           }
+
+            switch (examBean.getDoRight()) {
+                case ExamBean.RIGHT:
+                    rightNums.add(examBean);
+                    break;
+                case ExamBean.ERROR:
+                    errorNums.add(examBean);
+                    break;
+                case ExamBean.NOT_DO:
+                    notDoNums.add(examBean);
+                    break;
+
+            }
+        }
+
+        scoreNum = (int) ((rightNums.size() / (mExamPagers.size() * 1.0f)) * 100);
+
+    }
+
+    private void initRadarView() {
         initRadar();
     }
 
 
-    public void initRadar(){
+    public void initRadar() {
         // 描述，在底部
         mRadarChart.getDescription().setEnabled(false);
         Description desc = new Description();
@@ -185,15 +267,14 @@ public class ExamAnalysisActivity extends FrameActivity {
     }
 
 
-
-    private String[] mParties = new String[] {
-            "单选", "判断", "视频", "阅读", "多选"
+    private String[] mParties = new String[]{
+            "单选", "判断", "多选"
     };
 
     public void setData() {
 
         float mult = 50;
-        int cnt = 5; // 不同的维度Party A、B、C...总个数
+        int cnt = 3; // 不同的维度Party A、B、C...总个数
 
         // Y的值，数据填充
         ArrayList<RadarEntry> yVals1 = new ArrayList<RadarEntry>();
@@ -207,7 +288,17 @@ public class ExamAnalysisActivity extends FrameActivity {
         }
 
         for (int i = 0; i < cnt; i++) {
-            yVals2.add(new RadarEntry((int) (Math.random() * mult) + mult / 2, i));
+            switch (i){
+                case 0:
+                    yVals1.add(new RadarEntry(simpleErrorNums.size(), i));
+                    break;
+                case 1:
+                    yVals1.add(new RadarEntry(truefalseErrorNums.size(), i));
+                    break;
+                case 2:
+                    yVals1.add(new RadarEntry(multipleErrorNums.size(), i));
+                    break;
+            }
         }
 
         // Party A、B、C..
@@ -249,23 +340,27 @@ public class ExamAnalysisActivity extends FrameActivity {
         mRadarChart.invalidate();
     }
 
-    public void initScore(){
+    public void initScore() {
         //TODO 数据确定后接入
-        score.setText("100分");
-        ret.setText("答错0题，成绩合格");
+        score.setText(scoreNum+"分");
+        ret.setText("答错"+errorNums.size()+"题" +
+                        (notDoNums.size() > 0 ? "未作"+notDoNums+"题":"") +
+                "，" +
+                //TODO 这里需要修改不是id   等具体数据过来即可
+                (scoreNum > mExamsBean.getId()?"成绩合格":"成绩不合格"));
     }
 
 
-    public void initContentLayout(){
+    public void initContentLayout() {
         //TODO 数据确定后接入
-    for(int i=0;i<5;i++){
-      content_layout.addView(getSimpleLayout(getName(i)));
-    }
+        for (int i = 0; i < 3; i++) {
+            content_layout.addView(getSimpleLayout(getName(i)));
+        }
     }
 
-    private String getName(int i){
+    private String getName(int i) {
         String str = "";
-        switch (i){
+        switch (i) {
             case 0:
                 str = "判断题";
                 break;
@@ -275,12 +370,6 @@ public class ExamAnalysisActivity extends FrameActivity {
             case 2:
                 str = "多选题";
                 break;
-            case 3:
-                str = "阅读题";
-                break;
-            case 4:
-                str = "视频题";
-                break;
             default:
                 break;
 
@@ -288,13 +377,39 @@ public class ExamAnalysisActivity extends FrameActivity {
         return str;
     }
 
-    public View getSimpleLayout(String name){
-        View view =   View.inflate(this,R.layout.item_mistakes_analysis_item,null);
+    public View getSimpleLayout(String name) {
+        View view = View.inflate(this, R.layout.item_mistakes_analysis_item, null);
         TextView tvName = (TextView) view.findViewById(R.id.name);
         tvName.setText(name);
         TextView tvContent = (TextView) view.findViewById(R.id.content);
-        tvContent.setText("错题率100%");
+        long errorRate = 0;
+        if("判断题".equals(name)){
+            errorRate = (long) (truefalseErrorNums.size()/(truefalseNums.size()*1.0f) * 100L);
+            view.setTag(name);
+            view.setOnClickListener(this);
+        }else if("单选题".equals(name)){
+            errorRate = (long) (simpleErrorNums.size()/(simpleNums.size()*1.0f) * 100L);
+            view.setTag(name);
+            view.setOnClickListener(this);
+        }else if("多选题".equals(name)){
+            errorRate = (long) (multipleErrorNums.size()/(multipleNums.size()*1.0f) * 100L);
+            view.setTag(name);
+            view.setOnClickListener(this);
+        }
+        tvContent.setText("错题率"+errorRate+"%");
         return view;
     }
 
+
+    @Override
+    public void onClick(View v) {
+     String name = (String) v.getTag();
+        if("判断题".equals(name)){
+
+        }else if("单选题".equals(name)){
+
+        }else if("多选题".equals(name)){
+
+        }
+    }
 }

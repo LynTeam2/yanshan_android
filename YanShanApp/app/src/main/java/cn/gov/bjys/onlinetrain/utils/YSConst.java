@@ -16,8 +16,17 @@ public class YSConst {
     public final static String UPDATE_ZIP = "update";
     public static class UserInfo{
         public final static String KEY_USER_TOKEN  = "key_user_token";
+
+        public final static String KEY_USER_ID = "key_user_id";
+
         public final static String USER_AVATAR_PATH = "user_avatar_path";
         public final static String USER_SAVE_NICK = "user_save_nick";
 
-     }
+
+        public final static String USER_COLLECTION_IDS = "user_collection_ids";//用户收藏试题列表 1,2,3...如此格式
+        public final static String USER_ERROR_IDS = "user_error_ids";//用户错题列表 1,2,3...如此格式
+
+    }
+
+
 }

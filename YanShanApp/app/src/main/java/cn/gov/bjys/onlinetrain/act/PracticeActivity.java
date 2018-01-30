@@ -1,11 +1,11 @@
 
 package cn.gov.bjys.onlinetrain.act;
 
-import android.os.Handler;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.ycl.framework.base.BasePopu;
 import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.db.entity.ExamBean;
+import com.ycl.framework.utils.sp.SavePreference;
 import com.ycl.framework.utils.util.ToastUtil;
 import com.ycl.framework.view.TitleHeaderView;
 import com.zhy.autolayout.utils.AutoUtils;
@@ -24,7 +24,6 @@ import com.zls.www.statusbarutil.StatusBarUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Timer;
 
 import butterknife.Bind;
 import cn.gov.bjys.onlinetrain.R;
@@ -35,13 +34,21 @@ import cn.gov.bjys.onlinetrain.adapter.DooExamBottomAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooExamStateFragmentAdapter;
 import cn.gov.bjys.onlinetrain.bean.ExamXqBean;
 import cn.gov.bjys.onlinetrain.utils.PracticeHelper;
-import cn.jzvd.JZVideoPlayer;
+import cn.gov.bjys.onlinetrain.utils.YSConst;
+import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 
 
 /**
  * Created by dodozhou on 2017/9/27.
  */
 public class PracticeActivity extends FrameActivity implements View.OnClickListener {
+    public final static String TAG = PracticeActivity.class.getSimpleName();
+
+    public final static int KESHI = 1;//课时练习
+    public final static int CUOTI = 2;//错题练习
+    public final static int TIXING = 3;//题目类型练习
+
+    private int mType = KESHI;//默认为课时练习
 
     @Bind(R.id.viewpager)
     ViewPager mViewPager;
@@ -56,14 +63,6 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
     DooExamBottomAdapter mDooExamBottomAdapter;
 
 
-    private long mTimes = 50 * 60;
-    private Timer mTimer;
-    private Handler mHandler;
-    private int mTimerType = TIMER_END;//定时器的情况
-
-    public final static int TIMER_START = 1;
-
-    public final static int TIMER_END = 2;
 
     @Override
     protected void setRootView() {
@@ -77,19 +76,50 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
     }
 
     public void initPracticeData(){
-        PracticeHelper.getInstance().getmCourseBean();
-        //TODO 根据CourseBean里面的题目去题库选择题目
+        Intent recIntent = getIntent();
+        Bundle recBundle = recIntent.getExtras();
+        mType = recBundle.getInt(TAG);
+        switch (mType){
+            case KESHI:
+                PracticeHelper.getInstance().getmCourseBean();
+                //TODO 根据CourseBean里面的题目去题库选择题目
+                mHeader.setTitleText("课程练习");
+                break;
+            case CUOTI:
+                mHeader.setTitleText("错题练习");
+                break;
+            case TIXING:
+                mHeader.setTitleText("专项练习");
+                break;
+            default:
+                break;
+        }
+
+        initUserCollections();
 
         //初始化错误
         mErrorQuestionsList = new ArrayList<>();
         //初始化正确
         mRightQuestionsList = new ArrayList<>();
     }
-    List<ExamBean> mQuestionsList;
+    List<ExamBean> mQuestionsList;//所有试题数据
+    private int mPosition = 0;//当前试题在显示页面的位置 数组下标
+
     List<ExamBean> mErrorQuestionsList;
     List<ExamBean> mRightQuestionsList;
 
     EndPracticeDialog mEndPracticeDialog;
+
+
+    private List<Long> mUserCollecions = new ArrayList<>();
+    private void initUserCollections(){
+        String userCollections = SavePreference.getStr(this, YSConst.UserInfo.USER_COLLECTION_IDS + YSUserInfoManager.getsInstance().getUserId());
+        String[] ids = userCollections.split(",");
+        mUserCollecions.clear();
+        for(String id:ids){
+                mUserCollecions.add(Long.valueOf(id));
+            }
+    }
 
     public void CalAnswer(ExamBean bean, boolean isRight){
             if(isRight){
@@ -127,17 +157,9 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
             }
         });
         mViewPager.setCurrentItem(0, false);
-        initTimer();
     }
 
 
-    private void initTimer() {
-
-    }
-
-    private void setTimeToHeader() {
-
-    }
 
     private String getTimesStr(long time) {
         String ret = "";
@@ -149,18 +171,18 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         return ret;
     }
 
-    private void cancelTimer() {
-        if (null != mTimer) {
-            mTimer.cancel();
-            mTimer = null;
-        }
-    }
 
-
+    //页面切换统一处理
     private void setViewPagerAndExamBottom(int positions) {
+        //记录下标
+        mPosition = positions;
+
         if (positions > mQuestionsList.size() -1) {
             return;
         }
+
+        initCollectionView();//每次切换页面的时候改变底部收藏状态
+
         mExamBottomLayout.setNowQuesitonContent(positions + 1, mQuestionsList.size());
         if (mViewPager != null) {
             mViewPager.setCurrentItem(positions, true);
@@ -205,7 +227,6 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         initPracticeData();
         mQuestionsList = prepareDatas();
 
-        mHeader.setTitleText("课程练习");
         mHeader.hideLeftImg();
         createBottomDatas();//创造底下的选择按钮个数
         ViewGroup.LayoutParams blp = mExamBottomLayout.getLayoutParams();
@@ -213,12 +234,10 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         mExamBottomLayout.setLayoutParams(blp);
         mExamBottomLayout.setmDatas(mDatas);
         mExamBottomLayout.getView(R.id.hand_of_paper).setOnClickListener(this);
-        mExamBottomLayout.getView(R.id.hand_of_paper).setTag(false);
-        ((TextView)mExamBottomLayout.getView(R.id.handofpager)).setText("收藏");
-        ((ImageView)mExamBottomLayout.getView(R.id.handofpagerstart)).setImageResource(R.drawable.collection_icon);
+
+        initCollectionView();
 
         mExamBottomLayout.getView(R.id.show_all_layout).setOnClickListener(this);
-
         mDooExamBottomAdapter = mExamBottomLayout.getmDooExamBottomAdapter();
         mDooExamBottomAdapter.getData().get(0).setmType(ExamXqBean.CHOICE);//初始化
         mDooExamBottomAdapter.notifyDataSetChanged();
@@ -244,6 +263,17 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         });
     }
 
+    private void initCollectionView(){
+        ExamBean tempBean = mQuestionsList.get(mPosition);
+        if(mUserCollecions.contains(tempBean.getId())){
+            mExamBottomLayout.getView(R.id.hand_of_paper).setTag(true);
+            ((ImageView)mExamBottomLayout.getView(R.id.handofpagerstart)).setImageResource(R.drawable.collection_icon);//收藏按钮
+        }else {
+            mExamBottomLayout.getView(R.id.hand_of_paper).setTag(false);
+            ((ImageView)mExamBottomLayout.getView(R.id.handofpagerstart)).setImageResource(R.drawable.collection_icon);//未收藏按钮
+        }
+        ((TextView)mExamBottomLayout.getView(R.id.handofpager)).setText("收藏");
+    }
 
     private List<ExamBean> prepareDatas() {
         List<ExamBean> list = new ArrayList<>();
@@ -277,13 +307,16 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.hand_of_paper:
+                ExamBean tempBean = mQuestionsList.get(mPosition);
                 boolean tag = (boolean) mExamBottomLayout.getView(R.id.hand_of_paper).getTag();
-                if(tag){
-                    //TODO 收藏状态图片资源
+                if(tag){//已经收藏 ---->未收藏
+                    //TODO 未收藏状态图片资源
+                    mUserCollecions.remove(tempBean.getId());
                     mExamBottomLayout.getView(R.id.hand_of_paper).setTag(!tag);
                     ((ImageView)mExamBottomLayout.getView(R.id.handofpagerstart)).setImageResource(R.drawable.collection_icon);
-                }else {
-                    //TODO 未收藏状态图片资源
+                }else {//未收藏------->收藏
+                    //TODO 收藏状态图片资源
+                    mUserCollecions.add(tempBean.getId());
                     mExamBottomLayout.getView(R.id.hand_of_paper).setTag(!tag);
                     ((ImageView)mExamBottomLayout.getView(R.id.handofpagerstart)).setImageResource(R.drawable.collection_icon);
                 }
@@ -300,23 +333,6 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         }
     }
 
-    private void handOfPaper() {
-        //todo 交卷
-        if (mEndExamPop == null) {
-            mEndExamPop = new EndExamPop(this);
-            mEndExamPop.setOnPupClicListener(new BasePopu.OnPupClickListener() {
-                @Override
-                public void onPupClick(int position) {
-                    if (EndExamPop.SURE_CLICK == position) {
-                        cancelTimer();
-                        startAct(ExamAnalysisActivity.class);
-                        finish();
-                    }
-                }
-            });
-        }
-        mEndExamPop.showLocation(Gravity.CENTER);
-    }
     private void handOfPractice() {
         //todo 结束练习
         if(mEndPracticeDialog == null){
@@ -337,16 +353,12 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        if (JZVideoPlayer.backPress()) {
-            return;
-        }
         super.onBackPressed();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        JZVideoPlayer.releaseAllVideos();
     }
 
 
@@ -505,10 +517,6 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
     @Override
     public void finish() {
         super.finish();
-        if (mTimer != null) {
-            mTimer.cancel();
-            mTimer = null;
-        }
     }
 
     public void finishPractice(){

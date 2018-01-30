@@ -37,6 +37,17 @@ public class YSUserInfoManager {
         return SavePreference.getStr(mContext, YSConst.UserInfo.KEY_USER_TOKEN);
     }
 
+    public void saveUserId(String userid) {
+        try {
+            SavePreference.saveCommit(mContext, YSConst.UserInfo.KEY_USER_ID, userid);
+        } catch (Exception ignore) {
+        }
+    }
+
+    public String getUserId(){
+        return SavePreference.getStr(mContext, YSConst.UserInfo.KEY_USER_ID);
+    }
+
     //是否登录
     //  true  登录
     public boolean isLogin() {
