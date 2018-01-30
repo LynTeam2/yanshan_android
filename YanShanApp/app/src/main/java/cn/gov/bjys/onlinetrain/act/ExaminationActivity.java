@@ -14,6 +14,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ycl.framework.base.BasePopu;
 import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.db.entity.ExamBean;
+import com.ycl.framework.utils.sp.SavePreference;
 import com.ycl.framework.view.TitleHeaderView;
 import com.zhy.autolayout.utils.AutoUtils;
 import com.zls.www.statusbarutil.StatusBarUtil;
@@ -35,6 +36,8 @@ import cn.gov.bjys.onlinetrain.bean.ExamsBean;
 import cn.gov.bjys.onlinetrain.bean.SingleExamBean;
 import cn.gov.bjys.onlinetrain.utils.ExamHelper;
 import cn.gov.bjys.onlinetrain.utils.PracticeHelper;
+import cn.gov.bjys.onlinetrain.utils.YSConst;
+import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 import cn.jzvd.JZVideoPlayer;
 
 
@@ -159,9 +162,7 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
                     public void run() {
                         //UI线程
                         if (mTimerType == TIMER_END) {
-                            cancelTimer();
-                            //TODO 定时器时间结束
-                            startAct(ExamAnalysisActivity.class);
+                            exitPager();
                         } else {
                             setTimeToHeader();
                         }
@@ -332,14 +333,57 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
                 @Override
                 public void onPupClick(int position) {
                     if (EndExamPop.SURE_CLICK == position) {
-                        cancelTimer();
-                        startAct(ExamAnalysisActivity.class);
-                        finish();
+                        exitPager();
                     }
                 }
             });
         }
         mEndExamPop.showLocation(Gravity.CENTER);
+    }
+
+
+    //存下错题
+    private void saveErrorList() {
+
+        StringBuffer allErrorStr = new StringBuffer();
+        String strs = SavePreference.getStr(this, YSConst.UserInfo.USER_ERROR_IDS + YSUserInfoManager.getsInstance().getUserId());
+        String[] listStr = strs.split(",");
+
+        List<Long> allErrorList = new ArrayList<>();
+        for (String temp : listStr) {
+            allErrorList.add(Long.valueOf(temp));
+        }
+        for (ExamBean bean : mErrorQuestionsList) {
+            long id = bean.getId();
+            allErrorList.remove(id);
+            allErrorList.add(0, id);
+        }
+
+        for(int i=0; i<allErrorList.size(); i++){
+            if(i == allErrorList.size() -1){
+                allErrorStr.append(""+allErrorList.get(i));
+            }else{
+                allErrorStr.append(allErrorList.get(i)+",");
+            }
+        }
+
+        SavePreference.save(this,
+                YSConst.UserInfo.USER_ERROR_IDS + YSUserInfoManager.getsInstance().getUserId(),
+                allErrorStr.toString());
+    }
+
+    //存下整张试卷
+    public void saveExamPager(){
+
+    }
+
+
+    private void exitPager(){
+        saveErrorList();
+        saveExamPager();
+        cancelTimer();
+        startAct(ExamAnalysisActivity.class);
+        finish();
     }
 
     @Override

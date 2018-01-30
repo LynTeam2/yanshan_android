@@ -63,7 +63,6 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
     DooExamBottomAdapter mDooExamBottomAdapter;
 
 
-
     @Override
     protected void setRootView() {
         setContentView(R.layout.activity_examination_layout);
@@ -75,11 +74,11 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         StatusBarUtil.setTranslucentForImageViewInFragment(this, null);
     }
 
-    public void initPracticeData(){
+    public void initPracticeData() {
         Intent recIntent = getIntent();
         Bundle recBundle = recIntent.getExtras();
         mType = recBundle.getInt(TAG);
-        switch (mType){
+        switch (mType) {
             case KESHI:
                 PracticeHelper.getInstance().getmCourseBean();
                 //TODO 根据CourseBean里面的题目去题库选择题目
@@ -102,6 +101,7 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         //初始化正确
         mRightQuestionsList = new ArrayList<>();
     }
+
     List<ExamBean> mQuestionsList;//所有试题数据
     private int mPosition = 0;//当前试题在显示页面的位置 数组下标
 
@@ -112,27 +112,28 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
 
 
     private List<Long> mUserCollecions = new ArrayList<>();
-    private void initUserCollections(){
+
+    private void initUserCollections() {
         String userCollections = SavePreference.getStr(this, YSConst.UserInfo.USER_COLLECTION_IDS + YSUserInfoManager.getsInstance().getUserId());
         String[] ids = userCollections.split(",");
         mUserCollecions.clear();
-        for(String id:ids){
-                mUserCollecions.add(Long.valueOf(id));
-            }
-    }
-
-    public void CalAnswer(ExamBean bean, boolean isRight){
-            if(isRight){
-                mRightQuestionsList.add(bean);
-            }else{
-                mErrorQuestionsList.add(bean);
-            }
-        if(mRightQuestionsList.size() + mErrorQuestionsList.size() >= mQuestionsList.size()){
-            //结束弹框
-         handOfPractice();
+        for (String id : ids) {
+            mUserCollecions.add(Long.valueOf(id));
         }
     }
 
+
+    public void CalAnswer(ExamBean bean, boolean isRight) {
+        if (isRight) {
+            mRightQuestionsList.add(bean);
+        } else {
+            mErrorQuestionsList.add(bean);
+        }
+        if (mRightQuestionsList.size() + mErrorQuestionsList.size() >= mQuestionsList.size()) {
+            //结束弹框
+            handOfPractice();
+        }
+    }
 
 
     @Override
@@ -160,7 +161,6 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
     }
 
 
-
     private String getTimesStr(long time) {
         String ret = "";
         ret = ret + (time / 3600 == 0 ? "" : time / 3600 + ":");//小时数
@@ -177,7 +177,7 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         //记录下标
         mPosition = positions;
 
-        if (positions > mQuestionsList.size() -1) {
+        if (positions > mQuestionsList.size() - 1) {
             return;
         }
 
@@ -263,16 +263,16 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         });
     }
 
-    private void initCollectionView(){
+    private void initCollectionView() {
         ExamBean tempBean = mQuestionsList.get(mPosition);
-        if(mUserCollecions.contains(tempBean.getId())){
+        if (mUserCollecions.contains(tempBean.getId())) {
             mExamBottomLayout.getView(R.id.hand_of_paper).setTag(true);
-            ((ImageView)mExamBottomLayout.getView(R.id.handofpagerstart)).setImageResource(R.drawable.collection_icon);//收藏按钮
-        }else {
+            ((ImageView) mExamBottomLayout.getView(R.id.handofpagerstart)).setImageResource(R.drawable.collection_icon);//收藏按钮
+        } else {
             mExamBottomLayout.getView(R.id.hand_of_paper).setTag(false);
-            ((ImageView)mExamBottomLayout.getView(R.id.handofpagerstart)).setImageResource(R.drawable.collection_icon);//未收藏按钮
+            ((ImageView) mExamBottomLayout.getView(R.id.handofpagerstart)).setImageResource(R.drawable.collection_icon);//未收藏按钮
         }
-        ((TextView)mExamBottomLayout.getView(R.id.handofpager)).setText("收藏");
+        ((TextView) mExamBottomLayout.getView(R.id.handofpager)).setText("收藏");
     }
 
     private List<ExamBean> prepareDatas() {
@@ -309,16 +309,16 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
             case R.id.hand_of_paper:
                 ExamBean tempBean = mQuestionsList.get(mPosition);
                 boolean tag = (boolean) mExamBottomLayout.getView(R.id.hand_of_paper).getTag();
-                if(tag){//已经收藏 ---->未收藏
+                if (tag) {//已经收藏 ---->未收藏
                     //TODO 未收藏状态图片资源
                     mUserCollecions.remove(tempBean.getId());
                     mExamBottomLayout.getView(R.id.hand_of_paper).setTag(!tag);
-                    ((ImageView)mExamBottomLayout.getView(R.id.handofpagerstart)).setImageResource(R.drawable.collection_icon);
-                }else {//未收藏------->收藏
+                    ((ImageView) mExamBottomLayout.getView(R.id.handofpagerstart)).setImageResource(R.drawable.collection_icon);
+                } else {//未收藏------->收藏
                     //TODO 收藏状态图片资源
                     mUserCollecions.add(tempBean.getId());
                     mExamBottomLayout.getView(R.id.hand_of_paper).setTag(!tag);
-                    ((ImageView)mExamBottomLayout.getView(R.id.handofpagerstart)).setImageResource(R.drawable.collection_icon);
+                    ((ImageView) mExamBottomLayout.getView(R.id.handofpagerstart)).setImageResource(R.drawable.collection_icon);
                 }
                 ToastUtil.showToast("收藏");
                 //todo 交卷
@@ -335,18 +335,18 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
 
     private void handOfPractice() {
         //todo 结束练习
-        if(mEndPracticeDialog == null){
+        if (mEndPracticeDialog == null) {
             mEndPracticeDialog = new EndPracticeDialog(this);
         }
-        mEndPracticeDialog.bindDatas(mRightQuestionsList.size(),mErrorQuestionsList.size(),mQuestionsList.size());
+        mEndPracticeDialog.bindDatas(mRightQuestionsList.size(), mErrorQuestionsList.size(), mQuestionsList.size());
         mEndPracticeDialog.show();
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if(mEndPracticeDialog.isShowing())
-            return true;
+            if (mEndPracticeDialog.isShowing())
+                return true;
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -374,38 +374,38 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         switch (bean.getExamBeanType()) {
             case ExamBean.TEXT_JUDGMENT_EXAM:
 //                i = SingleExamBean.Judgment.isTrue;
-                if(answer.equals("true")){
+                if (answer.equals("true")) {
                     i = 0;
-                }else {
+                } else {
                     i = 0;
                 }
                 if (c != i) {
                     //错
                     errorGo(position);
                     bean.setDoRight(ExamBean.ERROR);
-                    CalAnswer(bean,false);
+                    CalAnswer(bean, false);
                     refreshBottomCircleUI(position, false);//更新圆圈UI
                     mExamBottomLayout.setErrorNum();//错题目数量自增一
                 } else {
                     //对
                     rightGo(position);
                     bean.setDoRight(ExamBean.RIGHT);
-                    CalAnswer(bean,true);
+                    CalAnswer(bean, true);
                     refreshBottomCircleUI(position, true);
                     mExamBottomLayout.setRightNums();//对题目数量自增一
                 }
                 break;
             case ExamBean.TEXT_SINGLE_EXAM:
 //                i = SingleExamBean.SingleChoose.isTrue;
-                if(answer.equals("choiceA")){
+                if (answer.equals("choiceA")) {
                     i = 0;
-                }else if (answer.equals("choiceB")) {
+                } else if (answer.equals("choiceB")) {
                     i = 1;
-                }else if(answer.equals("choiceC")){
+                } else if (answer.equals("choiceC")) {
                     i = 2;
-                }else if(answer.equals("choiceD")){
+                } else if (answer.equals("choiceD")) {
                     i = 3;
-                }else {
+                } else {
                     i = 0;
                 }
 
@@ -413,7 +413,7 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
                 if (c != i) {
                     //错
                     bean.setDoRight(ExamBean.ERROR);
-                    CalAnswer(bean,false);
+                    CalAnswer(bean, false);
                     refreshBottomCircleUI(position, false);//更新圆圈UI
                     mExamBottomLayout.setErrorNum();//错题目数量自增一
                     errorGo(position);
@@ -421,7 +421,7 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
                     //对
 
                     bean.setDoRight(ExamBean.RIGHT);
-                    CalAnswer(bean,true);
+                    CalAnswer(bean, true);
 
                     refreshBottomCircleUI(position, true);
                     mExamBottomLayout.setRightNums();//对题目数量自增一
@@ -433,18 +433,18 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
 //                int[] cc = cn.gov.bjys.onlinetrain.bean.SingleExamBean.MultiChoose.isTrue;
                 List<Integer> cc = new ArrayList<>();
                 String[] res = answer.split(",");
-                for(String s : res){
+                for (String s : res) {
                     int k;
-                    if(s.equals("choiceA")){
+                    if (s.equals("choiceA")) {
                         k = 0;
-                    }else if (s.equals("choiceB")) {
+                    } else if (s.equals("choiceB")) {
                         k = 1;
-                    }else if(s.equals("choiceC")){
+                    } else if (s.equals("choiceC")) {
                         k = 2;
-                    }else if(s.equals("choiceD")){
+                    } else if (s.equals("choiceD")) {
                         k = 3;
-                    }else{
-                        k=0;
+                    } else {
+                        k = 0;
                     }
                     cc.add(k);
                 }
@@ -471,21 +471,21 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
                     if (!isRealNotEq) {
                         //全对
                         bean.setDoRight(ExamBean.RIGHT);
-                        CalAnswer(bean,true);
+                        CalAnswer(bean, true);
                         refreshBottomCircleUI(position, true);
                         mExamBottomLayout.setRightNums();//对题目数量自增一
                         rightGo(position);
                     } else {
                         errorGo(position);
                         bean.setDoRight(ExamBean.ERROR);
-                        CalAnswer(bean,false);
+                        CalAnswer(bean, false);
                         refreshBottomCircleUI(position, false);//更新圆圈UI
                         mExamBottomLayout.setErrorNum();//错题目数量自增一
                     }
                 } else {
                     errorGo(position);
                     bean.setDoRight(ExamBean.ERROR);
-                    CalAnswer(bean,false);
+                    CalAnswer(bean, false);
                     refreshBottomCircleUI(position, false);//更新圆圈UI
                     mExamBottomLayout.setErrorNum();//错题目数量自增一
                 }
@@ -495,12 +495,12 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
 
     }
 
-    private void errorGo(int position){
+    private void errorGo(int position) {
 //        setViewPagerAndExamBottom(position);
     }
 
-    private void rightGo(int position){
-        setViewPagerAndExamBottom(position+1);
+    private void rightGo(int position) {
+        setViewPagerAndExamBottom(position + 1);
     }
 
     public void refreshBottomCircleUI(int positions, boolean isRight) {
@@ -514,13 +514,77 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         }
     }
 
+
+    private void saveCollection() {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < mUserCollecions.size(); i++) {
+            if (i == mUserCollecions.size() - 1) {
+                sb.append(mUserCollecions.get(i) + "");
+            } else {
+                sb.append(mUserCollecions.get(i) + ",");
+            }
+        }
+        SavePreference.save(this,
+                YSConst.UserInfo.USER_COLLECTION_IDS + YSUserInfoManager.getsInstance().getUserId(),
+                sb.toString());
+    }
+
+    private void saveErrorList() {
+
+        StringBuffer allErrorStr = new StringBuffer();
+        String strs = SavePreference.getStr(this, YSConst.UserInfo.USER_ERROR_IDS + YSUserInfoManager.getsInstance().getUserId());
+        String[] listStr = strs.split(",");
+
+        List<Long> allErrorList = new ArrayList<>();
+        for (String temp : listStr) {
+            allErrorList.add(Long.valueOf(temp));
+        }
+        for (ExamBean bean : mErrorQuestionsList) {
+            long id = bean.getId();
+            allErrorList.remove(id);
+            allErrorList.add(0, id);
+        }
+
+        for(int i=0; i<allErrorList.size(); i++){
+            if(i == allErrorList.size() -1){
+                allErrorStr.append(""+allErrorList.get(i));
+            }else{
+                allErrorStr.append(allErrorList.get(i)+",");
+            }
+        }
+
+        SavePreference.save(this,
+                YSConst.UserInfo.USER_ERROR_IDS + YSUserInfoManager.getsInstance().getUserId(),
+                allErrorStr.toString());
+    }
+
+
     @Override
     public void finish() {
+        saveCollection();
+        switch (mType) {
+            case CUOTI:
+            case TIXING:
+                saveErrorList();
+                break;
+            case KESHI:
+
+                break;
+        }
+
         super.finish();
     }
 
-    public void finishPractice(){
+    public void finishPractice() {
         //TODO 保存数据 退出activity
-
+        switch (mType) {
+            case CUOTI:
+            case TIXING:
+                break;
+            case KESHI:
+                saveErrorList();
+                break;
+        }
+        finish();
     }
 }
