@@ -38,6 +38,9 @@ import cn.gov.bjys.onlinetrain.utils.ExamHelper;
  */
 public class ExamAnalysisActivity extends FrameActivity implements View.OnClickListener{
 
+    public static String TAG = ExamAnalysisActivity.class.getSimpleName();
+
+
     protected Typeface mTfLight;
 
     @Bind(R.id.radar_chart)
@@ -61,7 +64,10 @@ public class ExamAnalysisActivity extends FrameActivity implements View.OnClickL
     @Bind(R.id.ret)
     TextView ret;
 
-    @OnClick({R.id.bg_change, R.id.value_gone, R.id.switch_animate})
+    @Bind(R.id.history_btn)
+    TextView history_btn;
+
+    @OnClick({R.id.bg_change, R.id.value_gone, R.id.switch_animate,R.id.history_btn})
     public void onTabClick(View v) {
         switch (v.getId()) {
             case R.id.bg_change: {
@@ -91,6 +97,10 @@ public class ExamAnalysisActivity extends FrameActivity implements View.OnClickL
                 mRadarChart.invalidate();
                 break;
             }
+
+            case R.id.history_btn:
+                startAct(ExamHistoryActivity.class);
+                break;
         }
     }
 
