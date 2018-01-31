@@ -26,16 +26,28 @@ public class SaveExamPagerBean  extends DBEntity implements Parcelable{
     private long createTime;//考试时间
 
     @DatabaseField
-    private String examName;//试卷名称
+    private String examName = "";//试卷名称
 
     @DatabaseField
-    private String mAllPager;//整张试卷
+    private String mAllPager = "";//整张试卷
     @DatabaseField
-    private String mErrorPager;//试卷错误部分
+    private String mErrorPager = "";//试卷错误部分
     @DatabaseField
-    private String mRightPager;//试卷正确部分
+    private String mRightPager = "";//试卷正确部分
     @DatabaseField
-    private String mNotDoPager;//试卷未做部分
+    private String mNotDoPager = "";//试卷未做部分
+    @DatabaseField
+    private String mMultiErrorPager = "";//多选错题
+    @DatabaseField
+    private String mTrueFalseErrorPager = "";//是非错题部分
+    @DatabaseField
+    private String mSimpleErrorPager = "";//单选错误部分
+    @DatabaseField
+    private String mMultiPager = "";//多选
+    @DatabaseField
+    private String mTrueFalsePager = "";//是非
+    @DatabaseField
+    private String mSimplePager = "";//单选
     @DatabaseField
     private long mScore;//分数
     @DatabaseField
@@ -43,6 +55,55 @@ public class SaveExamPagerBean  extends DBEntity implements Parcelable{
 
     @DatabaseField
     private long useTimes;//考试花费时长 单位秒
+
+
+    public String getmSimplePager() {
+        return mSimplePager;
+    }
+
+    public void setmSimplePager(String mSimplePager) {
+        this.mSimplePager = mSimplePager;
+    }
+
+    public String getmTrueFalsePager() {
+        return mTrueFalsePager;
+    }
+
+    public void setmTrueFalsePager(String mTrueFalsePager) {
+        this.mTrueFalsePager = mTrueFalsePager;
+    }
+
+    public String getmMultiPager() {
+        return mMultiPager;
+    }
+
+    public void setmMultiPager(String mMultiPager) {
+        this.mMultiPager = mMultiPager;
+    }
+
+    public String getmSimpleErrorPager() {
+        return mSimpleErrorPager;
+    }
+
+    public void setmSimpleErrorPager(String mSimpleErrorPager) {
+        this.mSimpleErrorPager = mSimpleErrorPager;
+    }
+
+    public String getmMultiErrorPager() {
+        return mMultiErrorPager;
+    }
+
+    public void setmMultiErrorPager(String mMultiErrorPager) {
+        this.mMultiErrorPager = mMultiErrorPager;
+    }
+
+    public String getmTrueFalseErrorPager() {
+        return mTrueFalseErrorPager;
+    }
+
+    public void setmTrueFalseErrorPager(String mTrueFalseErrorPager) {
+        this.mTrueFalseErrorPager = mTrueFalseErrorPager;
+    }
 
     public long getUseTimes() {
         return useTimes;
@@ -141,6 +202,9 @@ public class SaveExamPagerBean  extends DBEntity implements Parcelable{
     }
 
 
+    public SaveExamPagerBean() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -157,12 +221,15 @@ public class SaveExamPagerBean  extends DBEntity implements Parcelable{
         dest.writeString(this.mErrorPager);
         dest.writeString(this.mRightPager);
         dest.writeString(this.mNotDoPager);
+        dest.writeString(this.mMultiErrorPager);
+        dest.writeString(this.mTrueFalseErrorPager);
+        dest.writeString(this.mSimpleErrorPager);
+        dest.writeString(this.mMultiPager);
+        dest.writeString(this.mTrueFalsePager);
+        dest.writeString(this.mSimplePager);
         dest.writeLong(this.mScore);
         dest.writeByte(this.mJige ? (byte) 1 : (byte) 0);
         dest.writeLong(this.useTimes);
-    }
-
-    public SaveExamPagerBean() {
     }
 
     protected SaveExamPagerBean(Parcel in) {
@@ -175,6 +242,12 @@ public class SaveExamPagerBean  extends DBEntity implements Parcelable{
         this.mErrorPager = in.readString();
         this.mRightPager = in.readString();
         this.mNotDoPager = in.readString();
+        this.mMultiErrorPager = in.readString();
+        this.mTrueFalseErrorPager = in.readString();
+        this.mSimpleErrorPager = in.readString();
+        this.mMultiPager = in.readString();
+        this.mTrueFalsePager = in.readString();
+        this.mSimplePager = in.readString();
         this.mScore = in.readLong();
         this.mJige = in.readByte() != 0;
         this.useTimes = in.readLong();

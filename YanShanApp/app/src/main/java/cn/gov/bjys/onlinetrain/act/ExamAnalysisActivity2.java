@@ -1,7 +1,10 @@
 package cn.gov.bjys.onlinetrain.act;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -21,7 +24,10 @@ import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.ycl.framework.base.FrameActivity;
+import com.ycl.framework.db.business.ExamPagerInfoBusiness;
+import com.ycl.framework.db.business.QuestionInfoBusiness;
 import com.ycl.framework.db.entity.ExamBean;
+import com.ycl.framework.db.entity.SaveExamPagerBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +38,14 @@ import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.view.RadarMarkerView;
 import cn.gov.bjys.onlinetrain.bean.ExamsBean;
 import cn.gov.bjys.onlinetrain.utils.ExamHelper;
+import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 
 /**
  * Created by dodozhou on 2017/10/30.
  */
-public class ExamAnalysisActivity2 extends FrameActivity implements View.OnClickListener{
+public class ExamAnalysisActivity2 extends FrameActivity implements View.OnClickListener {
 
-    public static String TAG = ExamAnalysisActivity.class.getSimpleName();
+    public static String TAG = ExamAnalysisActivity2.class.getSimpleName();
 
 
     protected Typeface mTfLight;
@@ -67,7 +74,7 @@ public class ExamAnalysisActivity2 extends FrameActivity implements View.OnClick
     @Bind(R.id.history_btn)
     TextView history_btn;
 
-    @OnClick({R.id.bg_change, R.id.value_gone, R.id.switch_animate,R.id.history_btn})
+    @OnClick({R.id.bg_change, R.id.value_gone, R.id.switch_animate, R.id.history_btn})
     public void onTabClick(View v) {
         switch (v.getId()) {
             case R.id.bg_change: {
@@ -114,89 +121,84 @@ public class ExamAnalysisActivity2 extends FrameActivity implements View.OnClick
     @Override
     public void initViews() {
         super.initViews();
-
         initAllDatas();
         initRadarView();
         initScore();
         initContentLayout();
     }
 
-    ExamsBean mExamsBean;
 
-    List<ExamBean> rightNums = new ArrayList<>();
-    List<ExamBean> errorNums = new ArrayList<>();
-    List<ExamBean> notDoNums = new ArrayList<>();
-
-
-    List<ExamBean> multipleNums = new ArrayList<>();
-    List<ExamBean> simpleNums = new ArrayList<>();
-    List<ExamBean> truefalseNums = new ArrayList<>();
-
-
-    List<ExamBean> multipleErrorNums = new ArrayList<>();
-    List<ExamBean> simpleErrorNums = new ArrayList<>();
-    List<ExamBean> truefalseErrorNums = new ArrayList<>();
-
-    private int scoreNum = 0;
+    private int mExamId = 0;
+    private SaveExamPagerBean mNowPager;
 
     private void initAllDatas() {
-        rightNums.clear();
-        errorNums.clear();
-        notDoNums.clear();
+        Intent recIntent = getIntent();
+        Bundle recBundle = recIntent.getExtras();
+        mExamId = recBundle.getInt(TAG);
 
-        multipleNums.clear();
-        simpleNums.clear();
-        truefalseNums.clear();
-
-        multipleErrorNums.clear();
-        simpleErrorNums.clear();
-        truefalseErrorNums.clear();
-
-
-
-        mExamsBean = ExamHelper.getInstance().getmExamsBean();
-        List<ExamBean> mExamPagers = ExamHelper.getInstance().getmExamPagers();
-        for (ExamBean examBean : mExamPagers) {
-            String questionType = examBean.getQuestionType();
-            if("multiplechoice".equals(questionType)){
-                multipleNums.add(examBean);
-                switch (examBean.getDoRight()) {
-                    case ExamBean.ERROR:
-                        multipleErrorNums.add(examBean);
-                        break;
-                }
-            }else if("simplechoice".equals(questionType)){
-                simpleNums.add(examBean);
-                switch (examBean.getDoRight()) {
-                    case ExamBean.ERROR:
-                        simpleErrorNums.add(examBean);
-                        break;
-                }
-            }else if("truefalse".equals(questionType)){
-                truefalseNums.add(examBean);
-                switch (examBean.getDoRight()) {
-                    case ExamBean.ERROR:
-                        truefalseErrorNums.add(examBean);
-                        break;
-                }
-            }
-
-            switch (examBean.getDoRight()) {
-                case ExamBean.RIGHT:
-                    rightNums.add(examBean);
-                    break;
-                case ExamBean.ERROR:
-                    errorNums.add(examBean);
-                    break;
-                case ExamBean.NOT_DO:
-                    notDoNums.add(examBean);
-                    break;
-
-            }
+        List<SaveExamPagerBean> mAllList = ExamPagerInfoBusiness.getInstance(this).queryBykey(YSUserInfoManager.getsInstance().getUserId(), mExamId);
+        if (mAllList.size() > 0) {
+            mNowPager = mAllList.get(0);
+        } else {
+            mNowPager = new SaveExamPagerBean();
         }
 
-        scoreNum = (int) ((rightNums.size() / (mExamPagers.size() * 1.0f)) * 100);
+        initAllNeedDatas();
 
+    }
+
+    private List<ExamBean> mTrueFalseErrorList = new ArrayList<>();
+    private List<ExamBean> mSimpleErrorList = new ArrayList<>();
+    private List<ExamBean> mMultiErrorList = new ArrayList<>();
+
+    private int mMultiErrorSize = 0;
+    private int mMultiSize = 0;
+    private int mSimpleErrorSize = 0;
+    private int mSimpleSize = 0;
+    private int mTrueFalseSize = 0;
+    private int mTrueFalseErrorSize = 0;
+
+    private void initAllNeedDatas() {
+        mMultiErrorSize = getSizeFor(mNowPager.getmMultiErrorPager().split(","));
+        mMultiSize = getSizeFor(mNowPager.getmMultiPager().split(","));
+        mSimpleErrorSize = getSizeFor(mNowPager.getmSimpleErrorPager().split(","));
+        mSimpleSize = getSizeFor(mNowPager.getmSimplePager().split(","));
+        mTrueFalseSize = getSizeFor(mNowPager.getmTrueFalsePager().split(","));
+        mTrueFalseErrorSize = getSizeFor(mNowPager.getmTrueFalseErrorPager().split(","));
+
+        for (String str : mNowPager.getmMultiErrorPager().split(",")) {
+            if (TextUtils.isEmpty(str)) {
+                continue;
+            }
+            ExamBean bean = QuestionInfoBusiness.getInstance(this).queryBykey(str);
+            mMultiErrorList.add(bean);
+        }
+
+        for (String str : mNowPager.getmSimpleErrorPager().split(",")) {
+            if (TextUtils.isEmpty(str)) {
+                continue;
+            }
+            ExamBean bean = QuestionInfoBusiness.getInstance(this).queryBykey(str);
+            mSimpleErrorList.add(bean);
+        }
+
+        for (String str : mNowPager.getmTrueFalseErrorPager().split(",")) {
+            if (TextUtils.isEmpty(str)) {
+                continue;
+            }
+            ExamBean bean = QuestionInfoBusiness.getInstance(this).queryBykey(str);
+            mTrueFalseErrorList.add(bean);
+        }
+
+    }
+
+
+    private int getSizeFor(String[] strs) {
+        if (strs.length == 1 && TextUtils.isEmpty(strs[0])) {
+            return 0;
+        } else {
+            return strs.length;
+        }
     }
 
     private void initRadarView() {
@@ -290,24 +292,41 @@ public class ExamAnalysisActivity2 extends FrameActivity implements View.OnClick
         // Y的值，数据填充
         ArrayList<RadarEntry> yVals1 = new ArrayList<RadarEntry>();
         ArrayList<RadarEntry> yVals2 = new ArrayList<RadarEntry>();
-
         // IMPORTANT: In a PieChart, no values (Entry) should have the same
         // xIndex (even if from different DataSets), since no values can be
         // drawn above each other.
         for (int i = 0; i < cnt; i++) {
             yVals1.add(new RadarEntry((int) (Math.random() * mult) + mult / 2, i));
         }
-
+        int value = 0;
         for (int i = 0; i < cnt; i++) {
-            switch (i){
+            switch (i) {
                 case 0:
-                    yVals1.add(new RadarEntry(simpleErrorNums.size(), i));
+                    String[] strs1 = mNowPager.getmSimpleErrorPager().split(",");
+                    if (strs1.length == 1 && TextUtils.isEmpty(strs1[0])) {
+                        value = 0;
+                    } else {
+                        value = strs1.length;
+                    }
+                    yVals1.add(new RadarEntry(value, i));
                     break;
                 case 1:
-                    yVals1.add(new RadarEntry(truefalseErrorNums.size(), i));
+                    String[] strs2 = mNowPager.getmTrueFalseErrorPager().split(",");
+                    if (strs2.length == 1 && TextUtils.isEmpty(strs2[0])) {
+                        value = 0;
+                    } else {
+                        value = strs2.length;
+                    }
+                    yVals1.add(new RadarEntry(value, i));
                     break;
                 case 2:
-                    yVals1.add(new RadarEntry(multipleErrorNums.size(), i));
+                    String[] strs3 = mNowPager.getmMultiErrorPager().split(",");
+                    if (strs3.length == 1 && TextUtils.isEmpty(strs3[0])) {
+                        value = 0;
+                    } else {
+                        value = strs3.length;
+                    }
+                    yVals1.add(new RadarEntry(value, i));
                     break;
             }
         }
@@ -353,12 +372,28 @@ public class ExamAnalysisActivity2 extends FrameActivity implements View.OnClick
 
     public void initScore() {
         //TODO 数据确定后接入
-        score.setText(scoreNum+"分");
-        ret.setText("答错"+errorNums.size()+"题" +
-                (notDoNums.size() > 0 ? "未作"+notDoNums+"题":"") +
-                "，" +
-                //TODO 这里需要修改不是id   等具体数据过来即可
-                (scoreNum > mExamsBean.getId()?"成绩合格":"成绩不合格"));
+        //错题
+        String[] errors = mNowPager.getmErrorPager().split(",");
+        int errSize = 0;
+        if (errors.length == 1 && TextUtils.isEmpty(errors[0])) {
+            errSize = 0;
+        } else {
+            errSize = errors.length;
+        }
+        //没做题
+        String[] notdo = mNowPager.getmNotDoPager().split(",");
+        int notdoSize = 0;
+        if (notdo.length == 1 && TextUtils.isEmpty(notdo[0])) {
+            notdoSize = 0;
+        } else {
+            notdoSize = errors.length;
+        }
+
+
+        score.setText(mNowPager.getmScore() + "分");
+        ret.setText("答错" + errSize + "题" +
+                ((notdoSize > 0) ? ("未作" + notdoSize + "题") : ("")) + "，" +
+                (mNowPager.ismJige() ? "成绩合格" : "成绩不合格"));
     }
 
 
@@ -394,20 +429,20 @@ public class ExamAnalysisActivity2 extends FrameActivity implements View.OnClick
         tvName.setText(name);
         TextView tvContent = (TextView) view.findViewById(R.id.content);
         long errorRate = 0;
-        if("判断题".equals(name)){
-            errorRate = (long) (truefalseErrorNums.size()/(truefalseNums.size()*1.0f) * 100L);
+        if ("判断题".equals(name)) {
+            errorRate = (long) (mTrueFalseErrorSize / (mTrueFalseSize * 1.0f) * 100L);
             view.setTag(name);
             view.setOnClickListener(this);
-        }else if("单选题".equals(name)){
-            errorRate = (long) (simpleErrorNums.size()/(simpleNums.size()*1.0f) * 100L);
+        } else if ("单选题".equals(name)) {
+            errorRate = (long) (mSimpleErrorSize / (mSimpleSize * 1.0f) * 100L);
             view.setTag(name);
             view.setOnClickListener(this);
-        }else if("多选题".equals(name)){
-            errorRate = (long) (multipleErrorNums.size()/(multipleNums.size()*1.0f) * 100L);
+        } else if ("多选题".equals(name)) {
+            errorRate = (long) (mMultiErrorSize / (mMultiSize * 1.0f) * 100L);
             view.setTag(name);
             view.setOnClickListener(this);
         }
-        tvContent.setText("错题率"+errorRate+"%");
+        tvContent.setText("错题率" + errorRate + "%");
         return view;
     }
 
@@ -415,12 +450,21 @@ public class ExamAnalysisActivity2 extends FrameActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         String name = (String) v.getTag();
-        if("判断题".equals(name)){
-
-        }else if("单选题".equals(name)){
-
-        }else if("多选题".equals(name)){
-
+        if ("判断题".equals(name)) {
+            Bundle mBundle = new Bundle();
+            mBundle.putInt(PracticeActivity.TAG, PracticeActivity.TIXING);
+            mBundle.putParcelableArrayList("PracticeActivityDatas", (ArrayList<? extends Parcelable>) mTrueFalseErrorList);
+            startAct(PracticeActivity.class,mBundle);
+        } else if ("单选题".equals(name)) {
+            Bundle mBundle = new Bundle();
+            mBundle.putInt(PracticeActivity.TAG, PracticeActivity.TIXING);
+            mBundle.putParcelableArrayList("PracticeActivityDatas", (ArrayList<? extends Parcelable>) mSimpleErrorList);
+            startAct(PracticeActivity.class,mBundle);
+        } else if ("多选题".equals(name)) {
+            Bundle mBundle = new Bundle();
+            mBundle.putInt(PracticeActivity.TAG, PracticeActivity.TIXING);
+            mBundle.putParcelableArrayList("PracticeActivityDatas", (ArrayList<? extends Parcelable>) mMultiErrorList);
+            startAct(PracticeActivity.class,mBundle);
         }
     }
 }

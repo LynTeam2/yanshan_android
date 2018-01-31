@@ -44,6 +44,7 @@ import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 public class PracticeActivity extends FrameActivity implements View.OnClickListener {
     public final static String TAG = PracticeActivity.class.getSimpleName();
 
+
     public final static int KESHI = 1;//课时练习
     public final static int CUOTI = 2;//错题练习
     public final static int TIXING = 3;//题目类型练习
@@ -89,6 +90,7 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
                 break;
             case TIXING:
                 mHeader.setTitleText("专项练习");
+                mQuestionsList = recBundle.getParcelableArrayList("PracticeActivityDatas");
                 break;
             default:
                 break;
@@ -102,7 +104,7 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         mRightQuestionsList = new ArrayList<>();
     }
 
-    List<ExamBean> mQuestionsList;//所有试题数据
+    ArrayList<ExamBean> mQuestionsList;//所有试题数据
     private int mPosition = 0;//当前试题在显示页面的位置 数组下标
 
     List<ExamBean> mErrorQuestionsList;
@@ -275,8 +277,8 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         ((TextView) mExamBottomLayout.getView(R.id.handofpager)).setText("收藏");
     }
 
-    private List<ExamBean> prepareDatas() {
-        List<ExamBean> list = new ArrayList<>();
+    private ArrayList<ExamBean> prepareDatas() {
+        ArrayList<ExamBean> list = new ArrayList<>();
         Random random = new Random();
         for (int i = 0; i < 100; i++) {
             int rInt = random.nextInt(3);

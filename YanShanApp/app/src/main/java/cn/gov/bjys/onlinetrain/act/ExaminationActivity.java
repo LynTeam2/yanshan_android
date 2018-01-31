@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.ycl.framework.base.BaseEvent;
 import com.ycl.framework.base.BasePopu;
 import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.db.business.ExamPagerInfoBusiness;
@@ -379,21 +380,39 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
 
     //存下整张试卷
     public void saveExamPager() {
-
+        //
         StringBuilder allSb = new StringBuilder();
         StringBuilder errorSb = new StringBuilder();
         StringBuilder notdoSb = new StringBuilder();
         StringBuilder rightSb = new StringBuilder();
 
+        //
+        StringBuilder mMultiSb = new StringBuilder();
+        StringBuilder mMultiErrorSb = new StringBuilder();
+        StringBuilder mTurefalseSb = new StringBuilder();
+        StringBuilder mTurefalseErrorSb = new StringBuilder();
+        StringBuilder mSimpleSb = new StringBuilder();
+        StringBuilder mSimpleErrorSb = new StringBuilder();
+
+
+
         for (int i=0; i < mQuestionsList.size(); i++) {
             ExamBean examBean = mQuestionsList.get(i);
             long id = examBean.getId();
-            if(i == mQuestionsList.size() - 1){
+            int type = examBean.getDoRight();
+            String questionType = examBean.getQuestionType();
+            if(i == 0){
                 allSb.append(id+"");
-                int type = examBean.getDoRight();
             switch (type) {
                 case ExamBean.ERROR:
                     errorSb.append(id+"");
+                    if("multiplechoice".equals(questionType)){
+                        mMultiErrorSb.append(id+"");
+                    }else if("simplechoice".equals(questionType)){
+                        mSimpleErrorSb.append(id+"");
+                    }else if("truefalse".equals(questionType)){
+                        mTurefalseErrorSb.append(id+"");
+                    }
                     break;
                 case ExamBean.NOT_DO:
                     notdoSb.append(id+"");
@@ -401,20 +420,43 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
                 case ExamBean.RIGHT:
                     rightSb.append(id+"");
                     break;
-            }
+                }
+
+                if("multiplechoice".equals(questionType)){
+                    mMultiSb.append(id+"");
+                }else if("simplechoice".equals(questionType)){
+                    mSimpleSb.append(id+"");
+                }else if("truefalse".equals(questionType)){
+                    mTurefalseSb.append(id+"");
+                }
+
             }else{
-                allSb.append(id+",");
-                int type = examBean.getDoRight();
+                allSb.append(","+id);
                 switch (type) {
                     case ExamBean.ERROR:
-                        errorSb.append(id+",");
+                        errorSb.append("," + id);
+                        if("multiplechoice".equals(questionType)){
+                            mMultiErrorSb.append(","+id);
+                        }else if("simplechoice".equals(questionType)){
+                            mSimpleErrorSb.append(","+id);
+                        }else if("truefalse".equals(questionType)){
+                            mTurefalseErrorSb.append("," + id);
+                        }
                         break;
                     case ExamBean.NOT_DO:
-                        notdoSb.append(id+",");
+                        notdoSb.append("," + id);
                         break;
                     case ExamBean.RIGHT:
-                        rightSb.append(id+",");
+                        rightSb.append("," + id);
                         break;
+                }
+
+                if("multiplechoice".equals(questionType)){
+                    mMultiSb.append(","+id);
+                }else if("simplechoice".equals(questionType)){
+                    mSimpleSb.append(","+id);
+                }else if("truefalse".equals(questionType)){
+                    mTurefalseSb.append("," + id);
                 }
             }
         }
@@ -427,6 +469,16 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
         bean.setmErrorPager(errorSb.toString());
         bean.setmNotDoPager(notdoSb.toString());
         bean.setmRightPager(rightSb.toString());
+
+        bean.setmMultiPager(mMultiSb.toString());
+        bean.setmMultiErrorPager(mMultiErrorSb.toString());
+
+        bean.setmSimplePager(mSimpleSb.toString());
+        bean.setmSimpleErrorPager(mSimpleErrorSb.toString());
+
+        bean.setmTrueFalsePager(mTurefalseSb.toString());
+        bean.setmTrueFalseErrorPager(mTurefalseErrorSb.toString());
+
         bean.setCreateTime(System.currentTimeMillis());
         bean.setUseTimes(mAllTimes - mTimes);//用户使用的做题时间
 
