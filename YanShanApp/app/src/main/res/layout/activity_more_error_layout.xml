@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <cn.gov.bjys.onlinetrain.act.view.TitleHeadNormalOne
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title_name = "我的错题">
+    </cn.gov.bjys.onlinetrain.act.view.TitleHeadNormalOne>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="50px"
+        android:paddingRight="50px">
+        <GridView
+            android:id="@+id/mistake_collection_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="3"
+            android:verticalSpacing="30px"
+            android:horizontalSpacing="35px"></GridView>
+    </LinearLayout>
+</com.zhy.autolayout.AutoLinearLayout>

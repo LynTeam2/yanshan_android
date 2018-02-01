@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ycl.framework.adapter.SimpleBaseAdapter;
+import com.ycl.framework.db.entity.ExamBean;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class DooHomeClassMistakesAdapter extends SimpleBaseAdapter {
         if(position == data.size()-1){
             flagView.setVisibility(View.GONE);
         }else{
-            switch (position){
+            switch (position % 5){
                 case 0:
                     flagView.setImageDrawable(context.getResources().getDrawable(R.drawable.icon_zise));
                     break;
@@ -53,31 +54,11 @@ public class DooHomeClassMistakesAdapter extends SimpleBaseAdapter {
                     break;
             }
         }
-        MistakeBean bean = (MistakeBean) data.get(position);
+        ExamBean bean = (ExamBean) data.get(position);
 //        ((DooCircleView)holder.getView(R.id.flag_view)).setResColor(bean.getColor());
-        ((TextView)holder.getView(R.id.content)).setText(bean.getContent());
+        ((TextView)holder.getView(R.id.content)).setText(bean.getQuestions());
         return convertView;
     }
 
-    public static class MistakeBean{
-        int color;
-        String content;
-
-        public int getColor() {
-            return color;
-        }
-
-        public void setColor(int color) {
-            this.color = color;
-        }
-
-        public String getContent() {
-            return content;
-        }
-
-        public void setContent(String content) {
-            this.content = content;
-        }
-    }
 
 }

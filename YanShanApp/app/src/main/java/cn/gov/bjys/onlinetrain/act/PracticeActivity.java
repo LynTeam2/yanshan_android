@@ -87,6 +87,7 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
                 break;
             case CUOTI:
                 mHeader.setTitleText("错题练习");
+                mQuestionsList = recBundle.getParcelableArrayList("PracticeActivityDatas");
                 break;
             case TIXING:
                 mHeader.setTitleText("专项练习");

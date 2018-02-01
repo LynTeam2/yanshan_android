@@ -35,4 +35,5 @@ public class DooPracticeFenleiAdapter extends SimpleBaseAdapter {
         content.setText(contentStr);
         return convertView;
     }
+
 }

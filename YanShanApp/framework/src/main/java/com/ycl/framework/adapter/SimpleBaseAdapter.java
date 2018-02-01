@@ -117,4 +117,8 @@ public abstract class SimpleBaseAdapter<T> extends BaseAdapter {
     }
 
 
+    public List<T> getDatas(){
+        return data;
+    }
+
 }

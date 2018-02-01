@@ -170,9 +170,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
+                    android:orientation="vertical"
                     android:paddingLeft="50px"
                     android:paddingRight="50px">
-
+                    <TextView
+                        android:id="@+id/no_error_layout"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:layout_marginTop="100px"
+                        android:text="暂无错题"
+                        android:textSize="48px"
+                        />
                     <GridView
                         android:id="@+id/mistake_collection_gridview"
                         android:layout_width="match_parent"

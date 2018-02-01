@@ -83,6 +83,36 @@
             android:screenOrientation="portrait"
             android:theme="@style/MainActivityStyle" />
         <activity
+            android:name=".act.ExamAnalysisActivity2"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivityStyle" />
+
+        <activity
+            android:name=".act.ExamEndActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivityStyle" />
+
+        <activity
+            android:name=".act.ExamHistoryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivityStyle" />
+        <activity
+            android:name=".act.KeChengActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivityStyle" />
+
+        <activity
+            android:name=".act.MorePracticeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivityStyle" />
+
+        <activity
+            android:name=".act.UserMoreErrorActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivityStyle" />
+
+
+        <activity
             android:name=".act.UserAvatarChooseActivity"
             android:screenOrientation="portrait"
             android:theme="@style/half_ActivityStyle" />

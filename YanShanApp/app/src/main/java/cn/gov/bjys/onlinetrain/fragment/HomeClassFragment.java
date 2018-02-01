@@ -1,15 +1,20 @@
 package cn.gov.bjys.onlinetrain.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.ycl.framework.base.FrameFragment;
+import com.ycl.framework.db.business.QuestionInfoBusiness;
+import com.ycl.framework.db.entity.ExamBean;
+import com.ycl.framework.utils.sp.SavePreference;
 import com.ycl.framework.utils.util.ToastUtil;
 import com.zls.www.statusbarutil.StatusBarUtil;
 
@@ -19,16 +24,19 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
-import cn.gov.bjys.onlinetrain.act.ClassActivity;
 import cn.gov.bjys.onlinetrain.act.HomeClassStudySecondActivity;
+import cn.gov.bjys.onlinetrain.act.MorePracticeActivity;
+import cn.gov.bjys.onlinetrain.act.PracticeActivity;
 import cn.gov.bjys.onlinetrain.act.PracticePrepareActivity;
-import cn.gov.bjys.onlinetrain.act.view.DooItemTitleLayout;
 import cn.gov.bjys.onlinetrain.act.view.TitleHeadNormalOne;
 import cn.gov.bjys.onlinetrain.adapter.DooHomeClassAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooHomeClassMistakesAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooHomeClassPracticeAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooHomeGridViewAdapter;
+import cn.gov.bjys.onlinetrain.task.InitAllExamTask;
 import cn.gov.bjys.onlinetrain.utils.BannerComHelper;
+import cn.gov.bjys.onlinetrain.utils.YSConst;
+import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 
 
 public class HomeClassFragment extends FrameFragment {
@@ -57,6 +65,8 @@ public class HomeClassFragment extends FrameFragment {
     @Bind(R.id.banner)
     ConvenientBanner banner;
 
+    @Bind(R.id.no_error_layout)
+    TextView no_error_layout;
 
 
     public static int[] res = {
@@ -67,14 +77,14 @@ public class HomeClassFragment extends FrameFragment {
     @Override
     protected View inflaterView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         View view = inflater.inflate(R.layout.fragment_home_class_layout, container, false);
-        StatusBarUtil.addStatusForFragment(getActivity(),view.findViewById(R.id.status_bar_layout));
+        StatusBarUtil.addStatusForFragment(getActivity(), view.findViewById(R.id.status_bar_layout));
         view.findViewById(R.id.status_bar_layout).setBackgroundResource(R.color.transparent);
         return view;
     }
 
-    @OnClick({R.id.more_class,R.id.more_practice,R.id.more_mistakes})
-    public void onTabClick(View v){
-        switch (v.getId()){
+    @OnClick({R.id.more_class, R.id.more_practice, R.id.more_mistakes})
+    public void onTabClick(View v) {
+        switch (v.getId()) {
             case R.id.more_class:
                 ToastUtil.showToast("更多课程");
 //                startAct(ClassActivity.class);
@@ -82,7 +92,7 @@ public class HomeClassFragment extends FrameFragment {
                 break;
             case R.id.more_practice:
                 ToastUtil.showToast("更多练习");
-                startAct(ClassActivity.class);
+                startAct(MorePracticeActivity.class);
                 break;
             case R.id.more_mistakes:
                 ToastUtil.showToast("更多错题");
@@ -94,6 +104,8 @@ public class HomeClassFragment extends FrameFragment {
     @Override
     protected void initViews() {
         super.initViews();
+        //init all type exam
+        initAllExam();
         //banner
         BannerComHelper.initLocationBanner(banner, res);
         initClassGv();
@@ -101,10 +113,18 @@ public class HomeClassFragment extends FrameFragment {
         initMistakesGv();
     }
 
+    InitAllExamTask mInitAllExamTask;
+
+    private void initAllExam() {
+        mInitAllExamTask = new InitAllExamTask(getActivity());
+        mInitAllExamTask.execute();
+    }
+
 
     DooHomeClassAdapter mDooHomeClassAdapter;
-    public void initClassGv(){
-        if(mDooHomeClassAdapter == null){
+
+    public void initClassGv() {
+        if (mDooHomeClassAdapter == null) {
             mDooHomeClassAdapter = new DooHomeClassAdapter(getActivity(), getDatas());
         }
         class_gridview.setAdapter(mDooHomeClassAdapter);
@@ -117,7 +137,7 @@ public class HomeClassFragment extends FrameFragment {
     }
 
 
-    public static List<DooHomeGridViewAdapter.HomeGridBean> getDatas(){
+    public static List<DooHomeGridViewAdapter.HomeGridBean> getDatas() {
         ArrayList<DooHomeGridViewAdapter.HomeGridBean> beanArrayList = new ArrayList<>();
         //num 1
         DooHomeGridViewAdapter.HomeGridBean bean = new DooHomeGridViewAdapter.HomeGridBean();
@@ -144,7 +164,7 @@ public class HomeClassFragment extends FrameFragment {
         return beanArrayList;
     }
 
-    public static List<DooHomeGridViewAdapter.HomeGridBean> getDatas2(){
+    public static List<DooHomeGridViewAdapter.HomeGridBean> getDatas2() {
         ArrayList<DooHomeGridViewAdapter.HomeGridBean> beanArrayList = new ArrayList<>();
         //num 1
         DooHomeGridViewAdapter.HomeGridBean bean = new DooHomeGridViewAdapter.HomeGridBean();
@@ -172,8 +192,9 @@ public class HomeClassFragment extends FrameFragment {
     }
 
     DooHomeClassPracticeAdapter mDooHomeClassPracticeAdapter;
-    public void initPracticeGv(){
-        if(mDooHomeClassPracticeAdapter == null){
+
+    public void initPracticeGv() {
+        if (mDooHomeClassPracticeAdapter == null) {
             mDooHomeClassPracticeAdapter = new DooHomeClassPracticeAdapter(getActivity(), getDatas());
         }
         practice_gridview.setAdapter(mDooHomeClassPracticeAdapter);
@@ -184,23 +205,51 @@ public class HomeClassFragment extends FrameFragment {
             }
         });
     }
+
     DooHomeClassMistakesAdapter mDooHomeClassMistakesAdapter;
-    public void initMistakesGv(){
-        if(mDooHomeClassMistakesAdapter == null){
-            mDooHomeClassMistakesAdapter = new DooHomeClassMistakesAdapter(getActivity(),getTestData());
+
+    public void initMistakesGv() {
+        if (mDooHomeClassMistakesAdapter == null) {
+            mDooHomeClassMistakesAdapter = new DooHomeClassMistakesAdapter(getActivity(), getErrorData());
         }
         mistake_collection_gridview.setAdapter(mDooHomeClassMistakesAdapter);
+        mistake_collection_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ExamBean bean = (ExamBean) mDooHomeClassMistakesAdapter.getDatas().get(position);
+                ArrayList<ExamBean> list = new ArrayList<>();
+                list.add(bean);
+                Bundle mBundle = new Bundle();
+                mBundle.putInt(PracticeActivity.TAG, PracticeActivity.CUOTI);
+                mBundle.putParcelableArrayList("PracticeActivityDatas",list);
+                startAct(PracticeActivity.class, mBundle);
+            }
+        });
     }
 
-    private List<DooHomeClassMistakesAdapter.MistakeBean> getTestData(){
-        List<DooHomeClassMistakesAdapter.MistakeBean> lists = new ArrayList<>();
-        for(int i = 0; i < 6; i++){
-            DooHomeClassMistakesAdapter.MistakeBean bean = new DooHomeClassMistakesAdapter.MistakeBean();
-            bean.setColor(i < 3 ? R.color.normal_gray_light1:R.color.normal_red);
-            bean.setContent("翻译是在准确、通顺的基础上，把一种语言信息转变成另一种语言信息的行为。翻译是将一种相对陌生的表达方式，转换成相对熟悉的表达方式的过程。其内容有语言、文字、图形、符号和视频翻译。其中，在甲语和乙语中，“翻”是指的这两种语言的转换，即先把一句甲语转换为一句乙语，然后再把");
-            lists.add(bean);
+    @Override
+    public void onVisibilityChanged(boolean visible) {
+        if (visible) {
+            mDooHomeClassMistakesAdapter.replaceAll(getErrorData());
         }
-        return lists;
     }
 
+    private List<ExamBean> getErrorData() {
+        String allErrorStr = SavePreference.getStr(getActivity(), YSConst.UserInfo.USER_ERROR_IDS + YSUserInfoManager.getsInstance().getUserId());
+        String[] errors = allErrorStr.split(",");
+        List<ExamBean> datas = new ArrayList<>();
+        for (int i = 0; i < errors.length; i++) {
+            if (i >= 6) {
+                break;
+            }
+            if (TextUtils.isEmpty(errors[i])) {
+                continue;
+            }
+            ExamBean bean = QuestionInfoBusiness.getInstance(getActivity()).queryBykey(errors[i]);
+            datas.add(bean);
+        }
+        more_mistakes.setVisibility(datas.size() >= 6 ? View.VISIBLE : View.GONE);
+        no_error_layout.setVisibility(datas.size() > 0 ? View.VISIBLE : View.GONE);
+        return datas;
+    }
 }

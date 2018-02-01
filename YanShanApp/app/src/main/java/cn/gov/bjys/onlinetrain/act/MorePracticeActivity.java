@@ -1,8 +1,12 @@
 package cn.gov.bjys.onlinetrain.act;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.ycl.framework.base.FrameActivity;
+import com.ycl.framework.db.entity.ExamBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +14,7 @@ import java.util.List;
 import butterknife.Bind;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.adapter.DooPracticeFenleiAdapter;
+import cn.gov.bjys.onlinetrain.utils.ExamDistinguishHelper;
 
 /**
  * Created by Administrator on 2018/1/29 0029.
@@ -38,10 +43,76 @@ public class MorePracticeActivity  extends FrameActivity{
 
         mAjAdapter = new DooPracticeFenleiAdapter(this,getAjStr());
         aj_gv.setAdapter(mAjAdapter);
+        aj_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+              String ajType = (String) mAjAdapter.getDatas().get(position);
+
+                Bundle mBundle = new Bundle();
+                mBundle.putInt(PracticeActivity.TAG,PracticeActivity.TIXING);
+                ArrayList<ExamBean> mDatas = null;
+                if ("危险化学品".equals(ajType)) {
+                    mDatas = ExamDistinguishHelper.getInstance().getmWeiXianHuaXue();
+                } else if ("企业行业".equals(ajType)) {
+                    mDatas = ExamDistinguishHelper.getInstance().getmQiYeHangYe();
+                } else if ("运输".equals(ajType)) {
+                    mDatas = ExamDistinguishHelper.getInstance().getmYunShu();
+                } else if ("建筑施工".equals(ajType)) {
+                    mDatas = ExamDistinguishHelper.getInstance().getmJianZhuShiGong();
+                } else if ("人员密集场所".equals(ajType)) {
+                    mDatas = ExamDistinguishHelper.getInstance().getmRenYuanMiJiChangShuo();
+                } else if ("特种设备".equals(ajType)) {
+                    mDatas = ExamDistinguishHelper.getInstance().getmTeZhongSheBei();
+                } else if ("消防".equals(ajType)) {
+                    mDatas = ExamDistinguishHelper.getInstance().getmXiaoFang();
+                }
+                mBundle.putParcelableArrayList("PracticeActivityDatas",mDatas);
+                startAct(PracticeActivity.class,mBundle);
+            }
+        });
         mMultiAdapter = new DooPracticeFenleiAdapter(this,getMultiStr());
         multi_gv.setAdapter(mMultiAdapter);
+        multi_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String questionType = (String) mAjAdapter.getDatas().get(position);
+                Bundle mBundle = new Bundle();
+                mBundle.putInt(PracticeActivity.TAG,PracticeActivity.TIXING);
+                ArrayList<ExamBean> mDatas = null;
+
+                if ("判断".equals(questionType)) {
+                    mDatas = ExamDistinguishHelper.getInstance().getmTureFalse();
+                } else if ("单选".equals(questionType)) {
+                    mDatas = ExamDistinguishHelper.getInstance().getmSimple();
+                } else if ("多选".equals(questionType)) {
+                    mDatas = ExamDistinguishHelper.getInstance().getmMulti();
+                }
+                mBundle.putParcelableArrayList("PracticeActivityDatas",mDatas);
+                startAct(PracticeActivity.class,mBundle);
+            }
+        });
+
         mPracticeAdapter = new DooPracticeFenleiAdapter(this,getDiStr());
         di_gv.setAdapter(mPracticeAdapter);
+        di_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String difficulty = (String) mAjAdapter.getDatas().get(position);
+                Bundle mBundle = new Bundle();
+                mBundle.putInt(PracticeActivity.TAG,PracticeActivity.TIXING);
+                ArrayList<ExamBean> mDatas = null;
+
+                if ("初级".equals(difficulty)) {
+                    mDatas = ExamDistinguishHelper.getInstance().getmPrimary();
+                } else if ("中级".equals(difficulty)) {
+                    mDatas = ExamDistinguishHelper.getInstance().getmMiddle();
+                } else if ("高级".equals(difficulty)) {
+                    mDatas = ExamDistinguishHelper.getInstance().getmSenior();
+                }
+                mBundle.putParcelableArrayList("PracticeActivityDatas",mDatas);
+                startAct(PracticeActivity.class,mBundle);
+            }
+        });
     }
 
 
