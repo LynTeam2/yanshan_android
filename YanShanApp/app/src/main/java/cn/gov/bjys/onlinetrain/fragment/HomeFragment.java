@@ -77,8 +77,8 @@ public class HomeFragment extends FrameFragment {
     protected void initViews() {
         super.initViews();
         //banner
-        BannerComHelper.initLocationBanner(mBanner, res);
-
+//        BannerComHelper.initLocationBanner(mBanner, res);
+        BannerComHelper.initZipBanner(mBanner,"banner.json");
         initClassStudyRv();
 
         initAnjianRv();

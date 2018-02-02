@@ -1,6 +1,8 @@
 package cn.gov.bjys.onlinetrain.utils;
 
 import android.content.Context;
+import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -19,6 +21,7 @@ import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.api.HomeApi;
 import cn.gov.bjys.onlinetrain.bean.HomeBannerBean;
+import cn.gov.bjys.onlinetrain.task.BannerTask;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -56,7 +59,22 @@ public class BannerComHelper {
                     }
                 });
     }
+
+    /**
+     * 加载本地banner
+     * @param banner
+     * @param zipResName 加载的json资源文件
+     */
+    public static void initZipBanner(final ConvenientBanner banner, String zipResName){
+//        new BannerTask(banner, zipResName).execute();
+    }
+
     public static void initBanner(final ConvenientBanner bannerPoster, List<HomeBannerBean> bannerList) {
+//        bannerPoster.setVisibility(View.GONE);
+        Log.d("dodoT", "is Main thread = " + (Thread.currentThread() == Looper.getMainLooper().getThread()));
+      if(true){
+          return;
+      }
 
         if (bannerList == null) {
             bannerList = new ArrayList<>();

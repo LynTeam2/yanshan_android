@@ -107,7 +107,8 @@ public class HomeClassFragment extends FrameFragment {
         //init all type exam
         initAllExam();
         //banner
-        BannerComHelper.initLocationBanner(banner, res);
+//        BannerComHelper.initLocationBanner(banner, res);
+        BannerComHelper.initZipBanner(banner, "banner.json");
         initClassGv();
         initPracticeGv();
         initMistakesGv();
