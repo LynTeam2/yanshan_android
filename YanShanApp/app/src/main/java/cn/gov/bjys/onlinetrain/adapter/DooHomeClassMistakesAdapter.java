@@ -11,7 +11,6 @@ import com.ycl.framework.db.entity.ExamBean;
 import java.util.List;
 
 import cn.gov.bjys.onlinetrain.R;
-import cn.gov.bjys.onlinetrain.act.view.DooCircleView;
 
 /**
  * Created by dodo on 2017/11/17.
