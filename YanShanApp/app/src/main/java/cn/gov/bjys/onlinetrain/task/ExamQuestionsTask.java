@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 import cn.gov.bjys.onlinetrain.BaseApplication;
+import cn.gov.bjys.onlinetrain.bean.AllExamBean;
 import cn.gov.bjys.onlinetrain.utils.AssetsHelper;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 import rx.Observable;
@@ -64,10 +65,12 @@ public class ExamQuestionsTask extends AsyncTask<Integer,Integer,Boolean> {
                .subscribe(new Action1<String>() {
                    @Override
                    public void call(String s) {
-                     List<ExamBean>  lists = FastJSONParser.getBeanList(s, ExamBean.class);
-                     for(ExamBean temp: lists){
-                         QuestionInfoBusiness.getInstance(BaseApplication.getAppContext()).createOrUpdate(temp);
-                     }
+                       AllExamBean bean = FastJSONParser.getBean(s, AllExamBean.class);
+                       if(bean != null) {
+                           for (ExamBean temp : bean.getQuestions()) {
+                               QuestionInfoBusiness.getInstance(BaseApplication.getAppContext()).createOrUpdate(temp);
+                           }
+                       }
                    }
                });
             return true;

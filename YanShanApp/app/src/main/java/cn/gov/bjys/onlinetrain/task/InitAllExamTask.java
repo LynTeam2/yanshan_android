@@ -85,11 +85,11 @@ public class InitAllExamTask extends BaseAsyncTask {
 
             //题型
             String questionType = bean.getQuestionType();
-            if ("trueFalse".equals(questionType)) {
+            if ("tf".equals(questionType)) {
                 mTureFalse.add(bean);
-            } else if ("simpleChoice".equals(questionType)) {
+            } else if ("sc".equals(questionType)) {
                 mSimple.add(bean);
-            } else if ("multipleChoice".equals(questionType)) {
+            } else if ("mc".equals(questionType)) {
                 mMulti.add(bean);
             }
         }
@@ -109,9 +109,7 @@ public class InitAllExamTask extends BaseAsyncTask {
         ExamDistinguishHelper.getInstance().setmSenior(mSenior);//
 
         //题型
-        mTureFalse = new ArrayList<>();
-        mSimple = new ArrayList<>();
-        mMulti = new ArrayList<>();
+
         ExamDistinguishHelper.getInstance().setmTureFalse(mTureFalse);//
         ExamDistinguishHelper.getInstance().setmSimple(mSimple);//
         ExamDistinguishHelper.getInstance().setmMulti(mMulti);//

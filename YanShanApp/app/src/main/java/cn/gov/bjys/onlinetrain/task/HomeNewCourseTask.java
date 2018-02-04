@@ -4,32 +4,30 @@ import com.ycl.framework.utils.util.FastJSONParser;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 
-import cn.gov.bjys.onlinetrain.api.ZipCallBackListener;
-import cn.gov.bjys.onlinetrain.bean.CategoryBean;
+import cn.gov.bjys.onlinetrain.adapter.DooHomeClassStudyAdapter;
+import cn.gov.bjys.onlinetrain.bean.NewestCourseBean;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by Administrator on 2018/1/27 0027.
+ * Created by Administrator on 2018/2/3 0003.
  */
-public class HomeClassStudySencondTask extends BaseAsyncTask {
+public class HomeNewCourseTask extends BaseAsyncTask {
 
-    public final static String RELATIVE_PATH = "course" + File.separator + "category.json";//相对路径
-
-    public HomeClassStudySencondTask(ZipCallBackListener listener) {
-        mListenerWeakReference = new WeakReference<ZipCallBackListener>(listener);
+    public final static String RELATIVE_PATH = "course" + File.separator+"latest.json";//相对路径
+    DooHomeClassStudyAdapter mAdapter;
+    public HomeNewCourseTask(DooHomeClassStudyAdapter adapter){
+        mAdapter = adapter;
     }
 
     @Override
     protected Void doInBackground(Void... params) {
-        File queFile = new File(rootDir + File.separator + rootName + File.separator + RELATIVE_PATH);
-        if (queFile == null) {
+        File queFile = new File(rootDir+File.separator+rootName+File.separator+RELATIVE_PATH);
+        if(queFile == null){
             return null;
         }
         Observable.just(queFile)
@@ -57,23 +55,22 @@ public class HomeClassStudySencondTask extends BaseAsyncTask {
                 .subscribe(new Subscriber<String>() {
                     @Override
                     public void onCompleted() {
-                        success();
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        fail();
+
                     }
 
                     @Override
                     public void onNext(String s) {
-                        CategoryBean bean = FastJSONParser.getBean(s, CategoryBean.class);
-                        if (bean != null) {
-                            callback(bean.getCategories());
+                        NewestCourseBean bean = FastJSONParser.getBean(s, NewestCourseBean.class);
+                        if(bean != null){
+                            mAdapter.setNewData(bean.getCourses());
                         }
                     }
                 });
         return super.doInBackground(params);
     }
-
 }

@@ -16,12 +16,9 @@ import java.util.List;
 import butterknife.Bind;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.ExamPrepareActivity;
-import cn.gov.bjys.onlinetrain.act.HomeClassStudyThirdActivity;
-import cn.gov.bjys.onlinetrain.adapter.DooHomeClassStudySecondAdapter;
+import cn.gov.bjys.onlinetrain.adapter.DooHomeExamSecondAdapter;
 import cn.gov.bjys.onlinetrain.api.ZipCallBackListener;
-import cn.gov.bjys.onlinetrain.bean.CategoriesBean;
 import cn.gov.bjys.onlinetrain.bean.ExamsBean;
-import cn.gov.bjys.onlinetrain.task.HomeClassStudySencondTask;
 import cn.gov.bjys.onlinetrain.task.HomeExamSecondTask;
 import cn.gov.bjys.onlinetrain.utils.ExamHelper;
 
@@ -53,12 +50,12 @@ public class HomeExamSecondFragment extends FrameFragment implements SwipeRefres
 
     @Bind(R.id.rv)
     RecyclerView mRecyclerView;
-    DooHomeClassStudySecondAdapter mItemAdapter;
+    DooHomeExamSecondAdapter mItemAdapter;
 
     @Override
     protected void initViews() {
         super.initViews();
-        mItemAdapter = new DooHomeClassStudySecondAdapter(R.layout.item_linear_class_layout,null);
+        mItemAdapter = new DooHomeExamSecondAdapter(R.layout.item_linear_class_layout,null);
         mItemAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {

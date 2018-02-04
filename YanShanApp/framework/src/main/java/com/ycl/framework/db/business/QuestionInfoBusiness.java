@@ -60,7 +60,7 @@ public class QuestionInfoBusiness extends  BaseDbBusiness<ExamBean> {
     //有就更新 没有就插入
     public void createOrUpdate(ExamBean qb) {
         try {
-            ExamBean cache = queryBykey(qb.getId()+"");
+            ExamBean cache = queryBykey(qb.getUid()+"");
             if (cache.getId() > 0){
                 qb.setDbId(cache.getDbId());
             }
@@ -78,7 +78,7 @@ public class QuestionInfoBusiness extends  BaseDbBusiness<ExamBean> {
     }
 
     public ExamBean queryBykey(String key) {
-        return queryBykey("id", key);
+        return queryBykey("uid", key);
     }
 
     public ExamBean queryBykey(String key, Object values) {

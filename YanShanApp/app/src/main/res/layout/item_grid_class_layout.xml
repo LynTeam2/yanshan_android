@@ -10,8 +10,8 @@
         android:gravity="center">
     <ImageView
         android:id="@+id/img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="465px"
+        android:layout_height="215px"
         android:src="@drawable/icon_463_216"/>
     <TextView
         android:layout_below="@id/img"

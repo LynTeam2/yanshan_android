@@ -38,8 +38,7 @@ public class ShopFragment extends FrameFragment {
     @Bind(R.id.web_view)
     ProgressWebView webView;
 
-    @Bind(R.id.multi_down_view)
-    MultiDownView mMultiDownView;
+
 
     @Override
     protected View inflaterView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
@@ -48,75 +47,11 @@ public class ShopFragment extends FrameFragment {
         return view;
     }
 
-    public DataInfo prepareDatas(){
-        DataInfo info = new DataInfo();
-        info.setAllUrl("http://jzvd.nathen.cn/c6e3dc12a1154626b3476d9bf3bd7266/6b56c5f0dc31428083757a45764763b0-5287d2089db37e62345123a1be272f8b.mp4");
-
-        info.setSavePath(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator+ "dodoMp4.mp4");
-        info.setState(DataInfo.DownState.START);
-    return info;
-    }
-
-    public DataInfo getDataInfo(DataInfo info){
-       String allUrl =  info.getAllUrl();
-        DownLoadInfoBean bean =  DownLoadInfoBusiness.getInstance(BaseApplication.getAppContext()).queryBykey(allUrl);
-        if(bean.getDataInfo() == null ||
-                TextUtils.isEmpty(bean.getDataInfo().getAllUrl())){
-            return info;
-        }
-        return bean.getDataInfo();
-    }
 
     @Override
     protected void initViews() {
         super.initViews();
 
-        mMultiDownView.bindDatas(getDataInfo(prepareDatas()));
-
-        mHeader.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-               String[] lists = null;
-               try {
-                lists =  getContext().getAssets().list("update");
-               }catch (IOException e) {
-                   e.printStackTrace();
-               }
-               if(null == lists){
-                   return;
-               }
-                final String s = lists[0];
-               if(s != null && !TextUtils.isEmpty(s)) {
-                   new Thread(new Runnable() {
-                       @Override
-                       public void run() {
-                           File sdGen =  Environment.getExternalStorageDirectory();
-                           final String outPath = sdGen.getAbsoluteFile() + File.separator + "ADemo";
-
-                           File outFile = new File(outPath);
-                           if(!outFile.exists()){
-                               outFile.mkdirs();
-                           }else{
-                               Log.d(TAG, "outFile abs = " +outFile.getAbsolutePath() +"\n"
-                               );
-                           }
-                           final String ret = UpdateFileUtils.getAssetsCacheFile(getContext(),s);
-                           Log.d(TAG, "sdGen = " +sdGen.getAbsolutePath() +"\n"+
-                           "outPath = " + outPath +"\n"
-                                           + "ret = " + ret
-                           );
-                           try {
-                               ZipUtils.unzipFile(ret,outPath);
-                           } catch (IOException e) {
-                               Log.d(TAG,"解压出问题了");
-                               e.printStackTrace();
-                           }
-                       }
-                   }).start();
-               }
-            }
-        });
     }
 
 

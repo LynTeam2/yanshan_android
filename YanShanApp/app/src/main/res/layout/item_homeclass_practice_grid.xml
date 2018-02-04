@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
     <LinearLayout
         android:layout_centerInParent="true"
-        android:gravity="center"
+        android:gravity="center_horizontal"
         android:layout_width="250px"
         android:layout_height="260px"
         android:orientation="vertical">
@@ -18,6 +18,7 @@
         <TextView
             android:id="@+id/name"
             android:text="课程学习"
+            android:textSize="36px"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

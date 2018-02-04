@@ -2,6 +2,7 @@ package cn.gov.bjys.onlinetrain.act;
 
 import android.Manifest;
 import android.content.Intent;
+import android.database.Observable;
 import android.net.Uri;
 import android.os.CountDownTimer;
 import android.os.Environment;
@@ -14,6 +15,7 @@ import android.widget.Button;
 
 import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.utils.sp.SavePreference;
+import com.ycl.framework.utils.util.HRetrofitNetHelper;
 import com.ycl.framework.utils.util.ToastUtil;
 import com.zls.www.mulit_file_download_lib.multi_file_download.db.entity.DataInfo;
 import com.zls.www.mulit_file_download_lib.multi_file_download.manager.HttpDownManager;
@@ -21,12 +23,21 @@ import com.zls.www.mulit_file_download_lib.multi_file_download.manager.HttpProgr
 import com.zls.www.statusbarutil.StatusBarUtil;
 
 import java.io.File;
+import java.io.IOException;
 
 import butterknife.Bind;
+import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
+import cn.gov.bjys.onlinetrain.api.HomeApi;
+import cn.gov.bjys.onlinetrain.utils.AssetsHelper;
 import cn.gov.bjys.onlinetrain.utils.PermissionUtil;
 import cn.gov.bjys.onlinetrain.task.UnZipTask;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
+import okhttp3.ResponseBody;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2017/8/2 0002.
@@ -203,62 +214,50 @@ public class LogoActivity extends FrameActivity {
         count++;
         Log.d("dodoT", "updateZip  " + count);
         ToastUtil.showToast("updateZip  " + count);
-        new UnZipTask(true, null, null).execute();//开始解压压缩包，解压好了就不解压了
-//        downloadZip();
+//        new UnZipTask(true, null, null).execute();//开始解压压缩包，解压好了就不解压了
+        downloadZip();
     }
 
-    DataInfo mInfo;
-
+    public final static String UPGRADE_SAVE_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "upgrade.zip";
     private void downloadZip() {
-        mInfo = new DataInfo();
-        mInfo.setAllUrl("http://jzvd.nathen.cn/c6e3dc12a1154626b3476d9bf3bd7266/6b56c5f0dc31428083757a45764763b0-5287d2089db37e62345123a1be272f8b.mp4");
-        mInfo.setSavePath(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "dodoMp4.mp4");
-        mInfo.setState(DataInfo.DownState.START);
-        mInfo.setListener(httpProgressOnNextListener);
-        HttpDownManager.getInstance().startDown(mInfo);
+        rx.Observable<ResponseBody> observable;
+        observable = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext())
+                .getSpeUrlService(YSConst.BaseUrl.BASE_URL, HomeApi.class)
+                .downZipPacket("http://39.104.118.75/api/upgrade");
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+
+
+                .observeOn(Schedulers.io()) //指定线程保存文件
+                .doOnNext(new Action1<ResponseBody>() {
+                    @Override
+                    public void call(ResponseBody body) {
+                        AssetsHelper.saveFile(body);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread()) //在主线程中更新ui
+                .subscribe(new Subscriber<ResponseBody>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d("dodoT","UPGRADE_SAVE_PATH = "+ UPGRADE_SAVE_PATH);
+                        new UnZipTask(false, UPGRADE_SAVE_PATH,
+                                getFilesDir().getParent()+File.separator + YSConst.UPDATE_ZIP).execute();//开始解压压缩包，解压好了就不解压了
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
+//                            AssetsHelper.writeCache(responseBody,  new File(UPGRADE_SAVE_PATH));
+
+                    }
+                });
+
     }
 
-    /*下载回调*/
-    HttpProgressOnNextListener<DataInfo> httpProgressOnNextListener = new HttpProgressOnNextListener<DataInfo>() {
-        @Override
-        public void onNext(DataInfo baseDownEntity) {
-            Log.d("dodoT", "onNext");
-        }
-
-        @Override
-        public void onStart() {
-            Log.d("dodoT", "onStart");
-        }
-
-        @Override
-        public void onComplete() {
-            Log.d("dodoT", "onComplete");
-            new UnZipTask(false, mInfo.getSavePath(), getFilesDir().getParent()+File.separator + YSConst.UPDATE_ZIP).execute();//开始解压压缩包，解压好了就不解压了
-        }
-
-        @Override
-        public void onError(Throwable e) {
-            super.onError(e);
-            Log.d("dodoT", "onError");
-        }
-
-
-        @Override
-        public void onPuase() {
-            super.onPuase();
-            Log.d("dodoT", "onPuase");
-        }
-
-        @Override
-        public void onStop() {
-            super.onStop();
-            Log.d("dodoT", "onStop");
-        }
-
-        @Override
-        public void updateProgress(long readLength, long countLength) {
-            Log.d("dodoT", "updateProgress");
-        }
-    };
 
 }

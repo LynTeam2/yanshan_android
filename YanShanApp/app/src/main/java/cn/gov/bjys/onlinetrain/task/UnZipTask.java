@@ -1,7 +1,9 @@
 package cn.gov.bjys.onlinetrain.task;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -53,8 +55,13 @@ public class UnZipTask extends AsyncTask<Integer, Integer, Boolean> {
            File file = new File(zipPath);
            InputStream is = null;
            try {
-               is = new FileInputStream(file);
-               AssetsHelper.unZipInputStream(BaseApplication.getAppContext(), is, aimPath, true);
+
+               is = new BufferedInputStream(new FileInputStream(
+                       file));
+
+               Log.d("dodoT","zipPath = " +zipPath+ "\n   aimPath =" + aimPath);
+//               AssetsHelper.unZipInputStream(BaseApplication.getAppContext(), is, aimPath, true);
+               AssetsHelper.upZipFile(file,aimPath);
            } catch (FileNotFoundException e) {
                e.printStackTrace();
            } catch (IOException e) {

@@ -1,6 +1,7 @@
 package cn.gov.bjys.onlinetrain.act;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -9,7 +10,9 @@ import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.db.business.QuestionInfoBusiness;
 import com.ycl.framework.db.entity.ExamBean;
 import com.ycl.framework.utils.sp.SavePreference;
+import com.ycl.framework.utils.util.FastJSONParser;
 import com.ycl.framework.utils.util.GlideProxy;
+import com.ycl.framework.view.TitleHeaderView;
 import com.zls.www.statusbarutil.StatusBarUtil;
 
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ import cn.gov.bjys.onlinetrain.bean.ExamsRole;
 import cn.gov.bjys.onlinetrain.utils.ExamHelper;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 import rx.Observable;
+import rx.Subscriber;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
@@ -54,6 +58,8 @@ public class ExamPrepareActivity extends FrameActivity {
     protected void initStatusBar() {
         StatusBarUtil.setTranslucent(this, StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA);
     }
+    @Bind(R.id.header)
+    TitleHeaderView mHeader;
 
     @Bind(R.id.exam_type_name) //综合试题
             TextView exam_type_name;
@@ -85,6 +91,11 @@ public class ExamPrepareActivity extends FrameActivity {
 
         ExamsBean bean = ExamHelper.getInstance().getmExamsBean();
         //TODO 设置值
+        mHeader.setTitleText(bean.getExamName());
+        exam_type_name.setText(bean.getExamType());
+        exam_time.setText(bean.getExamDuration()+"分钟");
+        exam_value.setText("答对"+bean.getStandard()+"题，方可合格");
+        exam_hint.setText("温馨提示：本次考试属于模拟真实考试环境总分100分，考核需要"+"答对"+bean.getStandard()+"题，方可合格"+"，中途考试交卷不可继续考试");
         preparedExamDatas(bean);
     }
 
@@ -95,56 +106,70 @@ public class ExamPrepareActivity extends FrameActivity {
         Observable.just(bean)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(Schedulers.computation())
-                .subscribe(new Action1<ExamsBean>() {
+                .subscribe(new Subscriber<ExamsBean>() {
+
                     @Override
-                    public void call(ExamsBean examsBean) {
-                        ExamsRole role = examsBean.getRole();
-                        //生成题目的规则
-                        HashMap<String, Integer> anjianTypeMap = role.getAnjianType();
-                        HashMap<String, Integer> questionTypeMap = role.getQuestionType();
-                        HashMap<String, Integer> difficultyTypeMap = role.getDifficulty();
+                    public void onCompleted() {
+                        Log.d("dodoT","onCompleted");
+                    }
 
-                        List<ExamBean> allExams = QuestionInfoBusiness.getInstance(BaseApplication.getAppContext()).queryAll();
-                        List<ExamBean> randomExams = random(allExams);
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("dodoT","onError");
+                    }
 
-                        for(ExamBean tempBean:randomExams){
-                            String ajType = tempBean.getAjType();
-                            String difficulty = tempBean.getDifficulty();
-                            String questionType = tempBean.getQuestionType();
-                            if (ajType.isEmpty() || difficulty.isEmpty() || questionType.isEmpty()){
-                                break;
+                    @Override
+                    public void onNext(ExamsBean examsBean) {
+                        {
+                            String roleStr = examsBean.getRole();
+                            ExamsRole role = FastJSONParser.getBean(roleStr,ExamsRole.class);
+                            //生成题目的`规则
+                            HashMap<String, Integer> anjianTypeMap = role.getAjType();
+                            HashMap<String, Integer> questionTypeMap = role.getQuestionType();
+                            HashMap<String, Integer> difficultyTypeMap = role.getDifficulty();
+
+                            List<ExamBean> allExams = QuestionInfoBusiness.getInstance(BaseApplication.getAppContext()).queryAll();
+                            List<ExamBean> randomExams = random(allExams);
+
+                            for(ExamBean tempBean:randomExams){
+                                String ajType = tempBean.getAjType();
+                                String difficulty = tempBean.getDifficulty();
+                                String questionType = tempBean.getQuestionType();
+                                if (ajType.isEmpty() || difficulty.isEmpty() || questionType.isEmpty()){
+                                    break;
+                                }
+                                if (null != anjianTypeMap.get(ajType)
+                                        && null != difficultyTypeMap.get(difficulty)
+                                        && null != questionTypeMap.get(questionType)) {
+                                    if(mExamPagers == null){
+                                        mExamPagers = new ArrayList<>();
+                                    }
+                                    mExamPagers.add(tempBean);
+
+                                    //安监类型
+                                    if(anjianTypeMap.get(ajType) == 1){
+                                        anjianTypeMap.remove(ajType);
+                                    }else{
+                                        anjianTypeMap.put(ajType, anjianTypeMap.get(ajType) - 1);
+                                    }
+
+                                    //题目类型
+                                    if(questionTypeMap.get(questionType) == 1){
+                                        questionTypeMap.remove(questionType);
+                                    }else{
+                                        questionTypeMap.put(questionType, questionTypeMap.get(questionType) - 1);
+                                    }
+                                    //难度类型
+                                    if(difficultyTypeMap.get(difficulty) == 1){
+                                        difficultyTypeMap.remove(difficulty);
+                                    }else{
+                                        difficultyTypeMap.put(difficulty, difficultyTypeMap.get(difficulty) - 1);
+                                    }
+                                }
                             }
-                            if (null != anjianTypeMap.get(ajType)
-                                    && null != questionTypeMap.get(difficulty)
-                                    && null != difficultyTypeMap.get(questionType)) {
-                                if(mExamPagers == null){
-                                    mExamPagers = new ArrayList<>();
-                                }
-                                mExamPagers.add(tempBean);
-
-                                //安监类型
-                                if(anjianTypeMap.get(ajType) == 1){
-                                    anjianTypeMap.remove(ajType);
-                                }else{
-                                    anjianTypeMap.put(ajType, anjianTypeMap.get(ajType) - 1);
-                                }
-
-                                //题目类型
-                                if(questionTypeMap.get(questionType) == 1){
-                                    questionTypeMap.remove(questionType);
-                                }else{
-                                    questionTypeMap.put(questionType, questionTypeMap.get(questionType) - 1);
-                                }
-                                //难度类型
-                                if(difficultyTypeMap.get(difficulty) == 1){
-                                    difficultyTypeMap.remove(difficulty);
-                                }else{
-                                    difficultyTypeMap.put(difficulty, difficultyTypeMap.get(difficulty) - 1);
-                                }
-                            }
+                            //使用单例保存考卷数据
+                            ExamHelper.getInstance().setmExamPagers(mExamPagers);
                         }
-                        //使用单例保存考卷数据
-                        ExamHelper.getInstance().setmExamPagers(mExamPagers);
                     }
                 });
     }

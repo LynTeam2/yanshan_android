@@ -17,7 +17,6 @@ import cn.gov.bjys.onlinetrain.act.ExaminationActivity;
 import cn.gov.bjys.onlinetrain.act.PracticeActivity;
 import cn.gov.bjys.onlinetrain.act.view.AnswerLayout;
 import cn.gov.bjys.onlinetrain.act.view.DooQuestionAnalysisLayout;
-import cn.gov.bjys.onlinetrain.bean.SingleExamBean;
 
 
 /**
@@ -67,7 +66,7 @@ public class TextSingleExaminationFragment extends FrameFragment implements Answ
         if(getActivity() instanceof PracticeActivity) {
             mBean = ((PracticeActivity)getActivity()).getDatas().get(mPosition);
         }
-        question_content.setText("                             "+ SingleExamBean.SingleChoose.question);
+        question_content.setText("                             " + mBean.getQuestion());
         if(mBean.isDeal()){
             //用户做答之后
             gotoResultLayout();
@@ -81,25 +80,47 @@ public class TextSingleExaminationFragment extends FrameFragment implements Answ
 
     public void gotoResultLayout(){
         analysis_layout.setVisibility(View.VISIBLE);
-        int i  = SingleExamBean.SingleChoose.isTrue;
-        analysis_layout.setmAnalysisAnswer("答案  " + getRealAnswer(i));
-        analysis_layout.setmAnalysisContent(SingleExamBean.SingleChoose.fx);
+        String as = mBean.getAnswer();
+//        int i  = SingleExamBean.SingleChoose.isTrue;
+        analysis_layout.setmAnalysisAnswer("答案  " + getRealAnswer(as));
+        analysis_layout.setmAnalysisContent(mBean.getAnalysis());
+        analysis_layout.setmNandu(getDifficulty(mBean.getDifficulty()));
     }
 
-    public String getRealAnswer(int input){
-        switch (input){
-            case 0:
-                return "A";
-            case 1:
-                return "B";
-            case 2:
-                return "C";
-            case 3:
-                return "D";
-            default:
-                return "";
+
+
+    public String getRealAnswer(String input) {
+        String ret = "";
+        if ("choiceA".equals(input)) {
+            ret = "A";
+
+        } else if ("choiceB".equals(input)) {
+            ret = "B";
+
+        } else if ("choiceC".equals(input)) {
+            ret = "C";
+
+        } else if ("choiceD".equals(input)) {
+            ret = "D";
+
+        } else {
+            ret = "";
         }
+        return ret;
     }
+
+    private String getDifficulty(String di){
+        String ret ="";
+        if("1".equals(di)){
+            ret = "初级";
+        }else if("2".equals(di)){
+            ret = "中级";
+        }else if("3".equals(di)){
+            ret = "高级";
+        }
+        return ret;
+    }
+
 
     public void gotoDealLayout(){
 

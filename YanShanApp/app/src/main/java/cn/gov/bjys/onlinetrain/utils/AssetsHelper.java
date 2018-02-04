@@ -2,19 +2,32 @@ package cn.gov.bjys.onlinetrain.utils;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.ycl.framework.utils.util.LogUtils;
+import com.zls.www.mulit_file_download_lib.multi_file_download.db.entity.DataInfo;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.RandomAccessFile;
+import java.io.UnsupportedEncodingException;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.util.Enumeration;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 import cn.gov.bjys.onlinetrain.BaseApplication;
+import okhttp3.ResponseBody;
 
 /**
  * Created by dodozhou on 2017/8/8.
@@ -22,7 +35,14 @@ import cn.gov.bjys.onlinetrain.BaseApplication;
 public class AssetsHelper {
 
     public static String getYSPicPath(String relativePath){
-        return BaseApplication.getAppContext().getFilesDir().getParent()+ File.separator + YSConst.UPDATE_ZIP+File.separator+relativePath;
+
+        String aimPath = BaseApplication.getAppContext().getFilesDir().getParent()+ File.separator +
+                YSConst.UPDATE_ZIP+File.separator+
+                AssetsHelper.getAssetUpdateZipName(BaseApplication.getAppContext(),YSConst.UPDATE_ZIP)+
+                File.separator + "resource"+File.separator+
+                relativePath;
+        Log.d("dodoT","aimpath = " +aimPath);
+        return aimPath;
     }
 
 
@@ -131,6 +151,7 @@ public class AssetsHelper {
         if(!TextUtils.isEmpty(aimFileNameAll)) {
             String retName = getOnlyOneAssetsFile(context,fileName);
             InputStream  inputStream = manager.open(retName);
+            Log.d("dodoT","outputDirectory = "+outputDirectory);
             unZipInputStream(context, inputStream, outputDirectory, true);
             return true;
         }else{
@@ -220,6 +241,7 @@ public class AssetsHelper {
                         + zipEntry.getName());
                 //文件需要覆盖或者文件不存在，则解压文件
                 if(isReWrite || !file.exists()){
+                    Log.d("dodoT","file create path = " + file.getAbsolutePath());
                     file.createNewFile();
                     FileOutputStream fileOutputStream = new FileOutputStream(file);
                     while ((count = zipInputStream.read(buffer)) > 0) {
@@ -233,4 +255,122 @@ public class AssetsHelper {
         }
         zipInputStream.close();
     }
+
+
+
+
+
+
+    public static  void saveFile(ResponseBody body) {
+        String destFileDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+        String destFileName ="upgrade.zip";
+        InputStream is = null;
+        byte[] buf = new byte[2048];
+        int len;
+        FileOutputStream fos = null;
+        try {
+            is = body.byteStream();
+            File dir = new File(destFileDir);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            File file = new File(dir, destFileName);
+            Log.d("dodoT","aimFile path = "+file.getAbsolutePath());
+
+            fos = new FileOutputStream(file);
+            while ((len = is.read(buf)) != -1) {
+                fos.write(buf, 0, len);
+            }
+            fos.flush();
+            //onCompleted();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (is != null) is.close();
+                if (fos != null) fos.close();
+            } catch (IOException e) {
+                Log.e("saveFile", e.getMessage());
+            }
+        }
+    }
+
+
+
+    /**
+     * 解压缩
+     * 将zipFile文件解压到folderPath目录下.
+     * @param zipFile zip文件
+     * @param folderPath 解压到的地址
+     * @throws IOException
+     */
+    public static void upZipFile(File zipFile, String folderPath) throws IOException {
+        ZipFile zfile = new ZipFile(zipFile);
+        Enumeration zList = zfile.entries();
+        ZipEntry ze = null;
+        byte[] buf = new byte[1024];
+        while (zList.hasMoreElements()) {
+            ze = (ZipEntry) zList.nextElement();
+            if (ze.isDirectory()) {
+                Log.d("upZipFile", "ze.getName() = " + ze.getName());
+                String dirstr = folderPath + ze.getName();
+                dirstr = new String(dirstr.getBytes("8859_1"), "GB2312");
+                Log.d("upZipFile", "str = " + dirstr);
+                File f = new File(dirstr);
+                f.mkdir();
+                continue;
+            }
+            Log.d("upZipFile", "ze.getName() = " + ze.getName());
+            OutputStream os = new BufferedOutputStream(new FileOutputStream(getRealFileName(folderPath, ze.getName())));
+            InputStream is = new BufferedInputStream(zfile.getInputStream(ze));
+            int readLen = 0;
+            while ((readLen = is.read(buf, 0, 1024)) != -1) {
+                os.write(buf, 0, readLen);
+            }
+            is.close();
+            os.close();
+        }
+        zfile.close();
+    }
+
+    /**
+     * 给定根目录，返回一个相对路径所对应的实际文件名.
+     * @param baseDir     指定根目录
+     * @param absFileName 相对路径名，来自于ZipEntry中的name
+     * @return java.io.File 实际的文件
+     */
+    public static File getRealFileName(String baseDir, String absFileName) {
+        String[] dirs = absFileName.split("/");
+        File ret = new File(baseDir);
+        String substr = null;
+        if (dirs.length > 1) {
+            for (int i = 0; i < dirs.length - 1; i++) {
+                substr = dirs[i];
+                try {
+                    substr = new String(substr.getBytes("8859_1"), "GB2312");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                ret = new File(ret, substr);
+
+            }
+            Log.d("getRealFileName", "1ret = " + ret);
+            if (!ret.exists())
+                ret.mkdirs();
+            substr = dirs[dirs.length - 1];
+            try {
+                substr = new String(substr.getBytes("8859_1"), "GB2312");
+                Log.d("getRealFileName", "substr = " + substr);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            ret = new File(ret, substr);
+            Log.d("getRealFileName", "2ret = " + ret);
+            return ret;
+        }
+        return ret;
+    }
+
 }

@@ -30,10 +30,8 @@ public class DooHomeClassMistakesAdapter extends SimpleBaseAdapter {
     public View getItemView(int position, View convertView, ViewHolder holder) {
 
         ImageView flagView = (ImageView) holder.getView(R.id.flag_view);
-        if(position == data.size()-1){
-            flagView.setVisibility(View.GONE);
-        }else{
-            switch (position % 5){
+
+            switch (position % 6){
                 case 0:
                     flagView.setImageDrawable(context.getResources().getDrawable(R.drawable.icon_zise));
                     break;
@@ -49,13 +47,16 @@ public class DooHomeClassMistakesAdapter extends SimpleBaseAdapter {
                 case 4:
                     flagView.setImageDrawable(context.getResources().getDrawable(R.drawable.icon_danlanse));
                     break;
+                case 5:
+                    flagView.setImageDrawable(null);
+                    break;
                 default:
                     break;
             }
-        }
+
         ExamBean bean = (ExamBean) data.get(position);
 //        ((DooCircleView)holder.getView(R.id.flag_view)).setResColor(bean.getColor());
-        ((TextView)holder.getView(R.id.content)).setText(bean.getQuestions());
+        ((TextView)holder.getView(R.id.content)).setText(bean.getQuestion());
         return convertView;
     }
 

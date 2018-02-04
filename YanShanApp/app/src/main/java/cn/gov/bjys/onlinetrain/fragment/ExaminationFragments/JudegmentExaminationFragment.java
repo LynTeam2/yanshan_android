@@ -17,7 +17,6 @@ import cn.gov.bjys.onlinetrain.act.ExaminationActivity;
 import cn.gov.bjys.onlinetrain.act.PracticeActivity;
 import cn.gov.bjys.onlinetrain.act.view.AnswerLayout;
 import cn.gov.bjys.onlinetrain.act.view.DooQuestionAnalysisLayout;
-import cn.gov.bjys.onlinetrain.bean.SingleExamBean;
 
 /**
  * Created by Administrator on 2017/12/30 0030.
@@ -66,7 +65,7 @@ public class JudegmentExaminationFragment extends FrameFragment implements Answe
         }
 
 //        question_content.setText("                             "+ SingleExamBean.Judgment.question);
-        question_content.setText("                             " + mBean.getQuestions());
+        question_content.setText("                             " + mBean.getQuestion());
         if (mBean.isDeal()) {
             //用户做答之后
             gotoResultLayout();
@@ -83,27 +82,35 @@ public class JudegmentExaminationFragment extends FrameFragment implements Answe
         String as = mBean.getAnswer();
         analysis_layout.setmAnalysisAnswer("答案  " + getRealAnswer(as));
         analysis_layout.setmAnalysisContent(mBean.getAnalysis());
+        analysis_layout.setmNandu(getDifficulty(mBean.getDifficulty()));
     }
 
     public String getRealAnswer(String input) {
         String ret = "";
-        if ("choiceA".equals(input)) {
+        if ("正确".equals(input)) {
             ret = "A";
 
-        } else if ("choiceB".equals(input)) {
+        } else if ("错误".equals(input)) {
             ret = "B";
-
-        } else if ("choiceC".equals(input)) {
-            ret = "C";
-
-        } else if ("choiceD".equals(input)) {
-            ret = "D";
 
         } else {
             ret = "";
         }
         return ret;
     }
+
+    private String getDifficulty(String di){
+        String ret ="";
+        if("1".equals(di)){
+            ret = "初级";
+        }else if("2".equals(di)){
+            ret = "中级";
+        }else if("3".equals(di)){
+            ret = "高级";
+        }
+        return ret;
+    }
+
 
     public void gotoDealLayout() {
 

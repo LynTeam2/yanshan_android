@@ -19,7 +19,7 @@ import cn.gov.bjys.onlinetrain.utils.YSConst;
  */
 public class BaseAsyncTask extends AsyncTask<Void,Void,Void> {
 
-    WeakReference<ZipCallBackListener> mListenerWeakReference;
+    WeakReference<ZipCallBackListener> mListenerWeakReference = new WeakReference<ZipCallBackListener>(null);
     String rootDir =  BaseApplication.getAppContext().getFilesDir().getParent()+ File.separator + YSConst.UPDATE_ZIP;
     String rootName =  AssetsHelper.getAssetUpdateZipName(BaseApplication.getAppContext(),YSConst.UPDATE_ZIP);
     @Override

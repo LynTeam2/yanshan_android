@@ -17,8 +17,8 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Administrator on 2018/1/28 0028.
  */
-public class HomeExamSecondTask  extends BaseAsyncTask {
-    public final static String RELATIVE_PATH = "exam" + File.separator+"exam.json";//相对路径
+public class HomeExamSecondTask extends BaseAsyncTask {
+    public final static String RELATIVE_PATH = "exam" + File.separator + "exam.json";//相对路径
 
     public HomeExamSecondTask(ZipCallBackListener listener) {
         mListenerWeakReference = new WeakReference<ZipCallBackListener>(listener);
@@ -26,8 +26,8 @@ public class HomeExamSecondTask  extends BaseAsyncTask {
 
     @Override
     protected Void doInBackground(Void... params) {
-        File queFile = new File(rootDir+File.separator+rootName+File.separator+RELATIVE_PATH);
-        if(queFile == null){
+        File queFile = new File(rootDir + File.separator + rootName + File.separator + RELATIVE_PATH);
+        if (queFile == null) {
             return null;
         }
         Observable.just(queFile)
@@ -66,7 +66,9 @@ public class HomeExamSecondTask  extends BaseAsyncTask {
                     @Override
                     public void onNext(String s) {
                         ExamsListBean bean = FastJSONParser.getBean(s, ExamsListBean.class);
-                        callback(bean.getExams());
+                        if (bean != null) {
+                            callback(bean.getExams());
+                        }
                     }
                 });
         return super.doInBackground(params);

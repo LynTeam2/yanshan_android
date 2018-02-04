@@ -56,7 +56,7 @@ public class PracticePrepareActivity extends FrameActivity implements ZipCallBac
         Bundle mBundle = intent.getExtras();
         type = mBundle.getInt("type");
         id = mBundle.getInt("id");
-        mKeShiTask = new KeShiTask(id);
+        mKeShiTask = new KeShiTask(this, id);
         mKeShiTask.execute();
 
         mFragments = new PracticeBaseFragment[]{

@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.ycl.framework.base.BaseEvent;
 import com.ycl.framework.base.BasePopu;
 import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.db.business.ExamPagerInfoBusiness;
@@ -37,12 +36,9 @@ import cn.gov.bjys.onlinetrain.adapter.DooExamBottomAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooExamStateFragmentAdapter;
 import cn.gov.bjys.onlinetrain.bean.ExamXqBean;
 import cn.gov.bjys.onlinetrain.bean.ExamsBean;
-import cn.gov.bjys.onlinetrain.bean.SingleExamBean;
 import cn.gov.bjys.onlinetrain.utils.ExamHelper;
-import cn.gov.bjys.onlinetrain.utils.PracticeHelper;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
-import cn.jzvd.JZVideoPlayer;
 
 
 /**
@@ -108,6 +104,7 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
 
     private void initExamsBean() {
         mExamsBean = ExamHelper.getInstance().getmExamsBean();
+        mTimes = mExamsBean.getExamDuration() * 60;//秒钟
     }
 
     public void CalAnswer(ExamBean bean, boolean isRight) {
@@ -353,16 +350,16 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
         String strs = SavePreference.getStr(this, YSConst.UserInfo.USER_ERROR_IDS + YSUserInfoManager.getsInstance().getUserId());
         String[] listStr = strs.split(",");
 
-        List<Long> allErrorList = new ArrayList<>();
+        List<String> allErrorList = new ArrayList<>();
         for (String temp : listStr) {
             if (TextUtils.isEmpty(temp))
                 continue;
-            allErrorList.add(Long.valueOf(temp));
+            allErrorList.add(temp);
         }
         for (ExamBean bean : mErrorQuestionsList) {
-            long id = bean.getId();
-            allErrorList.remove(id);
-            allErrorList.add(0, id);
+            String uid = bean.getUid();
+            allErrorList.remove(uid);
+            allErrorList.add(0, uid);
         }
 
         for (int i = 0; i < allErrorList.size(); i++) {
@@ -398,65 +395,65 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
 
         for (int i=0; i < mQuestionsList.size(); i++) {
             ExamBean examBean = mQuestionsList.get(i);
-            long id = examBean.getId();
+            String uid = examBean.getUid();
             int type = examBean.getDoRight();
             String questionType = examBean.getQuestionType();
             if(i == 0){
-                allSb.append(id+"");
+                allSb.append(uid+"");
             switch (type) {
                 case ExamBean.ERROR:
-                    errorSb.append(id+"");
-                    if("multiplechoice".equals(questionType)){
-                        mMultiErrorSb.append(id+"");
-                    }else if("simplechoice".equals(questionType)){
-                        mSimpleErrorSb.append(id+"");
-                    }else if("truefalse".equals(questionType)){
-                        mTurefalseErrorSb.append(id+"");
+                    errorSb.append(uid+"");
+                    if("mc".equals(questionType)){
+                        mMultiErrorSb.append(uid+"");
+                    }else if("sc".equals(questionType)){
+                        mSimpleErrorSb.append(uid+"");
+                    }else if("tf".equals(questionType)){
+                        mTurefalseErrorSb.append(uid+"");
                     }
                     break;
                 case ExamBean.NOT_DO:
-                    notdoSb.append(id+"");
+                    notdoSb.append(uid+"");
                     break;
                 case ExamBean.RIGHT:
-                    rightSb.append(id+"");
+                    rightSb.append(uid+"");
                     break;
                 }
 
-                if("multiplechoice".equals(questionType)){
-                    mMultiSb.append(id+"");
-                }else if("simplechoice".equals(questionType)){
-                    mSimpleSb.append(id+"");
-                }else if("truefalse".equals(questionType)){
-                    mTurefalseSb.append(id+"");
+                if("mc".equals(questionType)){
+                    mMultiSb.append(uid+"");
+                }else if("sc".equals(questionType)){
+                    mSimpleSb.append(uid+"");
+                }else if("tf".equals(questionType)){
+                    mTurefalseSb.append(uid+"");
                 }
 
             }else{
-                allSb.append(","+id);
+                allSb.append(","+uid);
                 switch (type) {
                     case ExamBean.ERROR:
-                        errorSb.append("," + id);
-                        if("multiplechoice".equals(questionType)){
-                            mMultiErrorSb.append(","+id);
-                        }else if("simplechoice".equals(questionType)){
-                            mSimpleErrorSb.append(","+id);
-                        }else if("truefalse".equals(questionType)){
-                            mTurefalseErrorSb.append("," + id);
+                        errorSb.append("," + uid);
+                        if("mc".equals(questionType)){
+                            mMultiErrorSb.append(","+uid);
+                        }else if("sc".equals(questionType)){
+                            mSimpleErrorSb.append(","+uid);
+                        }else if("tf".equals(questionType)){
+                            mTurefalseErrorSb.append("," + uid);
                         }
                         break;
                     case ExamBean.NOT_DO:
-                        notdoSb.append("," + id);
+                        notdoSb.append("," + uid);
                         break;
                     case ExamBean.RIGHT:
-                        rightSb.append("," + id);
+                        rightSb.append("," + uid);
                         break;
                 }
 
-                if("multiplechoice".equals(questionType)){
-                    mMultiSb.append(","+id);
-                }else if("simplechoice".equals(questionType)){
-                    mSimpleSb.append(","+id);
-                }else if("truefalse".equals(questionType)){
-                    mTurefalseSb.append("," + id);
+                if("mc".equals(questionType)){
+                    mMultiSb.append(","+uid);
+                }else if("sc".equals(questionType)){
+                    mSimpleSb.append(","+uid);
+                }else if("tf".equals(questionType)){
+                    mTurefalseSb.append("," + uid);
                 }
             }
         }
@@ -489,7 +486,7 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
         bean.setmScore((long) ((mRightQuestionsList.size()/(mQuestionsList.size()*1.0f))*100L));
 
         //是否及格
-        bean.setmJige(true);
+        bean.setmJige(mRightQuestionsList.size() > mExamsBean.getStandard());
 
         //插入数据库
         ExamPagerInfoBusiness.getInstance(this).createOrUpdate(bean);
@@ -664,6 +661,12 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
     @Override
     public void finish() {
         super.finish();
+
+        if(mEndExamPop != null){
+            mEndExamPop.dismiss();
+            mEndExamPop = null;
+        }
+
         if (mTimer != null) {
             mTimer.cancel();
             mTimer = null;

@@ -28,7 +28,7 @@ public class HomeClassStudyThirdTask extends BaseAsyncTask {
 
         mListenerWeakReference = new WeakReference<ZipCallBackListener>(listener);
 
-        mRelativePath = RELATIVE_PATH + File.separator + fileName;//
+        mRelativePath = RELATIVE_PATH + File.separator + fileName + ".json";//
     }
 
     @Override
@@ -73,7 +73,9 @@ public class HomeClassStudyThirdTask extends BaseAsyncTask {
                     @Override
                     public void onNext(String s) {
                         CoursesBean bean = FastJSONParser.getBean(s, CoursesBean.class);
-                        callback(bean.getCourses());
+                        if (bean != null) {
+                            callback(bean.getCourses());
+                        }
                     }
                 });
         return super.doInBackground(params);

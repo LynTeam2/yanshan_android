@@ -106,7 +106,9 @@ public class ExamAnalysisActivity2 extends FrameActivity implements View.OnClick
             }
 
             case R.id.history_btn:
-                startAct(ExamHistoryActivity.class);
+                Bundle mBundle = new Bundle();
+                mBundle.putLong(ExamHistoryActivity.TAG, mNowPager.getExampagerid());
+                startAct(ExamHistoryActivity.class,mBundle);
                 break;
         }
     }
@@ -128,14 +130,13 @@ public class ExamAnalysisActivity2 extends FrameActivity implements View.OnClick
     }
 
 
-    private int mExamId = 0;
+    private long mExamId = 0;
     private SaveExamPagerBean mNowPager;
 
     private void initAllDatas() {
         Intent recIntent = getIntent();
         Bundle recBundle = recIntent.getExtras();
-        mExamId = recBundle.getInt(TAG);
-
+        mExamId = recBundle.getLong(TAG);
         List<SaveExamPagerBean> mAllList = ExamPagerInfoBusiness.getInstance(this).queryBykey(YSUserInfoManager.getsInstance().getUserId(), mExamId);
         if (mAllList.size() > 0) {
             mNowPager = mAllList.get(0);
@@ -308,7 +309,7 @@ public class ExamAnalysisActivity2 extends FrameActivity implements View.OnClick
                     } else {
                         value = strs1.length;
                     }
-                    yVals1.add(new RadarEntry(value, i));
+                    yVals2.add(new RadarEntry(value, i));
                     break;
                 case 1:
                     String[] strs2 = mNowPager.getmTrueFalseErrorPager().split(",");
@@ -317,7 +318,7 @@ public class ExamAnalysisActivity2 extends FrameActivity implements View.OnClick
                     } else {
                         value = strs2.length;
                     }
-                    yVals1.add(new RadarEntry(value, i));
+                    yVals2.add(new RadarEntry(value, i));
                     break;
                 case 2:
                     String[] strs3 = mNowPager.getmMultiErrorPager().split(",");
@@ -326,7 +327,7 @@ public class ExamAnalysisActivity2 extends FrameActivity implements View.OnClick
                     } else {
                         value = strs3.length;
                     }
-                    yVals1.add(new RadarEntry(value, i));
+                    yVals2.add(new RadarEntry(value, i));
                     break;
             }
         }

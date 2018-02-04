@@ -6,12 +6,32 @@ package cn.gov.bjys.onlinetrain.bean;
 public class CategoriesBean {
 
     private long id;//
+    private long parentId;//
     private String categoryName;//"交通运输",
     private String content;/// : "交通运输是个啥",
     private String icon;//"图片地址",
     private String iconName;// : "图片名称",
     private String createTime;//" : "",
     private String jsonName;// : "jiaotongyunshu"
+
+    private String introduction;//
+
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
+
+    public long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(long parentId) {
+        this.parentId = parentId;
+    }
 
     public long getId() {
         return id;

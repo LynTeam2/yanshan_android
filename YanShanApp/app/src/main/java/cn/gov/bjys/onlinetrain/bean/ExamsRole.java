@@ -7,16 +7,16 @@ import java.util.HashMap;
  */
 
 public class ExamsRole {
-    private HashMap<String, Integer> anjianType;
+    private HashMap<String, Integer> ajType;
     private HashMap<String, Integer> questionType;
     private HashMap<String, Integer> difficulty;
 
-    public HashMap<String, Integer> getAnjianType() {
-        return anjianType;
+    public HashMap<String, Integer> getAjType() {
+        return ajType;
     }
 
-    public void setAnjianType(HashMap<String, Integer> anjianType) {
-        this.anjianType = anjianType;
+    public void setAjType(HashMap<String, Integer> ajType) {
+        this.ajType = ajType;
     }
 
     public HashMap<String, Integer> getQuestionType() {

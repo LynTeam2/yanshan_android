@@ -1,35 +1,41 @@
 package cn.gov.bjys.onlinetrain.task;
 
+import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.ycl.framework.utils.util.FastJSONParser;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 
-import cn.gov.bjys.onlinetrain.api.ZipCallBackListener;
+import cn.gov.bjys.onlinetrain.bean.AllBannerBean;
 import cn.gov.bjys.onlinetrain.bean.CategoryBean;
+import cn.gov.bjys.onlinetrain.bean.HomeBannerBean;
+import cn.gov.bjys.onlinetrain.utils.BannerComHelper;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by Administrator on 2018/1/27 0027.
+ * Created by Administrator on 2018/2/2 0002.
  */
-public class HomeClassStudySencondTask extends BaseAsyncTask {
+public class HomeBannerTask extends BaseAsyncTask {
+    private String mRelativePath = "banner" + File.separator;//相对路径
+    private ConvenientBanner bannerPoster;
+    private String mFileName;
 
-    public final static String RELATIVE_PATH = "course" + File.separator + "category.json";//相对路径
+    public HomeBannerTask(final ConvenientBanner bannerPoster, String fileName) {
+        this.bannerPoster = bannerPoster;
+        this.mFileName = fileName;
 
-    public HomeClassStudySencondTask(ZipCallBackListener listener) {
-        mListenerWeakReference = new WeakReference<ZipCallBackListener>(listener);
+        mRelativePath +=fileName;
     }
+
 
     @Override
     protected Void doInBackground(Void... params) {
-        File queFile = new File(rootDir + File.separator + rootName + File.separator + RELATIVE_PATH);
-        if (queFile == null) {
+        File queFile = new File(rootDir+File.separator+rootName+File.separator+mRelativePath);
+        if(queFile == null){
             return null;
         }
         Observable.just(queFile)
@@ -57,23 +63,23 @@ public class HomeClassStudySencondTask extends BaseAsyncTask {
                 .subscribe(new Subscriber<String>() {
                     @Override
                     public void onCompleted() {
-                        success();
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        fail();
+
                     }
 
                     @Override
                     public void onNext(String s) {
-                        CategoryBean bean = FastJSONParser.getBean(s, CategoryBean.class);
-                        if (bean != null) {
-                            callback(bean.getCategories());
+                        AllBannerBean bean = FastJSONParser.getBean(s, AllBannerBean.class);
+                        if(bean != null){
+                            BannerComHelper.initBanner(bannerPoster,bean.getBanners());
                         }
                     }
                 });
-        return super.doInBackground(params);
-    }
 
+        return null;
+    }
 }

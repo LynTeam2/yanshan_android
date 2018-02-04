@@ -1,5 +1,6 @@
 package cn.gov.bjys.onlinetrain.act;
 
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -58,13 +59,14 @@ public class ExamEndActivity extends FrameActivity {
             GlideProxy.loadImgForUrlPlaceHolderDontAnimate(simulated_exam_avatar, url, R.drawable.user_normal_avatar);
         }
         ExamsBean bean = ExamHelper.getInstance().getmExamsBean();
-        exam_time.setText("");//考试时长 根据bean
+        exam_time.setText(bean.getExamDuration()+"分钟");//考试时长 根据bean
 
         List<ExamBean> mExamPagers = ExamHelper.getInstance().getmExamPagers();
         int rightNums = 0;
         for(ExamBean examBean : mExamPagers){
-            examBean.getDoRight();
-            rightNums++;
+            if(examBean.getDoRight() == ExamBean.RIGHT) {
+                rightNums++;
+            }
         }
         int score = (int) ((rightNums/(mExamPagers.size()*1.0f))*100);
         exam_score.setText(score+"分");
@@ -74,7 +76,10 @@ public class ExamEndActivity extends FrameActivity {
     public void onTabClick(View v){
         switch (v.getId()){
             case R.id.start_exam:
-                startAct(ExamAnalysisActivity.class);
+
+                Bundle mBundle = new Bundle();
+                mBundle.putLong(ExamAnalysisActivity2.TAG, ExamHelper.getInstance().getmExamsBean().getId());
+                startAct(ExamAnalysisActivity2.class,mBundle);
                 break;
         }
     }

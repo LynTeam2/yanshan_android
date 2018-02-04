@@ -25,9 +25,9 @@ public class KeShiTask extends BaseAsyncTask {
     private String mRelativePath = "";
 
 
-    public KeShiTask(int id){
-        mRelativePath = RELATIVE_PATH + File.separator + id+".json";//
-    }
+//    public KeShiTask(int id){
+//        mRelativePath = RELATIVE_PATH + File.separator + id+".json";//
+//    }
     public KeShiTask(ZipCallBackListener listener, int id) {
         mListenerWeakReference = new WeakReference<ZipCallBackListener>(listener);
         mRelativePath = RELATIVE_PATH + File.separator + id+".json";//
@@ -74,10 +74,23 @@ public class KeShiTask extends BaseAsyncTask {
 
                     @Override
                     public void onNext(String s) {
-                        CourseBean bean = FastJSONParser.getBean(s, CourseBean.class);
-                        PracticeHelper.getInstance().setmCourseBean(bean);
+                        KeShi keshi = FastJSONParser.getBean(s, KeShi.class);
+                        PracticeHelper.getInstance().setmCourseBean(keshi.getCourse());
                     }
                 });
         return super.doInBackground(params);
+
     }
+    public  static class KeShi{
+        CourseBean course;
+
+        public CourseBean getCourse() {
+            return course;
+        }
+
+        public void setCourse(CourseBean course) {
+            this.course = course;
+        }
+    }
+
 }

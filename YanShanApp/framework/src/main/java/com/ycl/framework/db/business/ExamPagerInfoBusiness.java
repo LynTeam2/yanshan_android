@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.ycl.framework.db.entity.ExamBean;
 import com.ycl.framework.db.entity.SaveExamPagerBean;
 
 import java.io.IOException;
@@ -21,7 +20,7 @@ public class ExamPagerInfoBusiness extends  BaseDbBusiness<SaveExamPagerBean> {
     private ExamPagerInfoBusiness(Context context) {
         super(context);
         try {
-            dao = helper.getDao(ExamBean.class);
+            dao = helper.getDao(SaveExamPagerBean.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
