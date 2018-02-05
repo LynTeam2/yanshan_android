@@ -7,7 +7,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.ycl.framework.base.FrameActivity;
+import com.ycl.framework.db.business.ExamPagerInfoBusiness;
 import com.ycl.framework.db.entity.ExamBean;
+import com.ycl.framework.db.entity.SaveExamPagerBean;
 import com.ycl.framework.utils.sp.SavePreference;
 import com.ycl.framework.utils.util.GlideProxy;
 import com.ycl.framework.view.TitleHeaderView;
@@ -22,6 +24,7 @@ import cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode;
 import cn.gov.bjys.onlinetrain.bean.ExamsBean;
 import cn.gov.bjys.onlinetrain.utils.ExamHelper;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
+import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 
 /**
  * Created by dodo on 2018/1/30.
@@ -78,7 +81,16 @@ public class ExamEndActivity extends FrameActivity {
             case R.id.start_exam:
 
                 Bundle mBundle = new Bundle();
-                mBundle.putLong(ExamAnalysisActivity2.TAG, ExamHelper.getInstance().getmExamsBean().getId());
+
+
+                SaveExamPagerBean mNowPager;
+                List<SaveExamPagerBean> mAllList = ExamPagerInfoBusiness.getInstance(this).queryBykey(YSUserInfoManager.getsInstance().getUserId(), ExamHelper.getInstance().getmExamsBean().getId());
+                if (mAllList.size() > 0) {
+                    mNowPager = mAllList.get(0);
+                } else {
+                    mNowPager = new SaveExamPagerBean();
+                }
+                mBundle.putParcelable(ExamAnalysisActivity2.TAG, mNowPager);
                 startAct(ExamAnalysisActivity2.class,mBundle);
                 break;
         }

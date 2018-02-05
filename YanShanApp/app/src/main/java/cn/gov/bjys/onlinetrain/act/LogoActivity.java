@@ -214,8 +214,8 @@ public class LogoActivity extends FrameActivity {
         count++;
         Log.d("dodoT", "updateZip  " + count);
         ToastUtil.showToast("updateZip  " + count);
-//        new UnZipTask(true, null, null).execute();//开始解压压缩包，解压好了就不解压了
-        downloadZip();
+        new UnZipTask(true, null, null).execute();//开始解压压缩包，解压好了就不解压了
+//        downloadZip();
     }
 
     public final static String UPGRADE_SAVE_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "upgrade.zip";

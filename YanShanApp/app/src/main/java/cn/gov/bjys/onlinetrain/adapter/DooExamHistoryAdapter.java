@@ -23,8 +23,14 @@ public class DooExamHistoryAdapter extends BaseQuickAdapter<SaveExamPagerBean, B
 
     @Override
     protected void convert(BaseViewHolder helper, SaveExamPagerBean item) {
-        helper.setText(R.id.score, item.getmScore()+"");
-        helper.setText(R.id.time_length, item.getUseTimes() + ":00");
+        helper.setText(R.id.score, item.getmScore()+"分");
+        helper.setText(R.id.time_length, getUserTime(item.getUseTimes()));
         helper.setText(R.id.time, DateUtil.formatNianToFen(item.getCreateTime()));
+    }
+
+
+    private String getUserTime(long miao){
+        String ret = "";
+        return  ret = miao/60L +":"+  (miao%60 < 10 ? "0"+miao%60 : miao%60);
     }
 }

@@ -36,6 +36,7 @@ import cn.gov.bjys.onlinetrain.adapter.DooExamBottomAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooExamStateFragmentAdapter;
 import cn.gov.bjys.onlinetrain.bean.ExamXqBean;
 import cn.gov.bjys.onlinetrain.bean.ExamsBean;
+import cn.gov.bjys.onlinetrain.utils.DataHelper;
 import cn.gov.bjys.onlinetrain.utils.ExamHelper;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
@@ -105,6 +106,7 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
     private void initExamsBean() {
         mExamsBean = ExamHelper.getInstance().getmExamsBean();
         mTimes = mExamsBean.getExamDuration() * 60;//秒钟
+        mAllTimes = mExamsBean.getExamDuration() * 60;//秒钟
     }
 
     public void CalAnswer(ExamBean bean, boolean isRight) {
@@ -399,7 +401,7 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
             int type = examBean.getDoRight();
             String questionType = examBean.getQuestionType();
             if(i == 0){
-                allSb.append(uid+"");
+                allSb.append(uid+"");//allpager没有问题
             switch (type) {
                 case ExamBean.ERROR:
                     errorSb.append(uid+"");
@@ -462,19 +464,19 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
         bean.setUserid(YSUserInfoManager.getsInstance().getUserId());
         bean.setExampagerid(mExamsBean.getId());
         bean.setExamName(mExamsBean.getExamName());
-        bean.setmAllPager(allSb.toString());
-        bean.setmErrorPager(errorSb.toString());
-        bean.setmNotDoPager(notdoSb.toString());
-        bean.setmRightPager(rightSb.toString());
+        bean.setmAllPager(DataHelper.clearEmptyString(allSb.toString()));
+        bean.setmErrorPager(DataHelper.clearEmptyString(errorSb.toString()));
+        bean.setmNotDoPager(DataHelper.clearEmptyString(notdoSb.toString()));
+        bean.setmRightPager(DataHelper.clearEmptyString(rightSb.toString()));
 
-        bean.setmMultiPager(mMultiSb.toString());
-        bean.setmMultiErrorPager(mMultiErrorSb.toString());
+        bean.setmMultiPager(DataHelper.clearEmptyString(mMultiSb.toString()));
+        bean.setmMultiErrorPager(DataHelper.clearEmptyString(mMultiErrorSb.toString()));
 
-        bean.setmSimplePager(mSimpleSb.toString());
-        bean.setmSimpleErrorPager(mSimpleErrorSb.toString());
+        bean.setmSimplePager(DataHelper.clearEmptyString(mSimpleSb.toString()));
+        bean.setmSimpleErrorPager(DataHelper.clearEmptyString(mSimpleErrorSb.toString()));
 
-        bean.setmTrueFalsePager(mTurefalseSb.toString());
-        bean.setmTrueFalseErrorPager(mTurefalseErrorSb.toString());
+        bean.setmTrueFalsePager(DataHelper.clearEmptyString(mTurefalseSb.toString()));
+        bean.setmTrueFalseErrorPager(DataHelper.clearEmptyString(mTurefalseErrorSb.toString()));
 
         bean.setCreateTime(System.currentTimeMillis());
         bean.setUseTimes(mAllTimes - mTimes);//用户使用的做题时间
@@ -491,6 +493,8 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
         //插入数据库
         ExamPagerInfoBusiness.getInstance(this).createOrUpdate(bean);
     }
+
+
 
 
     private void exitPager() {

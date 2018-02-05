@@ -25,6 +25,7 @@ public class YSConst {
 
         public final static String USER_COLLECTION_IDS = "user_collection_ids";//用户收藏试题列表 1,2,3...如此格式
         public final static String USER_ERROR_IDS = "user_error_ids";//用户错题列表 1,2,3...如此格式
+        public final static String USER_PASS_KESHI_IDS = "user_pass_keshi_ids";//用户课时通过的列表 1,2,3...如此格式
 
     }
 

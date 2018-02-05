@@ -35,6 +35,7 @@ import cn.gov.bjys.onlinetrain.adapter.DooExamBottomAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooExamStateFragmentAdapter;
 import cn.gov.bjys.onlinetrain.bean.CourseBean;
 import cn.gov.bjys.onlinetrain.bean.ExamXqBean;
+import cn.gov.bjys.onlinetrain.utils.DataHelper;
 import cn.gov.bjys.onlinetrain.utils.PracticeHelper;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
@@ -93,6 +94,9 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         }
     }
 
+
+    private long mKeShiId;
+
     public void initPracticeData() {
         Intent recIntent = getIntent();
         Bundle recBundle = recIntent.getExtras();
@@ -100,6 +104,7 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         switch (mType) {
             case KESHI:
                 CourseBean bean = PracticeHelper.getInstance().getmCourseBean();
+                mKeShiId = bean.getId();
                 initQuestionList(bean);
                 mHeader.setTitleText("课程练习");
                 break;
@@ -592,6 +597,17 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
                 allErrorStr.toString());
     }
 
+    private void saveKeShiPass(){
+        //保存全对的课时
+        if(mRightQuestionsList.size() >= mQuestionsList.size()) {
+            String allPassKeShiStr = SavePreference.getStr(this, YSConst.UserInfo.USER_PASS_KESHI_IDS + YSUserInfoManager.getsInstance().getUserId());
+            allPassKeShiStr = DataHelper.clearEmptyString(allPassKeShiStr);
+            allPassKeShiStr += ("," + mKeShiId);
+            SavePreference.save(this,
+                    YSConst.UserInfo.USER_PASS_KESHI_IDS + YSUserInfoManager.getsInstance().getUserId(),
+                    allPassKeShiStr);
+        }
+    }
 
     @Override
     public void finish() {
@@ -616,6 +632,7 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
             case TIXING:
                 break;
             case KESHI:
+                saveKeShiPass();
                 saveErrorList();
                 break;
         }

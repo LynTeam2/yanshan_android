@@ -28,6 +28,7 @@ import com.ycl.framework.db.business.ExamPagerInfoBusiness;
 import com.ycl.framework.db.business.QuestionInfoBusiness;
 import com.ycl.framework.db.entity.ExamBean;
 import com.ycl.framework.db.entity.SaveExamPagerBean;
+import com.ycl.framework.utils.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,20 +131,12 @@ public class ExamAnalysisActivity2 extends FrameActivity implements View.OnClick
     }
 
 
-    private long mExamId = 0;
     private SaveExamPagerBean mNowPager;
 
     private void initAllDatas() {
         Intent recIntent = getIntent();
         Bundle recBundle = recIntent.getExtras();
-        mExamId = recBundle.getLong(TAG);
-        List<SaveExamPagerBean> mAllList = ExamPagerInfoBusiness.getInstance(this).queryBykey(YSUserInfoManager.getsInstance().getUserId(), mExamId);
-        if (mAllList.size() > 0) {
-            mNowPager = mAllList.get(0);
-        } else {
-            mNowPager = new SaveExamPagerBean();
-        }
-
+        mNowPager = recBundle.getParcelable(TAG);
         initAllNeedDatas();
 
     }
@@ -452,20 +445,32 @@ public class ExamAnalysisActivity2 extends FrameActivity implements View.OnClick
     public void onClick(View v) {
         String name = (String) v.getTag();
         if ("判断题".equals(name)) {
-            Bundle mBundle = new Bundle();
-            mBundle.putInt(PracticeActivity.TAG, PracticeActivity.TIXING);
-            mBundle.putParcelableArrayList("PracticeActivityDatas", (ArrayList<? extends Parcelable>) mTrueFalseErrorList);
-            startAct(PracticeActivity.class,mBundle);
+            if(mTrueFalseErrorList.size() > 0) {
+                Bundle mBundle = new Bundle();
+                mBundle.putInt(PracticeActivity.TAG, PracticeActivity.TIXING);
+                mBundle.putParcelableArrayList("PracticeActivityDatas", (ArrayList<? extends Parcelable>) mTrueFalseErrorList);
+                startAct(PracticeActivity.class, mBundle);
+            }else{
+                ToastUtil.showToast("没有错题哦！");
+            }
         } else if ("单选题".equals(name)) {
-            Bundle mBundle = new Bundle();
-            mBundle.putInt(PracticeActivity.TAG, PracticeActivity.TIXING);
-            mBundle.putParcelableArrayList("PracticeActivityDatas", (ArrayList<? extends Parcelable>) mSimpleErrorList);
-            startAct(PracticeActivity.class,mBundle);
+            if(mSimpleErrorList.size() > 0) {
+                Bundle mBundle = new Bundle();
+                mBundle.putInt(PracticeActivity.TAG, PracticeActivity.TIXING);
+                mBundle.putParcelableArrayList("PracticeActivityDatas", (ArrayList<? extends Parcelable>) mSimpleErrorList);
+                startAct(PracticeActivity.class, mBundle);
+            }else{
+                ToastUtil.showToast("没有错题哦！");
+            }
         } else if ("多选题".equals(name)) {
+            if(mMultiErrorList.size() > 0) {
             Bundle mBundle = new Bundle();
             mBundle.putInt(PracticeActivity.TAG, PracticeActivity.TIXING);
             mBundle.putParcelableArrayList("PracticeActivityDatas", (ArrayList<? extends Parcelable>) mMultiErrorList);
             startAct(PracticeActivity.class,mBundle);
+        }else{
+            ToastUtil.showToast("没有错题哦！");
+        }
         }
     }
 }
