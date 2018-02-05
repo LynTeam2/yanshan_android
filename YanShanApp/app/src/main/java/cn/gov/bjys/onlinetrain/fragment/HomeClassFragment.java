@@ -25,6 +25,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.HomeClassStudySecondActivity;
+import cn.gov.bjys.onlinetrain.act.HomeClassStudyThirdActivity;
 import cn.gov.bjys.onlinetrain.act.MorePracticeActivity;
 import cn.gov.bjys.onlinetrain.act.PracticeActivity;
 import cn.gov.bjys.onlinetrain.act.PracticePrepareActivity;
@@ -33,13 +34,17 @@ import cn.gov.bjys.onlinetrain.adapter.DooHomeClassAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooHomeClassMistakesAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooHomeClassPracticeAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooHomeGridViewAdapter;
+import cn.gov.bjys.onlinetrain.api.ZipCallBackListener;
+import cn.gov.bjys.onlinetrain.bean.CategoriesBean;
+import cn.gov.bjys.onlinetrain.task.HomeClassStudySencondTask;
 import cn.gov.bjys.onlinetrain.task.InitAllExamTask;
 import cn.gov.bjys.onlinetrain.utils.BannerComHelper;
+import cn.gov.bjys.onlinetrain.utils.ExamDistinguishHelper;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 
 
-public class HomeClassFragment extends FrameFragment {
+public class HomeClassFragment extends FrameFragment implements  ZipCallBackListener {
 
     @Bind(R.id.header)
     TitleHeadNormalOne mHeader;
@@ -104,11 +109,11 @@ public class HomeClassFragment extends FrameFragment {
     @Override
     protected void initViews() {
         super.initViews();
-        //init all type exam
-        initAllExam();
+
         //banner
 //        BannerComHelper.initLocationBanner(banner, res);
         BannerComHelper.initZipBanner(banner, "banner.json");
+
         initClassGv();
         initPracticeGv();
         initMistakesGv();
@@ -126,83 +131,60 @@ public class HomeClassFragment extends FrameFragment {
 
     public void initClassGv() {
         if (mDooHomeClassAdapter == null) {
-            mDooHomeClassAdapter = new DooHomeClassAdapter(getActivity(), getDatas());
+            mDooHomeClassAdapter = new DooHomeClassAdapter(getActivity(), beanList);
         }
         class_gridview.setAdapter(mDooHomeClassAdapter);
         class_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startAct(PracticePrepareActivity.class);
+                //TODO 去课程界面
+                CategoriesBean bean = (CategoriesBean) mDooHomeClassAdapter.getData().get(position);
+                String jn = bean.getJsonName();
+                Bundle mBundle = new Bundle();
+                mBundle.putString("jsonName",jn);
+                mBundle.putString("title",bean.getCategoryName());
+                startAct(HomeClassStudyThirdActivity.class,mBundle);
             }
         });
     }
 
 
-    public static List<DooHomeGridViewAdapter.HomeGridBean> getDatas() {
-        ArrayList<DooHomeGridViewAdapter.HomeGridBean> beanArrayList = new ArrayList<>();
-        //num 1
-        DooHomeGridViewAdapter.HomeGridBean bean = new DooHomeGridViewAdapter.HomeGridBean();
-        bean.setName("危险化学");
-        bean.setSrcId(R.drawable.dangerous_chemistry);
-        beanArrayList.add(bean);
-        //num 2
-        DooHomeGridViewAdapter.HomeGridBean bean2 = new DooHomeGridViewAdapter.HomeGridBean();
-        bean2.setName("工业企业");
-        bean2.setSrcId(R.drawable.industry);
-        beanArrayList.add(bean2);
-        //num 3
-        DooHomeGridViewAdapter.HomeGridBean bean3 = new DooHomeGridViewAdapter.HomeGridBean();
-        bean3.setName("交通运输");
-        bean3.setSrcId(R.drawable.transportation);
-        beanArrayList.add(bean3);
-        //num 4
-        DooHomeGridViewAdapter.HomeGridBean bean4 = new DooHomeGridViewAdapter.HomeGridBean();
-        bean4.setName("消防管理");
-        bean4.setSrcId(R.drawable.fire_control_management);
-        beanArrayList.add(bean4);
 
 
-        return beanArrayList;
-    }
-
-    public static List<DooHomeGridViewAdapter.HomeGridBean> getDatas2() {
-        ArrayList<DooHomeGridViewAdapter.HomeGridBean> beanArrayList = new ArrayList<>();
-        //num 1
-        DooHomeGridViewAdapter.HomeGridBean bean = new DooHomeGridViewAdapter.HomeGridBean();
-        bean.setName("野外自救");
-        bean.setSrcId(R.drawable.dangerous_chemistry);
-        beanArrayList.add(bean);
-        //num 2
-        DooHomeGridViewAdapter.HomeGridBean bean2 = new DooHomeGridViewAdapter.HomeGridBean();
-        bean2.setName("防洪防汛");
-        bean2.setSrcId(R.drawable.industry);
-        beanArrayList.add(bean2);
-        //num 3
-        DooHomeGridViewAdapter.HomeGridBean bean3 = new DooHomeGridViewAdapter.HomeGridBean();
-        bean3.setName("防盗预警");
-        bean3.setSrcId(R.drawable.transportation);
-        beanArrayList.add(bean3);
-        //num 4
-        DooHomeGridViewAdapter.HomeGridBean bean4 = new DooHomeGridViewAdapter.HomeGridBean();
-        bean4.setName("天气遇冷");
-        bean4.setSrcId(R.drawable.fire_control_management);
-        beanArrayList.add(bean4);
-
-
-        return beanArrayList;
-    }
 
     DooHomeClassPracticeAdapter mDooHomeClassPracticeAdapter;
 
     public void initPracticeGv() {
         if (mDooHomeClassPracticeAdapter == null) {
-            mDooHomeClassPracticeAdapter = new DooHomeClassPracticeAdapter(getActivity(), getDatas());
+            mDooHomeClassPracticeAdapter = new DooHomeClassPracticeAdapter(getActivity(), beanList);
         }
         practice_gridview.setAdapter(mDooHomeClassPracticeAdapter);
         practice_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startAct(PracticePrepareActivity.class);
+                CategoriesBean bean = (CategoriesBean) mDooHomeClassAdapter.getData().get(position);
+                String ajType = bean.getCategoryName();
+
+                Bundle mBundle = new Bundle();
+                mBundle.putInt(PracticeActivity.TAG,PracticeActivity.TIXING);
+                ArrayList<ExamBean> mDatas = null;
+                if ("危险化学品".equals(ajType)) {
+                    mDatas = ExamDistinguishHelper.getInstance().getmWeiXianHuaXue();
+                } else if ("企业行业".equals(ajType)) {
+                    mDatas = ExamDistinguishHelper.getInstance().getmQiYeHangYe();
+                } else if ("运输".equals(ajType)) {
+                    mDatas = ExamDistinguishHelper.getInstance().getmYunShu();
+                } else if ("建筑施工".equals(ajType)) {
+                    mDatas = ExamDistinguishHelper.getInstance().getmJianZhuShiGong();
+                } else if ("人员密集场所".equals(ajType)) {
+                    mDatas = ExamDistinguishHelper.getInstance().getmRenYuanMiJiChangShuo();
+                } else if ("特种设备".equals(ajType)) {
+                    mDatas = ExamDistinguishHelper.getInstance().getmTeZhongSheBei();
+                } else if ("消防".equals(ajType)) {
+                    mDatas = ExamDistinguishHelper.getInstance().getmXiaoFang();
+                }
+                mBundle.putParcelableArrayList("PracticeActivityDatas",mDatas);
+                startAct(PracticeActivity.class,mBundle);
             }
         });
     }
@@ -231,6 +213,8 @@ public class HomeClassFragment extends FrameFragment {
     @Override
     public void onVisibilityChanged(boolean visible) {
         if (visible) {
+            gainZipDatas();
+            initAllExam();
             mDooHomeClassMistakesAdapter.replaceAll(getErrorData());
         }
     }
@@ -250,7 +234,39 @@ public class HomeClassFragment extends FrameFragment {
             datas.add(bean);
         }
         more_mistakes.setVisibility(datas.size() >= 6 ? View.VISIBLE : View.GONE);
-        no_error_layout.setVisibility(datas.size() > 0 ? View.VISIBLE : View.GONE);
+        no_error_layout.setVisibility(datas.size() > 0 ? View.GONE : View.VISIBLE);
         return datas;
     }
+
+    HomeClassStudySencondTask mHomeClassStudySencondTask;
+    public void gainZipDatas(){
+        mHomeClassStudySencondTask = new HomeClassStudySencondTask(this);
+        mHomeClassStudySencondTask.execute();
+    }
+    List<CategoriesBean> beanList = new ArrayList<>();
+    @Override
+    public void zipCallBackListener(List datas) {
+        beanList.clear();
+        if (datas.size() > 4) {
+            beanList.addAll(datas.subList(0, 4));
+        }else {
+            beanList.addAll(datas);
+        }
+        mDooHomeClassAdapter.replaceAll(beanList);
+        mDooHomeClassAdapter.notifyDataSetChanged();
+        mDooHomeClassPracticeAdapter.replaceAll(beanList);
+        mDooHomeClassPracticeAdapter.notifyDataSetChanged();
+        }
+
+    @Override
+    public void zipCallBackSuccess() {
+
+    }
+
+    @Override
+    public void zipCallBackFail() {
+
+    }
+
+
 }

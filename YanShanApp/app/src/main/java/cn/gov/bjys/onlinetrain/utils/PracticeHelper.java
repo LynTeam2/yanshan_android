@@ -25,6 +25,9 @@ public class PracticeHelper {
     private static CourseBean mCourseBean;
 
     public  CourseBean getmCourseBean() {
+        if(mCourseBean == null){
+            mCourseBean = new CourseBean();
+        }
         return mCourseBean;
     }
 

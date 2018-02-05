@@ -90,8 +90,8 @@ public class ExamHistoryActivity extends FrameActivity {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
              SaveExamPagerBean bean = (SaveExamPagerBean) adapter.getData().get(position);
              Bundle mBundle = new Bundle();
-             mBundle.putParcelable(ExamAnalysisActivity.TAG,bean);
-             startAct(ExamAnalysisActivity.class,mBundle);
+             mBundle.putLong(ExamAnalysisActivity2.TAG,bean.getExampagerid());
+             startAct(ExamAnalysisActivity2.class,mBundle);
             }
         });
     }

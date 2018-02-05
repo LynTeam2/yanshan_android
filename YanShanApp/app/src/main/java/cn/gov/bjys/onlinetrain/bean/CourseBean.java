@@ -1,5 +1,9 @@
 package cn.gov.bjys.onlinetrain.bean;
 
+import com.ycl.framework.db.entity.ExamBean;
+
+import java.util.List;
+
 /**
  * Created by Administrator on 2018/1/27 0027.
  */
@@ -15,6 +19,43 @@ public class CourseBean {
     private String iconName;
     private String createTime;
     private String updateTime;
+    private boolean homePage;//true
+
+    private List<ExamBean> mcList;
+    private List<ExamBean> scList;
+    private List<ExamBean> tfList;
+
+    public List<ExamBean> getMcList() {
+        return mcList;
+    }
+
+    public void setMcList(List<ExamBean> mcList) {
+        this.mcList = mcList;
+    }
+
+    public List<ExamBean> getScList() {
+        return scList;
+    }
+
+    public void setScList(List<ExamBean> scList) {
+        this.scList = scList;
+    }
+
+    public List<ExamBean> getTfList() {
+        return tfList;
+    }
+
+    public void setTfList(List<ExamBean> tfList) {
+        this.tfList = tfList;
+    }
+
+    public boolean isHomePage() {
+        return homePage;
+    }
+
+    public void setHomePage(boolean homePage) {
+        this.homePage = homePage;
+    }
 
     public int getId() {
         return id;

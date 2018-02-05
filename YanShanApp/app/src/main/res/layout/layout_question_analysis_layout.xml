@@ -34,20 +34,19 @@
             android:layout_height="wrap_content"
             android:text="答案:A"
             android:textSize="42px"/>
-        <RatingBar
-            android:id="@+id/rating_star"
-            style="@style/Base.Widget.AppCompat.RatingBar.Small"
+        <TextView
+            android:id="@+id/nan_du"
+            android:layout_marginRight="50px"
+            android:layout_marginLeft="50px"
+            android:text="初级"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_width="300px"
-            android:layout_height="50px"
-            android:numStars="5"
-            android:rating="0"
-            android:stepSize="0.1"
-            android:isIndicator="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="42px"
             />
         <TextView
-            android:layout_toLeftOf="@id/rating_star"
+            android:layout_toLeftOf="@id/nan_du"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

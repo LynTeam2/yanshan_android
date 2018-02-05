@@ -3,6 +3,7 @@ package com.ycl.framework.utils.util;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.ycl.framework.base.FrameApplication;
 import com.ycl.framework.module.CustomImageSizeModel;
 
 import java.io.File;
@@ -44,7 +45,7 @@ public class GlideProxy {
 
     //带预加载图  url加载 禁止动画
     public static void loadImgForFilePlaceHolderDontAnimate(ImageView mImageView, File path, int ids) {
-        Glide.with(mImageView.getContext().getApplicationContext()).load(path).placeholder(ids).dontAnimate().into(mImageView);
+        Glide.with(FrameApplication.getFrameContext()).load(path).placeholder(ids).dontAnimate().into(mImageView);
     }
 
     //带预加载图  url加载

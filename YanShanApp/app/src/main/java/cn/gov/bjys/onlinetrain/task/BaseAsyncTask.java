@@ -19,7 +19,7 @@ import cn.gov.bjys.onlinetrain.utils.YSConst;
  */
 public class BaseAsyncTask extends AsyncTask<Void,Void,Void> {
 
-    WeakReference<ZipCallBackListener> mListenerWeakReference = new WeakReference<ZipCallBackListener>(null) ;
+    WeakReference<ZipCallBackListener> mListenerWeakReference = new WeakReference<ZipCallBackListener>(null);
     String rootDir =  BaseApplication.getAppContext().getFilesDir().getParent()+ File.separator + YSConst.UPDATE_ZIP;
     String rootName =  AssetsHelper.getAssetUpdateZipName(BaseApplication.getAppContext(),YSConst.UPDATE_ZIP);
     @Override
@@ -63,11 +63,10 @@ public class BaseAsyncTask extends AsyncTask<Void,Void,Void> {
     }
 
     public <T> void callback(List<T> data){
-            ZipCallBackListener listener = mListenerWeakReference.get();
-            if (listener != null) {
-                listener.zipCallBackListener(data);
-            }
-
+        ZipCallBackListener listener =  mListenerWeakReference.get();
+        if(listener != null){
+            listener.zipCallBackListener(data);
+        }
     }
     public void success(){
         ZipCallBackListener listener =  mListenerWeakReference.get();

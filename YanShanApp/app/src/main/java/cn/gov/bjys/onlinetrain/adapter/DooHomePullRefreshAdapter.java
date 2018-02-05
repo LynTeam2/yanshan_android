@@ -14,11 +14,12 @@ import java.util.List;
 
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.bean.AnjianBean;
+import cn.gov.bjys.onlinetrain.bean.HomeAnJianBean;
 
 /**
  * Created by Administrator on 2017/10/15 0015.
  */
-public class DooHomePullRefreshAdapter extends BaseQuickAdapter<AnjianBean, BaseViewHolder> {
+public class DooHomePullRefreshAdapter extends BaseQuickAdapter<HomeAnJianBean, BaseViewHolder> {
     public final static String TAG = DooHomePullRefreshAdapter.class.getSimpleName();
     @Override
     protected View getItemView(int layoutResId, ViewGroup parent) {
@@ -33,17 +34,16 @@ public class DooHomePullRefreshAdapter extends BaseQuickAdapter<AnjianBean, Base
         return v;
     }
 
-    public DooHomePullRefreshAdapter(int layoutResId, List<AnjianBean> data) {
+    public DooHomePullRefreshAdapter(int layoutResId, List<HomeAnJianBean> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, AnjianBean item) {
-        GlideProxy.loadImgForUrlPlaceHolderDontAnimate((ImageView) helper.getView(R.id.img),item.getImgSrc(),R.drawable.icon_165_165);
-
+    protected void convert(BaseViewHolder helper, HomeAnJianBean item) {
+//        GlideProxy.loadImgForUrlPlaceHolderDontAnimate((ImageView) helper.getView(R.id.img),item.getImgSrc(),R.drawable.icon_165_165);
 //        helper.setText(R.id.title,item.getTitle());
-//
 //        helper.setText(R.id.content, item.getContent());
-
+        helper.setText(R.id.title,item.getTitle());
+        helper.setText(R.id.content,item.getIntroduction());
     }
 }

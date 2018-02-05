@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
-import com.hp.hpl.sparta.Text;
 import com.ycl.framework.adapter.SimpleBaseAdapter;
 
 import java.util.List;

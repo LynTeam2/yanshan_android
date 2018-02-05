@@ -57,7 +57,10 @@ public class ArticlePracticeFragment  extends PracticeBaseFragment {
     public void OnTableClick(View v){
         switch (v.getId()) {
             case R.id.start_req:
-                    startAct(PracticeActivity.class);
+                    Bundle mBundle = new Bundle();
+                mBundle.putInt(PracticeActivity.TAG, PracticeActivity.KESHI);
+                startAct(PracticeActivity.class, mBundle);
+                getActivity().finish();
                 break;
         }
     }

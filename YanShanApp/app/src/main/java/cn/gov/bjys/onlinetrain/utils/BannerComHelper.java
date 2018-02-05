@@ -1,27 +1,30 @@
 package cn.gov.bjys.onlinetrain.utils;
 
 import android.content.Context;
-import android.os.Looper;
-import android.util.Log;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
+import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.j256.ormlite.stmt.query.In;
+import com.ycl.framework.utils.helper.ContextHelper;
 import com.ycl.framework.utils.helper.LocalImageHolderView;
 import com.ycl.framework.utils.util.FastJSONParser;
 import com.ycl.framework.utils.util.HRetrofitNetHelper;
+import com.ycl.framework.utils.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
+import cn.gov.bjys.onlinetrain.act.YSWebActivity;
 import cn.gov.bjys.onlinetrain.api.HomeApi;
 import cn.gov.bjys.onlinetrain.bean.HomeBannerBean;
-import cn.gov.bjys.onlinetrain.task.BannerTask;
+import cn.gov.bjys.onlinetrain.task.HomeBannerTask;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -60,21 +63,12 @@ public class BannerComHelper {
                 });
     }
 
-    /**
-     * 加载本地banner
-     * @param banner
-     * @param zipResName 加载的json资源文件
-     */
-    public static void initZipBanner(final ConvenientBanner banner, String zipResName){
-//        new BannerTask(banner, zipResName).execute();
+
+    public static void initZipBanner(final ConvenientBanner bannerPoster, String fileName){
+        new HomeBannerTask(bannerPoster,fileName).execute();
     }
 
     public static void initBanner(final ConvenientBanner bannerPoster, List<HomeBannerBean> bannerList) {
-//        bannerPoster.setVisibility(View.GONE);
-        Log.d("dodoT", "is Main thread = " + (Thread.currentThread() == Looper.getMainLooper().getThread()));
-      if(true){
-          return;
-      }
 
         if (bannerList == null) {
             bannerList = new ArrayList<>();
@@ -100,6 +94,19 @@ public class BannerComHelper {
         } else {
             bannerPoster.setManualPageable(false);//设置不能手动影响
         }
+
+        bannerPoster.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                HomeBannerBean bannerBean =  banners.get(position);
+                ToastUtil.showToast("点击了图片id ="+bannerBean.getId());
+                Bundle mBundle = new Bundle();
+                mBundle.putString("baseUrl", bannerBean.getLink());
+                mBundle.putString("title", "活动链接");
+                ContextHelper.getRequiredActivity(
+                        bannerPoster.getContext()).startAct(YSWebActivity.class);
+            }
+        });
     }
 
 

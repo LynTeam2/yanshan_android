@@ -75,7 +75,7 @@ public class MorePracticeActivity  extends FrameActivity{
         multi_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String questionType = (String) mAjAdapter.getDatas().get(position);
+                String questionType = (String) mMultiAdapter.getDatas().get(position);
                 Bundle mBundle = new Bundle();
                 mBundle.putInt(PracticeActivity.TAG,PracticeActivity.TIXING);
                 ArrayList<ExamBean> mDatas = null;
@@ -97,7 +97,7 @@ public class MorePracticeActivity  extends FrameActivity{
         di_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String difficulty = (String) mAjAdapter.getDatas().get(position);
+                String difficulty = (String) mPracticeAdapter.getDatas().get(position);
                 Bundle mBundle = new Bundle();
                 mBundle.putInt(PracticeActivity.TAG,PracticeActivity.TIXING);
                 ArrayList<ExamBean> mDatas = null;

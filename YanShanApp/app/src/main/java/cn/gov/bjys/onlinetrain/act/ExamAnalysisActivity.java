@@ -31,11 +31,13 @@ import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.view.RadarMarkerView;
 import cn.gov.bjys.onlinetrain.bean.ExamsBean;
+import cn.gov.bjys.onlinetrain.utils.ExamDistinguishHelper;
 import cn.gov.bjys.onlinetrain.utils.ExamHelper;
 
 /**
  * Created by dodozhou on 2017/10/30.
  */
+@Deprecated
 public class ExamAnalysisActivity extends FrameActivity implements View.OnClickListener{
 
     public static String TAG = ExamAnalysisActivity.class.getSimpleName();
@@ -132,9 +134,9 @@ public class ExamAnalysisActivity extends FrameActivity implements View.OnClickL
     List<ExamBean> truefalseNums = new ArrayList<>();
 
 
-    List<ExamBean> multipleErrorNums = new ArrayList<>();
-    List<ExamBean> simpleErrorNums = new ArrayList<>();
-    List<ExamBean> truefalseErrorNums = new ArrayList<>();
+    ArrayList<ExamBean> multipleErrorNums = new ArrayList<>();
+    ArrayList<ExamBean> simpleErrorNums = new ArrayList<>();
+    ArrayList<ExamBean> truefalseErrorNums = new ArrayList<>();
 
     private int scoreNum = 0;
 
@@ -157,21 +159,21 @@ public class ExamAnalysisActivity extends FrameActivity implements View.OnClickL
         List<ExamBean> mExamPagers = ExamHelper.getInstance().getmExamPagers();
         for (ExamBean examBean : mExamPagers) {
            String questionType = examBean.getQuestionType();
-           if("multiplechoice".equals(questionType)){
+           if("mc".equals(questionType)){
                 multipleNums.add(examBean);
                switch (examBean.getDoRight()) {
                    case ExamBean.ERROR:
                        multipleErrorNums.add(examBean);
                        break;
                }
-           }else if("simplechoice".equals(questionType)){
+           }else if("sc".equals(questionType)){
                 simpleNums.add(examBean);
                switch (examBean.getDoRight()) {
                    case ExamBean.ERROR:
                        simpleErrorNums.add(examBean);
                        break;
                }
-           }else if("truefalse".equals(questionType)){
+           }else if("tf".equals(questionType)){
                 truefalseNums.add(examBean);
                 switch (examBean.getDoRight()) {
                    case ExamBean.ERROR:
@@ -300,13 +302,13 @@ public class ExamAnalysisActivity extends FrameActivity implements View.OnClickL
         for (int i = 0; i < cnt; i++) {
             switch (i){
                 case 0:
-                    yVals1.add(new RadarEntry(simpleErrorNums.size(), i));
+                    yVals2.add(new RadarEntry(simpleErrorNums.size(), i));
                     break;
                 case 1:
-                    yVals1.add(new RadarEntry(truefalseErrorNums.size(), i));
+                    yVals2.add(new RadarEntry(truefalseErrorNums.size(), i));
                     break;
                 case 2:
-                    yVals1.add(new RadarEntry(multipleErrorNums.size(), i));
+                    yVals2.add(new RadarEntry(multipleErrorNums.size(), i));
                     break;
             }
         }
@@ -357,7 +359,7 @@ public class ExamAnalysisActivity extends FrameActivity implements View.OnClickL
                         (notDoNums.size() > 0 ? "未作"+notDoNums+"题":"") +
                 "，" +
                 //TODO 这里需要修改不是id   等具体数据过来即可
-                (scoreNum > mExamsBean.getId()?"成绩合格":"成绩不合格"));
+                (rightNums.size()> mExamsBean.getStandard()?"成绩合格":"成绩不合格"));
     }
 
 
@@ -415,11 +417,20 @@ public class ExamAnalysisActivity extends FrameActivity implements View.OnClickL
     public void onClick(View v) {
      String name = (String) v.getTag();
         if("判断题".equals(name)){
-
+            Bundle mBundle = new Bundle();
+            mBundle.putInt(PracticeActivity.TAG,PracticeActivity.TIXING);
+            mBundle.putParcelableArrayList("PracticeActivityDatas",truefalseErrorNums);
+            startAct(PracticeActivity.class,mBundle);
         }else if("单选题".equals(name)){
-
+            Bundle mBundle = new Bundle();
+            mBundle.putInt(PracticeActivity.TAG,PracticeActivity.TIXING);
+            mBundle.putParcelableArrayList("PracticeActivityDatas",simpleErrorNums);
+            startAct(PracticeActivity.class,mBundle);
         }else if("多选题".equals(name)){
-
+            Bundle mBundle = new Bundle();
+            mBundle.putInt(PracticeActivity.TAG,PracticeActivity.TIXING);
+            mBundle.putParcelableArrayList("PracticeActivityDatas",multipleErrorNums);
+            startAct(PracticeActivity.class,mBundle);
         }
     }
 }

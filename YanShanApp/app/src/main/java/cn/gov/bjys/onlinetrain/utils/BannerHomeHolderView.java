@@ -2,6 +2,7 @@ package cn.gov.bjys.onlinetrain.utils;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.bigkoo.convenientbanner.holder.Holder;
 import com.ycl.framework.utils.helper.ViewBindHelper;
@@ -27,11 +28,13 @@ public class BannerHomeHolderView implements Holder<HomeBannerBean>{
 
     @Override
     public void UpdateUI(Context context, int position, HomeBannerBean data) {
-//        GlideProxy.loadImgForUrlPlaceHolder(ViewBindHelper.getImageView(mRootView, R.id.banner), data.getUrl(),R.mipmap.wx_login_icon);
-        GlideProxy.loadImgForFilePlaceHolderDontAnimate(ViewBindHelper.getImageView(mRootView, R.id.banner), getNeedFile(data.getPath()),R.drawable.icon_1084_584);
+        File file = getNeedFile(data.getPath());
+        GlideProxy.loadImgForFilePlaceHolderDontAnimate((ImageView) mRootView.findViewById(R.id.banner_img),
+                file,
+                R.drawable.icon_1080_580);
     }
 
-    private File getNeedFile(String path){
-        return new File(AssetsHelper.getYSPicPath(path));
+    private File getNeedFile(String name){
+        return new File(AssetsHelper.getYSPicPath(name));
     }
 }

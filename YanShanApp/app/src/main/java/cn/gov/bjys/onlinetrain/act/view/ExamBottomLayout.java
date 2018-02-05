@@ -119,6 +119,7 @@ public class ExamBottomLayout extends DooRootLayout implements View.OnClickListe
     }
 
     private void refreshUI(List<ExamXqBean> mDatas){
+        setNowQuesitonContent(1,mDatas.size());
         mDooExamBottomAdapter.setNewData(mDatas);
     }
     public List<ExamXqBean> createExamxqDatas(int size){

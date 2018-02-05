@@ -1,6 +1,7 @@
 package cn.gov.bjys.onlinetrain.fragment.ExaminationFragments;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,6 @@ import cn.gov.bjys.onlinetrain.act.ExaminationActivity;
 import cn.gov.bjys.onlinetrain.act.PracticeActivity;
 import cn.gov.bjys.onlinetrain.act.view.AnswerLayout;
 import cn.gov.bjys.onlinetrain.act.view.DooQuestionAnalysisLayout;
-import cn.gov.bjys.onlinetrain.bean.SingleExamBean;
 
 /**
  * Created by Administrator on 2017/12/30 0030.
@@ -69,7 +69,8 @@ public class TextMultExaminationFragment extends FrameFragment implements Answer
         if(getActivity() instanceof PracticeActivity) {
             mBean = ((PracticeActivity)getActivity()).getDatas().get(mPosition);
         }
-        question_content.setText("                             "+ SingleExamBean.MultiChoose.question);
+//        question_content.setText("                             "+ SingleExamBean.MultiChoose.question);
+        question_content.setText("                             "+ mBean.getQuestion());
         if(mBean.isDeal()){
             //用户做答之后
             gotoResultLayout();
@@ -84,9 +85,12 @@ public class TextMultExaminationFragment extends FrameFragment implements Answer
     public void gotoResultLayout(){
         analysis_layout.setVisibility(View.VISIBLE);
         start_req1.setVisibility(View.GONE);
-        int[] i  = SingleExamBean.MultiChoose.isTrue;
-        analysis_layout.setmAnalysisAnswer("答案  " + getRealAnswerMulti(i));
-        analysis_layout.setmAnalysisContent(SingleExamBean.MultiChoose.fx);
+//        int[] i  = SingleExamBean.MultiChoose.isTrue;
+
+
+        analysis_layout.setmAnalysisAnswer("答案  " + getRealAnswerMulti(mBean.getAnswer()));
+        analysis_layout.setmAnalysisContent(mBean.getAnalysis());
+        analysis_layout.setmNandu(getDifficulty(mBean.getDifficulty()));
     }
 
     @OnClick({R.id.start_req1})
@@ -104,30 +108,43 @@ public class TextMultExaminationFragment extends FrameFragment implements Answer
         }
     }
 
-    public String getRealAnswerMulti(int[] i){
+    public String getRealAnswerMulti(String as){
         String ret = "";
-        for(int k=0;k<i.length;k++){
-            String s;
-            s = k != i.length-1?getRealAnswer(i[k]) + "、":getRealAnswer(i[k]);
-            ret = ret+s;
+        String[] strs = as.split(",");
+
+        for(int i=0; i<strs.length; i++){
+           if(TextUtils.isEmpty(strs[i])){
+               continue;
+           }
+            if("choiceA".equals(strs[i])){
+                ret += "A";
+            }else if("choiceB".equals(strs[i])){
+                ret += "B";
+            }else if("choiceC".equals(strs[i])){
+                ret += "C";
+            }else if("choiceD".equals(strs[i])){
+                ret += "D";
+            }
+            if(i != strs.length -1){
+                ret+="、";
+            }
         }
         return  ret;
     }
 
-    public String getRealAnswer(int input){
-        switch (input){
-            case 0:
-                return "A";
-            case 1:
-                return "B";
-            case 2:
-                return "C";
-            case 3:
-                return "D";
-            default:
-                return "";
+
+    private String getDifficulty(String di){
+       String ret ="";
+        if("1".equals(di)){
+            ret = "初级";
+        }else if("2".equals(di)){
+            ret = "中级";
+        }else if("3".equals(di)){
+            ret = "高级";
         }
+        return ret;
     }
+
 
     public void gotoDealLayout(){
 

@@ -3,7 +3,6 @@ package cn.gov.bjys.onlinetrain.utils;
 import com.ycl.framework.db.entity.ExamBean;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Administrator on 2018/1/31 0031.

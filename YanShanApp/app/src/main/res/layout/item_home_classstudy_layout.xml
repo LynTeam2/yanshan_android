@@ -14,7 +14,7 @@
 >
         <ImageView
             android:id="@+id/img"
-            android:layout_width="match_parent"
+            android:layout_width="465px"
             android:layout_height="215px"
             android:src="@drawable/icon_465_215"
             />

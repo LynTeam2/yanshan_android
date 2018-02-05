@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ import cn.gov.bjys.onlinetrain.act.pop.EndExamPop;
 import cn.gov.bjys.onlinetrain.act.view.ExamBottomLayout;
 import cn.gov.bjys.onlinetrain.adapter.DooExamBottomAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooExamStateFragmentAdapter;
+import cn.gov.bjys.onlinetrain.bean.CourseBean;
 import cn.gov.bjys.onlinetrain.bean.ExamXqBean;
 import cn.gov.bjys.onlinetrain.utils.PracticeHelper;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
@@ -75,14 +77,30 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         StatusBarUtil.setTranslucentForImageViewInFragment(this, null);
     }
 
+    private void initQuestionList(CourseBean bean){
+        if(mQuestionsList == null){
+            mQuestionsList = new ArrayList<>();
+        }
+        mQuestionsList.clear();
+        for(ExamBean temp1:bean.getMcList()){
+            mQuestionsList.add(temp1);
+        }
+        for(ExamBean temp2:bean.getScList()){
+            mQuestionsList.add(temp2);
+        }
+        for(ExamBean temp3:bean.getTfList()){
+            mQuestionsList.add(temp3);
+        }
+    }
+
     public void initPracticeData() {
         Intent recIntent = getIntent();
         Bundle recBundle = recIntent.getExtras();
         mType = recBundle.getInt(TAG);
         switch (mType) {
             case KESHI:
-                PracticeHelper.getInstance().getmCourseBean();
-                //TODO 根据CourseBean里面的题目去题库选择题目
+                CourseBean bean = PracticeHelper.getInstance().getmCourseBean();
+                initQuestionList(bean);
                 mHeader.setTitleText("课程练习");
                 break;
             case CUOTI:
@@ -96,7 +114,11 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
             default:
                 break;
         }
+        //初始化失败防止挂掉
 
+        if(mQuestionsList == null){
+            mQuestionsList = new ArrayList<>();
+        }
         initUserCollections();
 
         //初始化错误
@@ -114,14 +136,17 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
     EndPracticeDialog mEndPracticeDialog;
 
 
-    private List<Long> mUserCollecions = new ArrayList<>();
+    private List<String> mUserCollecions = new ArrayList<>();
 
     private void initUserCollections() {
         String userCollections = SavePreference.getStr(this, YSConst.UserInfo.USER_COLLECTION_IDS + YSUserInfoManager.getsInstance().getUserId());
         String[] ids = userCollections.split(",");
         mUserCollecions.clear();
-        for (String id : ids) {
-            mUserCollecions.add(Long.valueOf(id));
+        for (String uid : ids) {
+            if(TextUtils.isEmpty(uid)){
+                continue;
+            }
+            mUserCollecions.add(uid);
         }
     }
 
@@ -228,7 +253,7 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
 
         //初始化数据
         initPracticeData();
-        mQuestionsList = prepareDatas();
+//        mQuestionsList = prepareDatas();
 
         mHeader.hideLeftImg();
         createBottomDatas();//创造底下的选择按钮个数
@@ -319,7 +344,7 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
                     ((ImageView) mExamBottomLayout.getView(R.id.handofpagerstart)).setImageResource(R.drawable.collection_icon);
                 } else {//未收藏------->收藏
                     //TODO 收藏状态图片资源
-                    mUserCollecions.add(tempBean.getId());
+                    mUserCollecions.add(tempBean.getUid());
                     mExamBottomLayout.getView(R.id.hand_of_paper).setTag(!tag);
                     ((ImageView) mExamBottomLayout.getView(R.id.handofpagerstart)).setImageResource(R.drawable.collection_icon);
                 }
@@ -348,6 +373,9 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if(mEndPracticeDialog == null){
+                mEndPracticeDialog = new EndPracticeDialog(this);
+            }
             if (mEndPracticeDialog.isShowing())
                 return true;
         }
@@ -377,10 +405,10 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         switch (bean.getExamBeanType()) {
             case ExamBean.TEXT_JUDGMENT_EXAM:
 //                i = SingleExamBean.Judgment.isTrue;
-                if (answer.equals("true")) {
+                if (answer.equals("正确")) {
                     i = 0;
                 } else {
-                    i = 0;
+                    i = 1;
                 }
                 if (c != i) {
                     //错
@@ -538,14 +566,17 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         String strs = SavePreference.getStr(this, YSConst.UserInfo.USER_ERROR_IDS + YSUserInfoManager.getsInstance().getUserId());
         String[] listStr = strs.split(",");
 
-        List<Long> allErrorList = new ArrayList<>();
+        List<String> allErrorList = new ArrayList<>();
         for (String temp : listStr) {
-            allErrorList.add(Long.valueOf(temp));
+            if(TextUtils.isEmpty(temp)){
+                continue;
+            }
+            allErrorList.add(temp);
         }
         for (ExamBean bean : mErrorQuestionsList) {
-            long id = bean.getId();
-            allErrorList.remove(id);
-            allErrorList.add(0, id);
+            String uid = bean.getUid();
+            allErrorList.remove(uid);
+            allErrorList.add(0, uid);
         }
 
         for(int i=0; i<allErrorList.size(); i++){

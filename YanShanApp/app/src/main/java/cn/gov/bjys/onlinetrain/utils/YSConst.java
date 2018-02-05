@@ -28,5 +28,9 @@ public class YSConst {
 
     }
 
+    public static class BaseUrl{
+        public final static String BASE_URL = "http://39.104.118.75/";
+    }
+
 
 }

@@ -14,10 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.gov.bjys.onlinetrain.R;
-import cn.gov.bjys.onlinetrain.act.ClassActivity;
-import cn.gov.bjys.onlinetrain.act.ExamAnalysisActivity;
-import cn.gov.bjys.onlinetrain.act.ExamPrepareActivity;
-import cn.gov.bjys.onlinetrain.act.ExaminationActivity;
+import cn.gov.bjys.onlinetrain.act.HomeClassStudySecondActivity;
+import cn.gov.bjys.onlinetrain.act.HomeExamSecondActivity;
 import cn.gov.bjys.onlinetrain.adapter.DooHomeGridViewAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooHomeGridViewAdapter.HomeGridBean;
 
@@ -54,10 +52,10 @@ public class DooItemTitleLayout extends DooRootLayout {
                 Intent mIntent;
                 switch (position){
                     case 0:
-                        getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), ClassActivity.class));
+                        getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), HomeClassStudySecondActivity.class));
                         break;
                     case 1:
-                        getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), ExamPrepareActivity.class));
+                        getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), HomeExamSecondActivity.class));
                         break;
                     case 2:
                         ToastUtil.showToast("功能暂未开发");
