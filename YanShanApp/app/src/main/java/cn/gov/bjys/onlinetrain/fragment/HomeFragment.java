@@ -131,7 +131,16 @@ public class HomeFragment extends FrameFragment {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 CourseBean bean = mDooHomeClassStudyAdapter.getData().get(position);
-                startAct(PracticePrepareActivity.class);
+                try {
+                    int type = Integer.valueOf(bean.getCourseType());
+                    int id = bean.getId();
+                    Bundle mBundle = new Bundle();
+                    mBundle.putInt("type",type);
+                    mBundle.putInt("id", id);
+                    startAct(PracticePrepareActivity.class, mBundle);
+                }catch (Exception e){
+
+                }
             }
         });
     }

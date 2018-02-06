@@ -8,6 +8,7 @@
         android:layout_height="10px"
         android:background="@color/normal_gray_light2"></View>
     <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_marginTop="50px"
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
