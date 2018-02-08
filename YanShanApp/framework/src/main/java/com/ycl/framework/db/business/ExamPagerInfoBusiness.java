@@ -98,6 +98,34 @@ public class ExamPagerInfoBusiness extends  BaseDbBusiness<SaveExamPagerBean> {
             return new ArrayList<>();
     }
 
+    public List<SaveExamPagerBean> queryAllBykey(String userid) {
+        return queryAllBykey("userid", userid);
+    }
+
+    public List<SaveExamPagerBean> queryAllBykey(String key, Object values) {
+        QueryBuilder<SaveExamPagerBean, Integer> qb = dao.queryBuilder();
+        List<SaveExamPagerBean> list;
+        try {
+            qb.where().eq(key, values);
+            //时间降序排列所有考卷
+            qb.orderBy("create_time",false);
+            list = qb.query();//dao.query(qb.prepare());
+            if (list.size() > 0) {
+                return list;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            dao.clearObjectCache();
+            try {
+                dao.closeLastIterator();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+            return new ArrayList<>();
+    }
+
     //删除   根据userid pagerid
     public void deleteItemWithId(String ids,long pagerid) {
         DeleteBuilder<ExamPagerInfoBusiness, Integer> deleteBuilder = dao.deleteBuilder();

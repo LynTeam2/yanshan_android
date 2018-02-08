@@ -48,7 +48,7 @@
         <SeekBar
             android:id="@+id/bottom_seek_progress"
             android:layout_width="0px"
-            android:layout_weight="390"
+            android:layout_weight="320"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="@null"
@@ -86,7 +86,7 @@
         <SeekBar
             android:id="@+id/voice_seek_progress"
             android:layout_width="0px"
-            android:layout_weight="100"
+            android:layout_weight="170"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="@null"
@@ -99,7 +99,7 @@
             android:id="@+id/clarity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="clarity"
+            android:text="高清"
             android:layout_gravity="center_vertical"
             android:textColor="@color/white"
             android:textSize="36px"

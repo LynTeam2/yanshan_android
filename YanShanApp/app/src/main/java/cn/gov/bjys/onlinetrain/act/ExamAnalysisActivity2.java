@@ -138,7 +138,6 @@ public class ExamAnalysisActivity2 extends FrameActivity implements View.OnClick
         Bundle recBundle = recIntent.getExtras();
         mNowPager = recBundle.getParcelable(TAG);
         initAllNeedDatas();
-
     }
 
     private List<ExamBean> mTrueFalseErrorList = new ArrayList<>();

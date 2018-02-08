@@ -125,7 +125,12 @@ public class HomeFragment extends FrameFragment {
 
     private void initClassStudyRv() {
         mDooHomeClassStudyAdapter = new DooHomeClassStudyAdapter(R.layout.item_home_classstudy_layout, null);
-        mClassStudyRv.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        mClassStudyRv.setLayoutManager(new GridLayoutManager(getContext(), 2){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
         mClassStudyRv.setAdapter(mDooHomeClassStudyAdapter);
         mDooHomeClassStudyAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -155,8 +160,14 @@ public class HomeFragment extends FrameFragment {
 //        mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
         mDooHomePullRefreshAdapter = new DooHomePullRefreshAdapter(R.layout.item_home_anjian_layout, mHomeAnjianList);
 //        mDooHomePullRefreshAdapter.setOnLoadMoreListener(this,mAnJianRv);
-        mAnJianRv.setLayoutManager(new LinearLayoutManager(getContext()));
+        mAnJianRv.setLayoutManager(new LinearLayoutManager(getContext()){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
         mAnJianRv.setAdapter(mDooHomePullRefreshAdapter);
+        mAnJianRv.setNestedScrollingEnabled(false);
         mDooHomePullRefreshAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -233,12 +244,12 @@ public class HomeFragment extends FrameFragment {
                               if(datas.size() > 0) {
                                   mHomeAnjianList.addAll(datas);
                                   mDooHomePullRefreshAdapter.setNewData(mHomeAnjianList);
-                                  if(isLoadMore){
+/*                                  if(isLoadMore){
                                       int i = anjian_layout.getHeight() + 5 * AutoUtils.getPercentHeightSize(300);
                                       LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, i);
                                       anjian_layout.setLayoutParams(llp);
                                       Log.d("dodo", "h = " + anjian_loadmore.getHeight());
-                                  }
+                                  }*/
                               }
                           }
                     }

@@ -21,8 +21,7 @@ public class SaveExamPagerBean  extends DBEntity implements Parcelable{
     @DatabaseField(columnName = "exampagerid")
     private long exampagerid;
 
-
-    @DatabaseField
+    @DatabaseField(columnName = "create_time")
     private long createTime;//考试时间
 
     @DatabaseField

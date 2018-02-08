@@ -20,8 +20,6 @@ import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.adapter.DooExamHistoryAdapter;
 import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 
-import static com.zls.www.mulit_file_download_lib.multi_file_download.db.business.DataInfoBusiness.getInstance;
-
 /**
  * Created by dodo on 2018/1/31.
  */
@@ -58,7 +56,7 @@ public class ExamHistoryActivity extends FrameActivity {
         Intent recIntent = getIntent();
         Bundle recBundle = recIntent.getExtras();
         mExamId = recBundle.getLong(TAG);
-        mHistoryDatas = ExamPagerInfoBusiness.getInstance(this).queryBykey(YSUserInfoManager.getsInstance().getUserId(),mExamId);
+        mHistoryDatas = ExamPagerInfoBusiness.getInstance(this).queryAllBykey(YSUserInfoManager.getsInstance().getUserId());
         int jigeCount = 0;
         long higest = 0;
         for(SaveExamPagerBean bean : mHistoryDatas){

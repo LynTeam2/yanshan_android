@@ -62,8 +62,8 @@ public class ClientVideoPlayer extends JZVideoPlayerStandard {
 
     public void setUp(String url, int screen, Object... objects) {
         LinkedHashMap map = new LinkedHashMap();
-        map.put(URL_KEY_DEFAULT, url);
-        map.put(URL_KEY_DEFAULT+"1", url);
+        map.put("高清", url);
+        map.put("超高清", url);
         setUp(map, 0, screen, objects);
     }
 
