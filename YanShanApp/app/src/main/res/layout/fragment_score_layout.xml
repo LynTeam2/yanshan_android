@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/normal_blue_light1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <View
+        android:id="@+id/status_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60px">
+    </View>
+
+    <com.ycl.framework.view.TitleHeaderView
+        android:layout_below="@+id/status_bar_layout"
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title_name = "成绩统计"
+        >
+    </com.ycl.framework.view.TitleHeaderView>
+    <TextView
+        android:id="@+id/history_btn"
+        android:layout_below="@+id/status_bar_layout"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="80px"
+        android:layout_width="wrap_content"
+        android:layout_height="160px"
+        android:gravity="center"
+        android:textColor="@color/windowBackgroundWhite"
+        android:text="历史成绩"/>
+    <RelativeLayout
+        android:background="@color/windowBackgroundWhite"
+        android:layout_below="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/score_layout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.github.mikephil.charting.charts.RadarChart
+            android:id="@+id/radar_chart"
+            android:layout_width="match_parent"
+            android:layout_height="700px"
+            />
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/bg_change"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="底色翻转"/>
+            <Button
+                android:id="@+id/value_gone"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="数值隐藏"/>
+
+            <Button
+                android:id="@+id/switch_animate"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="开关动画"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="20px"
+            android:layout_marginBottom="20px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/exam_analysis"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_marginLeft="50px"
+                    android:id="@+id/score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="100分"
+                    android:textSize="52px"/>
+
+                <TextView
+                    android:id="@+id/ret"
+                    android:layout_marginLeft="65px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="答错0题，成绩合格"
+                    android:textSize="42px"/>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/question_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35px"
+            android:orientation="vertical">
+
+
+        </LinearLayout>
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/no_score_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="48px"
+            android:text="暂无成绩"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+    </RelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>
