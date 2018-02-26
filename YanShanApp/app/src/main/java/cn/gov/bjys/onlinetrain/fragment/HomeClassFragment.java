@@ -128,11 +128,22 @@ public class HomeClassFragment extends FrameFragment implements View.OnClickList
 
             case R.id.history_btn:
                 Bundle mBundle = new Bundle();
+                if(checkNowPagerErr("暂无历史纪录")) {
+                    return;
+                }
                 mBundle.putLong(ExamHistoryActivity.TAG, mNowPager.getExampagerid());
                 startAct(ExamHistoryActivity.class,mBundle);
                 break;
         }
     }
+
+     private boolean checkNowPagerErr(String hintStr){
+         if(mNowPager == null){
+             ToastUtil.showToast(hintStr);
+             return true;
+         }
+         return  false;
+     }
 
 
     @Override
