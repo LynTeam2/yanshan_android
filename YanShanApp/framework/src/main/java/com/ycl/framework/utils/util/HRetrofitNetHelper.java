@@ -1,6 +1,7 @@
 package com.ycl.framework.utils.util;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.webkit.WebSettings;
 
@@ -9,8 +10,13 @@ import com.ycl.framework.base.RetrofitCallBack;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookieStore;
+import java.net.HttpCookie;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -91,10 +97,12 @@ public class HRetrofitNetHelper implements HttpLoggingInterceptor.Logger, Interc
                 .writeTimeout(21, TimeUnit.SECONDS)
                 .readTimeout(21, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
-                .addInterceptor(mHttpLogInterceptor)
+                .addInterceptor(mHttpLogInterceptor)//2
 //                .addInterceptor(mBaseParamsInterceptor)
-                .addInterceptor(mUrlInterceptor)
-                .addInterceptor(new UserAgentInterceptor()) //添加 userAgent拦截器
+                .addInterceptor(mUrlInterceptor)  //1
+                .addInterceptor(new UserAgentInterceptor()) //添加 userAgent拦截器 3
+                .addInterceptor(new ReadCookiesInterceptor())
+                .addInterceptor(new SaveCookiesInterceptor())
                 .cache(cache)
                 .build();
 
@@ -395,5 +403,48 @@ public class HRetrofitNetHelper implements HttpLoggingInterceptor.Logger, Interc
             return chain.proceed(requestWithUserAgent);
         }
     }
+
+
+    public static String PREF_COOKIES = "Pref_Cookies";
+
+    public static class ReadCookiesInterceptor implements Interceptor {
+        @Override
+        public okhttp3.Response intercept(Chain chain) throws IOException {
+            Request.Builder builder = chain.request().newBuilder();
+            SharedPreferences sp = FrameApplication.getFrameContext().getSharedPreferences(PREF_COOKIES, Context.MODE_PRIVATE);
+            HashSet<String> cookies = (HashSet<String>) sp.getStringSet(PREF_COOKIES,new HashSet<String>());
+            for (String cookie : cookies) {
+                builder.addHeader("Cookie", cookie);
+            }
+            return chain.proceed(builder.build());
+        }
+    }
+
+
+    public static class SaveCookiesInterceptor implements Interceptor {
+        @Override
+        public okhttp3.Response intercept(Chain chain) throws IOException {
+            okhttp3.Response originalResponse = chain.proceed(chain.request());
+
+            HashSet<String> cookiesHint = new HashSet<>();
+            if (!originalResponse.headers("Set-Cookie").isEmpty()) {
+                for (String header : originalResponse.headers("Set-Cookie")) {
+                    cookiesHint.add(header);
+                }
+            }
+
+           String reqUrl = chain.request().url().toString();
+            if(reqUrl.contains("login")) {
+                //登陆保存session
+                SharedPreferences sp = FrameApplication.getFrameContext().getSharedPreferences(PREF_COOKIES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putStringSet(PREF_COOKIES, cookiesHint);
+                editor.apply();
+            }
+
+            return originalResponse;
+        }
+    }
+
 
 }

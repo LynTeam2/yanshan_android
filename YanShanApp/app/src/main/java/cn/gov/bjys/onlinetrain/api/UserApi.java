@@ -1,10 +1,13 @@
 package cn.gov.bjys.onlinetrain.api;
 
 
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.POST;
 import retrofit2.http.Streaming;
+import rx.Observable;
 
 /**
  * Created by dodozhou on 2017/8/22.
@@ -14,4 +17,6 @@ public interface UserApi {
     @POST("Video/2017/02/18/mp4/170218171317773949.mp4")
     Call<ResponseBody> getFileDownLoad();
 
+    @POST("login")
+    Observable<BaseResponse<String>> userLogin(@Body RequestBody body);
 }

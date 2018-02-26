@@ -96,7 +96,6 @@ public class HomeFragment extends FrameFragment {
 
 
         initClassStudyRv();
-
         initAnjianRv();
 
     }
@@ -177,7 +176,7 @@ public class HomeFragment extends FrameFragment {
                 startAct(AnJianDetailActivity.class,mBundle);
             }
         });
-        loadingAnjianDongtai();
+//        loadingAnjianDongtai();
     }
 
 
@@ -197,6 +196,7 @@ public class HomeFragment extends FrameFragment {
         if(visible){
             loadingBanner();
             loadingNewsClass();
+            loadingAnjianDongtai();
         }
     }
 
@@ -212,6 +212,7 @@ public class HomeFragment extends FrameFragment {
 
     //加载安监动态
     private void loadingAnjianDongtai(){
+        mPages = 0;
         remoteAnjian(mPages,SIZE);
     }
 
@@ -242,8 +243,15 @@ public class HomeFragment extends FrameFragment {
                               HomeAnJianList.Parent parent =   FastJSONParser.getBean(res, HomeAnJianList.Parent.class);
                               List<HomeAnJianBean>   datas =  parent.getNewsList().getContent();
                               if(datas.size() > 0) {
-                                  mHomeAnjianList.addAll(datas);
-                                  mDooHomePullRefreshAdapter.setNewData(mHomeAnjianList);
+                                  if(isLoadMore){
+                                      mHomeAnjianList.addAll(datas);
+                                      mDooHomePullRefreshAdapter.setNewData(mHomeAnjianList);
+                                  }else{
+                                      mHomeAnjianList.clear();
+                                      mHomeAnjianList.addAll(datas);
+                                      mDooHomePullRefreshAdapter.setNewData(mHomeAnjianList);
+                                  }
+
 /*                                  if(isLoadMore){
                                       int i = anjian_layout.getHeight() + 5 * AutoUtils.getPercentHeightSize(300);
                                       LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, i);

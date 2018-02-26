@@ -11,4 +11,14 @@ public class MapParamsHelper {
         Map<String, Object> params = new HashMap<String, Object>();
         return params;
     }
+
+
+    //登录 Map
+    public static Map<String, Object> getLogin(String loginId, String psd) {
+        Map<String, Object> params = getBaseParamsMap();
+        params.put("username", loginId);
+        params.put("password", psd);
+        return params;
+    }
+
 }

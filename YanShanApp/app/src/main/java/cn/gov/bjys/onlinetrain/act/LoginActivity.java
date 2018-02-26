@@ -5,6 +5,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -17,6 +18,7 @@ import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tencent.tauth.Tencent;
 import com.ycl.framework.base.FrameActivity;
+import com.ycl.framework.utils.util.HRetrofitNetHelper;
 import com.ycl.framework.utils.util.ToastUtil;
 import com.ycl.framework.view.TitleHeaderView;
 import com.zls.www.statusbarutil.StatusBarUtil;
@@ -25,7 +27,15 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
+import cn.gov.bjys.onlinetrain.api.BaseResponse;
+import cn.gov.bjys.onlinetrain.api.UserApi;
+import cn.gov.bjys.onlinetrain.utils.MapParamsHelper;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
+import rx.Observable;
+import rx.Scheduler;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by dodozhou on 2017/8/7.
@@ -124,8 +134,7 @@ public class LoginActivity extends FrameActivity implements View.OnClickListener
         Bundle bundle;
         switch (id) {
             case R.id.act_login_btn:
-                startAct(MainActivity.class);
-                finish();
+                getLoginInfo();
 //                checkLogin();
                 break;
             case R.id.register_btn:
@@ -136,6 +145,42 @@ public class LoginActivity extends FrameActivity implements View.OnClickListener
                 break;
         }
     }
+
+    //获取登录信息
+    private void getLoginInfo(){
+        mUserName = login_et_userid.getText().toString().trim();
+        mPassword = login_et_password.getText().toString().trim();
+        Observable<BaseResponse<String>> obsLogin;
+        obsLogin = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext()).
+                getSpeUrlService(YSConst.BaseUrl.BASE_URL, UserApi.class).userLogin(HRetrofitNetHelper.createReqJsonBody(MapParamsHelper.getLogin(mUserName, mPassword)));
+        obsLogin.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseResponse<String>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d("dodo","onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("dodo","e.message = " + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<String> stringBaseResponse) {
+                        Log.d("dodo","resp = " + stringBaseResponse);
+                        if("1".equals(stringBaseResponse.getCode())){
+                            toMainAct();
+                        }
+                    }
+                });
+    }
+
+    private void toMainAct(){
+        startAct(MainActivity.class);
+        finish();
+    }
+
     public void checkLogin() {
         mUserName = login_et_userid.getText().toString().trim();
         mPassword = login_et_password.getText().toString().trim();
