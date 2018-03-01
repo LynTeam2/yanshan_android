@@ -1,6 +1,7 @@
 package cn.gov.bjys.onlinetrain.fragment.ExaminationFragments;
 
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.ycl.framework.base.FrameFragment;
 import com.ycl.framework.db.entity.ExamBean;
 import com.ycl.framework.utils.util.ToastUtil;
+import com.ycl.framework.utils.util.advanced.SpannableStringUtils;
 
 import java.util.List;
 
@@ -70,7 +72,14 @@ public class TextMultExaminationFragment extends FrameFragment implements Answer
             mBean = ((PracticeActivity)getActivity()).getDatas().get(mPosition);
         }
 //        question_content.setText("                             "+ SingleExamBean.MultiChoose.question);
-        question_content.setText("                             "+ mBean.getQuestion());
+//        question_content.setText("                             "+ mBean.getQuestion());
+        SpannableStringUtils.Builder builder = new SpannableStringUtils.Builder()
+                .append("  多选题  ")
+                .setBackgroundColor(getResources().getColor(R.color.normal_blue))
+                .append("  ")
+                .append(mBean.getQuestion());
+        SpannableStringBuilder ssb = builder.create();
+        question_content.setText(ssb);
         if(mBean.isDeal()){
             //用户做答之后
             gotoResultLayout();

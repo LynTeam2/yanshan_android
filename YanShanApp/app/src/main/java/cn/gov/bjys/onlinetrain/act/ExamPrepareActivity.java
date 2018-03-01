@@ -58,6 +58,7 @@ public class ExamPrepareActivity extends FrameActivity {
     protected void initStatusBar() {
         StatusBarUtil.setTranslucent(this, StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA);
     }
+
     @Bind(R.id.header)
     TitleHeaderView mHeader;
 
@@ -93,9 +94,9 @@ public class ExamPrepareActivity extends FrameActivity {
         //TODO 设置值
         mHeader.setTitleText(bean.getExamName());
         exam_type_name.setText(bean.getExamType());
-        exam_time.setText(bean.getExamDuration()+"分钟");
-        exam_value.setText("答对"+bean.getStandard()+"题，方可合格");
-        exam_hint.setText("温馨提示：本次考试属于模拟真实考试环境总分100分，考核需要"+"答对"+bean.getStandard()+"题，方可合格"+"，中途考试交卷不可继续考试");
+        exam_time.setText(bean.getExamDuration() + "分钟");
+        exam_value.setText("答对" + bean.getStandard() + "题，方可合格");
+        exam_hint.setText("温馨提示：本次考试属于模拟真实考试环境总分100分，考核需要" + "答对" + bean.getStandard() + "题，方可合格" + "，中途考试交卷不可继续考试");
         preparedExamDatas(bean);
     }
 
@@ -110,19 +111,19 @@ public class ExamPrepareActivity extends FrameActivity {
 
                     @Override
                     public void onCompleted() {
-                        Log.d("dodoT","onCompleted");
+                        Log.d("dodoT", "onCompleted");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("dodoT","onError");
+                        Log.d("dodoT", "onError");
                     }
 
                     @Override
                     public void onNext(ExamsBean examsBean) {
                         {
                             String roleStr = examsBean.getRole();
-                            ExamsRole role = FastJSONParser.getBean(roleStr,ExamsRole.class);
+                            ExamsRole role = FastJSONParser.getBean(roleStr, ExamsRole.class);
                             //生成题目的`规则
                             HashMap<String, Integer> anjianTypeMap = role.getAjType();
                             HashMap<String, Integer> questionTypeMap = role.getQuestionType();
@@ -131,38 +132,38 @@ public class ExamPrepareActivity extends FrameActivity {
                             List<ExamBean> allExams = QuestionInfoBusiness.getInstance(BaseApplication.getAppContext()).queryAll();
                             List<ExamBean> randomExams = random(allExams);
 
-                            for(ExamBean tempBean:randomExams){
+                            for (ExamBean tempBean : randomExams) {
                                 String ajType = tempBean.getAjType();
                                 String difficulty = tempBean.getDifficulty();
                                 String questionType = tempBean.getQuestionType();
-                                if (ajType.isEmpty() || difficulty.isEmpty() || questionType.isEmpty()){
+                                if (ajType.isEmpty() || difficulty.isEmpty() || questionType.isEmpty()) {
                                     break;
                                 }
                                 if (null != anjianTypeMap.get(ajType)
                                         && null != difficultyTypeMap.get(difficulty)
                                         && null != questionTypeMap.get(questionType)) {
-                                    if(mExamPagers == null){
+                                    if (mExamPagers == null) {
                                         mExamPagers = new ArrayList<>();
                                     }
                                     mExamPagers.add(tempBean);
 
                                     //安监类型
-                                    if(anjianTypeMap.get(ajType) == 1){
+                                    if (anjianTypeMap.get(ajType) == 1) {
                                         anjianTypeMap.remove(ajType);
-                                    }else{
+                                    } else {
                                         anjianTypeMap.put(ajType, anjianTypeMap.get(ajType) - 1);
                                     }
 
                                     //题目类型
-                                    if(questionTypeMap.get(questionType) == 1){
+                                    if (questionTypeMap.get(questionType) == 1) {
                                         questionTypeMap.remove(questionType);
-                                    }else{
+                                    } else {
                                         questionTypeMap.put(questionType, questionTypeMap.get(questionType) - 1);
                                     }
                                     //难度类型
-                                    if(difficultyTypeMap.get(difficulty) == 1){
+                                    if (difficultyTypeMap.get(difficulty) == 1) {
                                         difficultyTypeMap.remove(difficulty);
-                                    }else{
+                                    } else {
                                         difficultyTypeMap.put(difficulty, difficultyTypeMap.get(difficulty) - 1);
                                     }
                                 }

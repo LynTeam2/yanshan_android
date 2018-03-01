@@ -1,6 +1,7 @@
 package cn.gov.bjys.onlinetrain.fragment.ExaminationFragments;
 
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import com.ycl.framework.base.FrameFragment;
 import com.ycl.framework.db.entity.ExamBean;
+import com.ycl.framework.utils.util.advanced.SpannableStringUtils;
 
 import java.util.List;
 
@@ -65,7 +67,15 @@ public class JudegmentExaminationFragment extends FrameFragment implements Answe
         }
 
 //        question_content.setText("                             "+ SingleExamBean.Judgment.question);
-        question_content.setText("                             " + mBean.getQuestion());
+//        question_content.setText("                             " + mBean.getQuestion());
+
+        SpannableStringUtils.Builder builder = new SpannableStringUtils.Builder()
+                .append("  判断题  ")
+                .setBackgroundColor(getResources().getColor(R.color.normal_blue))
+                .append("  ")
+                .append(mBean.getQuestion());
+        SpannableStringBuilder ssb = builder.create();
+        question_content.setText(ssb);
         if (mBean.isDeal()) {
             //用户做答之后
             gotoResultLayout();

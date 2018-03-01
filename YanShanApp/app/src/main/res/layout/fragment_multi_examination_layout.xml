@@ -20,6 +20,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/type_name"
                     android:paddingTop="10px"
                     android:paddingBottom="10px"
@@ -42,7 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="42px"
-                    android:text="\t\t\t\t\t\t\t\t\tAndroid的TextView控件会在文字上下加上默认的padding值，该值随着文字大小成正比变化，只要为TextView设置android:includeFontPadding=”false”;就可以减少大部分上下空白，而且如果文字sp值小，也就看不出空白了。"/>
+                    android:text="Android的TextView控件会在文字上下加上默认的padding值，该值随着文字大小成正比变化，只要为TextView设置android:includeFontPadding=”false”;就可以减少大部分上下空白，而且如果文字sp值小，也就看不出空白了。"/>
             </RelativeLayout>
 
             <cn.gov.bjys.onlinetrain.act.view.AnswerLayout
