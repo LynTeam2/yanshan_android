@@ -148,7 +148,10 @@ public class LoginActivity extends FrameActivity implements View.OnClickListener
 
     //获取登录信息
     private void getLoginInfo(){
-        mUserName = login_et_userid.getText().toString().trim();
+
+        toMainAct();
+
+/*        mUserName = login_et_userid.getText().toString().trim();
         mPassword = login_et_password.getText().toString().trim();
         Observable<BaseResponse<String>> obsLogin;
         obsLogin = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext()).
@@ -173,7 +176,7 @@ public class LoginActivity extends FrameActivity implements View.OnClickListener
                             toMainAct();
                         }
                     }
-                });
+                });*/
     }
 
     private void toMainAct(){

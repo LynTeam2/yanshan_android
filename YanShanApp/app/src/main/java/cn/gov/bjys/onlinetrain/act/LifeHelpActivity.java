@@ -9,12 +9,14 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
 
 import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.utils.util.FastJSONParser;
 import com.ycl.framework.utils.util.HRetrofitNetHelper;
+import com.ycl.framework.view.TitleHeaderView;
 
 import java.util.List;
 
@@ -36,9 +38,23 @@ public class LifeHelpActivity extends FrameActivity {
 
     public static final String WEATHER_BASE_URL = "http://www.sojson.com/";
 
-    @Bind(R.id.city_name)
-    TextView mCityNameTv;
+    @Bind(R.id.header)
+    TitleHeaderView mHeader;
 
+    @Bind(R.id.date)
+    TextView date;
+
+    @Bind(R.id.xingqi)
+    TextView xingqi;
+
+    @Bind(R.id.nongli)
+    TextView nongli;
+
+    @Bind(R.id.wendu)
+    TextView wendu;
+
+    @Bind(R.id.rv)
+    RecyclerView mRv;
 
 
     @Override
@@ -71,7 +87,7 @@ public class LifeHelpActivity extends FrameActivity {
                mCityName += address.getLocality();
             }
         }
-        mCityNameTv.setText(mCityName);
+        mHeader.setTitleText(mCityName);
         reqWeatherInfos(mCityName);
     }
 

@@ -28,12 +28,12 @@ import cn.gov.bjys.onlinetrain.utils.DifferSystemUtil;
 /**
  * 查询所在城市
  */
-public class SearchCityHelper extends AsyncTask<Void,Void,List<Address>>{
+public class SearchCityHelper extends AsyncTask<Void, Void, List<Address>> {
     private Context mContext;
     private Location mLocation;
 
 
-    public SearchCityHelper(Context c){
+    public SearchCityHelper(Context c) {
         mContext = c;
     }
 
@@ -96,37 +96,38 @@ public class SearchCityHelper extends AsyncTask<Void,Void,List<Address>>{
         int coarseOps = checkOpsPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION);
 
         //权限获取成功
-        if(PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
-                && PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION)){
-           if(DifferSystemUtil.getSystem().equals(DifferSystemUtil.SYS_MIUI)){
+        if (PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
+                && PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            if (DifferSystemUtil.getSystem().equals(DifferSystemUtil.SYS_MIUI)) {
                 //如果是小米在判断是否获取成功
-                if(fineOps == AppOpsManager.MODE_ALLOWED && coarseOps == AppOpsManager.MODE_ALLOWED){
+                if (fineOps == AppOpsManager.MODE_ALLOWED && coarseOps == AppOpsManager.MODE_ALLOWED) {
                     //权限成功
-                    return  calLocation(gpsLocation, netLocation);
-                }else if(fineOps == AppOpsManager.MODE_IGNORED && coarseOps == AppOpsManager.MODE_IGNORED){
+                    return calLocation(gpsLocation, netLocation);
+                } else if (fineOps == AppOpsManager.MODE_IGNORED && coarseOps == AppOpsManager.MODE_IGNORED) {
                     //权限拒绝
                     ActivityCompat.requestPermissions((LifeHelpActivity) mContext, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
                     ToastUtil.showToast("权限不足");
                     return null;
-                }else{
+                } else {
                     //询问状态
-                    return  calLocation(gpsLocation, netLocation);
+                    return calLocation(gpsLocation, netLocation);
                 }
-            }else{
-                return  calLocation(gpsLocation, netLocation);
+            } else {
+                return calLocation(gpsLocation, netLocation);
             }
-        }else{
+        } else {
             ActivityCompat.requestPermissions((LifeHelpActivity) mContext, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            ToastUtil.showToast("权限不足");
             return null;
         }
     }
 
-    private Location calLocation(Location gpsLocation,Location netLocation){
-            ToastUtil.showToast("权限足够");
-            if (netWorkIsOpen()) {
-                //3000代表每3000毫秒更新一次，500米范围外更新
-                myLocationManager.requestLocationUpdates("network", 3000, 500, locationListener);
+    private Location calLocation(Location gpsLocation, Location netLocation) {
+        if (netWorkIsOpen()) {
+            //3000代表每3000毫秒更新一次，500米范围外更新
+            if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return null;
+            }
+            myLocationManager.requestLocationUpdates("network", 3000, 500, locationListener);
                 netLocation = myLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             }
 
