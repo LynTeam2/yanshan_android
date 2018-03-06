@@ -158,6 +158,8 @@ public class UserAvatarChooseActivity extends FrameActivity implements TakePhoto
                 }
             });
         }
+
+        pushAvatar();
     }
     @Override
     public void takeFail(TResult result,String msg) {
@@ -166,6 +168,11 @@ public class UserAvatarChooseActivity extends FrameActivity implements TakePhoto
     @Override
     public void takeCancel() {
         Log.i(TAG, getResources().getString(com.jph.takephoto.R.string.msg_operation_canceled));
+    }
+
+    //上传头像
+    private void pushAvatar(){
+
     }
 
     @Override

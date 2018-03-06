@@ -19,80 +19,81 @@
 
     <RelativeLayout
         android:id="@+id/login_layout"
-        android:layout_below="@id/header"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/windowBackgroundWhite"
-        >
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/windowBackgroundWhite">
 
         <cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode
             android:id="@+id/user_avatar"
-            android:layout_centerHorizontal="true"
             android:layout_width="240px"
             android:layout_height="240px"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="65px"
             android:src="@drawable/user_normal_avatar"
-            app:type="circle" >
-        </cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode>
+            app:type="circle"></cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode>
 
         <TextView
             android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="用户名"
-            android:textSize="48px"
-            android:textColor="@color/normal_black"
-            android:layout_centerHorizontal="true"
             android:layout_below="@id/user_avatar"
-            android:layout_marginTop="40px"/>
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40px"
+            android:text="用户名"
+            android:textColor="@color/normal_black"
+            android:textSize="48px" />
+
         <LinearLayout
             android:id="@+id/user_wealth_layout"
-            android:layout_marginTop="20px"
-            android:layout_below="@id/user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/user_name"
+            android:layout_marginTop="20px"
             android:gravity="center"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="财富值:"
-                android:textSize="36px"
                 android:textColor="@color/normal_black"
-                />
+                android:textSize="36px" />
+
             <TextView
                 android:id="@+id/user_wealth"
-                android:layout_marginLeft="20px"
-                android:layout_marginRight="10px"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20px"
+                android:layout_marginRight="10px"
                 android:text="100"
-                android:textSize="36px"
                 android:textColor="@color/normal_red_light1"
-                />
+                android:textSize="36px" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="安全豆"
-                android:textSize="36px"
                 android:textColor="@color/normal_black"
-                />
+                android:textSize="36px" />
         </LinearLayout>
+
         <include
             android:id="@+id/divider_line"
+            layout="@layout/layout_divider_line1px"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/user_wealth_layout"
-            android:layout_marginTop="50px"
-            layout="@layout/layout_divider_line1px"
-            ></include>
+            android:layout_marginTop="50px"></include>
+
         <LinearLayout
             android:id="@+id/user_functions_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_below="@id/divider_line"
-            >
+            android:orientation="vertical">
 
         </LinearLayout>
 
