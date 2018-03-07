@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="36px"
-            android:text="9月03日"/>
+            android:text=" "/>
         <TextView
             android:layout_marginLeft="30px"
             android:id="@+id/xingqi"
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="36px"
-            android:text="周日"/>
+            android:text=" "/>
         <TextView
             android:layout_marginLeft="30px"
             android:id="@+id/nongli"
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="36px"
-            android:text="农历七月十三"/>
+            android:text=" "/>
     </LinearLayout>
     <TextView
         android:layout_marginTop="200px"
@@ -51,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="60sp"
-        android:text="26°"
+        android:text=" "
         android:fontFamily="sans-serif-thin"
         android:textColor="@color/white"
         ></TextView>
