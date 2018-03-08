@@ -26,16 +26,20 @@ public class TitleHeaderView extends AutoFrameLayout {
     private TextView tvTitle;
     private ImageView ivBack;
 
+    private View divider_line;
+
     public TitleHeaderView(Context context, AttributeSet attrs) {
         super(context, attrs);
         addView(LayoutInflater.from(context).inflate(R.layout.view_title_header, this, false));
         tvTitle = (TextView) findViewById(R.id.tv_title_header_titleText);
         ivBack = (ImageView) findViewById(R.id.iv_title_header_back);
+        divider_line = findViewById(R.id.divider_line);
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs,
                 R.styleable.styleable_titleHeaderView);
 //        if (typedArray.getString(R.styleable.styleable_titleHeaderView_title_name) != null)
         tvTitle.setText(typedArray.getString(R.styleable.styleable_titleHeaderView_title_name));
         ivBack.setVisibility(typedArray.getBoolean(R.styleable.styleable_titleHeaderView_title_back_visibility, true)? View.VISIBLE :View.GONE);
+        divider_line.setVisibility(typedArray.getBoolean(R.styleable.styleable_titleHeaderView_title_divider_visibility, true)? View.VISIBLE :View.GONE);
         typedArray.recycle();
 
         initViews();

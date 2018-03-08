@@ -26,7 +26,7 @@ public class DooWeatherAdapter extends BaseQuickAdapter<WeatherInfoBean.detailWe
     protected void convert(BaseViewHolder helper, WeatherInfoBean.detailWeatherInfo item) {
         ImageView todayIcon = helper.getView(R.id.today);
         if (helper.getAdapterPosition() != 0) {
-            todayIcon.setVisibility(View.GONE);
+            todayIcon.setVisibility(View.INVISIBLE);
         }
 
         helper.setText(R.id.xingqi, fixDate(item.getDate()));
@@ -55,12 +55,12 @@ public class DooWeatherAdapter extends BaseQuickAdapter<WeatherInfoBean.detailWe
     private String getWenduAverage(String high, String low) {
         float hWendu = 0;
         int indexH = high.indexOf("温");
-        String hStr = high.substring(indexH, high.length() - 2).trim();
+        String hStr = high.substring(indexH+1, high.length() - 2).trim();
 
 
         float lWendu = 0;
         int indexL = low.indexOf("温");
-        String lStr = low.substring(indexL, low.length() - 2).trim();
+        String lStr = low.substring(indexL+1, low.length() - 2).trim();
 
         try {
             hWendu = Float.valueOf(hStr);
@@ -69,7 +69,7 @@ public class DooWeatherAdapter extends BaseQuickAdapter<WeatherInfoBean.detailWe
             e.printStackTrace();
         }
 
-        return (hWendu + lWendu) / 2L + "°";
+        return (int)(hWendu + lWendu +0.5f) / 2L + "°";
     }
 
 
