@@ -22,9 +22,7 @@ import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.ycl.framework.base.FrameActivity;
-import com.ycl.framework.db.business.ExamPagerInfoBusiness;
 import com.ycl.framework.db.business.QuestionInfoBusiness;
 import com.ycl.framework.db.entity.ExamBean;
 import com.ycl.framework.db.entity.SaveExamPagerBean;
@@ -37,9 +35,6 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.view.RadarMarkerView;
-import cn.gov.bjys.onlinetrain.bean.ExamsBean;
-import cn.gov.bjys.onlinetrain.utils.ExamHelper;
-import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 
 /**
  * Created by dodozhou on 2017/10/30.
@@ -230,7 +225,8 @@ public class ExamAnalysisActivity2 extends FrameActivity implements View.OnClick
 
         YAxis yAxis = mRadarChart.getYAxis();
         //设定Y坐标的最大值
-        yAxis.setAxisMaximum(100);
+        int pagerSize = mNowPager.getmAllPager().split(",").length;
+        yAxis.setAxisMaximum(pagerSize);//这个值 其实不会超过试卷的总题目数量
         // Y坐标值字体样式
         yAxis.setTypeface(mTfLight);
         // Y坐标值标签个数
@@ -379,7 +375,7 @@ public class ExamAnalysisActivity2 extends FrameActivity implements View.OnClick
         if (notdo.length == 1 && TextUtils.isEmpty(notdo[0])) {
             notdoSize = 0;
         } else {
-            notdoSize = errors.length;
+            notdoSize = notdo.length;
         }
 
 
