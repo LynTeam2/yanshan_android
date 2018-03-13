@@ -175,6 +175,7 @@ public class LifeHelpActivity extends FrameActivity {
      * 查询城市信息
      */
     private void requestCityName() {
+        showProgressDialog();
         new SearchCityHelper(LifeHelpActivity.this).execute();
     }
 
@@ -211,6 +212,7 @@ public class LifeHelpActivity extends FrameActivity {
             List<WeatherInfoBean.detailWeatherInfo> datas = bean.getData().getForecast();
             mWeatherAdapter.setNewData(datas);
             setupView(bean);
+            dismissProgressDialog();
             return false;
         }
     }
@@ -229,11 +231,13 @@ public class LifeHelpActivity extends FrameActivity {
                     @Override
                     public void onCompleted() {
                         Log.d(TAG, "onCompleted");
+                        dismissProgressDialog();
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Log.d(TAG, "onError");
+                        dismissProgressDialog();
                     }
 
                     @Override

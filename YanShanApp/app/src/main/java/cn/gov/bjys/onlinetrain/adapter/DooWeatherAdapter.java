@@ -78,20 +78,23 @@ public class DooWeatherAdapter extends BaseQuickAdapter<WeatherInfoBean.detailWe
 
         if (weatherStr.contains("晴")) {
             //晴天图片
-
+            icon.setImageResource(R.drawable.weather_icon_qing);
         } else if (weatherStr.contains("多云")) {
             //多云图片
-
+            icon.setImageResource(R.drawable.weather_icon_yun);
         } else if (weatherStr.contains("阴")) {
             //阴天图片
 
+        }else if (weatherStr.contains("雷")) {
+            //打雷图片
+            icon.setImageResource(R.drawable.weather_icon_lei);
         } else if (weatherStr.contains("雨")) {
             if (weatherStr.contains("小")) {
                 //小雨图片
-
+                icon.setImageResource(R.drawable.weather_icon_yu);
             } else {
                 //雨图片
-
+                icon.setImageResource(R.drawable.weather_icon_yu);
             }
         }
 

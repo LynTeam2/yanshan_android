@@ -9,7 +9,7 @@
         android:layout_margin="@dimen/px_30"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/icon_huangse" />
+        android:src="@drawable/weather_icon_yuan" />
 
     <TextView
         android:layout_centerVertical="true"
