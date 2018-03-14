@@ -131,7 +131,7 @@ public class ExamPrepareActivity extends FrameActivity {
 
                             List<ExamBean> allExams = QuestionInfoBusiness.getInstance(BaseApplication.getAppContext()).queryAll();
                             List<ExamBean> randomExams = random(allExams);
-
+                            mExamPagers.clear();
                             for (ExamBean tempBean : randomExams) {
                                 String ajType = tempBean.getAjType();
                                 String difficulty = tempBean.getDifficulty();
@@ -142,9 +142,6 @@ public class ExamPrepareActivity extends FrameActivity {
                                 if (null != anjianTypeMap.get(ajType)
                                         && null != difficultyTypeMap.get(difficulty)
                                         && null != questionTypeMap.get(questionType)) {
-                                    if (mExamPagers == null) {
-                                        mExamPagers = new ArrayList<>();
-                                    }
                                     mExamPagers.add(tempBean);
 
                                     //安监类型
@@ -175,7 +172,7 @@ public class ExamPrepareActivity extends FrameActivity {
                 });
     }
 
-    private List<ExamBean> mExamPagers;
+    private List<ExamBean> mExamPagers = new ArrayList<>();
 
     public static List<ExamBean> random(List<ExamBean> list) {
         int count = list.size();
