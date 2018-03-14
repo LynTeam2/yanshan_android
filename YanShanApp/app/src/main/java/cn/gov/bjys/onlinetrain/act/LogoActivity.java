@@ -12,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.utils.sp.SavePreference;
@@ -49,7 +50,7 @@ public class LogoActivity extends FrameActivity {
     Button mCountDown;
 
     @Bind(R.id.main_content)
-    CoordinatorLayout mCoordinatorLayout;
+    RelativeLayout mCoordinatorLayout;
 
     @Override
     protected void setRootView() {
@@ -57,6 +58,7 @@ public class LogoActivity extends FrameActivity {
     }
 
     @Override
+
     protected void initStatusBar() {
         StatusBarUtil.setTranslucent(this, StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA);
     }

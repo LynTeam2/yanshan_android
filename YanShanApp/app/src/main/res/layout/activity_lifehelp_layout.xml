@@ -8,7 +8,7 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title_name = "北京"
+        app:title_name = ""
         app:title_divider_visibility = "false"
         >
     </com.ycl.framework.view.TitleHeaderView>
@@ -56,14 +56,22 @@
         android:fontFamily="sans-serif-thin"
         android:textColor="@color/white"
         ></TextView>
-
-    <android.support.v7.widget.RecyclerView
-        android:layout_marginLeft="@dimen/px_30"
-        android:layout_marginRight="@dimen/px_30"
-        android:layout_marginBottom="@dimen/px_48"
-        android:id="@+id/rv"
+    <RelativeLayout
+        android:layout_marginLeft="53px"
+        android:layout_marginRight="53px"
+        android:layout_marginBottom="86px"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="680px">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="815px"
+        android:background="@drawable/weather_bg"
+        >
+        <android.support.v7.widget.RecyclerView
+            android:layout_marginTop="185px"
+            android:id="@+id/rv"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+        </android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

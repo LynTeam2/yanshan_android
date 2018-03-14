@@ -174,6 +174,8 @@ public class LoginActivity extends FrameActivity implements View.OnClickListener
                         Log.d("dodo","resp = " + stringBaseResponse);
                         if("1".equals(stringBaseResponse.getCode())){
                             toMainAct();
+                        }else {
+                            ToastUtil.showToast(stringBaseResponse.getMsg());
                         }
                     }
                 });
