@@ -18,6 +18,7 @@ import cn.gov.bjys.onlinetrain.act.HomeClassStudyOneActivity;
 import cn.gov.bjys.onlinetrain.act.HomeClassStudySecondActivity;
 import cn.gov.bjys.onlinetrain.act.HomeExamSecondActivity;
 import cn.gov.bjys.onlinetrain.act.LifeHelpActivity;
+import cn.gov.bjys.onlinetrain.act.MorePracticeActivity;
 import cn.gov.bjys.onlinetrain.adapter.DooHomeGridViewAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooHomeGridViewAdapter.HomeGridBean;
 
@@ -54,20 +55,16 @@ public class DooItemTitleLayout extends DooRootLayout {
                 Intent mIntent;
                 switch (position){
                     case 0:
-                        getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), HomeClassStudyOneActivity.class));
+                        getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), HomeClassStudySecondActivity.class));
                         break;
                     case 1:
-                        getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), HomeExamSecondActivity.class));
+                        getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), MorePracticeActivity.class));
                         break;
                     case 2:
-                        ToastUtil.showToast("功能暂未开发");
-
-//                        getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), ClassActivity.class));
+                        getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), HomeExamSecondActivity.class));
                         break;
                     case 3:
                         ToastUtil.showToast("功能暂未开发");
-
-                        getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), LifeHelpActivity.class));
                         break;
                 }
             }
@@ -87,20 +84,21 @@ public class DooItemTitleLayout extends DooRootLayout {
         bean.setSrcId(R.drawable.class_study);
         beanArrayList.add(bean);
         //num 2
-        HomeGridBean bean2 = new HomeGridBean();
-        bean2.setName("测评考试");
-        bean2.setSrcId(R.drawable.examing_test);
-        beanArrayList.add(bean2);
-        //num 3
-        HomeGridBean bean3 = new HomeGridBean();
-        bean3.setName("法律法规");
-        bean3.setSrcId(R.drawable.police);
-        beanArrayList.add(bean3);
-        //num 4
         HomeGridBean bean4 = new HomeGridBean();
         bean4.setName("生活助手");
         bean4.setSrcId(R.drawable.life_helpe);
         beanArrayList.add(bean4);
+        //num 3
+        HomeGridBean bean2 = new HomeGridBean();
+        bean2.setName("测评考试");
+        bean2.setSrcId(R.drawable.examing_test);
+        beanArrayList.add(bean2);
+        //num 4
+        HomeGridBean bean3 = new HomeGridBean();
+        bean3.setName("法律法规");
+        bean3.setSrcId(R.drawable.police);
+        beanArrayList.add(bean3);
+
 
 
         return beanArrayList;

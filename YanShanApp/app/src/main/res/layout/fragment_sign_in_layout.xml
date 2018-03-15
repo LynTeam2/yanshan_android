@@ -24,6 +24,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:layout_marginTop="60px"
         android:orientation="horizontal"
         android:gravity="center"
@@ -69,6 +70,14 @@
         android:verticalSpacing="10px"
         android:numColumns="4"
         ></GridView>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        >
     <include
         layout="@layout/layout_divider_line1px"
         ></include>
@@ -87,5 +96,5 @@
         android:layout_width="match_parent"
         android:layout_height="400px">
     </android.support.v7.widget.RecyclerView>
-
+    </LinearLayout>
 </com.zhy.autolayout.AutoLinearLayout>

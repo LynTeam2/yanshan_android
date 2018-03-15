@@ -7,6 +7,8 @@ public class SignInBean {
 
         public final static int FINISH = 1;
         public final static int ING = 2;
+        public final static int FUTURE = 3;
+        public final static int SUC = 4;
 
         private String mouth;
         private String day;

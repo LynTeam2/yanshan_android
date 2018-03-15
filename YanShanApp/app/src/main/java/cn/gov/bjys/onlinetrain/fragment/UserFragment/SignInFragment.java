@@ -7,14 +7,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ycl.framework.base.FrameFragment;
+import com.ycl.framework.utils.sp.SavePreference;
+import com.ycl.framework.utils.util.DateUtil;
 import com.ycl.framework.utils.util.ToastUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +34,8 @@ import cn.gov.bjys.onlinetrain.bean.SignInBean;
  * 签到fragment
  */
 public class SignInFragment  extends FrameFragment{
+
+    public final static String SIGN_SUCCESS = "sign_success";
 
     public static SignInFragment newInstance() {
         Bundle args = new Bundle();
@@ -71,20 +77,88 @@ public class SignInFragment  extends FrameFragment{
         initRecycleView();
     }
     DooSigninGridAdapter mDooSigninGridAdapter;
+    List<SignInBean> mSignList = new ArrayList<>();
+
     public void initGridView(){
-        mDooSigninGridAdapter = new DooSigninGridAdapter(getContext(), prepareDatas());
+        mSignList.clear();
+        mSignList.addAll(prepareDatas());
+        mDooSigninGridAdapter = new DooSigninGridAdapter(getContext(), mSignList);
         grid_view.setAdapter(mDooSigninGridAdapter);
+        grid_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SignInBean bean = (SignInBean) mDooSigninGridAdapter.getDatas().get(position);
+                switch (bean.getType()){
+                    case SignInBean.FUTURE:
+                        ToastUtil.showToast("还未开始");
+                        break;
+                    case SignInBean.FINISH:
+                        ToastUtil.showToast("已经结束");
+                        break;
+                    case SignInBean.ING:
+                        ToastUtil.showToast("签到成功");
+                        bean.setType(SignInBean.SUC);
+                        SavePreference.save(getContext(),SIGN_SUCCESS, mNowDate);
+                        break;
+                    case SignInBean.SUC:
+                        ToastUtil.showToast("已经完成签到");
+                        break;
+                }
+                mDooSigninGridAdapter.notifyDataSetChanged();
+            }
+        });
     }
+
+
+    private String mNowDate = "";
 
     public List<SignInBean> prepareDatas(){
         List<SignInBean> list = new ArrayList<>();
-        for(int i=0;i<4;i++){
-            SignInBean bean = new SignInBean();
-            bean.setDay("0"+i);
-            bean.setMouth(i+"月");
-            bean.setType(i<1?SignInBean.FINISH:SignInBean.ING);
-            list.add(bean);
+        String lastTimeStr = SavePreference.getStr(getContext(),SIGN_SUCCESS);
+        long nowtime = System.currentTimeMillis();
+
+
+        long yesterday = nowtime - 24*60*60*1000;
+        long tomorrow = nowtime + 24*60*60*1000;
+        long aftertomorrow = nowtime + 2*24*60*60*1000;
+
+        String yesterDate = DateUtil.formatYourSelf(yesterday, new SimpleDateFormat("yyyyMMdd"));
+        String nowDate = DateUtil.formatYourSelf(nowtime, new SimpleDateFormat("yyyyMMdd"));
+        mNowDate = nowDate;
+        String tomorrowDate = DateUtil.formatYourSelf(tomorrow, new SimpleDateFormat("yyyyMMdd"));
+        String aftertomorrowDate = DateUtil.formatYourSelf(aftertomorrow, new SimpleDateFormat("yyyyMMdd"));
+
+        SignInBean yesBean = new SignInBean();
+        yesBean.setDay(yesterDate.substring(6,yesterDate.length()));
+        yesBean.setMouth(yesterDate.substring(4,6));
+        yesBean.setType(SignInBean.FINISH);//昨天
+        list.add(yesBean);
+
+        SignInBean todayBean = new SignInBean();
+        todayBean.setDay(nowDate.substring(6,nowDate.length()));
+        todayBean.setMouth(nowDate.substring(4,6));
+
+        if(nowDate.equals(lastTimeStr)) {
+            todayBean.setType(SignInBean.SUC);//今天 已经签到
+        }else{
+            todayBean.setType(SignInBean.ING);//今天 未签到
         }
+        list.add(todayBean);
+
+        SignInBean tomorrowBean = new SignInBean();
+        tomorrowBean.setDay(tomorrowDate.substring(6,tomorrowDate.length()));
+        tomorrowBean.setMouth(tomorrowDate.substring(4,6));
+        tomorrowBean.setType(SignInBean.FUTURE);//明天
+        list.add(tomorrowBean);
+
+
+        SignInBean afterTomorrowBean = new SignInBean();
+        afterTomorrowBean.setDay(aftertomorrowDate.substring(6,aftertomorrowDate.length()));
+        afterTomorrowBean.setMouth(aftertomorrowDate.substring(4,6));
+        afterTomorrowBean.setType(SignInBean.FUTURE);//昨天
+        list.add(afterTomorrowBean);
+
+
         return list;
     }
 
@@ -111,7 +185,21 @@ public class SignInFragment  extends FrameFragment{
     public void onTabClick(View v){
         switch (v.getId()){
             case R.id.sign_layout:
-                ToastUtil.showToast("签到成功");
+
+               List<SignInBean> datas =  mDooSigninGridAdapter.getDatas();
+               SignInBean bean = datas.get(1);
+               switch (bean.getType()){
+                   case SignInBean.ING:
+                       ToastUtil.showToast("签到成功");
+                       bean.setType(SignInBean.SUC);
+                       mDooSigninGridAdapter.notifyDataSetChanged();
+                       SavePreference.save(getContext(),SIGN_SUCCESS,mNowDate);
+                       break;
+                    case SignInBean.SUC:
+                        ToastUtil.showToast("已经完成签到");
+                        break;
+               }
+
                 break;
         }
     }

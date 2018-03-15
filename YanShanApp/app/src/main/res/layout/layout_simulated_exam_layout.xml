@@ -146,5 +146,5 @@
             android:layout_height="130px"
             android:text="开始考试"
             android:textColor="@color/white"
-            android:background="@color/normal_blue"/>
+            android:background="@color/normal_blue_light1"/>
 </com.zhy.autolayout.AutoRelativeLayout>

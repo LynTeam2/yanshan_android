@@ -1,6 +1,8 @@
 package cn.gov.bjys.onlinetrain.fragment.ExaminationFragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import cn.gov.bjys.onlinetrain.act.ExaminationActivity;
 import cn.gov.bjys.onlinetrain.act.PracticeActivity;
 import cn.gov.bjys.onlinetrain.act.view.AnswerLayout;
 import cn.gov.bjys.onlinetrain.act.view.DooQuestionAnalysisLayout;
+import cn.gov.bjys.onlinetrain.act.view.RoundBackgroundColorSpan;
 
 
 /**
@@ -72,10 +75,10 @@ public class TextSingleExaminationFragment extends FrameFragment implements Answ
 
         SpannableStringUtils.Builder builder = new SpannableStringUtils.Builder()
                 .append("  单选  ")
-                .setBackgroundColor(getResources().getColor(R.color.normal_blue))
                 .append("  ")
                 .append(mBean.getQuestion());
         SpannableStringBuilder ssb = builder.create();
+        ssb.setSpan(new RoundBackgroundColorSpan(Color.parseColor("#6490ff"),Color.parseColor("#FFFFFF")), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         question_content.setText(ssb);
         if(mBean.isDeal()){
             //用户做答之后

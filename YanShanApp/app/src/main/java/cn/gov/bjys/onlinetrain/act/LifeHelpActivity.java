@@ -176,7 +176,7 @@ public class LifeHelpActivity extends FrameActivity {
      */
     private void requestCityName() {
         showProgressDialog();
-        new SearchCityHelper(LifeHelpActivity.this).execute();
+//        new SearchCityHelper(LifeHelpActivity.this).execute();
     }
 
     //回调并查询天气

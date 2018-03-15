@@ -98,6 +98,7 @@ public class HomeClassStudyOneActivity extends FrameActivity implements ZipCallB
                 break;
             case R.id.more_mistakes:
                 ToastUtil.showToast("更多错题");
+                startAct(UserMoreErrorActivity.class);
                 break;
         }
     }
