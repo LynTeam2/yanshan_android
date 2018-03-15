@@ -27,9 +27,9 @@ public class RoundBackgroundColorSpan extends ReplacementSpan {
         paint.getTextBounds( text.toString(),0,text.length(),rect);
         int h = rect.height();
         if(Math.abs(bottom -top) > h) {
-            canvas.drawRoundRect(new RectF(x, top + 1, x + ((int) paint.measureText(text, start, end))+30, top + h +5), 10, 10, paint);
+            canvas.drawRoundRect(new RectF(x, top + 1, x + ((int) paint.measureText(text, start, end))+20, top + h +5), 10, 10, paint);
         }else{
-            canvas.drawRoundRect(new RectF(x, top + 1, x + ((int) paint.measureText(text, start, end))+30, bottom - 1), 10, 10, paint);
+            canvas.drawRoundRect(new RectF(x, top + 1, x + ((int) paint.measureText(text, start, end))+20, bottom - 1), 10, 10, paint);
         }
         paint.setColor(this.textColor);
         canvas.drawText(text, start, end, x+12, y, paint);
