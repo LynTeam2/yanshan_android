@@ -268,6 +268,9 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         mExamBottomLayout.setmDatas(mDatas);
         mExamBottomLayout.getView(R.id.hand_of_paper).setOnClickListener(this);
 
+        //隐藏 收藏按钮
+        mExamBottomLayout.getView(R.id.hand_of_paper).setVisibility(View.GONE);
+
         initCollectionView();
 
         mExamBottomLayout.getView(R.id.show_all_layout).setOnClickListener(this);
