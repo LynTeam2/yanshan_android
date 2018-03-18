@@ -24,6 +24,7 @@ import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.CommonActivity;
 import cn.gov.bjys.onlinetrain.act.UserAvatarChooseActivity;
 import cn.gov.bjys.onlinetrain.act.UserMessageActivity;
+import cn.gov.bjys.onlinetrain.act.UserMoreErrorActivity;
 import cn.gov.bjys.onlinetrain.act.UserSettingActivity;
 import cn.gov.bjys.onlinetrain.act.view.DooLinear;
 import cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode;
@@ -120,6 +121,20 @@ public class OwnFragment extends FrameFragment {
             }
         });
         user_functions_layout.addView(userMessage);
+
+        //我的错题
+        DooLinear userErr = new DooLinear(getActivity());
+        userErr.setImgIcon(R.drawable.user_message_icon);
+        userErr.setImgNext(R.drawable.next_right_btn);
+        userErr.setTvContent("我的错题");
+        userErr.setCustomClick(R.id.next_btn, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showToast("我的错题");
+                startAct(UserMoreErrorActivity.class);
+            }
+        });
+        user_functions_layout.addView(userErr);
     }
 
     @Override

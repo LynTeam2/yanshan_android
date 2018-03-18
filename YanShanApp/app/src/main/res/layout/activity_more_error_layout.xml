@@ -9,6 +9,10 @@
         android:layout_height="wrap_content"
         app:title_name = "我的错题">
     </cn.gov.bjys.onlinetrain.act.view.TitleHeadNormalOne>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,4 +28,5 @@
             android:verticalSpacing="30px"
             android:horizontalSpacing="35px"></GridView>
     </LinearLayout>
+        </android.support.v4.widget.SwipeRefreshLayout>
 </com.zhy.autolayout.AutoLinearLayout>

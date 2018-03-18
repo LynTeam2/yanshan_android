@@ -10,7 +10,7 @@
         android:layout_height="60px">
     </View>
     <com.ycl.framework.view.TitleHeaderView
-        android:layout_below="@+id/status_bar_layout"
+        android:layout_below="@id/status_bar_layout"
         android:id="@+id/header"
         android:layout_width="match_parent"
         app:title_name="登录成功"
@@ -18,6 +18,7 @@
         app:title_back_visibility = "false"/>
 
     <RelativeLayout
+        android:layout_below="@id/header"
         android:id="@+id/login_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -47,6 +48,7 @@
             android:textSize="48px" />
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/user_wealth_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

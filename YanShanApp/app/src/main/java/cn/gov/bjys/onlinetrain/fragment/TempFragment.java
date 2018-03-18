@@ -37,8 +37,6 @@ public class TempFragment extends FrameFragment {
     @Bind(R.id.header)
     TitleHeaderView mHeader;
 
-    @Bind(R.id.web_view)
-    ProgressWebView webView;
 
     MultiDownView mMultiDownView;
 

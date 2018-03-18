@@ -17,12 +17,15 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
+import com.ycl.framework.base.FrameActivity;
+import com.ycl.framework.base.FrameFragment;
 import com.ycl.framework.utils.util.ToastUtil;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Locale;
 
-import cn.gov.bjys.onlinetrain.act.LifeHelpActivity;
+import cn.gov.bjys.onlinetrain.fragment.ShopFragment;
 import cn.gov.bjys.onlinetrain.utils.DifferSystemUtil;
 
 /**
@@ -31,10 +34,11 @@ import cn.gov.bjys.onlinetrain.utils.DifferSystemUtil;
 public class SearchCityHelper extends AsyncTask<Void, Void, List<Address>> {
     private Context mContext;
     private Location mLocation;
+    private WeakReference<FrameFragment> frameFragmentWeakReference;
 
-
-    public SearchCityHelper(Context c) {
-        mContext = c;
+    public SearchCityHelper(FrameFragment f) {
+        frameFragmentWeakReference = new WeakReference<FrameFragment>(f);
+        mContext = frameFragmentWeakReference.get().getContext();
     }
 
     //监听GPS位置改变后得到新的经纬度
@@ -105,7 +109,7 @@ public class SearchCityHelper extends AsyncTask<Void, Void, List<Address>> {
                     return calLocation(gpsLocation, netLocation);
                 } else if (fineOps == AppOpsManager.MODE_IGNORED && coarseOps == AppOpsManager.MODE_IGNORED) {
                     //权限拒绝
-                    ActivityCompat.requestPermissions((LifeHelpActivity) mContext, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                    ActivityCompat.requestPermissions((FrameActivity) mContext, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
                     ToastUtil.showToast("权限不足");
                     return null;
                 } else {
@@ -116,7 +120,7 @@ public class SearchCityHelper extends AsyncTask<Void, Void, List<Address>> {
                 return calLocation(gpsLocation, netLocation);
             }
         } else {
-            ActivityCompat.requestPermissions((LifeHelpActivity) mContext, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            ActivityCompat.requestPermissions((FrameActivity) mContext, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             return null;
         }
     }
@@ -203,9 +207,10 @@ public class SearchCityHelper extends AsyncTask<Void, Void, List<Address>> {
     @Override
     protected void onPostExecute(List<Address> addresses) {
         super.onPostExecute(addresses);
-        if(mContext instanceof LifeHelpActivity){
-            ((LifeHelpActivity)mContext).setCityName(addresses);
+        if(frameFragmentWeakReference.get() instanceof ShopFragment){
+            ((ShopFragment)frameFragmentWeakReference.get()).setCityName(addresses);
         }
+
     }
 
     /**

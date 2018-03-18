@@ -1,6 +1,7 @@
 package cn.gov.bjys.onlinetrain.act;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,6 +11,7 @@ import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.db.business.QuestionInfoBusiness;
 import com.ycl.framework.db.entity.ExamBean;
 import com.ycl.framework.utils.sp.SavePreference;
+import com.zls.www.statusbarutil.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +26,21 @@ import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
  * Created by dodo on 2018/2/1.
  */
 
-public class UserMoreErrorActivity extends FrameActivity {
+public class UserMoreErrorActivity extends FrameActivity implements SwipeRefreshLayout.OnRefreshListener{
 
     @Override
     protected void setRootView() {
             setContentView(R.layout.activity_more_error_layout);
     }
+
+    @Override
+    protected void initStatusBar() {
+        StatusBarUtil.setTranslucent(this, StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA);
+    }
+
+    @Bind(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
 
     @Bind(R.id.mistake_collection_gridview)
     GridView mistake_collection_gridview;
@@ -43,7 +54,14 @@ public class UserMoreErrorActivity extends FrameActivity {
         initMistakesGv();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshErrorDatas();
+    }
+
     public void initMistakesGv() {
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         if (mDooHomeClassMistakesAdapter == null) {
             mDooHomeClassMistakesAdapter = new DooHomeClassMistakesAdapter(this, getErrorData());
         }
@@ -76,4 +94,15 @@ public class UserMoreErrorActivity extends FrameActivity {
         return datas;
     }
 
+    @Override
+    public void onRefresh() {
+        refreshErrorDatas();
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+
+    private void refreshErrorDatas(){
+        List<ExamBean> datas = getErrorData();
+        mDooHomeClassMistakesAdapter.replaceAll(datas);
+    }
 }

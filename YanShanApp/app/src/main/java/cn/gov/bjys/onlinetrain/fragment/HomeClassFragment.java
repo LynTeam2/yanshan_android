@@ -270,7 +270,8 @@ public class HomeClassFragment extends FrameFragment implements View.OnClickList
 
         YAxis yAxis = mRadarChart.getYAxis();
         //设定Y坐标的最大值
-        yAxis.setAxisMaximum(100);
+        int pagerSize = mNowPager.getmAllPager().split(",").length;
+        yAxis.setAxisMaximum(pagerSize);//这个值 其实不会超过试卷的总题目数量
         // Y坐标值字体样式
         yAxis.setTypeface(mTfLight);
         // Y坐标值标签个数

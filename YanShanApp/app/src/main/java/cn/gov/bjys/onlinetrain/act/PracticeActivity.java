@@ -268,6 +268,9 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         mExamBottomLayout.setmDatas(mDatas);
         mExamBottomLayout.getView(R.id.hand_of_paper).setOnClickListener(this);
 
+        //隐藏 收藏按钮
+        mExamBottomLayout.getView(R.id.hand_of_paper).setVisibility(View.GONE);
+
         initCollectionView();
 
         mExamBottomLayout.getView(R.id.show_all_layout).setOnClickListener(this);
@@ -583,7 +586,10 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
             allErrorList.remove(uid);
             allErrorList.add(0, uid);
         }
-
+        for (ExamBean bean : mRightQuestionsList) {
+            String uid = bean.getUid();
+            allErrorList.remove(uid);
+        }
         for(int i=0; i<allErrorList.size(); i++){
             if(i == allErrorList.size() -1){
                 allErrorStr.append(""+allErrorList.get(i));
@@ -618,7 +624,6 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
                 saveErrorList();
                 break;
             case KESHI:
-
                 break;
         }
 
