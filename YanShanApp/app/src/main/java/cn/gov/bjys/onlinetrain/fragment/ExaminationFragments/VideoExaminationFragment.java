@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.Button;
 
 import butterknife.Bind;
@@ -50,6 +51,10 @@ public class VideoExaminationFragment extends PracticeBaseFragment {
     @Bind(R.id.analysis_layout)
     DooQuestionAnalysisLayout mDooQuestionAnalysisLayout;
 
+
+    @Bind(R.id.web_view)
+    WebView mWebView;
+
     @Override
     protected View inflaterView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         View view = inflater.inflate(R.layout.fragment_video_examination_layout, container, false);
@@ -60,9 +65,11 @@ public class VideoExaminationFragment extends PracticeBaseFragment {
     public void bindData() {
       CourseBean bean = PracticeHelper.getInstance().getmCourseBean();
       String content = bean.getContent();
-      ClientVideoPlayer jzVideoPlayerStandard = (ClientVideoPlayer) findViews(viewRoot, R.id.video_player);
-      jzVideoPlayerStandard.setUp(content
-                , JZVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "视频题");
+
+        mWebView.loadDataWithBaseURL(null,content,"text/html","utf-8",null);
+//      ClientVideoPlayer jzVideoPlayerStandard = (ClientVideoPlayer) findViews(viewRoot, R.id.video_player);
+//      jzVideoPlayerStandard.setUp(content
+//                , JZVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "视频题");
     }
 
     @OnClick({R.id.start_req})
@@ -80,9 +87,9 @@ public class VideoExaminationFragment extends PracticeBaseFragment {
     @Override
     protected void initViews() {
         super.initViews();
-        ClientVideoPlayer jzVideoPlayerStandard = (ClientVideoPlayer) findViews(viewRoot, R.id.video_player);
-        jzVideoPlayerStandard.setUp("http://jzvd.nathen.cn/c6e3dc12a1154626b3476d9bf3bd7266/6b56c5f0dc31428083757a45764763b0-5287d2089db37e62345123a1be272f8b.mp4"
-                , JZVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "视频题");
+//        ClientVideoPlayer jzVideoPlayerStandard = (ClientVideoPlayer) findViews(viewRoot, R.id.video_player);
+//        jzVideoPlayerStandard.setUp("http://jzvd.nathen.cn/c6e3dc12a1154626b3476d9bf3bd7266/6b56c5f0dc31428083757a45764763b0-5287d2089db37e62345123a1be272f8b.mp4"
+//                , JZVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "视频题");
 //        jzVideoPlayerStandard.thumbImageView.setImage("http://p.qpic.cn/videoyun/0/2449_43b6f696980311e59ed467f22794e792_1/640");
     }
 

@@ -200,6 +200,7 @@ public class ShopFragment extends FrameFragment {
     private String mCityName = "";
 
     public void setCityName(List<Address> addresses) {
+        mCityName = "";
         if (addresses != null && addresses.size() > 0) {
             for (Address address : addresses) {
                 mCityName += address.getLocality();

@@ -39,18 +39,12 @@
             android:textSize="36px"
             android:textColor="@color/normal_gray"
             />
-        <TextView
+        <WebView
             android:layout_marginTop="20px"
             android:id="@+id/content"
             android:layout_below="@id/time"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="       临近年底，多项农业政策来袭：推进第二次全国农业污染源普查、探索建立涉农资金统筹整合长效机制、加强贫困村驻村工作队选派管理工作……一个月内，中央政府和相关部委连续公布了多项农业领域工作文件，释放出强烈的重农信号。
-
-12月28日至29日，中央农村工作会议在京召开，以习近平同志为核心的党中央再一次把解决好“三农”问题作为全党工作的重中之重。会议指出：到2020年，乡村振兴取得重要进展，制度框架和政策体系基本形成；到2035年，乡村振兴取得决定性进展，农业农村现代化基本实现；到2050年，乡村全面振兴，农业强、农村美、农民富全面实现。"
-            android:textSize="42px"
-            android:textColor="@color/normal_black"
-
             />
     </RelativeLayout>
 </LinearLayout>

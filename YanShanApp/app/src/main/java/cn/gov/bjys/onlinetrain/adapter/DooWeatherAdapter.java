@@ -84,7 +84,7 @@ public class DooWeatherAdapter extends BaseQuickAdapter<WeatherInfoBean.detailWe
             icon.setImageResource(R.drawable.weather_icon_yun);
         } else if (weatherStr.contains("阴")) {
             //阴天图片
-
+            icon.setImageResource(R.drawable.weather_icon_yin);
         }else if (weatherStr.contains("雷")) {
             //打雷图片
             icon.setImageResource(R.drawable.weather_icon_lei);

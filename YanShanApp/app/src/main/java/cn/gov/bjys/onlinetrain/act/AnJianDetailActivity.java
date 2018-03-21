@@ -2,6 +2,7 @@ package cn.gov.bjys.onlinetrain.act;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.ycl.framework.base.FrameActivity;
@@ -33,7 +34,7 @@ public class AnJianDetailActivity extends FrameActivity {
     @Bind(R.id.time)
     TextView time;
     @Bind(R.id.content)
-    TextView content;
+    WebView content;
 
     @Override
     protected void setRootView() {
@@ -41,17 +42,24 @@ public class AnJianDetailActivity extends FrameActivity {
     }
 
 
-    private long mId;
+    private HomeAnJianBean mHomeAnJianBean;
     @Override
     public void initViews() {
         super.initViews();
         Intent recIntent = getIntent();
         Bundle recBundle = recIntent.getExtras();
-        mId = recBundle.getLong("id");
-        getRemoteDatas();
+        mHomeAnJianBean = (HomeAnJianBean) recBundle.get("news");
+//        getRemoteDatas();
+
+        initContent();
+    }
+    private void initContent(){
+        title_name.setText(mHomeAnJianBean.getTitle());
+        time.setText(mHomeAnJianBean.getNewsTime());
+        content.loadDataWithBaseURL(null,mHomeAnJianBean.getContent(),"text/html","utf-8",null);
     }
 
-    private void getRemoteDatas(){
+   /* private void getRemoteDatas(){
         rx.Observable<BaseResponse<String>> obs;
         obs = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext()).getSpeUrlService(YSConst.BaseUrl.BASE_URL
                 , HomeApi.class).getAnjianContent(mId);
@@ -79,5 +87,5 @@ public class AnJianDetailActivity extends FrameActivity {
                         }
                     }
                 });
-    }
+    }*/
 }

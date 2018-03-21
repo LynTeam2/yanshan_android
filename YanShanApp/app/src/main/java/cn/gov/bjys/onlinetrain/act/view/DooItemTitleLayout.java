@@ -85,8 +85,8 @@ public class DooItemTitleLayout extends DooRootLayout {
         beanArrayList.add(bean);
         //num 2
         HomeGridBean bean4 = new HomeGridBean();
-        bean4.setName("生活助手");
-        bean4.setSrcId(R.drawable.life_helpe);
+        bean4.setName("专项练习");
+        bean4.setSrcId(R.drawable.special_exercise);
         beanArrayList.add(bean4);
         //num 3
         HomeGridBean bean2 = new HomeGridBean();
