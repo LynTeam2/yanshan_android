@@ -1,61 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="300px"
-    android:paddingLeft="30px"
-    android:paddingRight="30px"
+    android:layout_height="510px"
+    android:background="@color/windowBackgroundWhite"
     >
-    <RelativeLayout
-        android:layout_weight="200"
-        android:layout_width="0px"
-        android:layout_height="match_parent">
-        <ImageView
-            android:layout_marginTop="60px"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_165_165"/>
-    </RelativeLayout>
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_weight="770"
-        android:layout_width="0px"
-        android:layout_height="match_parent">
-        <TextView
-            android:layout_marginTop="50px"
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="习近平:金砖国家是国际安全秩序的建设者"
-            android:textSize="40px"
-            android:textColor="@color/normal_black"
-            />
-        <TextView
-            android:id="@+id/content"
-            android:layout_marginTop="50px"
-            android:textSize="32px"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/home_normal_gray"
-            android:text="中国通过国家主席习近平3日出席能赚国家工商中国通过国家主席习近平3日出席能赚国家工商"
-            />
-    </LinearLayout>
+        android:layout_marginLeft="50px"
+        android:layout_marginRight="50px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <TextView
+        android:id="@+id/title"
+        android:layout_marginTop="34px"
+        android:layout_marginBottom="34px"
+        android:layout_width="match_parent"
+        android:layout_height="134px"
+        android:gravity="center_vertical|left"
+        android:textColor="@color/home_normal_gray"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textSize="52px"
+        android:text="标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题"
+        />
     <RelativeLayout
-        android:id="@+id/next_btn"
-        android:layout_weight="50"
-        android:layout_width="0px"
-        android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="200px">
         <ImageView
-            android:layout_centerInParent="true"
-            android:id="@+id/next_img"
-            android:layout_width="wrap_content"
+            android:id="@+id/img"
+            android:layout_width="300px"
+            android:layout_height="200px"
+            android:background="@color/normal_gray_light10"
+            />
+        <TextView
+            android:layout_toRightOf="@id/img"
+            android:id="@+id/content"
+            android:layout_marginLeft="38px"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/home_next_img"
+            android:textColor="@color/normal_gray_light1"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:text="内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容"
             />
 
+            <TextView
+                android:id="@+id/nums"
+                android:layout_marginRight="38px"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="36px"
+                android:text="2"
+                />
+
+        <ImageView
+            android:id="@+id/img2"
+            android:layout_marginRight="20px"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="4px"
+            android:layout_toLeftOf="@id/nums"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/anjian_message"
+            />
+
+        <TextView
+            android:id="@+id/lable"
+            android:layout_toLeftOf="@id/img2"
+            android:layout_marginRight="20px"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="36px"
+            android:text="独家"
+            android:textColor="@color/normal_blue_light1"
+            />
 
     </RelativeLayout>
-</LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="10px"
+        android:background="@color/normal_gray_light2"
+        ></View>
+</com.zhy.autolayout.AutoRelativeLayout>

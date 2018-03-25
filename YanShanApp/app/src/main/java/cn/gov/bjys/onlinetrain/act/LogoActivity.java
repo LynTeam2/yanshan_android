@@ -2,12 +2,10 @@ package cn.gov.bjys.onlinetrain.act;
 
 import android.Manifest;
 import android.content.Intent;
-import android.database.Observable;
 import android.net.Uri;
 import android.os.CountDownTimer;
 import android.os.Environment;
 import android.provider.Settings;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
@@ -18,21 +16,17 @@ import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.utils.sp.SavePreference;
 import com.ycl.framework.utils.util.HRetrofitNetHelper;
 import com.ycl.framework.utils.util.ToastUtil;
-import com.zls.www.mulit_file_download_lib.multi_file_download.db.entity.DataInfo;
-import com.zls.www.mulit_file_download_lib.multi_file_download.manager.HttpDownManager;
-import com.zls.www.mulit_file_download_lib.multi_file_download.manager.HttpProgressOnNextListener;
 import com.zls.www.statusbarutil.StatusBarUtil;
 
 import java.io.File;
-import java.io.IOException;
 
 import butterknife.Bind;
 import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.api.HomeApi;
+import cn.gov.bjys.onlinetrain.task.UnZipTask;
 import cn.gov.bjys.onlinetrain.utils.AssetsHelper;
 import cn.gov.bjys.onlinetrain.utils.PermissionUtil;
-import cn.gov.bjys.onlinetrain.task.UnZipTask;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 import okhttp3.ResponseBody;
 import rx.Subscriber;
