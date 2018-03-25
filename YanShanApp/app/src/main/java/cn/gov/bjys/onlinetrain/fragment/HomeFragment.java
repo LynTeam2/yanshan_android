@@ -173,6 +173,7 @@ public class HomeFragment extends FrameFragment {
              HomeAnJianBean bean =   mDooHomePullRefreshAdapter.getData().get(position);
                 Bundle mBundle = new Bundle();
                 mBundle.putLong("id", bean.getId());
+                mBundle.putParcelable("news",bean);
                 startAct(AnJianDetailActivity.class,mBundle);
             }
         });
@@ -251,13 +252,6 @@ public class HomeFragment extends FrameFragment {
                                       mHomeAnjianList.addAll(datas);
                                       mDooHomePullRefreshAdapter.setNewData(mHomeAnjianList);
                                   }
-
-/*                                  if(isLoadMore){
-                                      int i = anjian_layout.getHeight() + 5 * AutoUtils.getPercentHeightSize(300);
-                                      LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, i);
-                                      anjian_layout.setLayoutParams(llp);
-                                      Log.d("dodo", "h = " + anjian_loadmore.getHeight());
-                                  }*/
                               }
                           }
                     }

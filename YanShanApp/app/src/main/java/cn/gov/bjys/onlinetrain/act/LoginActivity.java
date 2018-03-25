@@ -18,6 +18,7 @@ import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tencent.tauth.Tencent;
 import com.ycl.framework.base.FrameActivity;
+import com.ycl.framework.utils.util.FastJSONParser;
 import com.ycl.framework.utils.util.HRetrofitNetHelper;
 import com.ycl.framework.utils.util.ToastUtil;
 import com.ycl.framework.view.TitleHeaderView;
@@ -29,8 +30,10 @@ import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.api.BaseResponse;
 import cn.gov.bjys.onlinetrain.api.UserApi;
+import cn.gov.bjys.onlinetrain.bean.UserBean;
 import cn.gov.bjys.onlinetrain.utils.MapParamsHelper;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
+import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 import rx.Observable;
 import rx.Scheduler;
 import rx.Subscriber;
@@ -40,7 +43,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by dodozhou on 2017/8/7.
  */
-public class LoginActivity extends FrameActivity implements View.OnClickListener{
+public class LoginActivity extends FrameActivity implements View.OnClickListener {
     private String mUserName;
     private String mPassword;
 
@@ -78,7 +81,6 @@ public class LoginActivity extends FrameActivity implements View.OnClickListener
     protected void initStatusBar() {
         StatusBarUtil.setTranslucent(this, StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA);
     }
-
 
 
     @Override
@@ -147,7 +149,7 @@ public class LoginActivity extends FrameActivity implements View.OnClickListener
     }
 
     //获取登录信息
-    private void getLoginInfo(){
+    private void getLoginInfo() {
 
 //        toMainAct();
 
@@ -161,27 +163,30 @@ public class LoginActivity extends FrameActivity implements View.OnClickListener
                 .subscribe(new Subscriber<BaseResponse<String>>() {
                     @Override
                     public void onCompleted() {
-                        Log.d("dodo","onCompleted");
+                        Log.d("dodo", "onCompleted");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("dodo","e.message = " + e.getMessage());
+                        Log.d("dodo", "e.message = " + e.getMessage());
                     }
-
+    
                     @Override
                     public void onNext(BaseResponse<String> stringBaseResponse) {
-                        Log.d("dodo","resp = " + stringBaseResponse);
-                        if("1".equals(stringBaseResponse.getCode())){
+                        Log.d("dodo", "resp = " + stringBaseResponse);
+                        if ("1".equals(stringBaseResponse.getCode())) {
+                            UserBean.UserParentBean parentBean = FastJSONParser.getBean(stringBaseResponse.getResults(), UserBean.UserParentBean.class);
+                            UserBean bean = parentBean.getUser();
+                            YSUserInfoManager.getsInstance().saveUserBean(bean);
                             toMainAct();
-                        }else {
+                        } else {
                             ToastUtil.showToast(stringBaseResponse.getMsg());
                         }
                     }
                 });
     }
 
-    private void toMainAct(){
+    private void toMainAct() {
         startAct(MainActivity.class);
         finish();
     }
@@ -217,7 +222,7 @@ public class LoginActivity extends FrameActivity implements View.OnClickListener
                 dismissProgressDialog();
                 startAct(MainActivity.class);
             }
-        },1500);
+        }, 1500);
     }
 
     private int mLastPwdType;
@@ -244,7 +249,6 @@ public class LoginActivity extends FrameActivity implements View.OnClickListener
 
         }
     }
-
 
 
 }

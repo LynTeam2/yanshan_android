@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.ycl.framework.utils.sp.SavePreference;
 
 import cn.gov.bjys.onlinetrain.BaseApplication;
+import cn.gov.bjys.onlinetrain.bean.UserBean;
 
 /**
  * 管理用户信息的单例类
@@ -14,7 +15,7 @@ public class YSUserInfoManager {
 
     private Context mContext;
     private static YSUserInfoManager sInstance;
-
+    private UserBean mUserBean;
     public YSUserInfoManager() {
         mContext = BaseApplication.getAppContext();
     }
@@ -35,6 +36,14 @@ public class YSUserInfoManager {
 
     public String getAuthToken() {
         return SavePreference.getStr(mContext, YSConst.UserInfo.KEY_USER_TOKEN);
+    }
+
+    public void saveUserBean(UserBean userBean){
+        mUserBean = userBean;
+    }
+
+    public UserBean getUserBean(){
+        return mUserBean;
     }
 
     public void saveUserId(String userid) {

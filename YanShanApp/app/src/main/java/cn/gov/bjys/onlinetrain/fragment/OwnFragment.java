@@ -28,6 +28,7 @@ import cn.gov.bjys.onlinetrain.act.UserMoreErrorActivity;
 import cn.gov.bjys.onlinetrain.act.UserSettingActivity;
 import cn.gov.bjys.onlinetrain.act.view.DooLinear;
 import cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode;
+import cn.gov.bjys.onlinetrain.bean.UserBean;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 
@@ -73,7 +74,7 @@ public class OwnFragment extends FrameFragment {
         initUserFunctionsLayout();
     }
 
-    public void initUserBaseInfos(){
+    public void initUserBaseInfos() {
         //TODO 设置用户基本信息
 
     }
@@ -103,8 +104,8 @@ public class OwnFragment extends FrameFragment {
             public void onClick(View v) {
                 ToastUtil.showToast("签到有礼");
                 Bundle bundle = new Bundle();
-                bundle.putInt(CommonActivity.TAG,CommonActivity.SIGN_IN);
-                startAct(CommonActivity.class,bundle);
+                bundle.putInt(CommonActivity.TAG, CommonActivity.SIGN_IN);
+                startAct(CommonActivity.class, bundle);
             }
         });
         user_functions_layout.addView(userFlag);
@@ -141,40 +142,41 @@ public class OwnFragment extends FrameFragment {
     public void onVisibilityChanged(boolean visible) {
         super.onVisibilityChanged(visible);
         if (visible) {
-            //fragment展示
-            if (YSUserInfoManager.getsInstance().isLogin()) {
-                //登录显示
-                setUserBaseInfo();
-            } else {
-
-            }
+            //用户信息显示
+            setUserBaseInfo();
         }
     }
 
-    public void setUserBaseInfo(){
+    public void setUserBaseInfo() {
         setUserAvatar();
         setUserNickName();
     }
 
-    public void setUserAvatar(){
-        String avatarPath = SavePreference.getStr(BaseApplication.getAppContext(), YSConst.UserInfo.USER_AVATAR_PATH);
-        if(!TextUtils.isEmpty(avatarPath)){
-            GlideProxy.loadImgForUrlPlaceHolderDontAnimate(user_avatar,avatarPath,R.drawable.user_normal_avatar);
+    public void setUserAvatar() {
+//        String avatarPath = SavePreference.getStr(BaseApplication.getAppContext(), YSConst.UserInfo.USER_AVATAR_PATH);
+        UserBean bean = YSUserInfoManager.getsInstance().getUserBean();
+        String avatarPath = bean.getIcon();
+        if (!TextUtils.isEmpty(avatarPath)) {
+            GlideProxy.loadImgForUrlPlaceHolderDontAnimate(user_avatar, avatarPath, R.drawable.user_normal_avatar);
         }
     }
 
-    public void setUserNickName(){
-        String nick = SavePreference.getStr(BaseApplication.getAppContext(), YSConst.UserInfo.USER_SAVE_NICK);
-        if(!TextUtils.isEmpty(nick)){
-           user_name.setText(nick);
+    public void setUserNickName() {
+//        String nick = SavePreference.getStr(BaseApplication.getAppContext(), YSConst.UserInfo.USER_SAVE_NICK);
+        UserBean bean = YSUserInfoManager.getsInstance().getUserBean();
+        String nick = bean.getUserName();
+        if (!TextUtils.isEmpty(nick)) {
+            user_name.setText(nick);
         }
     }
+
     private final static int REQ_CHANGE_AVATAR = 0X03;
+
     @OnClick({R.id.user_avatar})
-    public void onTabClick(View v){
-        switch (v.getId()){
+    public void onTabClick(View v) {
+        switch (v.getId()) {
             case R.id.user_avatar:
-                startActivityForResult(new Intent(getActivity(), UserAvatarChooseActivity.class),REQ_CHANGE_AVATAR);
+                startActivityForResult(new Intent(getActivity(), UserAvatarChooseActivity.class), REQ_CHANGE_AVATAR);
                 break;
         }
     }
@@ -182,14 +184,14 @@ public class OwnFragment extends FrameFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQ_CHANGE_AVATAR){
-            if(resultCode == UserAvatarChooseActivity.AVATAR_SAVE_OK){
-                Bundle bundle =  data.getExtras();
+        if (requestCode == REQ_CHANGE_AVATAR) {
+            if (resultCode == UserAvatarChooseActivity.AVATAR_SAVE_OK) {
+                Bundle bundle = data.getExtras();
                 String avatarPath = (String) bundle.get(UserAvatarChooseActivity.TAG);
-                if(!TextUtils.isEmpty(avatarPath)){
-                    SavePreference.save(BaseApplication.getAppContext(),YSConst.UserInfo.USER_AVATAR_PATH,avatarPath);
+                if (!TextUtils.isEmpty(avatarPath)) {
+                    SavePreference.save(BaseApplication.getAppContext(), YSConst.UserInfo.USER_AVATAR_PATH, avatarPath);
 //                        avatarLinear.setAvatar(Uri.parse(avatarPath));
-                    GlideProxy.loadImgForUrlPlaceHolderDontAnimate(user_avatar,avatarPath,R.drawable.user_normal_avatar);
+                    GlideProxy.loadImgForUrlPlaceHolderDontAnimate(user_avatar, avatarPath, R.drawable.user_normal_avatar);
                 }
             }
         }

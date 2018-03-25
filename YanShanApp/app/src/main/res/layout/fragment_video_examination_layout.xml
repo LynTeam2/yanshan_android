@@ -8,15 +8,19 @@
         android:layout_height="wrap_content">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
         <cn.gov.bjys.onlinetrain.act.view.ClientVideoPlayer
+            android:visibility="gone"
             android:id="@+id/video_player"
             android:layout_width="match_parent"
             android:layout_height="620px">
         </cn.gov.bjys.onlinetrain.act.view.ClientVideoPlayer>
-
+    <WebView
+        android:id="@+id/web_view"
+        android:layout_width="match_parent"
+        android:layout_height="620px"></WebView>
     <LinearLayout
-        android:layout_below="@id/video_player"
+        android:layout_below="@id/web_view"
         android:id="@+id/hint_linear"
         android:paddingLeft="30px"
         android:paddingRight="30px"

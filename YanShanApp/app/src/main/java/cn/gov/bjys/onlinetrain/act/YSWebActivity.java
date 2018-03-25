@@ -19,7 +19,6 @@ public class YSWebActivity extends BaseWebViewActivity {
         Bundle mBundle = recIntent.getExtras();
         mTitleName = mBundle.getString("title","链接");
         mLink = mBundle.getString("baseUrl","");
-
         tvTitle.setTitleText(mTitleName);
         webView.loadUrl(mLink);
     }
