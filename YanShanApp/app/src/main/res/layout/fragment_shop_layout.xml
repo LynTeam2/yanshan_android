@@ -16,6 +16,7 @@
         android:layout_height="160px"
         app:title_back_visibility = "false"/>
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/datelinear"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/header"
@@ -47,29 +48,69 @@
             android:textSize="36px"
             android:text=" "/>
     </LinearLayout>
-    <TextView
-        android:layout_marginTop="200px"
+    <LinearLayout
+        android:id="@+id/zhiliang_layout"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/datelinear"
+        android:layout_below="@id/header"
+        android:layout_marginTop="60px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/kongqizhiliang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="36px"
+            android:text="空气质量： "/>
+    </LinearLayout>
+    <TextView
+        android:layout_marginTop="40px"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/zhiliang_layout"
         android:id="@+id/wendu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="60sp"
+        android:textSize="54sp"
         android:text=" "
         android:fontFamily="sans-serif-thin"
         android:textColor="@color/white"
         ></TextView>
+
+        <TextView
+            android:id="@+id/xingqiji"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/wendu"
+            android:layout_marginTop="50px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="40px"
+            android:text="星期"/>
+    <GridView
+        android:layout_marginLeft="50px"
+        android:layout_marginRight="50px"
+        android:layout_below="@id/xingqiji"
+        android:id="@+id/grid_view"
+        android:layout_marginTop="50px"
+        android:layout_width="match_parent"
+        android:layout_height="220px">
+
+    </GridView>
+    
     <RelativeLayout
         android:layout_marginLeft="53px"
         android:layout_marginRight="53px"
         android:layout_marginBottom="86px"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="815px"
-        android:background="@drawable/weather_bg"
+        android:layout_height="700px"
+        android:background="@drawable/weather_whitebg"
         >
         <android.support.v7.widget.RecyclerView
-            android:layout_marginTop="185px"
+            android:layout_marginTop="100px"
+            android:layout_marginBottom="100px"
             android:id="@+id/rv"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"

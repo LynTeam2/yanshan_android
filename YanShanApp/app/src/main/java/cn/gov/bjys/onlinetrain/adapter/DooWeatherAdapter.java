@@ -5,72 +5,50 @@ import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.ycl.framework.utils.util.DateUtil;
 
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.bean.WeatherInfoBean;
+import cn.gov.bjys.onlinetrain.bean.weather.Forecast;
 
 /**
  * Created by dodo on 2018/3/7.
  */
 
-public class DooWeatherAdapter extends BaseQuickAdapter<WeatherInfoBean.detailWeatherInfo, BaseViewHolder> {
+public class DooWeatherAdapter extends BaseQuickAdapter<Forecast, BaseViewHolder> {
 
 
-    public DooWeatherAdapter(int layoutResId, List<WeatherInfoBean.detailWeatherInfo> data) {
+    public DooWeatherAdapter(int layoutResId, List<Forecast> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, WeatherInfoBean.detailWeatherInfo item) {
+    protected void convert(BaseViewHolder helper, Forecast item) {
         ImageView todayIcon = helper.getView(R.id.today);
         if (helper.getAdapterPosition() != 0) {
             todayIcon.setVisibility(View.INVISIBLE);
         }
 
-        helper.setText(R.id.xingqi, fixDate(item.getDate()));
+        helper.setText(R.id.xingqi, DateUtil.getWeek(item.getDate()));
 
-        helper.setText(R.id.type, item.getType());
+        helper.setText(R.id.type, item.getCond_txt_d());//晴间多云"
 
-        helper.setText(R.id.wendu, getWenduAverage(item.getHigh(), item.getLow()));
+        helper.setText(R.id.wendu, item.getTmp_min()+"°~"+item.getTmp_max()+"°");
 
         ImageView icon = helper.getView(R.id.icon);
 
-        setWeatherIcon(icon, item.getType());
+        setWeatherIcon(icon, item.getCond_txt_d());
     }
 
 
-    private String fixDate(String inputStr) {
-        String outputStr = "";
-
-        int index = inputStr.indexOf("星期");
-
-        outputStr = inputStr.substring(index);
-
-        return outputStr;
-    }
-
-    //获取平均温度
-    private String getWenduAverage(String high, String low) {
-        float hWendu = 0;
-        int indexH = high.indexOf("温");
-        String hStr = high.substring(indexH+1, high.length() - 2).trim();
 
 
-        float lWendu = 0;
-        int indexL = low.indexOf("温");
-        String lStr = low.substring(indexL+1, low.length() - 2).trim();
-
-        try {
-            hWendu = Float.valueOf(hStr);
-            lWendu = Float.valueOf(lStr);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return (int)(hWendu + lWendu +0.5f) / 2L + "°";
-    }
 
 
     //给天气状况选择图标

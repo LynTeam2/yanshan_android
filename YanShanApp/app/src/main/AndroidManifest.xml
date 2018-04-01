@@ -94,6 +94,10 @@
             android:name=".act.ExamAnalysisActivity2"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivityStyle" />
+        <activity
+            android:name=".act.ExamAnalysisActivity3"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivityStyle" />
 
         <activity
             android:name=".act.ExamEndActivity"

@@ -36,6 +36,6 @@
     <color name="home_divider_line_color">#c2c2c2</color>
     <color name="home_divider_line20px">#737373</color>
     <color name="home_normal_gray">#333333</color>
-
+    <color name="normal_divider_line_light1">#EDEDED</color>
 
 </resources>

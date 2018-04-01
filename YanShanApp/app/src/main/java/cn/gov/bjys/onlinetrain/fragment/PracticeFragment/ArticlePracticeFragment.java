@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -44,14 +45,14 @@ public class ArticlePracticeFragment  extends PracticeBaseFragment {
     public void bindData() {
         CourseBean bean = PracticeHelper.getInstance().getmCourseBean();
         String content = bean.getContent();
-        article.setText(content);
+        web_view.loadDataWithBaseURL(null,content,"text/html","utf-8",null);
     }
 
     @Bind(R.id.start_req)
     Button mStartReq;
 
-    @Bind(R.id.article)
-    TextView article;
+    @Bind(R.id.web_view)
+    WebView web_view;
 
     @OnClick({R.id.start_req})
     public void OnTableClick(View v){

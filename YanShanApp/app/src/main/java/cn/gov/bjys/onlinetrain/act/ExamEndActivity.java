@@ -90,8 +90,8 @@ public class ExamEndActivity extends FrameActivity {
                 } else {
                     mNowPager = new SaveExamPagerBean();
                 }
-                mBundle.putParcelable(ExamAnalysisActivity2.TAG, mNowPager);
-                startAct(ExamAnalysisActivity2.class,mBundle);
+                mBundle.putParcelable(ExamAnalysisActivity3.TAG, mNowPager);
+                startAct(ExamAnalysisActivity3.class,mBundle);
                 break;
         }
     }

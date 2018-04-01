@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="540px"
+    android:layout_height="180px"
+    android:gravity="center_vertical">
+    <ImageView
+        android:layout_marginLeft="60px"
+        android:id="@+id/img"
+        android:layout_width="100px"
+        android:layout_height="100px"
+        />
+    <LinearLayout
+        android:layout_marginLeft="40px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/new_black"
+            android:text="查看判断题错题"
+            android:textSize="46px"/>
+        <TextView
+            android:layout_marginTop="50px"
+            android:text="做错2题"
+            android:id="@+id/hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_gray_9"
+            android:textSize="32px"/>
+
+    </LinearLayout>
+</LinearLayout>
