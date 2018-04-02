@@ -40,7 +40,15 @@ import rx.schedulers.Schedulers;
 /**
  * 生活助手Activity
  */
+@Deprecated
 public class LifeHelpActivity extends FrameActivity {
+    @Override
+    protected void setRootView() {
+
+    }
+
+    /*
+
     public final static String TAG = "LifeHelpActivity";
 
     public static final String WEATHER_BASE_URL = "http://www.sojson.com/";
@@ -171,9 +179,9 @@ public class LifeHelpActivity extends FrameActivity {
     }
 
 
-    /**
+    *//**
      * 查询城市信息
-     */
+     *//*
     private void requestCityName() {
         showProgressDialog();
 //        new SearchCityHelper(LifeHelpActivity.this).execute();
@@ -254,12 +262,12 @@ public class LifeHelpActivity extends FrameActivity {
     }
 
     //requestPermissions方法执行后的回调方法
-    /*
+    *//*
     * requestCode:相当于一个标志，
     * permissions：需要传进的permission，不能为空
     * grantResults：用户进行操作之后，或同意或拒绝回调的传进的两个参数;
     *
-    */
+    *//*
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -307,4 +315,5 @@ public class LifeHelpActivity extends FrameActivity {
             requestCityName();
         }
     }
+    */
 }

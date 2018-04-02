@@ -1,6 +1,7 @@
 package cn.gov.bjys.onlinetrain.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,24 +33,22 @@ public class DooWeatherHourAdapter extends SimpleBaseAdapter {
         TextView time = (TextView) holder.getView(R.id.time);
         time.setText(temp.getTime().substring(11, temp.getTime().length()));
         ImageView img = (ImageView) holder.getView(R.id.img);
-        switch (position) {
-            case 0:
-                img.setImageResource(R.drawable.weather_zaoshang_icon);
-                break;
-            case 1:
-            case 2:
-                img .setImageResource(R.drawable.weather_zhongwu_icon);
-                break;
-            case 3:
-                img.setImageResource(R.drawable.weather_zaoshang_icon);
-                break;
-            case 4:
-                img .setImageResource(R.drawable.weather_night_icon);
-                break;
-            default:
-                break;
+        String iconTime ="";
+        int shijian = 0;//0-24
+        try {
+            iconTime = temp.getTime().substring(11, temp.getTime().length() - 3);
+            shijian = Integer.valueOf(iconTime);
+        }catch (Exception e){
+            e.printStackTrace();
+            Log.d("dodow","icon show err");
         }
-
+        if(shijian <= 6 || shijian >= 18){
+            img .setImageResource(R.drawable.weather_night_icon);
+        }else if(shijian >= 11 && shijian <= 15){
+            img .setImageResource(R.drawable.weather_zhongwu_icon);
+        }else {
+            img.setImageResource(R.drawable.weather_zaoshang_icon);
+        }
         TextView tmp = (TextView) holder.getView(R.id.wendu);
         tmp.setText(temp.getTmp()+"°");
         return convertView;

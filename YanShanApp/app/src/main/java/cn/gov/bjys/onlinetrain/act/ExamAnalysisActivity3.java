@@ -43,11 +43,15 @@ import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.view.RadarMarkerView;
 import cn.gov.bjys.onlinetrain.act.view.RoundedRectProgressBar;
 import cn.gov.bjys.onlinetrain.adapter.DooAnalysisGridAdapter;
+import cn.gov.bjys.onlinetrain.api.ZipCallBackListener;
+import cn.gov.bjys.onlinetrain.bean.ExamsBean;
+import cn.gov.bjys.onlinetrain.task.HomeExamSecondTask;
+import cn.gov.bjys.onlinetrain.utils.ExamHelper;
 
 /**
  * Created by Administrator on 2018/4/1 0001.
  */
-public class ExamAnalysisActivity3 extends FrameActivity implements View.OnClickListener {
+public class ExamAnalysisActivity3 extends FrameActivity implements View.OnClickListener, ZipCallBackListener {
 
     public static String TAG = ExamAnalysisActivity3.class.getSimpleName();
 
@@ -80,6 +84,9 @@ public class ExamAnalysisActivity3 extends FrameActivity implements View.OnClick
     @Bind(R.id.grid_view)
     GridView grid_view;
     DooAnalysisGridAdapter mDooAnalysisGridAdapter;
+
+    @Bind(R.id.history_btn)
+    TextView history_btn;
     @Override
     protected void setRootView() {
         setContentView(R.layout.activity_exam_analysis_newlayout);
@@ -88,27 +95,32 @@ public class ExamAnalysisActivity3 extends FrameActivity implements View.OnClick
     @Override
     public void initViews() {
         super.initViews();
+        initZipAllExams();
         initAllDatas();
         initScore();
         initAllBar();
-
         initGridView();
     }
-
+    HomeExamSecondTask mHomeExamSecondTask;
+    List<ExamsBean> mAllExams;
+    private void initZipAllExams(){
+        mHomeExamSecondTask = new HomeExamSecondTask(this);
+        mHomeExamSecondTask.execute();
+    }
 
     private void initAllBar(){
         int panduanProgress = (int) (mTrueFalseErrorSize /(mTrueFalseSize*1.0f) *100);
-        panduan_num.setText(mTrueFalseErrorSize);
+        panduan_num.setText(mTrueFalseErrorSize +"");
         panduan_bar.setProgress(panduanProgress);
 
 
         int danxuanProgress = (int) (mSimpleErrorSize /(mSimpleSize*1.0f) *100);
-        danxuan_num.setText(mSimpleErrorSize);
+        danxuan_num.setText(mSimpleErrorSize+"");
         danxuan_bar.setProgress(danxuanProgress);
 
 
         int duoxuanProgress = (int) (mMultiErrorSize /(mMultiSize*1.0f) *100);
-        duoxuan_num.setText(mMultiErrorSize);
+        duoxuan_num.setText(mMultiErrorSize+"");
         duoxuan_bar.setProgress(duoxuanProgress);
     }
 
@@ -169,7 +181,7 @@ public class ExamAnalysisActivity3 extends FrameActivity implements View.OnClick
                         //单选题
                     case 2:
                         //多选题
-                        if(datas.size() > 0) {
+                        if(datas != null && datas.size() > 0) {
                             Bundle mBundle = new Bundle();
                             mBundle.putInt(PracticeActivity.TAG, PracticeActivity.TIXING);
                             mBundle.putParcelableArrayList("PracticeActivityDatas", (ArrayList<? extends Parcelable>) datas);
@@ -180,7 +192,16 @@ public class ExamAnalysisActivity3 extends FrameActivity implements View.OnClick
                         break;
                     case 3:
                         //重新考试
-                        startAct(ExamPrepareActivity.class);
+                        long pagerId = mNowPager.getExampagerid();
+                        if(mAllExams != null && mAllExams.size() > 0){
+                            for(ExamsBean bean : mAllExams){
+                                if(bean.getId() == pagerId){
+                                    ExamHelper.getInstance().setmExamsBean(bean);
+                                    startAct(ExamPrepareActivity.class);
+                                    break;
+                                }
+                            }
+                        }
                         break;
                 }
             }
@@ -288,7 +309,7 @@ public class ExamAnalysisActivity3 extends FrameActivity implements View.OnClick
         score.setText(builderScore.create());
 
         ret.setText("答错" + errSize + "题" +
-                ((notdoSize > 0) ? ("未作" + notdoSize + "题") : ("")) + "，" +
+                ((notdoSize > 0) ? ("，未作" + notdoSize + "题") : ("")) + "，" +
                 (mNowPager.ismJige() ? "成绩合格" : "成绩不合格"));
     }
 
@@ -319,6 +340,33 @@ public class ExamAnalysisActivity3 extends FrameActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
+
+    }
+
+
+    @OnClick({R.id.history_btn})
+    public void onTabClick(View v) {
+        switch (v.getId()) {
+            case R.id.history_btn:
+                Bundle mBundle = new Bundle();
+                mBundle.putLong(ExamHistoryActivity.TAG, mNowPager.getExampagerid());
+                startAct(ExamHistoryActivity.class,mBundle);
+                break;
+        }
+    }
+
+    @Override
+    public void zipCallBackListener(List datas) {
+        mAllExams = datas;
+    }
+
+    @Override
+    public void zipCallBackSuccess() {
+
+    }
+
+    @Override
+    public void zipCallBackFail() {
 
     }
 }

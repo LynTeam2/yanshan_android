@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ycl.framework.base.FrameFragment;
 import com.ycl.framework.db.business.ExamPagerInfoBusiness;
@@ -19,6 +20,7 @@ import com.ycl.framework.db.entity.ExamBean;
 import com.ycl.framework.db.entity.SaveExamPagerBean;
 import com.ycl.framework.utils.util.ToastUtil;
 import com.ycl.framework.utils.util.advanced.SpannableStringUtils;
+import com.ycl.framework.view.TitleHeaderView;
 import com.zhy.autolayout.utils.AutoUtils;
 import com.zls.www.statusbarutil.StatusBarUtil;
 
@@ -26,7 +28,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
+import cn.gov.bjys.onlinetrain.act.ExamHistoryActivity;
 import cn.gov.bjys.onlinetrain.act.ExamPrepareActivity;
 import cn.gov.bjys.onlinetrain.act.PracticeActivity;
 import cn.gov.bjys.onlinetrain.act.view.RoundedRectProgressBar;
@@ -44,6 +48,8 @@ public class HomeScoreFragment  extends FrameFragment implements View.OnClickLis
     @Bind(R.id.ret)
     TextView ret;
 
+    @Bind(R.id.header)
+    TitleHeaderView header;
 
     @Bind(R.id.panduan_bar)
     RoundedRectProgressBar panduan_bar;
@@ -64,6 +70,27 @@ public class HomeScoreFragment  extends FrameFragment implements View.OnClickLis
     GridView grid_view;
     DooAnalysisGridAdapter mDooAnalysisGridAdapter;
 
+
+    @OnClick({R.id.history_btn})
+    public void onTabClick(View v) {
+        switch (v.getId()) {
+            case R.id.history_btn:
+                if(mNowPager != null) {
+                    Bundle mBundle = new Bundle();
+                    mBundle.putLong(ExamHistoryActivity.TAG, mNowPager.getExampagerid());
+                    startAct(ExamHistoryActivity.class, mBundle);
+                }else{
+                    ToastUtil.showToast("暂无历史成绩");
+                }
+                break;
+        }
+    }
+
+    @Override
+    protected void initViews() {
+        super.initViews();
+        header.setLeftViewVisible(View.GONE);
+    }
 
     @Override
     protected View inflaterView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
@@ -99,17 +126,17 @@ public class HomeScoreFragment  extends FrameFragment implements View.OnClickLis
 
     private void initAllBar(){
         int panduanProgress = (int) (mTrueFalseErrorSize /(mTrueFalseSize*1.0f) *100);
-        panduan_num.setText(mTrueFalseErrorSize);
+        panduan_num.setText(mTrueFalseErrorSize + "");
         panduan_bar.setProgress(panduanProgress);
 
 
         int danxuanProgress = (int) (mSimpleErrorSize /(mSimpleSize*1.0f) *100);
-        danxuan_num.setText(mSimpleErrorSize);
+        danxuan_num.setText(mSimpleErrorSize + "");
         danxuan_bar.setProgress(danxuanProgress);
 
 
         int duoxuanProgress = (int) (mMultiErrorSize /(mMultiSize*1.0f) *100);
-        duoxuan_num.setText(mMultiErrorSize);
+        duoxuan_num.setText(mMultiErrorSize + "");
         duoxuan_bar.setProgress(duoxuanProgress);
     }
 
@@ -175,7 +202,7 @@ public class HomeScoreFragment  extends FrameFragment implements View.OnClickLis
                     case 2:
                         //多选题
                     case 3:
-                        if(datas.size() > 0) {
+                        if(datas != null && datas.size() > 0) {
                             Bundle mBundle = new Bundle();
                             mBundle.putInt(PracticeActivity.TAG, PracticeActivity.TIXING);
                             mBundle.putParcelableArrayList("PracticeActivityDatas", (ArrayList<? extends Parcelable>) datas);
@@ -215,6 +242,7 @@ public class HomeScoreFragment  extends FrameFragment implements View.OnClickLis
         mTrueFalseSize = getSizeFor(mNowPager.getmTrueFalsePager().split(","));
         mTrueFalseErrorSize = getSizeFor(mNowPager.getmTrueFalseErrorPager().split(","));
 
+        mMultiErrorList.clear();
         for (String str : mNowPager.getmMultiErrorPager().split(",")) {
             if (TextUtils.isEmpty(str)) {
                 continue;
@@ -223,6 +251,7 @@ public class HomeScoreFragment  extends FrameFragment implements View.OnClickLis
             mMultiErrorList.add(bean);
         }
 
+        mSimpleErrorList.clear();
         for (String str : mNowPager.getmSimpleErrorPager().split(",")) {
             if (TextUtils.isEmpty(str)) {
                 continue;
@@ -231,6 +260,7 @@ public class HomeScoreFragment  extends FrameFragment implements View.OnClickLis
             mSimpleErrorList.add(bean);
         }
 
+        mTrueFalseErrorList.clear();
         for (String str : mNowPager.getmTrueFalseErrorPager().split(",")) {
             if (TextUtils.isEmpty(str)) {
                 continue;
@@ -287,7 +317,7 @@ public class HomeScoreFragment  extends FrameFragment implements View.OnClickLis
         score.setText(builderScore.create());
 
         ret.setText("答错" + errSize + "题" +
-                ((notdoSize > 0) ? ("未作" + notdoSize + "题") : ("")) + "，" +
+                ((notdoSize > 0) ? ("，未作" + notdoSize + "题") : ("")) + "，" +
                 (mNowPager.ismJige() ? "成绩合格" : "成绩不合格"));
     }
 

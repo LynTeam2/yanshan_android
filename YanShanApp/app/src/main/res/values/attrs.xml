@@ -28,4 +28,12 @@
         <attr name="barColor" format="color" />
         <attr name="textColor" format="color" />
     </declare-styleable>
+
+
+        <declare-styleable name="LD_WaveView">
+            <attr name="wave_color" format="color"></attr>
+            <attr name="wave_circle" format="boolean"></attr>
+            <attr name="wave_progress" format="integer"></attr>
+        </declare-styleable>
+
 </resources>

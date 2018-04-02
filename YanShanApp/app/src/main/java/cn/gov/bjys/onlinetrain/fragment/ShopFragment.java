@@ -246,8 +246,15 @@ public class ShopFragment extends FrameFragment {
         Log.d("dodoT", "checkNeedUpdate");
         String lastWeather = SavePreference.getStr(getContext(), NEW_WEATHER_FLAG);
         HeWeather6.WeatherJson bean = FastJSONParser.getBean(lastWeather, HeWeather6.WeatherJson.class);
-        String lastCity = bean.getHeWeather6().get(0).getBasic().getLocation();
-        String lastDate = bean.getHeWeather6().get(0).getDaily_forecast().get(0).getDate();
+        String lastCity = "";
+        String lastDate = "";
+        try {
+            lastCity = bean.getHeWeather6().get(0).getBasic().getLocation();
+            lastDate = bean.getHeWeather6().get(0).getDaily_forecast().get(0).getDate();
+        }catch (Exception e){
+            e.printStackTrace();
+            Log.d("dodoW","data get is error on native");
+        }
         String today = DateUtil.formatYourSelf(System.currentTimeMillis(), new SimpleDateFormat("yyyy-MM-dd"));
         if (TextUtils.isEmpty(lastCity) || !mCityName.contains(lastCity) || !today.equals(lastDate)) {
             //未保存上一次的城市地名 或者 此次地名未包含上次地名 或者 日期不同 需要刷新
@@ -256,12 +263,17 @@ public class ShopFragment extends FrameFragment {
         } else {
             //否则的话 刷新
             Log.d("dodoT", "checkNeedUpdate  false");
-            List<Forecast> datas = bean.getHeWeather6().get(0).getDaily_forecast();//
-            mWeatherAdapter.setNewData(datas);
-            List<Hourly> list =  bean.getHeWeather6().get(0).getHourly();
-            List<Hourly> showList = list.subList(2,list.size()-1);
-            mDooWeatherHourAdapter.replaceAll(showList);
-            setupView(bean);
+           try {
+               List<Forecast> datas = bean.getHeWeather6().get(0).getDaily_forecast();//
+               mWeatherAdapter.setNewData(datas);
+               List<Hourly> list = bean.getHeWeather6().get(0).getHourly();
+               List<Hourly> showList = list.subList(0, list.size() - 3);
+               mDooWeatherHourAdapter.replaceAll(showList);
+               setupView(bean);
+           }catch (Exception e){
+               e.printStackTrace();
+               Log.d("dodoW","data update is error on native");
+           }
             dismissProgressDialog();
             return false;
         }
@@ -296,11 +308,10 @@ public class ShopFragment extends FrameFragment {
                         HeWeather6.WeatherJson bean = FastJSONParser.getBean(s, HeWeather6.WeatherJson.class);
                         //只存下最新数据
                         SavePreference.save(getContext(), NEW_WEATHER_FLAG, s);
-
                         List<Forecast> datas = bean.getHeWeather6().get(0).getDaily_forecast();//
                         mWeatherAdapter.setNewData(datas);
                         List<Hourly> list =  bean.getHeWeather6().get(0).getHourly();
-                        List<Hourly> showList = list.subList(2,list.size()-1);
+                        List<Hourly> showList = list.subList(0,list.size()-3);
                         mDooWeatherHourAdapter.replaceAll(showList);
                         setupView(bean);
                     }

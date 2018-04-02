@@ -59,7 +59,8 @@
         android:gravity="center">
         <TextView
             android:id="@+id/kongqizhiliang"
-            android:layout_width="wrap_content"
+            android:layout_width="800px"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="36px"
@@ -89,6 +90,7 @@
             android:textSize="40px"
             android:text="星期"/>
     <GridView
+        android:numColumns="5"
         android:layout_marginLeft="50px"
         android:layout_marginRight="50px"
         android:layout_below="@id/xingqiji"
@@ -105,12 +107,12 @@
         android:layout_marginBottom="86px"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="700px"
+        android:layout_height="600px"
         android:background="@drawable/weather_whitebg"
         >
         <android.support.v7.widget.RecyclerView
-            android:layout_marginTop="100px"
-            android:layout_marginBottom="100px"
+            android:layout_marginTop="50px"
+            android:layout_marginBottom="50px"
             android:id="@+id/rv"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"

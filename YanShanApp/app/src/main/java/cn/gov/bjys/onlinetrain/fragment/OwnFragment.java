@@ -125,7 +125,7 @@ public class OwnFragment extends FrameFragment {
 
         //我的错题
         DooLinear userErr = new DooLinear(getActivity());
-        userErr.setImgIcon(R.drawable.user_message_icon);
+        userErr.setImgIcon(R.drawable.errors_icon);
         userErr.setImgNext(R.drawable.next_right_btn);
         userErr.setTvContent("我的错题");
         userErr.setCustomClick(R.id.next_btn, new View.OnClickListener() {

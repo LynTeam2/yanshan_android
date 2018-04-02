@@ -33,6 +33,8 @@ public class DooWeatherAdapter extends BaseQuickAdapter<Forecast, BaseViewHolder
         ImageView todayIcon = helper.getView(R.id.today);
         if (helper.getAdapterPosition() != 0) {
             todayIcon.setVisibility(View.INVISIBLE);
+        }else {
+            todayIcon.setVisibility(View.VISIBLE);
         }
 
         helper.setText(R.id.xingqi, DateUtil.getWeek(item.getDate()));

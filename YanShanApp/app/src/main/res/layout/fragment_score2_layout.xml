@@ -53,10 +53,10 @@
         android:id="@+id/body_layout"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="536px">
+        android:layout_height="456px">
 
         <LinearLayout
-            android:layout_marginTop="112px"
+            android:layout_marginTop="52px"
             android:layout_width="match_parent"
             android:orientation="horizontal"
             android:layout_height="120px"
@@ -172,7 +172,7 @@
     <GridView
         android:layout_below="@id/body_layout"
         android:layout_marginTop="80px"
-        android:layout_marginBottom="80px"
+        android:layout_marginBottom="20px"
         android:id="@+id/grid_view"
         android:layout_width="match_parent"
         android:layout_height="584px"

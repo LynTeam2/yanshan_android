@@ -2,7 +2,8 @@
 <com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/windowBackgroundWhite">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -14,40 +15,51 @@
             app:title_name = "历史成绩"
             >
         </com.ycl.framework.view.TitleHeaderView>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="480px">
+
+            <cn.gov.bjys.onlinetrain.act.view.LD_WaveView
+                android:layout_width="360px"
+                android:layout_height="360px"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                app:wave_circle="true"
+                app:wave_color="@color/normal_blue_light1"
+                app:wave_progress="20"></cn.gov.bjys.onlinetrain.act.view.LD_WaveView>
+
             <LinearLayout
-                android:layout_centerInParent="true"
-                android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:gravity="center_horizontal"
-                >
+                android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="累计做题"
-                    android:textColor="@color/normal_black"/>
+                    android:textSize="36px"
+                    android:textColor="#adb1b7" />
+
                 <TextView
-                    android:layout_marginTop="30px"
                     android:id="@+id/practice_nums"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="18px"
                     android:text="20次"
-                    android:textSize="80px"
-                    android:textColor="@color/normal_red"/>
+                    android:textColor="@color/normal_blue_light1"
+                    android:textSize="80px" />
 
             </LinearLayout>
 
         </RelativeLayout>
-        <include
-            layout="@layout/layout_divider_line1px"
-            ></include>
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="300px">
+            android:layout_height="200px">
             <LinearLayout
                 android:layout_width="0px"
                 android:layout_weight="1"
@@ -103,16 +115,34 @@
                     android:text="最高分"/>
             </LinearLayout>
         </LinearLayout>
-        <include
-            layout="@layout/layout_divider_line1px"
-            ></include>
-        <TextView
+        <View
             android:layout_width="match_parent"
-            android:layout_height="150px"
-            android:textColor="@color/normal_red"
-            android:text="历史考试成绩"
-            android:gravity="center"
-            />
+            android:layout_height="20px"
+            android:background="@color/windowBackground"
+            ></View>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200px"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="120px"
+                android:layout_height="120px"
+                android:layout_marginLeft="40px"
+                android:src="@drawable/user_normal_avatar" />
+
+            <TextView
+                android:layout_marginLeft="40px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="历史考试成绩"
+                android:textSize="44px"
+                android:textColor="@color/new_black" />
+        </LinearLayout>
         <include
             layout="@layout/layout_divider_line1px"
             ></include>

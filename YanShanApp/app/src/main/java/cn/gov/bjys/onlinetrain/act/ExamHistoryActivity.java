@@ -4,13 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.db.business.ExamPagerInfoBusiness;
 import com.ycl.framework.db.entity.SaveExamPagerBean;
+import com.ycl.framework.utils.util.GlideProxy;
 import com.ycl.framework.view.TitleHeaderView;
 
 import java.util.List;
@@ -18,6 +21,7 @@ import java.util.List;
 import butterknife.Bind;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.adapter.DooExamHistoryAdapter;
+import cn.gov.bjys.onlinetrain.bean.UserBean;
 import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 
 /**
@@ -42,6 +46,10 @@ public class ExamHistoryActivity extends FrameActivity {
     @Bind(R.id.rv)
     RecyclerView rv;
     DooExamHistoryAdapter mDooExamHistoryAdapter;
+
+    @Bind(R.id.avatar)
+    ImageView avatar;
+
     @Override
     protected void setRootView() {
         setContentView(R.layout.activity_exam_history_layout);
@@ -53,6 +61,9 @@ public class ExamHistoryActivity extends FrameActivity {
     @Override
     public void initViews() {
         super.initViews();
+
+        initAvatar();
+
         Intent recIntent = getIntent();
         Bundle recBundle = recIntent.getExtras();
         mExamId = recBundle.getLong(TAG);
@@ -92,5 +103,13 @@ public class ExamHistoryActivity extends FrameActivity {
              startAct(ExamAnalysisActivity3.class,mBundle);
             }
         });
+    }
+
+    private void initAvatar(){
+        UserBean bean = YSUserInfoManager.getsInstance().getUserBean();
+        String avatarPath = bean.getIcon();
+        if (!TextUtils.isEmpty(avatarPath)) {
+            GlideProxy.loadImgForUrlPlaceHolderDontAnimate(avatar, avatarPath, R.drawable.user_normal_avatar);
+        }
     }
 }
