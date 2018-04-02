@@ -45,6 +45,7 @@ import cn.gov.bjys.onlinetrain.act.view.RadarMarkerView;
 import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 
 
+@Deprecated
 public class HomeClassFragment extends FrameFragment implements View.OnClickListener{
 
     @Bind(R.id.header)
@@ -169,8 +170,6 @@ public class HomeClassFragment extends FrameFragment implements View.OnClickList
                 score_layout.setVisibility(View.GONE);
                 no_score_layout.setVisibility(View.VISIBLE);
             }
-
-
         }
     }
 

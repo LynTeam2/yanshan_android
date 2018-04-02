@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ZipUtils;
@@ -37,8 +38,12 @@ import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.LifeHelpActivity;
 import cn.gov.bjys.onlinetrain.adapter.DooWeatherAdapter;
+import cn.gov.bjys.onlinetrain.adapter.DooWeatherHourAdapter;
 import cn.gov.bjys.onlinetrain.api.WeatherApi;
 import cn.gov.bjys.onlinetrain.bean.WeatherInfoBean;
+import cn.gov.bjys.onlinetrain.bean.weather.Forecast;
+import cn.gov.bjys.onlinetrain.bean.weather.HeWeather6;
+import cn.gov.bjys.onlinetrain.bean.weather.Hourly;
 import cn.gov.bjys.onlinetrain.service.SearchCityHelper;
 import cn.gov.bjys.onlinetrain.utils.UpdateFileUtils;
 import rx.Subscriber;
@@ -49,8 +54,9 @@ import rx.schedulers.Schedulers;
 public class ShopFragment extends FrameFragment {
 
     public final static String TAG = ShopFragment.class.getSimpleName();
-    public static final String WEATHER_BASE_URL = "http://www.sojson.com/";
-
+//    public static final String WEATHER_BASE_URL = "http://www.sojson.com/";
+    public static final String WEATHER_BASE_URL = "https://free-api.heweather.com/";
+    public static final String KEY = "6e8a4b90f9504d9caed280c41a837c1c";
     @Bind(R.id.header)
     TitleHeaderView mHeader;
 
@@ -71,7 +77,16 @@ public class ShopFragment extends FrameFragment {
 
     DooWeatherAdapter mWeatherAdapter;
 
+    @Bind(R.id.kongqizhiliang)
+    TextView kongqizhiliang;
 
+    @Bind(R.id.xingqiji)
+    TextView xiqingji;
+
+    @Bind(R.id.grid_view)
+    GridView grid_view;
+
+    DooWeatherHourAdapter mDooWeatherHourAdapter;
 
     @Override
     protected View inflaterView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
@@ -83,6 +98,7 @@ public class ShopFragment extends FrameFragment {
     public void initViews() {
         super.initViews();
         initRvAdapter();
+        initGridViewAdapter();
     }
 
     @Override
@@ -93,9 +109,16 @@ public class ShopFragment extends FrameFragment {
         }
     }
 
-    private void setupView(WeatherInfoBean bean) {
+    private void setupView(HeWeather6.WeatherJson bean) {
+
+        kongqizhiliang.setText(bean.getHeWeather6().get(0).getLifestyle().get(0).getTxt());
+
+        xiqingji.setText(DateUtil.getWeek(bean.getHeWeather6().get(0).getDaily_forecast().get(0).getDate()));
+
+        wendu.setText(bean .getHeWeather6().get(0).getNow().getTmp()+ "°");
+
         //实时温度
-        wendu.setText(bean.getData().getWendu() + "°");
+/*        wendu.setText(bean.getData().getWendu() + "°");
 
         String dateStr = bean.getDate();
 
@@ -103,7 +126,7 @@ public class ShopFragment extends FrameFragment {
 
         xingqi.setText(XingqiToZhou(bean.getData().getForecast().get(0).getDate()));
 
-        nongli.setText(getNongLi(dateStr));
+        nongli.setText(getNongLi(dateStr));*/
 
     }
 
@@ -188,6 +211,11 @@ public class ShopFragment extends FrameFragment {
     }
 
 
+    private void initGridViewAdapter(){
+        mDooWeatherHourAdapter = new DooWeatherHourAdapter(getContext(),null);
+        grid_view.setAdapter(mDooWeatherHourAdapter);
+    }
+
     /**
      * 查询城市信息
      */
@@ -208,6 +236,7 @@ public class ShopFragment extends FrameFragment {
         }
         mHeader.setTitleText(mCityName);
         if (checkNeedUpdate()) {
+//        if (true) {
             reqWeatherInfos(mCityName);
         }
     }
@@ -216,18 +245,22 @@ public class ShopFragment extends FrameFragment {
     private boolean checkNeedUpdate() {
         Log.d("dodoT", "checkNeedUpdate");
         String lastWeather = SavePreference.getStr(getContext(), NEW_WEATHER_FLAG);
-        WeatherInfoBean bean = FastJSONParser.getBean(lastWeather, WeatherInfoBean.class);
-        String lastCity = bean.getCity();
-        String today = DateUtil.formatYourSelf(System.currentTimeMillis(), new SimpleDateFormat("yyyyMMdd"));
-        if (TextUtils.isEmpty(lastCity) || !mCityName.contains(bean.getCity()) || !today.equals(bean.getDate())) {
+        HeWeather6.WeatherJson bean = FastJSONParser.getBean(lastWeather, HeWeather6.WeatherJson.class);
+        String lastCity = bean.getHeWeather6().get(0).getBasic().getLocation();
+        String lastDate = bean.getHeWeather6().get(0).getDaily_forecast().get(0).getDate();
+        String today = DateUtil.formatYourSelf(System.currentTimeMillis(), new SimpleDateFormat("yyyy-MM-dd"));
+        if (TextUtils.isEmpty(lastCity) || !mCityName.contains(lastCity) || !today.equals(lastDate)) {
             //未保存上一次的城市地名 或者 此次地名未包含上次地名 或者 日期不同 需要刷新
             Log.d("dodoT", "checkNeedUpdate  true");
             return true;
         } else {
             //否则的话 刷新
             Log.d("dodoT", "checkNeedUpdate  false");
-            List<WeatherInfoBean.detailWeatherInfo> datas = bean.getData().getForecast();
+            List<Forecast> datas = bean.getHeWeather6().get(0).getDaily_forecast();//
             mWeatherAdapter.setNewData(datas);
+            List<Hourly> list =  bean.getHeWeather6().get(0).getHourly();
+            List<Hourly> showList = list.subList(2,list.size()-1);
+            mDooWeatherHourAdapter.replaceAll(showList);
             setupView(bean);
             dismissProgressDialog();
             return false;
@@ -241,7 +274,7 @@ public class ShopFragment extends FrameFragment {
         Log.d("dodoT", "reqWeatherInfos");
         rx.Observable<String> obs;
         obs = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext()).
-                getSpeUrlService(WEATHER_BASE_URL, WeatherApi.class).getWeatherInfos(cityName);
+                getSpeUrlService(WEATHER_BASE_URL, WeatherApi.class).getNewWeatherInfos(KEY,cityName);
         obs.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<String>() {
@@ -260,11 +293,15 @@ public class ShopFragment extends FrameFragment {
                     @Override
                     public void onNext(String s) {
                         Log.d("dodoT", "onNext");
-                        WeatherInfoBean bean = FastJSONParser.getBean(s, WeatherInfoBean.class);
+                        HeWeather6.WeatherJson bean = FastJSONParser.getBean(s, HeWeather6.WeatherJson.class);
                         //只存下最新数据
                         SavePreference.save(getContext(), NEW_WEATHER_FLAG, s);
-                        List<WeatherInfoBean.detailWeatherInfo> datas = bean.getData().getForecast();
+
+                        List<Forecast> datas = bean.getHeWeather6().get(0).getDaily_forecast();//
                         mWeatherAdapter.setNewData(datas);
+                        List<Hourly> list =  bean.getHeWeather6().get(0).getHourly();
+                        List<Hourly> showList = list.subList(2,list.size()-1);
+                        mDooWeatherHourAdapter.replaceAll(showList);
                         setupView(bean);
                     }
                 });
