@@ -78,7 +78,7 @@
         <TextView
             android:layout_margin="70px"
             android:textColor="@color/normal_black"
-            android:textSize="42px"
+            android:textSize="52px"
             android:text="安监动态"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"></TextView>

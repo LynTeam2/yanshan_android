@@ -33,7 +33,10 @@ public class DooWeatherAdapter extends BaseQuickAdapter<WeatherInfoBean.detailWe
 
         helper.setText(R.id.type, item.getType());
 
-        helper.setText(R.id.wendu, getWenduAverage(item.getHigh(), item.getLow()));
+        helper.setText(R.id.wendu,
+                getWenduValue(item.getLow()) + "~" + getWenduValue(item.getHigh())
+        );
+//                getWenduAverage(item.getHigh(), item.getLow()));
 
         ImageView icon = helper.getView(R.id.icon);
 
@@ -50,6 +53,21 @@ public class DooWeatherAdapter extends BaseQuickAdapter<WeatherInfoBean.detailWe
 
         return outputStr;
     }
+
+    //获取温度int转String值
+    private String getWenduValue(String wendu){
+        float hWendu = 0;
+        int indexH = wendu.indexOf("温");
+        String hStr = wendu.substring(indexH+1, wendu.length() - 2).trim();
+        try {
+            hWendu = Float.valueOf(hStr);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return (int)(hWendu) + "°";
+    }
+
 
     //获取平均温度
     private String getWenduAverage(String high, String low) {
