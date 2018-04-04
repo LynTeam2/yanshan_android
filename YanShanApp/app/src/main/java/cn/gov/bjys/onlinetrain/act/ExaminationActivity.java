@@ -388,11 +388,13 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
         //
         StringBuilder mMultiSb = new StringBuilder();
         StringBuilder mMultiErrorSb = new StringBuilder();
+        StringBuilder mMultiRightSb = new StringBuilder();
         StringBuilder mTurefalseSb = new StringBuilder();
         StringBuilder mTurefalseErrorSb = new StringBuilder();
+        StringBuilder mTurefalseRightSb = new StringBuilder();
         StringBuilder mSimpleSb = new StringBuilder();
         StringBuilder mSimpleErrorSb = new StringBuilder();
-
+        StringBuilder mSimpleRightSb = new StringBuilder();
 
 
         for (int i=0; i < mQuestionsList.size(); i++) {
@@ -418,6 +420,15 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
                     break;
                 case ExamBean.RIGHT:
                     rightSb.append(uid+"");
+
+                    if("mc".equals(questionType)){
+                        mMultiRightSb.append(uid+"");
+                    }else if("sc".equals(questionType)){
+                        mSimpleRightSb.append(uid+"");
+                    }else if("tf".equals(questionType)){
+                        mTurefalseRightSb.append(uid+"");
+                    }
+
                     break;
                 }
 
@@ -447,6 +458,14 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
                         break;
                     case ExamBean.RIGHT:
                         rightSb.append("," + uid);
+
+                        if("mc".equals(questionType)){
+                            mMultiRightSb.append("," + uid);
+                        }else if("sc".equals(questionType)){
+                            mSimpleRightSb.append("," + uid);
+                        }else if("tf".equals(questionType)){
+                            mTurefalseRightSb.append("," + uid);
+                        }
                         break;
                 }
 
@@ -471,12 +490,15 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
 
         bean.setmMultiPager(DataHelper.clearEmptyString(mMultiSb.toString()));
         bean.setmMultiErrorPager(DataHelper.clearEmptyString(mMultiErrorSb.toString()));
+        bean.setmMultiRightPager(DataHelper.clearEmptyString(mMultiRightSb.toString()));
 
         bean.setmSimplePager(DataHelper.clearEmptyString(mSimpleSb.toString()));
         bean.setmSimpleErrorPager(DataHelper.clearEmptyString(mSimpleErrorSb.toString()));
+        bean.setmSimpleRightPager(DataHelper.clearEmptyString(mSimpleRightSb.toString()));
 
         bean.setmTrueFalsePager(DataHelper.clearEmptyString(mTurefalseSb.toString()));
         bean.setmTrueFalseErrorPager(DataHelper.clearEmptyString(mTurefalseErrorSb.toString()));
+        bean.setmTrueFalseRightPager(DataHelper.clearEmptyString(mTurefalseRightSb.toString()));
 
         bean.setCreateTime(System.currentTimeMillis());
         bean.setUseTimes(mAllTimes - mTimes);//用户使用的做题时间
@@ -498,7 +520,7 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
 
 
     private void exitPager() {
-        saveErrorList();
+//        saveErrorList();//考试错题不需要放进我的错题中
         saveExamPager();
         cancelTimer();
         startAct(ExamEndActivity.class);

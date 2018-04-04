@@ -4,14 +4,18 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.ycl.framework.base.FrameActivity;
+import com.ycl.framework.base.FrameActivityStack;
 import com.ycl.framework.utils.sp.SavePreference;
+import com.ycl.framework.utils.util.FastJSONParser;
 import com.ycl.framework.utils.util.GlideProxy;
+import com.ycl.framework.utils.util.HRetrofitNetHelper;
 import com.ycl.framework.utils.util.ToastUtil;
 import com.ycl.framework.view.TitleHeaderView;
 import com.zls.www.statusbarutil.StatusBarUtil;
@@ -21,8 +25,17 @@ import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.view.DooUserSettingLinear;
+import cn.gov.bjys.onlinetrain.api.BaseResponse;
+import cn.gov.bjys.onlinetrain.api.UserApi;
+import cn.gov.bjys.onlinetrain.bean.UserBean;
 import cn.gov.bjys.onlinetrain.fragment.UserFragment.SaveNickFragment;
+import cn.gov.bjys.onlinetrain.utils.MapParamsHelper;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
+import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by dodozhou on 2017/11/14.
@@ -51,8 +64,49 @@ public class UserSettingActivity extends FrameActivity {
         switch (v.getId()) {
             case R.id.quite_btn:
                 //TODO GOTO QUTIE
+                userLoginOut();
                 break;
         }
+    }
+
+    private void userLoginOut(){
+        startAct(LoginActivity.class);
+        //清理账号密码
+        SavePreference.save(this,YSConst.UserInfo.KEY_USER_ACCOUNT,"");
+        SavePreference.save(this,YSConst.UserInfo.KEY_USER_PASSWORD,"");
+        remoteLogout();
+        finishAllActivitys();
+    }
+    private void remoteLogout(){
+            Observable<BaseResponse<String>> obsLoginOut;
+            obsLoginOut = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext()).
+                    getSpeUrlService(YSConst.BaseUrl.BASE_URL, UserApi.class).userLogout();
+            obsLoginOut.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<BaseResponse<String>>() {
+                        @Override
+                        public void onCompleted() {
+                            Log.d("dodo", "onCompleted");
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.d("dodo", "onError");
+                        }
+
+                        @Override
+                        public void onNext(BaseResponse<String> stringBaseResponse) {
+                            Log.d("dodo", "resp = " + stringBaseResponse);
+                            if ("1".equals(stringBaseResponse.getCode())) {
+                                //退出登陆成功
+                            }
+                        }
+                    });
+
+    }
+
+    private void finishAllActivitys(){
+        FrameActivityStack.create().finishAllActivity();
     }
 
     @Override
@@ -72,6 +126,8 @@ public class UserSettingActivity extends FrameActivity {
         ft = getSupportFragmentManager().beginTransaction();
         initSettingLayout();
     }
+
+
 
 
     DooUserSettingLinear avatarLinear, nickLinear, otherLinear;
@@ -109,7 +165,7 @@ public class UserSettingActivity extends FrameActivity {
         });
         setting_layout.addView(nickLinear);
 
-        otherLinear = new DooUserSettingLinear(this);
+/*        otherLinear = new DooUserSettingLinear(this);
         otherLinear.setTitle("其他");
         otherLinear.setCustomClick(R.id.next_layout, new View.OnClickListener() {
             @Override
@@ -118,7 +174,7 @@ public class UserSettingActivity extends FrameActivity {
                 ToastUtil.showToast("功能暂未开放");
             }
         });
-        setting_layout.addView(otherLinear);
+        setting_layout.addView(otherLinear);*/
     }
 
     @Override

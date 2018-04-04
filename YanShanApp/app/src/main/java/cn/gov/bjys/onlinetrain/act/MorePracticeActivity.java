@@ -7,6 +7,7 @@ import android.widget.GridView;
 
 import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.db.entity.ExamBean;
+import com.ycl.framework.utils.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +67,10 @@ public class MorePracticeActivity  extends FrameActivity{
                 } else if ("消防".equals(ajType)) {
                     mDatas = ExamDistinguishHelper.getInstance().getmXiaoFang();
                 }
+                if(mDatas == null || mDatas.size()<=0){
+                    ToastUtil.showToast("暂无该类型题目");
+                    return;
+                }
                 mBundle.putParcelableArrayList("PracticeActivityDatas",mDatas);
                 startAct(PracticeActivity.class,mBundle);
             }
@@ -86,6 +91,10 @@ public class MorePracticeActivity  extends FrameActivity{
                     mDatas = ExamDistinguishHelper.getInstance().getmSimple();
                 } else if ("多选".equals(questionType)) {
                     mDatas = ExamDistinguishHelper.getInstance().getmMulti();
+                }
+                if(mDatas == null || mDatas.size()<=0){
+                    ToastUtil.showToast("暂无该类型题目");
+                    return;
                 }
                 mBundle.putParcelableArrayList("PracticeActivityDatas",mDatas);
                 startAct(PracticeActivity.class,mBundle);
@@ -108,6 +117,10 @@ public class MorePracticeActivity  extends FrameActivity{
                     mDatas = ExamDistinguishHelper.getInstance().getmMiddle();
                 } else if ("高级".equals(difficulty)) {
                     mDatas = ExamDistinguishHelper.getInstance().getmSenior();
+                }
+                if(mDatas == null || mDatas.size()<=0){
+                    ToastUtil.showToast("暂无该类型题目");
+                    return;
                 }
                 mBundle.putParcelableArrayList("PracticeActivityDatas",mDatas);
                 startAct(PracticeActivity.class,mBundle);

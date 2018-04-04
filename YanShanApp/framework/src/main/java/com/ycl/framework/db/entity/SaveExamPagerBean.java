@@ -42,6 +42,12 @@ public class SaveExamPagerBean  extends DBEntity implements Parcelable{
     @DatabaseField
     private String mSimpleErrorPager = "";//单选错误部分
     @DatabaseField
+    private String mMultiRightPager = "";//多选正确题
+    @DatabaseField
+    private String mTrueFalseRightPager = "";//是非正确部分
+    @DatabaseField
+    private String mSimpleRightPager = "";//单选正确部分
+    @DatabaseField
     private String mMultiPager = "";//多选
     @DatabaseField
     private String mTrueFalsePager = "";//是非
@@ -55,6 +61,65 @@ public class SaveExamPagerBean  extends DBEntity implements Parcelable{
     @DatabaseField
     private long useTimes;//考试花费时长 单位秒
 
+    protected SaveExamPagerBean(Parcel in) {
+        dbId = in.readLong();
+        userid = in.readString();
+        exampagerid = in.readLong();
+        createTime = in.readLong();
+        examName = in.readString();
+        mAllPager = in.readString();
+        mErrorPager = in.readString();
+        mRightPager = in.readString();
+        mNotDoPager = in.readString();
+        mMultiErrorPager = in.readString();
+        mTrueFalseErrorPager = in.readString();
+        mSimpleErrorPager = in.readString();
+        mMultiRightPager = in.readString();
+        mTrueFalseRightPager = in.readString();
+        mSimpleRightPager = in.readString();
+        mMultiPager = in.readString();
+        mTrueFalsePager = in.readString();
+        mSimplePager = in.readString();
+        mScore = in.readLong();
+        mJige = in.readByte() != 0;
+        useTimes = in.readLong();
+    }
+
+    public static final Creator<SaveExamPagerBean> CREATOR = new Creator<SaveExamPagerBean>() {
+        @Override
+        public SaveExamPagerBean createFromParcel(Parcel in) {
+            return new SaveExamPagerBean(in);
+        }
+
+        @Override
+        public SaveExamPagerBean[] newArray(int size) {
+            return new SaveExamPagerBean[size];
+        }
+    };
+
+    public String getmMultiRightPager() {
+        return mMultiRightPager;
+    }
+
+    public void setmMultiRightPager(String mMultiRightPager) {
+        this.mMultiRightPager = mMultiRightPager;
+    }
+
+    public String getmTrueFalseRightPager() {
+        return mTrueFalseRightPager;
+    }
+
+    public void setmTrueFalseRightPager(String mTrueFalseRightPager) {
+        this.mTrueFalseRightPager = mTrueFalseRightPager;
+    }
+
+    public String getmSimpleRightPager() {
+        return mSimpleRightPager;
+    }
+
+    public void setmSimpleRightPager(String mSimpleRightPager) {
+        this.mSimpleRightPager = mSimpleRightPager;
+    }
 
     public String getmSimplePager() {
         return mSimplePager;
@@ -211,56 +276,26 @@ public class SaveExamPagerBean  extends DBEntity implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.dbId);
-        dest.writeString(this.userid);
-        dest.writeLong(this.exampagerid);
-        dest.writeLong(this.createTime);
-        dest.writeString(this.examName);
-        dest.writeString(this.mAllPager);
-        dest.writeString(this.mErrorPager);
-        dest.writeString(this.mRightPager);
-        dest.writeString(this.mNotDoPager);
-        dest.writeString(this.mMultiErrorPager);
-        dest.writeString(this.mTrueFalseErrorPager);
-        dest.writeString(this.mSimpleErrorPager);
-        dest.writeString(this.mMultiPager);
-        dest.writeString(this.mTrueFalsePager);
-        dest.writeString(this.mSimplePager);
-        dest.writeLong(this.mScore);
-        dest.writeByte(this.mJige ? (byte) 1 : (byte) 0);
-        dest.writeLong(this.useTimes);
+        dest.writeLong(dbId);
+        dest.writeString(userid);
+        dest.writeLong(exampagerid);
+        dest.writeLong(createTime);
+        dest.writeString(examName);
+        dest.writeString(mAllPager);
+        dest.writeString(mErrorPager);
+        dest.writeString(mRightPager);
+        dest.writeString(mNotDoPager);
+        dest.writeString(mMultiErrorPager);
+        dest.writeString(mTrueFalseErrorPager);
+        dest.writeString(mSimpleErrorPager);
+        dest.writeString(mMultiRightPager);
+        dest.writeString(mTrueFalseRightPager);
+        dest.writeString(mSimpleRightPager);
+        dest.writeString(mMultiPager);
+        dest.writeString(mTrueFalsePager);
+        dest.writeString(mSimplePager);
+        dest.writeLong(mScore);
+        dest.writeByte((byte) (mJige ? 1 : 0));
+        dest.writeLong(useTimes);
     }
-
-    protected SaveExamPagerBean(Parcel in) {
-        this.dbId = in.readLong();
-        this.userid = in.readString();
-        this.exampagerid = in.readLong();
-        this.createTime = in.readLong();
-        this.examName = in.readString();
-        this.mAllPager = in.readString();
-        this.mErrorPager = in.readString();
-        this.mRightPager = in.readString();
-        this.mNotDoPager = in.readString();
-        this.mMultiErrorPager = in.readString();
-        this.mTrueFalseErrorPager = in.readString();
-        this.mSimpleErrorPager = in.readString();
-        this.mMultiPager = in.readString();
-        this.mTrueFalsePager = in.readString();
-        this.mSimplePager = in.readString();
-        this.mScore = in.readLong();
-        this.mJige = in.readByte() != 0;
-        this.useTimes = in.readLong();
-    }
-
-    public static final Creator<SaveExamPagerBean> CREATOR = new Creator<SaveExamPagerBean>() {
-        @Override
-        public SaveExamPagerBean createFromParcel(Parcel source) {
-            return new SaveExamPagerBean(source);
-        }
-
-        @Override
-        public SaveExamPagerBean[] newArray(int size) {
-            return new SaveExamPagerBean[size];
-        }
-    };
 }

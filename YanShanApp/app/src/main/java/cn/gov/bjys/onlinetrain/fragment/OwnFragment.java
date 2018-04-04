@@ -109,8 +109,8 @@ public class OwnFragment extends FrameFragment {
             }
         });
         user_functions_layout.addView(userFlag);
-        //我的消息
-        DooLinear userMessage = new DooLinear(getActivity());
+        //我的消息  隐藏
+/*        DooLinear userMessage = new DooLinear(getActivity());
         userMessage.setImgIcon(R.drawable.user_message_icon);
         userMessage.setImgNext(R.drawable.next_right_btn);
         userMessage.setTvContent("我的消息");
@@ -121,7 +121,7 @@ public class OwnFragment extends FrameFragment {
                 startAct(UserMessageActivity.class);
             }
         });
-        user_functions_layout.addView(userMessage);
+        user_functions_layout.addView(userMessage);*/
 
         //我的错题
         DooLinear userErr = new DooLinear(getActivity());

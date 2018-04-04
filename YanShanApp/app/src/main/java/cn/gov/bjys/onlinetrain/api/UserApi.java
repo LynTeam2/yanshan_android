@@ -19,4 +19,9 @@ public interface UserApi {
 
     @POST("login")
     Observable<BaseResponse<String>> userLogin(@Body RequestBody body);
+
+    @POST("logout")
+    Observable<BaseResponse<String>> userLogout();
+
+
 }

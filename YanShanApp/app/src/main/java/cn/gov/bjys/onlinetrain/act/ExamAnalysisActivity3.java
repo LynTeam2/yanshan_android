@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -32,6 +33,7 @@ import com.ycl.framework.db.entity.ExamBean;
 import com.ycl.framework.db.entity.SaveExamPagerBean;
 import com.ycl.framework.utils.util.ToastUtil;
 import com.ycl.framework.utils.util.advanced.SpannableStringUtils;
+import com.ycl.framework.view.TitleHeaderView;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.ArrayList;
@@ -54,9 +56,6 @@ import cn.gov.bjys.onlinetrain.utils.ExamHelper;
 public class ExamAnalysisActivity3 extends FrameActivity implements View.OnClickListener, ZipCallBackListener {
 
     public static String TAG = ExamAnalysisActivity3.class.getSimpleName();
-
-
-
 
 
     @Bind(R.id.score)
@@ -87,6 +86,20 @@ public class ExamAnalysisActivity3 extends FrameActivity implements View.OnClick
 
     @Bind(R.id.history_btn)
     TextView history_btn;
+
+    @Bind(R.id.header)
+    TitleHeaderView header;
+
+    @Bind(R.id.header_layout)
+    LinearLayout header_layout;
+
+    @Bind(R.id.body_layout)
+    LinearLayout body_layout;
+
+
+
+
+
     @Override
     protected void setRootView() {
         setContentView(R.layout.activity_exam_analysis_newlayout);
@@ -109,18 +122,18 @@ public class ExamAnalysisActivity3 extends FrameActivity implements View.OnClick
     }
 
     private void initAllBar(){
-        int panduanProgress = (int) (mTrueFalseErrorSize /(mTrueFalseSize*1.0f) *100);
-        panduan_num.setText(mTrueFalseErrorSize +"");
+        int panduanProgress = (int) (mTureFalseRightSize /(mTrueFalseSize*1.0f) *100);
+        panduan_num.setText(mTureFalseRightSize +"/"+mTrueFalseSize);
         panduan_bar.setProgress(panduanProgress);
 
 
-        int danxuanProgress = (int) (mSimpleErrorSize /(mSimpleSize*1.0f) *100);
-        danxuan_num.setText(mSimpleErrorSize+"");
+        int danxuanProgress = (int) (mSimpleRightSize /(mSimpleSize*1.0f) *100);
+        danxuan_num.setText(mSimpleRightSize+"/"+mSimpleSize);
         danxuan_bar.setProgress(danxuanProgress);
 
 
-        int duoxuanProgress = (int) (mMultiErrorSize /(mMultiSize*1.0f) *100);
-        duoxuan_num.setText(mMultiErrorSize+"");
+        int duoxuanProgress = (int) (mMultiRightSize /(mMultiSize*1.0f) *100);
+        duoxuan_num.setText(mMultiRightSize+"/"+mMultiSize);
         duoxuan_bar.setProgress(duoxuanProgress);
     }
 
@@ -151,9 +164,18 @@ public class ExamAnalysisActivity3 extends FrameActivity implements View.OnClick
                     temp.setDatas(mMultiErrorList);
                     break;
                 case 3:
+//                    temp.setImgRes(R.drawable.analysis_img4);
+//                    temp.setTitle("继续考试");
+//                    temp.setHint("成绩不满意? 再战");
+
                     temp.setImgRes(R.drawable.analysis_img4);
-                    temp.setTitle("继续考试");
-                    temp.setHint("成绩不满意? 再战");
+                    temp.setTitle("所有错题");
+                    List<ExamBean> tempErr = new ArrayList<>();
+                    tempErr.addAll(mTrueFalseErrorList);
+                    tempErr.addAll(mSimpleErrorList);
+                    tempErr.addAll(mMultiErrorList);
+                    temp.setDatas(tempErr);
+                    temp.setHint("做错"+tempErr.size() + "题");
                     break;
                 default:
                     break;
@@ -181,6 +203,8 @@ public class ExamAnalysisActivity3 extends FrameActivity implements View.OnClick
                         //单选题
                     case 2:
                         //多选题
+                    case 3:
+                        //所有题目
                         if(datas != null && datas.size() > 0) {
                             Bundle mBundle = new Bundle();
                             mBundle.putInt(PracticeActivity.TAG, PracticeActivity.TIXING);
@@ -190,7 +214,7 @@ public class ExamAnalysisActivity3 extends FrameActivity implements View.OnClick
                             ToastUtil.showToast("没有错题哦！");
                         }
                         break;
-                    case 3:
+                    default:
                         //重新考试
                         long pagerId = mNowPager.getExampagerid();
                         if(mAllExams != null && mAllExams.size() > 0){
@@ -222,18 +246,28 @@ public class ExamAnalysisActivity3 extends FrameActivity implements View.OnClick
     private List<ExamBean> mSimpleErrorList = new ArrayList<>();
     private List<ExamBean> mMultiErrorList = new ArrayList<>();
 
+    private int mMultiRightSize = 0;
     private int mMultiErrorSize = 0;
     private int mMultiSize = 0;
+
+    private int mSimpleRightSize = 0;
     private int mSimpleErrorSize = 0;
     private int mSimpleSize = 0;
+
+    private int mTureFalseRightSize = 0;
     private int mTrueFalseSize = 0;
     private int mTrueFalseErrorSize = 0;
 
     private void initAllNeedDatas() {
+        mMultiRightSize = getSizeFor(mNowPager.getmMultiRightPager().split(","));
         mMultiErrorSize = getSizeFor(mNowPager.getmMultiErrorPager().split(","));
         mMultiSize = getSizeFor(mNowPager.getmMultiPager().split(","));
+
+        mSimpleRightSize = getSizeFor(mNowPager.getmSimpleRightPager().split(","));
         mSimpleErrorSize = getSizeFor(mNowPager.getmSimpleErrorPager().split(","));
         mSimpleSize = getSizeFor(mNowPager.getmSimplePager().split(","));
+
+        mTureFalseRightSize = getSizeFor(mNowPager.getmTrueFalseRightPager().split(","));
         mTrueFalseSize = getSizeFor(mNowPager.getmTrueFalsePager().split(","));
         mTrueFalseErrorSize = getSizeFor(mNowPager.getmTrueFalseErrorPager().split(","));
 

@@ -43,6 +43,7 @@ import cn.gov.bjys.onlinetrain.bean.CourseBean;
 import cn.gov.bjys.onlinetrain.bean.HomeAnJianBean;
 import cn.gov.bjys.onlinetrain.bean.HomeAnJianList;
 import cn.gov.bjys.onlinetrain.task.HomeNewCourseTask;
+import cn.gov.bjys.onlinetrain.task.InitAllExamTask;
 import cn.gov.bjys.onlinetrain.utils.BannerComHelper;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 import rx.Subscriber;
@@ -97,7 +98,14 @@ public class HomeFragment extends FrameFragment {
 
         initClassStudyRv();
         initAnjianRv();
+        initAllExam();//为专项练习准备数据
+    }
 
+    InitAllExamTask mInitAllExamTask;
+
+    private void initAllExam() {
+        mInitAllExamTask = new InitAllExamTask(getContext());
+        mInitAllExamTask.execute();
     }
 
     @OnClick({R.id.search_layout, R.id.anjian_loadmore})

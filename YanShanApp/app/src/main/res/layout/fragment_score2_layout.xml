@@ -172,7 +172,6 @@
     <GridView
         android:layout_below="@id/body_layout"
         android:layout_marginTop="80px"
-        android:layout_marginBottom="20px"
         android:id="@+id/grid_view"
         android:layout_width="match_parent"
         android:layout_height="584px"

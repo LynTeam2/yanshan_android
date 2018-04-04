@@ -125,18 +125,18 @@ public class HomeScoreFragment  extends FrameFragment implements View.OnClickLis
 
 
     private void initAllBar(){
-        int panduanProgress = (int) (mTrueFalseErrorSize /(mTrueFalseSize*1.0f) *100);
-        panduan_num.setText(mTrueFalseErrorSize + "");
+        int panduanProgress = (int) (mTrueFalseRightSize /(mTrueFalseSize*1.0f) *100);
+        panduan_num.setText(mTrueFalseRightSize + "/"+mTrueFalseSize);
         panduan_bar.setProgress(panduanProgress);
 
 
-        int danxuanProgress = (int) (mSimpleErrorSize /(mSimpleSize*1.0f) *100);
-        danxuan_num.setText(mSimpleErrorSize + "");
+        int danxuanProgress = (int) (mSimpleRightSize /(mSimpleSize*1.0f) *100);
+        danxuan_num.setText(mSimpleRightSize + "/"+mSimpleSize);
         danxuan_bar.setProgress(danxuanProgress);
 
 
-        int duoxuanProgress = (int) (mMultiErrorSize /(mMultiSize*1.0f) *100);
-        duoxuan_num.setText(mMultiErrorSize + "");
+        int duoxuanProgress = (int) (mMultiRightSize /(mMultiSize*1.0f) *100);
+        duoxuan_num.setText(mMultiRightSize + "/" + mMultiSize);
         duoxuan_bar.setProgress(duoxuanProgress);
     }
 
@@ -173,6 +173,7 @@ public class HomeScoreFragment  extends FrameFragment implements View.OnClickLis
                     tempErr.addAll(mTrueFalseErrorList);
                     tempErr.addAll(mSimpleErrorList);
                     tempErr.addAll(mMultiErrorList);
+                    temp.setDatas(tempErr);
                     temp.setHint("做错"+tempErr.size() + "题");
                     break;
                 default:
@@ -229,18 +230,29 @@ public class HomeScoreFragment  extends FrameFragment implements View.OnClickLis
 
     private int mMultiErrorSize = 0;
     private int mMultiSize = 0;
+    private int mMultiRightSize = 0;
+
     private int mSimpleErrorSize = 0;
     private int mSimpleSize = 0;
+    private int mSimpleRightSize = 0;
+
     private int mTrueFalseSize = 0;
     private int mTrueFalseErrorSize = 0;
+    private int mTrueFalseRightSize = 0;
 
     private void initAllNeedDatas() {
         mMultiErrorSize = getSizeFor(mNowPager.getmMultiErrorPager().split(","));
         mMultiSize = getSizeFor(mNowPager.getmMultiPager().split(","));
+        mMultiRightSize = getSizeFor(mNowPager.getmMultiRightPager().split(","));
+
         mSimpleErrorSize = getSizeFor(mNowPager.getmSimpleErrorPager().split(","));
         mSimpleSize = getSizeFor(mNowPager.getmSimplePager().split(","));
+        mSimpleRightSize = getSizeFor(mNowPager.getmSimpleRightPager().split(","));
+
+
         mTrueFalseSize = getSizeFor(mNowPager.getmTrueFalsePager().split(","));
         mTrueFalseErrorSize = getSizeFor(mNowPager.getmTrueFalseErrorPager().split(","));
+        mTrueFalseRightSize = getSizeFor(mNowPager.getmTrueFalseRightPager().split(","));
 
         mMultiErrorList.clear();
         for (String str : mNowPager.getmMultiErrorPager().split(",")) {

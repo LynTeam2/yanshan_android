@@ -26,7 +26,7 @@ import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
  * Created by dodo on 2018/2/1.
  */
 
-public class UserMoreErrorActivity extends FrameActivity implements SwipeRefreshLayout.OnRefreshListener{
+public class UserMoreErrorActivity extends FrameActivity {
 
     @Override
     protected void setRootView() {
@@ -38,8 +38,6 @@ public class UserMoreErrorActivity extends FrameActivity implements SwipeRefresh
         StatusBarUtil.setTranslucent(this, StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA);
     }
 
-    @Bind(R.id.swipe_refresh_layout)
-    SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     @Bind(R.id.mistake_collection_gridview)
@@ -61,7 +59,6 @@ public class UserMoreErrorActivity extends FrameActivity implements SwipeRefresh
     }
 
     public void initMistakesGv() {
-        mSwipeRefreshLayout.setOnRefreshListener(this);
         if (mDooHomeClassMistakesAdapter == null) {
             mDooHomeClassMistakesAdapter = new DooHomeClassMistakesAdapter(this, getErrorData());
         }
@@ -71,9 +68,11 @@ public class UserMoreErrorActivity extends FrameActivity implements SwipeRefresh
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                ExamBean bean = (ExamBean) mDooHomeClassMistakesAdapter.getDatas().get(position);
                ArrayList<ExamBean> list = new ArrayList<>();
-               list.add(bean);
+               list.addAll(mDooHomeClassMistakesAdapter.getDatas());
+//               list.add(bean);
                Bundle mBundle = new Bundle();
                 mBundle.putInt(PracticeActivity.TAG, PracticeActivity.CUOTI);
+                mBundle.putInt(PracticeActivity.ERROR_POSTION, position);
                 mBundle.putParcelableArrayList("PracticeActivityDatas",list);
                startAct(PracticeActivity.class, mBundle);
             }
@@ -94,11 +93,7 @@ public class UserMoreErrorActivity extends FrameActivity implements SwipeRefresh
         return datas;
     }
 
-    @Override
-    public void onRefresh() {
-        refreshErrorDatas();
-        mSwipeRefreshLayout.setRefreshing(false);
-    }
+
 
 
     private void refreshErrorDatas(){

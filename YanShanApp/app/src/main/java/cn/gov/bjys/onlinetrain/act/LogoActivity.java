@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 
 import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.utils.sp.SavePreference;
+import com.ycl.framework.utils.util.FastJSONParser;
 import com.ycl.framework.utils.util.HRetrofitNetHelper;
 import com.ycl.framework.utils.util.ToastUtil;
 import com.zls.www.statusbarutil.StatusBarUtil;
@@ -23,12 +24,18 @@ import java.io.File;
 import butterknife.Bind;
 import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
+import cn.gov.bjys.onlinetrain.api.BaseResponse;
 import cn.gov.bjys.onlinetrain.api.HomeApi;
+import cn.gov.bjys.onlinetrain.api.UserApi;
+import cn.gov.bjys.onlinetrain.bean.UserBean;
 import cn.gov.bjys.onlinetrain.task.UnZipTask;
 import cn.gov.bjys.onlinetrain.utils.AssetsHelper;
+import cn.gov.bjys.onlinetrain.utils.MapParamsHelper;
 import cn.gov.bjys.onlinetrain.utils.PermissionUtil;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
+import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 import okhttp3.ResponseBody;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -68,7 +75,6 @@ public class LogoActivity extends FrameActivity {
                     countDownTimer.cancel();
                 }
                 startNextActivity();
-                LogoActivity.this.finish();
             }
         });
     }
@@ -96,22 +102,72 @@ public class LogoActivity extends FrameActivity {
                 if (countDownTimer != null) {
                     countDownTimer.cancel();
                 }
-                LogoActivity.this.finish();
             }
         };
         countDownTimer.start();
     }
 
+    private String mUserName;
+    private String mPassword;
 
     public void startNextActivity() {
-        boolean notFirstLogin = SavePreference.getBoolean(this, YSConst.NOT_FIRST_LOGIN);
+//        boolean notFirstLogin = SavePreference.getBoolean(this, YSConst.NOT_FIRST_LOGIN);
+        boolean notFirstLogin = true;
         if (notFirstLogin) {
-            startAct(LoginActivity.class);
+            mUserName = SavePreference.getStr(this,YSConst.UserInfo.KEY_USER_ACCOUNT);
+            mPassword = SavePreference.getStr(this,YSConst.UserInfo.KEY_USER_PASSWORD);
+            userLogin();
         } else {
             startAct(GuideActivity.class);
+            LogoActivity.this.finish();
         }
     }
 
+
+    private void userLogin(){
+        Observable<BaseResponse<String>> obsLogin;
+        obsLogin = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext()).
+                getSpeUrlService(YSConst.BaseUrl.BASE_URL, UserApi.class).userLogin(HRetrofitNetHelper.createReqJsonBody(MapParamsHelper.getLogin(mUserName, mPassword)));
+        obsLogin.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseResponse<String>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d("dodo", "onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("dodo", "e.message = " + e.getMessage());
+                        toLoginAct();
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<String> stringBaseResponse) {
+                        Log.d("dodo", "resp = " + stringBaseResponse);
+                        if ("1".equals(stringBaseResponse.getCode())) {
+                            //登陆成功
+                            //保存登陆用户信息
+                            UserBean.UserParentBean parentBean = FastJSONParser.getBean(stringBaseResponse.getResults(), UserBean.UserParentBean.class);
+                            UserBean bean = parentBean.getUser();
+                            YSUserInfoManager.getsInstance().saveUserBean(bean);
+                            toMainAct();
+                        } else {
+                            toLoginAct();
+                        }
+                    }
+                });
+    }
+
+    private void toMainAct() {
+        startAct(MainActivity.class);
+        finish();
+    }
+
+    private void toLoginAct(){
+        startAct(LoginActivity.class);
+        finish();
+    }
 
     private static final int REQUEST_EXTERNAL_STORAGE = 0x01;
     private static String[] PERMISSIONS_STORAGE = {

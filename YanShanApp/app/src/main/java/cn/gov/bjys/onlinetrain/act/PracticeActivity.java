@@ -52,6 +52,8 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
     public final static int CUOTI = 2;//错题练习
     public final static int TIXING = 3;//题目类型练习
 
+    public final static String ERROR_POSTION = "error_position";
+
     private int mType = KESHI;//默认为课时练习
 
     @Bind(R.id.viewpager)
@@ -111,6 +113,7 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
             case CUOTI:
                 mHeader.setTitleText("错题练习");
                 mQuestionsList = recBundle.getParcelableArrayList("PracticeActivityDatas");
+                mStartPosition = recBundle.getInt(ERROR_POSTION, 0);
                 break;
             case TIXING:
                 mHeader.setTitleText("专项练习");
@@ -133,6 +136,7 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
     }
 
     ArrayList<ExamBean> mQuestionsList;//所有试题数据
+    private int mStartPosition = 0;//错题进入点的position
     private int mPosition = 0;//当前试题在显示页面的位置 数组下标
 
     List<ExamBean> mErrorQuestionsList;
@@ -191,6 +195,10 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
             }
         });
         mViewPager.setCurrentItem(0, false);
+        //添加错题进入的时候顺序不一定从0开始的情况
+        if(mStartPosition > 0) {
+            setViewPagerAndExamBottom(mStartPosition);
+        }
     }
 
 

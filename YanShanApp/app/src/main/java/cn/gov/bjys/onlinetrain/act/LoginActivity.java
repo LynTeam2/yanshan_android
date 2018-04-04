@@ -18,6 +18,7 @@ import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tencent.tauth.Tencent;
 import com.ycl.framework.base.FrameActivity;
+import com.ycl.framework.utils.sp.SavePreference;
 import com.ycl.framework.utils.util.FastJSONParser;
 import com.ycl.framework.utils.util.HRetrofitNetHelper;
 import com.ycl.framework.utils.util.ToastUtil;
@@ -155,6 +156,10 @@ public class LoginActivity extends FrameActivity implements View.OnClickListener
 
         mUserName = login_et_userid.getText().toString().trim();
         mPassword = login_et_password.getText().toString().trim();
+        userLogin();
+    }
+
+    private void userLogin(){
         Observable<BaseResponse<String>> obsLogin;
         obsLogin = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext()).
                 getSpeUrlService(YSConst.BaseUrl.BASE_URL, UserApi.class).userLogin(HRetrofitNetHelper.createReqJsonBody(MapParamsHelper.getLogin(mUserName, mPassword)));
@@ -170,11 +175,15 @@ public class LoginActivity extends FrameActivity implements View.OnClickListener
                     public void onError(Throwable e) {
                         Log.d("dodo", "e.message = " + e.getMessage());
                     }
-    
+
                     @Override
                     public void onNext(BaseResponse<String> stringBaseResponse) {
                         Log.d("dodo", "resp = " + stringBaseResponse);
                         if ("1".equals(stringBaseResponse.getCode())) {
+                            //登陆成功
+                            //保存登陆信息
+                            saveLoginInfo();
+                            //保存登陆用户信息
                             UserBean.UserParentBean parentBean = FastJSONParser.getBean(stringBaseResponse.getResults(), UserBean.UserParentBean.class);
                             UserBean bean = parentBean.getUser();
                             YSUserInfoManager.getsInstance().saveUserBean(bean);
@@ -184,6 +193,11 @@ public class LoginActivity extends FrameActivity implements View.OnClickListener
                         }
                     }
                 });
+    }
+
+    private void saveLoginInfo(){
+        SavePreference.save(this,YSConst.UserInfo.KEY_USER_ACCOUNT,mUserName);
+        SavePreference.save(this,YSConst.UserInfo.KEY_USER_PASSWORD,mPassword);
     }
 
     private void toMainAct() {

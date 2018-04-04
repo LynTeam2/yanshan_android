@@ -81,7 +81,7 @@ public class RoundedRectProgressBar extends View {
         String text = "" + progress + "%";
         float x = this.getMeasuredWidth() * progress / 100 - mPaint.measureText(text) - 10;
         float y = this.getMeasuredHeight() / 4f - mPaint.getFontMetrics().ascent / 2f - mPaint.getFontMetrics().descent / 2f;
-        canvas.drawText(text, x, y, mPaint);
+        canvas.drawText(text, Math.max(0,x), y, mPaint);
     }
 
     /*设置进度条进度, 外部调用*/
