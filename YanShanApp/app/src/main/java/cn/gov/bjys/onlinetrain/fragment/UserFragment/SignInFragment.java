@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.ycl.framework.base.FrameFragment;
 import com.ycl.framework.utils.sp.SavePreference;
 import com.ycl.framework.utils.util.DateUtil;
 import com.ycl.framework.utils.util.ToastUtil;
+import com.ycl.framework.utils.util.advanced.SpannableStringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ import cn.gov.bjys.onlinetrain.adapter.DooExchangeRewardsAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooSigninGridAdapter;
 import cn.gov.bjys.onlinetrain.bean.RewardBean;
 import cn.gov.bjys.onlinetrain.bean.SignInBean;
+import cn.gov.bjys.onlinetrain.utils.YSConst;
 
 /**
  * 签到fragment
@@ -59,6 +62,9 @@ public class SignInFragment  extends FrameFragment{
     @Bind(R.id.sign_layout)
     RelativeLayout mSignLayout;
 
+    @Bind(R.id.sign_hint)
+    TextView sign_hint;
+
 
     @Override
     protected View inflaterView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
@@ -75,9 +81,32 @@ public class SignInFragment  extends FrameFragment{
         super.initViews();
         initGridView();
         initRecycleView();
+        initSignHint();
     }
     DooSigninGridAdapter mDooSigninGridAdapter;
     List<SignInBean> mSignList = new ArrayList<>();
+
+
+    public void initSignHint(){
+        SpannableStringBuilder ssb = null;
+        List<SignInBean> datas =  mDooSigninGridAdapter.getDatas();
+        SignInBean bean = datas.get(1);
+        switch (bean.getType()){
+            case SignInBean.ING:
+                 ssb = new SpannableStringUtils.Builder()
+                        .append("今日签到可领取").setForegroundColor(getResources().getColor(R.color.normal_black))
+                        .append("10").setForegroundColor(getResources().getColor(R.color.normal_red))
+                        .append("安全豆").setForegroundColor(getResources().getColor(R.color.normal_black))
+                        .create();
+                break;
+            case SignInBean.SUC:
+                ssb = new SpannableStringUtils.Builder()
+                        .append("您已经完成今日签到").setForegroundColor(getResources().getColor(R.color.normal_black))
+                        .create();
+                break;
+        }
+        sign_hint.setText(ssb);
+    }
 
     public void initGridView(){
         mSignList.clear();
@@ -99,6 +128,8 @@ public class SignInFragment  extends FrameFragment{
                         ToastUtil.showToast("签到成功");
                         bean.setType(SignInBean.SUC);
                         SavePreference.save(getContext(),SIGN_SUCCESS, mNowDate);
+
+                        updateUserWealth();
                         break;
                     case SignInBean.SUC:
                         ToastUtil.showToast("已经完成签到");
@@ -185,7 +216,6 @@ public class SignInFragment  extends FrameFragment{
     public void onTabClick(View v){
         switch (v.getId()){
             case R.id.sign_layout:
-
                List<SignInBean> datas =  mDooSigninGridAdapter.getDatas();
                SignInBean bean = datas.get(1);
                switch (bean.getType()){
@@ -193,7 +223,8 @@ public class SignInFragment  extends FrameFragment{
                        ToastUtil.showToast("签到成功");
                        bean.setType(SignInBean.SUC);
                        mDooSigninGridAdapter.notifyDataSetChanged();
-                       SavePreference.save(getContext(),SIGN_SUCCESS,mNowDate);
+                       SavePreference.save(getContext(), SIGN_SUCCESS, mNowDate);
+                       updateUserWealth();
                        break;
                     case SignInBean.SUC:
                         ToastUtil.showToast("已经完成签到");
@@ -204,4 +235,8 @@ public class SignInFragment  extends FrameFragment{
         }
     }
 
+    public void updateUserWealth(){
+        long userValue = SavePreference.getLong(getContext(), YSConst.UserInfo.USER_WEALTH);
+        SavePreference.save(getContext(), YSConst.UserInfo.USER_WEALTH,userValue +10L );
+    }
 }
