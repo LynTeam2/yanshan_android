@@ -36,4 +36,8 @@
             <attr name="wave_progress" format="integer"></attr>
         </declare-styleable>
 
+    <declare-styleable name="DooSearchLayout">
+            <attr name="need_search" format="boolean"></attr>
+        </declare-styleable>
+
 </resources>

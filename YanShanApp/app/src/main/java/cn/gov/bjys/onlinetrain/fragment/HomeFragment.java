@@ -1,11 +1,9 @@
 package cn.gov.bjys.onlinetrain.fragment;
 
-import android.database.Observable;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,18 +11,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
-import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ycl.framework.base.FrameFragment;
 import com.ycl.framework.utils.util.FastJSONParser;
 import com.ycl.framework.utils.util.HRetrofitNetHelper;
 import com.ycl.framework.utils.util.ToastUtil;
-import com.zhy.autolayout.utils.AutoUtils;
 import com.zls.www.statusbarutil.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -32,6 +27,7 @@ import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.AnJianDetailActivity;
 import cn.gov.bjys.onlinetrain.act.PracticePrepareActivity;
+import cn.gov.bjys.onlinetrain.act.SearchActivity;
 import cn.gov.bjys.onlinetrain.act.view.DooItemTitleLayout;
 import cn.gov.bjys.onlinetrain.act.view.DooSearchLayout;
 import cn.gov.bjys.onlinetrain.adapter.DooHomeClassStudyAdapter;
@@ -113,7 +109,8 @@ public class HomeFragment extends FrameFragment {
         int id = v.getId();
         switch (id) {
             case R.id.search_layout:
-                ToastUtil.showToast(getString(R.string.string_function_dismiss));
+//                ToastUtil.showToast(getString(R.string.string_function_dismiss));
+                startAct(SearchActivity.class);
                 break;
             case R.id.anjian_loadmore:
                 isLoadMore = true;

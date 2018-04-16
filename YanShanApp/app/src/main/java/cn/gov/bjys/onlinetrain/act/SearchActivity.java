@@ -32,6 +32,7 @@ public class SearchActivity extends FrameActivity {
     @Override
     public void initViews() {
         super.initViews();
+
         mEditText = (EditText) mDooSearchLayout.findViewById(R.id.edit_text);
         mEditText.setEnabled(true);
         mEditText.setFocusable(true);

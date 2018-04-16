@@ -13,6 +13,7 @@
         android:src="@drawable/banshizhinan"/>
 
     <TextView
+        android:id="@+id/title"
         android:layout_centerInParent="true"
         android:textSize="60px"
         android:textColor="@color/windowBackgroundWhite"

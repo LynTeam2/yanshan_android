@@ -72,6 +72,7 @@ public class LawsFragment extends FrameFragment implements SwipeRefreshLayout.On
     @Override
     public void onRefresh() {
         //刷新操作
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

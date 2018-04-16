@@ -17,6 +17,7 @@ import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.HomeClassStudyOneActivity;
 import cn.gov.bjys.onlinetrain.act.HomeClassStudySecondActivity;
 import cn.gov.bjys.onlinetrain.act.HomeExamSecondActivity;
+import cn.gov.bjys.onlinetrain.act.LawsListActivity;
 import cn.gov.bjys.onlinetrain.act.LifeHelpActivity;
 import cn.gov.bjys.onlinetrain.act.MorePracticeActivity;
 import cn.gov.bjys.onlinetrain.adapter.DooHomeGridViewAdapter;
@@ -64,7 +65,8 @@ public class DooItemTitleLayout extends DooRootLayout {
                         getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), HomeExamSecondActivity.class));
                         break;
                     case 3:
-                        ToastUtil.showToast("功能暂未开发");
+//                        ToastUtil.showToast("功能暂未开发");
+                        getContext().startActivity(new Intent(ContextHelper.getRequiredActivity(getContext()), LawsListActivity.class));
                         break;
                 }
             }
