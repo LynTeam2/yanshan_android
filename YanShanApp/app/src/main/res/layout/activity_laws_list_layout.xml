@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#6490ff"
+    >
+    <com.ycl.framework.view.TitleHeaderView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        app:title_name="资料"
+        android:layout_height="160px"/>
+
+    <fragment
+        android:name="cn.gov.bjys.onlinetrain.fragment.ClassFragment.LawsFragment"
+        android:id="@+id/laws_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+</LinearLayout>

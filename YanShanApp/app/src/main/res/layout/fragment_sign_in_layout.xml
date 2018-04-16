@@ -50,11 +50,19 @@
     </LinearLayout>
     <LinearLayout
         android:layout_marginTop="10px"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/sign_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/normal_black"
+            android:text="今日签到可领取10安全豆"/>
+
             <TextView
+                android:layout_marginTop="15px"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/normal_black"

@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.sina.weibo.sdk.api.share.Base;
 import com.ycl.framework.base.FrameFragment;
 import com.ycl.framework.utils.sp.SavePreference;
 import com.ycl.framework.utils.util.GlideProxy;
@@ -23,7 +22,6 @@ import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.CommonActivity;
 import cn.gov.bjys.onlinetrain.act.UserAvatarChooseActivity;
-import cn.gov.bjys.onlinetrain.act.UserMessageActivity;
 import cn.gov.bjys.onlinetrain.act.UserMoreErrorActivity;
 import cn.gov.bjys.onlinetrain.act.UserSettingActivity;
 import cn.gov.bjys.onlinetrain.act.view.DooLinear;
@@ -150,7 +148,14 @@ public class OwnFragment extends FrameFragment {
     public void setUserBaseInfo() {
         setUserAvatar();
         setUserNickName();
+        setUserWealth();
     }
+
+    public void setUserWealth(){
+        long wealthValue = SavePreference.getLong(BaseApplication.getAppContext(), YSConst.UserInfo.USER_WEALTH);
+        user_wealth.setText(wealthValue+"");
+    }
+
 
     public void setUserAvatar() {
 //        String avatarPath = SavePreference.getStr(BaseApplication.getAppContext(), YSConst.UserInfo.USER_AVATAR_PATH);
