@@ -2,7 +2,9 @@
 <com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="301px">
+    android:layout_height="301px"
+    android:id="@+id/next_linear"
+    >
     <LinearLayout
         android:padding="@dimen/px_40"
         android:orientation="horizontal"
@@ -47,7 +49,6 @@
             android:textSize="36px"/>
     </LinearLayout>
         <LinearLayout
-            android:id="@+id/next_linear"
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_width="0px"

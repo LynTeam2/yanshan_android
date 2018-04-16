@@ -498,7 +498,7 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
 
         bean.setmTrueFalsePager(DataHelper.clearEmptyString(mTurefalseSb.toString()));
         bean.setmTrueFalseErrorPager(DataHelper.clearEmptyString(mTurefalseErrorSb.toString()));
-        bean.setmTrueFalseRightPager(DataHelper.clearEmptyString(mTurefalseRightSb.toString()));
+        bean.setmTrueFalseRightPager(DataHelper.clearEmptyString(mTurefalseRightSb.toString()));    
 
         bean.setCreateTime(System.currentTimeMillis());
         bean.setUseTimes(mAllTimes - mTimes);//用户使用的做题时间
