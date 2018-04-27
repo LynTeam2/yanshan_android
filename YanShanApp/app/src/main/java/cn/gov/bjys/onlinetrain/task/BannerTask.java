@@ -1,17 +1,12 @@
 package cn.gov.bjys.onlinetrain.task;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
-import com.sina.weibo.sdk.api.share.Base;
 import com.ycl.framework.utils.util.FastJSONParser;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 
-import cn.gov.bjys.onlinetrain.api.ZipCallBackListener;
 import cn.gov.bjys.onlinetrain.bean.AllBannerBean;
-import cn.gov.bjys.onlinetrain.bean.ExamsListBean;
-import cn.gov.bjys.onlinetrain.bean.HomeBannerBean;
 import cn.gov.bjys.onlinetrain.utils.BannerComHelper;
 import rx.Observable;
 import rx.Subscriber;

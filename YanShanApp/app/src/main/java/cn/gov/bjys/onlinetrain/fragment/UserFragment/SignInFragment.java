@@ -88,12 +88,16 @@ public class SignInFragment  extends FrameFragment{
 
 
     public void initSignHint(){
+            updateSignHint();
+    }
+
+    private void updateSignHint(){
         SpannableStringBuilder ssb = null;
         List<SignInBean> datas =  mDooSigninGridAdapter.getDatas();
         SignInBean bean = datas.get(1);
         switch (bean.getType()){
             case SignInBean.ING:
-                 ssb = new SpannableStringUtils.Builder()
+                ssb = new SpannableStringUtils.Builder()
                         .append("今日签到可领取").setForegroundColor(getResources().getColor(R.color.normal_black))
                         .append("10").setForegroundColor(getResources().getColor(R.color.normal_red))
                         .append("安全豆").setForegroundColor(getResources().getColor(R.color.normal_black))
@@ -107,6 +111,7 @@ public class SignInFragment  extends FrameFragment{
         }
         sign_hint.setText(ssb);
     }
+
 
     public void initGridView(){
         mSignList.clear();
@@ -128,8 +133,8 @@ public class SignInFragment  extends FrameFragment{
                         ToastUtil.showToast("签到成功");
                         bean.setType(SignInBean.SUC);
                         SavePreference.save(getContext(),SIGN_SUCCESS, mNowDate);
-
                         updateUserWealth();
+                        updateSignHint();
                         break;
                     case SignInBean.SUC:
                         ToastUtil.showToast("已经完成签到");
@@ -225,6 +230,7 @@ public class SignInFragment  extends FrameFragment{
                        mDooSigninGridAdapter.notifyDataSetChanged();
                        SavePreference.save(getContext(), SIGN_SUCCESS, mNowDate);
                        updateUserWealth();
+                       updateSignHint();
                        break;
                     case SignInBean.SUC:
                         ToastUtil.showToast("已经完成签到");
