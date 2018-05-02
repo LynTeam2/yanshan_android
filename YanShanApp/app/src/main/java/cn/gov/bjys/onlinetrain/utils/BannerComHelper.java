@@ -104,7 +104,7 @@ public class BannerComHelper {
                 mBundle.putString("baseUrl", bannerBean.getLink());
                 mBundle.putString("title", "活动链接");
                 ContextHelper.getRequiredActivity(
-                        bannerPoster.getContext()).startAct(YSWebActivity.class);
+                        bannerPoster.getContext()).startAct(YSWebActivity.class,mBundle);
             }
         });
     }

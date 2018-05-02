@@ -28,9 +28,9 @@ public class BannerHomeHolderView implements Holder<HomeBannerBean>{
 
     @Override
     public void UpdateUI(Context context, int position, HomeBannerBean data) {
-        File file = getNeedFile(data.getPath());
-        GlideProxy.loadImgForFilePlaceHolderDontAnimate((ImageView) mRootView.findViewById(R.id.banner_img),
-                file,
+//        File file = getNeedFile(data.getPath());
+        GlideProxy.loadPicWithCommon((ImageView) mRootView.findViewById(R.id.banner_img),
+                data.getPath(),
                 R.drawable.icon_1080_580);
     }
 

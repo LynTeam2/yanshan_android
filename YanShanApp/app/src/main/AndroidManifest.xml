@@ -146,6 +146,14 @@
             android:name=".act.CommonActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivityStyle" />
+        <activity
+            android:name=".act.YSWebActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivityStyle" />
+        <activity
+            android:name=".act.PDFWebActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivityStyle" />
 
         <activity
             android:name=".act.UserMessageActivity"

@@ -1,8 +1,12 @@
 package com.ycl.framework.utils.util;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.ycl.framework.base.FrameApplication;
 import com.ycl.framework.module.CustomImageSizeModel;
 
@@ -43,6 +47,7 @@ public class GlideProxy {
         Glide.with(mImageView.getContext().getApplicationContext()).load(url).placeholder(ids).dontAnimate().into(mImageView);
     }
 
+
     //带预加载图  url加载 禁止动画
     public static void loadImgForFilePlaceHolderDontAnimate(ImageView mImageView, File path, int ids) {
         Glide.with(FrameApplication.getFrameContext()).load(path).placeholder(ids).dontAnimate().into(mImageView);
@@ -63,6 +68,24 @@ public class GlideProxy {
     //url 加载   animation动画
     public static void loadUrlAnimation(ImageView imgView, String url) {
         Glide.with(imgView.getContext().getApplicationContext()).load(url).crossFade().into(imgView);
+    }
+
+
+    public static void loadPicWithCommon(final ImageView imgView, String url, int resId) {
+        imgView.setImageResource(resId);
+        Glide.with(FrameApplication.getFrameContext()).load(url).asBitmap().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                if (resource == null || resource.isRecycled())
+                    return;
+                imgView.setImageBitmap(resource);
+            }
+
+            @Override
+            public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                super.onLoadFailed(e, errorDrawable);
+            }
+        });
     }
 
 }

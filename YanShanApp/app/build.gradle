@@ -139,4 +139,7 @@ dependencies {
     compile project(':statusbarutil2')
     compile project(':check_version_lib')
     compile project(':mulit_file_download_lib')
+
+    //PDF展示
+    compile 'com.github.barteksc:android-pdf-viewer:2.8.2'
 }
