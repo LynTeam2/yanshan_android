@@ -10,6 +10,24 @@ public class UserBean {
     private long id;
     private String realName;//
     private String userName;//
+    private long beanCount;//安全豆
+    private String nickname;//
+
+    public long getBeanCount() {
+        return beanCount;
+    }
+
+    public void setBeanCount(long beanCount) {
+        this.beanCount = beanCount;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
     public String getIcon() {
         return icon;
@@ -43,7 +61,7 @@ public class UserBean {
         this.userName = userName;
     }
 
-    public static class UserParentBean{
+    public static class UserParentBean {
         UserBean user;
 
         public UserBean getUser() {

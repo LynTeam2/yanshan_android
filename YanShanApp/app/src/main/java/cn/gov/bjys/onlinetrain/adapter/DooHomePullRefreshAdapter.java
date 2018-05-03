@@ -45,5 +45,8 @@ public class DooHomePullRefreshAdapter extends BaseQuickAdapter<HomeAnJianBean, 
 //        helper.setText(R.id.content, item.getContent());
         helper.setText(R.id.title,item.getTitle());
         helper.setText(R.id.content,item.getIntroduction());
+
+        ImageView newsImg = helper.getView(R.id.img);
+        GlideProxy.loadImgForUrlPlaceHolderDontAnimate(newsImg, item.getImagePath(), R.drawable.icon_463_216);
     }
 }

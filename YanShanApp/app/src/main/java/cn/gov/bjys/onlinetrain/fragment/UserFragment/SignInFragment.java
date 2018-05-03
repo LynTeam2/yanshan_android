@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableStringBuilder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.ycl.framework.base.FrameFragment;
 import com.ycl.framework.utils.sp.SavePreference;
 import com.ycl.framework.utils.util.DateUtil;
+import com.ycl.framework.utils.util.HRetrofitNetHelper;
 import com.ycl.framework.utils.util.ToastUtil;
 import com.ycl.framework.utils.util.advanced.SpannableStringUtils;
 
@@ -26,12 +28,21 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.adapter.DooExchangeRewardsAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooSigninGridAdapter;
+import cn.gov.bjys.onlinetrain.api.BaseResponse;
+import cn.gov.bjys.onlinetrain.api.UserApi;
 import cn.gov.bjys.onlinetrain.bean.RewardBean;
 import cn.gov.bjys.onlinetrain.bean.SignInBean;
+import cn.gov.bjys.onlinetrain.utils.MapParamsHelper;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
+import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * 签到fragment
@@ -244,5 +255,35 @@ public class SignInFragment  extends FrameFragment{
     public void updateUserWealth(){
         long userValue = SavePreference.getLong(getContext(), YSConst.UserInfo.USER_WEALTH);
         SavePreference.save(getContext(), YSConst.UserInfo.USER_WEALTH,userValue +10L );
+        uploadWealthValue(userValue + 10L);
     }
+
+
+    private void uploadWealthValue(final long count) {
+        Observable<BaseResponse<String>> obsLogin;
+        obsLogin = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext()).
+                getSpeUrlService(YSConst.BaseUrl.BASE_URL, UserApi.class).upLoadWealthValue(HRetrofitNetHelper.createReqJsonBody(MapParamsHelper.uploadWealthValue(count)));
+        obsLogin.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseResponse<String>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d("dodot", "onCompleted = ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("dodot", "onError = ");
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<String> stringBaseResponse) {
+                        Log.d("dodot", "stringbase = " + stringBaseResponse);
+                        if("1".equals(stringBaseResponse.getCode())){
+                            YSUserInfoManager.getsInstance().getUserBean().setBeanCount(count);
+                        }
+                    }
+                });
+    }
+
 }

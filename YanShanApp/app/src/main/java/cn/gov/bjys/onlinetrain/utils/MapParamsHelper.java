@@ -21,4 +21,23 @@ public class MapParamsHelper {
         return params;
     }
 
+    //更新昵称
+    public static Map<String, Object> uploadNickName(String nickName) {
+        Map<String, Object> params = getBaseParamsMap();
+        params.put("nickname", nickName);
+        return params;
+    }
+    //更新头像
+    public static Map<String, Object> uploadIcon(String icon) {
+        Map<String, Object> params = getBaseParamsMap();
+        params.put("icon", icon);
+        return params;
+    }
+    //更新安全豆
+    public static Map<String, Object> uploadWealthValue(long beanCount) {
+        Map<String, Object> params = getBaseParamsMap();
+        params.put("beanCount", beanCount);
+        return params;
+    }
+
 }

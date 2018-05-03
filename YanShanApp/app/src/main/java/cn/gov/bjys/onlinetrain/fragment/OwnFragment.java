@@ -152,15 +152,19 @@ public class OwnFragment extends FrameFragment {
     }
 
     public void setUserWealth(){
-        long wealthValue = SavePreference.getLong(BaseApplication.getAppContext(), YSConst.UserInfo.USER_WEALTH);
-        user_wealth.setText(wealthValue+"");
+//        long wealthValue = SavePreference.getLong(BaseApplication.getAppContext(), YSConst.UserInfo.USER_WEALTH);
+        UserBean bean = YSUserInfoManager.getsInstance().getUserBean();
+        long weaValue = bean.getBeanCount();
+        user_wealth.setText(weaValue+"");
+        SavePreference.save(BaseApplication.getAppContext(), YSConst.UserInfo.USER_WEALTH, weaValue);
     }
 
 
     public void setUserAvatar() {
-//        String avatarPath = SavePreference.getStr(BaseApplication.getAppContext(), YSConst.UserInfo.USER_AVATAR_PATH);
+        //String avatarPath = SavePreference.getStr(BaseApplication.getAppContext(), YSConst.UserInfo.USER_AVATAR_PATH);
         UserBean bean = YSUserInfoManager.getsInstance().getUserBean();
         String avatarPath = bean.getIcon();
+        SavePreference.save(BaseApplication.getAppContext(), YSConst.UserInfo.USER_AVATAR_PATH, avatarPath);
         if (!TextUtils.isEmpty(avatarPath)) {
             GlideProxy.loadImgForUrlPlaceHolderDontAnimate(user_avatar, avatarPath, R.drawable.user_normal_avatar);
         }
@@ -169,7 +173,8 @@ public class OwnFragment extends FrameFragment {
     public void setUserNickName() {
 //        String nick = SavePreference.getStr(BaseApplication.getAppContext(), YSConst.UserInfo.USER_SAVE_NICK);
         UserBean bean = YSUserInfoManager.getsInstance().getUserBean();
-        String nick = bean.getUserName();
+        String nick = bean.getNickname();
+        SavePreference.save(BaseApplication.getAppContext(), YSConst.UserInfo.USER_SAVE_NICK, nick);
         if (!TextUtils.isEmpty(nick)) {
             user_name.setText(nick);
         }
@@ -181,7 +186,7 @@ public class OwnFragment extends FrameFragment {
     public void onTabClick(View v) {
         switch (v.getId()) {
             case R.id.user_avatar:
-                startActivityForResult(new Intent(getActivity(), UserAvatarChooseActivity.class), REQ_CHANGE_AVATAR);
+//                startActivityForResult(new Intent(getActivity(), UserAvatarChooseActivity.class), REQ_CHANGE_AVATAR);
                 break;
         }
     }

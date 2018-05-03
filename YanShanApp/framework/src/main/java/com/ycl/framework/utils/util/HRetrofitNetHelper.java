@@ -312,6 +312,20 @@ public class HRetrofitNetHelper implements HttpLoggingInterceptor.Logger, Interc
         return body;
     }
 
+    public static RequestBody createFileReqJsonBody(File file,Map<String, Object> _httpParams) {
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        if(null != _httpParams && _httpParams.size() > 0) {
+            for (String key : _httpParams.keySet()) {
+                builder.addFormDataPart(key, _httpParams.get(key).toString());
+            }
+        }
+        builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"file\";filename=\"file.jpg\""), RequestBody.create(MediaType.parse("image/png"), file)
+        );
+        YisLoger.logTag("packet-file-path", file.getAbsolutePath());
+        return builder.build();
+    }
+
+
     //异步callback，对一些特殊response逻辑处理
     //  获取动态参数时，
     public <D> void enqueueCall(Call<BaseResp<D>> call, final RetrofitCallBack<D> retrofitCallBack) {

@@ -5,7 +5,9 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Streaming;
 import rx.Observable;
 
@@ -20,8 +22,22 @@ public interface UserApi {
     @POST("login")
     Observable<BaseResponse<String>> userLogin(@Body RequestBody body);
 
-    @POST("logout")
+    @GET("logout")
     Observable<BaseResponse<String>> userLogout();
+
+    @PUT("api/user/nickname")
+    Observable<BaseResponse<String>> uploadNickName(@Body RequestBody body);
+
+    @PUT("api/user/icon")
+    Observable<BaseResponse<String>> uploadUserAvatar(@Body RequestBody body);
+
+    @POST("upload")
+    Observable<BaseResponse<String>> remoteAvatar(@Body RequestBody body);
+
+    @PUT("api/user/bean")
+    Observable<BaseResponse<String>> upLoadWealthValue(@Body RequestBody body);
+
+
 
 
 }

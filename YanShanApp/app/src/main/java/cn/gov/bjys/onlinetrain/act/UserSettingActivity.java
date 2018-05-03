@@ -20,6 +20,8 @@ import com.ycl.framework.utils.util.ToastUtil;
 import com.ycl.framework.view.TitleHeaderView;
 import com.zls.www.statusbarutil.StatusBarUtil;
 
+import java.io.File;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.BaseApplication;
@@ -27,6 +29,7 @@ import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.view.DooUserSettingLinear;
 import cn.gov.bjys.onlinetrain.api.BaseResponse;
 import cn.gov.bjys.onlinetrain.api.UserApi;
+import cn.gov.bjys.onlinetrain.bean.AvatarBackBean;
 import cn.gov.bjys.onlinetrain.bean.UserBean;
 import cn.gov.bjys.onlinetrain.fragment.UserFragment.SaveNickFragment;
 import cn.gov.bjys.onlinetrain.utils.MapParamsHelper;
@@ -35,6 +38,7 @@ import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -69,43 +73,44 @@ public class UserSettingActivity extends FrameActivity {
         }
     }
 
-    private void userLoginOut(){
+    private void userLoginOut() {
         startAct(LoginActivity.class);
         //清理账号密码
-        SavePreference.save(this,YSConst.UserInfo.KEY_USER_ACCOUNT,"");
-        SavePreference.save(this,YSConst.UserInfo.KEY_USER_PASSWORD,"");
+        SavePreference.save(this, YSConst.UserInfo.KEY_USER_ACCOUNT, "");
+        SavePreference.save(this, YSConst.UserInfo.KEY_USER_PASSWORD, "");
         remoteLogout();
         finishAllActivitys();
     }
-    private void remoteLogout(){
-            Observable<BaseResponse<String>> obsLoginOut;
-            obsLoginOut = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext()).
-                    getSpeUrlService(YSConst.BaseUrl.BASE_URL, UserApi.class).userLogout();
-            obsLoginOut.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<BaseResponse<String>>() {
-                        @Override
-                        public void onCompleted() {
-                            Log.d("dodo", "onCompleted");
-                        }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.d("dodo", "onError");
-                        }
+    private void remoteLogout() {
+        Observable<BaseResponse<String>> obsLoginOut;
+        obsLoginOut = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext()).
+                getSpeUrlService(YSConst.BaseUrl.BASE_URL, UserApi.class).userLogout();
+        obsLoginOut.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseResponse<String>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d("dodo", "onCompleted");
+                    }
 
-                        @Override
-                        public void onNext(BaseResponse<String> stringBaseResponse) {
-                            Log.d("dodo", "resp = " + stringBaseResponse);
-                            if ("1".equals(stringBaseResponse.getCode())) {
-                                //退出登陆成功
-                            }
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("dodo", "onError");
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<String> stringBaseResponse) {
+                        Log.d("dodo", "resp = " + stringBaseResponse);
+                        if ("1".equals(stringBaseResponse.getCode())) {
+                            //退出登陆成功
                         }
-                    });
+                    }
+                });
 
     }
 
-    private void finishAllActivitys(){
+    private void finishAllActivitys() {
         FrameActivityStack.create().finishAllActivity();
     }
 
@@ -120,14 +125,13 @@ public class UserSettingActivity extends FrameActivity {
     }
 
     android.support.v4.app.FragmentTransaction ft;
+
     @Override
     public void initViews() {
         super.initViews();
         ft = getSupportFragmentManager().beginTransaction();
         initSettingLayout();
     }
-
-
 
 
     DooUserSettingLinear avatarLinear, nickLinear, otherLinear;
@@ -137,9 +141,9 @@ public class UserSettingActivity extends FrameActivity {
         avatarLinear = new DooUserSettingLinear(this);
         avatarLinear.setTitle("头像");
         String userAvatar = SavePreference.getStr(BaseApplication.getAppContext(), YSConst.UserInfo.USER_AVATAR_PATH);
-        if(!TextUtils.isEmpty(userAvatar)){
+        if (!TextUtils.isEmpty(userAvatar)) {
             avatarLinear.setAvatar(userAvatar);
-        }else {
+        } else {
             avatarLinear.setAvatar(R.drawable.user_normal_avatar);
         }
         avatarLinear.setCustomClick(R.id.next_layout, new View.OnClickListener() {
@@ -151,16 +155,18 @@ public class UserSettingActivity extends FrameActivity {
         });
         setting_layout.addView(avatarLinear);
 
+        String nickName = SavePreference.getStr(BaseApplication.getAppContext(), YSConst.UserInfo.USER_SAVE_NICK);
+
         nickLinear = new DooUserSettingLinear(this);
         nickLinear.setTitle("昵称");
-        nickLinear.setName("考试王");
+        nickLinear.setName(nickName);
         nickLinear.setCustomClick(R.id.next_layout, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO 昵称
                 Bundle bundle = new Bundle();
-                bundle.putInt(CommonActivity.TAG,CommonActivity.SAVE_NICK);
-                startActForResultBundle(CommonActivity.class,bundle,SET_NICK_BACK);
+                bundle.putInt(CommonActivity.TAG, CommonActivity.SAVE_NICK);
+                startActForResultBundle(CommonActivity.class, bundle, SET_NICK_BACK);
             }
         });
         setting_layout.addView(nickLinear);
@@ -180,26 +186,100 @@ public class UserSettingActivity extends FrameActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
+        switch (requestCode) {
             case SET_NICK_BACK:
-                if(resultCode == CommonActivity.SAVE_NICK){
-                  Bundle bundle =  data.getExtras();
-                   String nick = (String) bundle.get(SaveNickFragment.TAG);
+                if (resultCode == CommonActivity.SAVE_NICK) {
+                    Bundle bundle = data.getExtras();
+                    String nick = (String) bundle.get(SaveNickFragment.TAG);
                     nickLinear.setName(nick);
-                    SavePreference.save(BaseApplication.getAppContext(),YSConst.UserInfo.USER_SAVE_NICK,nick);
+                    SavePreference.save(BaseApplication.getAppContext(), YSConst.UserInfo.USER_SAVE_NICK, nick);
+                    uploadNickName(nick);
                 }
                 break;
             case SAVE_USER_AVATAR:
-                if(resultCode == UserAvatarChooseActivity.AVATAR_SAVE_OK){
-                    Bundle bundle =  data.getExtras();
+                if (resultCode == UserAvatarChooseActivity.AVATAR_SAVE_OK) {
+                    Bundle bundle = data.getExtras();
                     String avatarPath = (String) bundle.get(UserAvatarChooseActivity.TAG);
-                    if(!TextUtils.isEmpty(avatarPath)){
-                        SavePreference.save(BaseApplication.getAppContext(),YSConst.UserInfo.USER_AVATAR_PATH,avatarPath);
+                    if (!TextUtils.isEmpty(avatarPath)) {
+                        SavePreference.save(BaseApplication.getAppContext(), YSConst.UserInfo.USER_AVATAR_PATH, avatarPath);
 //                        avatarLinear.setAvatar(Uri.parse(avatarPath));
-                       avatarLinear.setAvatar(avatarPath);
+                        avatarLinear.setAvatar(avatarPath);
+                        uploadIcon(new File(avatarPath));
                     }
                 }
                 break;
         }
+    }
+
+
+    private void uploadNickName(final String nickname) {
+        Observable<BaseResponse<String>> obsLogin;
+        obsLogin = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext()).
+                getSpeUrlService(YSConst.BaseUrl.BASE_URL, UserApi.class).uploadNickName(HRetrofitNetHelper.createReqJsonBody(MapParamsHelper.uploadNickName(nickname)));
+        obsLogin.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseResponse<String>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d("dodot", "onCompleted = ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("dodot", "onError = ");
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<String> stringBaseResponse) {
+                        Log.d("dodot", "stringbase = " + stringBaseResponse);
+                        if("1".equals(stringBaseResponse.getCode())){
+                            YSUserInfoManager.getsInstance().getUserBean().setNickname(nickname);
+                        }
+                    }
+                });
+    }
+    private String mPath ="";
+    private void uploadIcon(File file) {
+        Observable<BaseResponse<String>> obs;
+        obs = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext()).
+                getSpeUrlService(YSConst.BaseUrl.BASE_URL, UserApi.class)
+                .remoteAvatar(HRetrofitNetHelper.createFileReqJsonBody(file, null));
+
+        obs.flatMap(new Func1<BaseResponse<String>, Observable<BaseResponse<String>>>() {
+            @Override
+            public Observable<BaseResponse<String>> call(BaseResponse<String> stringBaseResponse) {
+                if ("1".equals( stringBaseResponse.getCode())) {
+                    String ret = stringBaseResponse.getResults();
+                    AvatarBackBean temp  = FastJSONParser.getBean(ret, AvatarBackBean.class);
+                    mPath = temp.getPath();
+                    return HRetrofitNetHelper.getInstance(BaseApplication.getAppContext()).
+                            getSpeUrlService(YSConst.BaseUrl.BASE_URL, UserApi.class)
+                            .uploadUserAvatar(HRetrofitNetHelper.createReqJsonBody(MapParamsHelper.uploadIcon(temp.getPath())));
+                } else {
+                    return null;
+                }
+            }
+            })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseResponse<String>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d("dodot","onCompleted = " );
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("dodot","onError = " );
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<String> stringBaseResponse) {
+                        Log.d("dodot","stringbase = " + stringBaseResponse);
+                        if("1".equals(stringBaseResponse.getCode())){
+                            YSUserInfoManager.getsInstance().getUserBean().setIcon(mPath);
+                        }
+                    }
+                });
     }
 }

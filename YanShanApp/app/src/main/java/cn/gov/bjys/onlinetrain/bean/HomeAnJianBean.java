@@ -13,6 +13,7 @@ public class HomeAnJianBean implements Parcelable{
     private String introduction;
     private String newsTime;
     private String title;//
+    private String imagePath;//
 
     public HomeAnJianBean(){
 
@@ -25,6 +26,7 @@ public class HomeAnJianBean implements Parcelable{
         introduction = in.readString();
         newsTime = in.readString();
         title = in.readString();
+        imagePath = in.readString();
     }
 
     public static final Creator<HomeAnJianBean> CREATOR = new Creator<HomeAnJianBean>() {
@@ -87,6 +89,14 @@ public class HomeAnJianBean implements Parcelable{
         this.title = title;
     }
 
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -100,5 +110,6 @@ public class HomeAnJianBean implements Parcelable{
         dest.writeString(introduction);
         dest.writeString(newsTime);
         dest.writeString(title);
+        dest.writeString(imagePath);
     }
 }
