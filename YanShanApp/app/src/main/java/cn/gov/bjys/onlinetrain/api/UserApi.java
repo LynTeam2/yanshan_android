@@ -8,6 +8,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Query;
 import retrofit2.http.Streaming;
 import rx.Observable;
 
@@ -36,6 +37,9 @@ public interface UserApi {
 
     @PUT("api/user/bean")
     Observable<BaseResponse<String>> upLoadWealthValue(@Body RequestBody body);
+
+    @GET("api/law")
+    Observable <BaseResponse<String>> getLaws(@Query("page") int page, @Query("size") int size,@Query("type") long type);
 
 
 

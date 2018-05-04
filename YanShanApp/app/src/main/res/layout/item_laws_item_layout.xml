@@ -10,7 +10,9 @@
         android:layout_marginBottom="40px"
         android:layout_width="match_parent"
         android:layout_height="280px"
-        android:src="@drawable/banshizhinan"/>
+        android:src="@drawable/banshizhinan"
+        android:scaleType="fitXY"
+        />
 
     <TextView
         android:id="@+id/title"

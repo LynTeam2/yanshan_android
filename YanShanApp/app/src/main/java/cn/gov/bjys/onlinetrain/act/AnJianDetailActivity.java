@@ -6,23 +6,10 @@ import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.ycl.framework.base.FrameActivity;
-import com.ycl.framework.utils.util.FastJSONParser;
-import com.ycl.framework.utils.util.HRetrofitNetHelper;
-
-import java.util.List;
 
 import butterknife.Bind;
-import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
-import cn.gov.bjys.onlinetrain.api.BaseResponse;
-import cn.gov.bjys.onlinetrain.api.HomeApi;
-import cn.gov.bjys.onlinetrain.bean.AnJianDetailBean;
 import cn.gov.bjys.onlinetrain.bean.HomeAnJianBean;
-import cn.gov.bjys.onlinetrain.bean.HomeAnJianList;
-import cn.gov.bjys.onlinetrain.utils.YSConst;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2017/12/31 0031.

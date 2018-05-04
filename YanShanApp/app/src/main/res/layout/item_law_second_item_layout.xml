@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="250px"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        >
+
+        <cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode
+            android:id="@+id/img"
+            android:layout_width="150px"
+            android:layout_height="150px"
+            android:layout_marginLeft="40px"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/icon_463_216"
+            app:type="circle"></cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode>
+            <TextView
+                android:layout_marginLeft="30px"
+                android:id="@+id/title_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="48px"
+                android:text="中华人民共和国"
+                />
+
+    </LinearLayout>
+   <include
+       android:layout_width="match_parent"
+       android:layout_height="1px"
+       android:layout_marginLeft="40px"
+       android:layout_marginRight="40px"
+       layout="@layout/layout_divider_line1px"
+       ></include>
+</LinearLayout>

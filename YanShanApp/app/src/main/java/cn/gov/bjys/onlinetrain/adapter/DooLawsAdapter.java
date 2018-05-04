@@ -4,29 +4,31 @@ import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.ycl.framework.utils.util.GlideProxy;
 
 import java.util.List;
 
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.bean.LawsBean;
+import cn.gov.bjys.onlinetrain.bean.NativeLawsBean;
 
 /**
  * Created by Administrator on 2018/4/15 0015.
  */
-public class DooLawsAdapter extends BaseQuickAdapter<LawsBean,BaseViewHolder> {
+public class DooLawsAdapter extends BaseQuickAdapter<NativeLawsBean,BaseViewHolder> {
 
 
-    public DooLawsAdapter(int layoutResId, List<LawsBean> data) {
+    public DooLawsAdapter(int layoutResId, List<NativeLawsBean> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, LawsBean item) {
-        helper.setText(R.id.title,item.getTitle());
-
+    protected void convert(BaseViewHolder helper, NativeLawsBean item) {
+//        helper.setText(R.id.title,item.getTitle());
+        helper.setText(R.id.title, item.getName());
         ImageView bgImg = helper.getView(R.id.bg_img);
-
-        switch (helper.getAdapterPosition()%5){
+        GlideProxy.loadImgForUrlPlaceHolderDontAnimate(bgImg,item.getIcon(),R.drawable.icon_1084_584);
+/*        switch (helper.getAdapterPosition()%5){
             case 0:
                 bgImg.setImageResource(R.drawable.banshizhinan);
             break;
@@ -42,7 +44,7 @@ public class DooLawsAdapter extends BaseQuickAdapter<LawsBean,BaseViewHolder> {
             case 4:
                 bgImg.setImageResource(R.drawable.zhengcefagui);
             break;
-        }
+        }*/
 
 
     }

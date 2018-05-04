@@ -69,6 +69,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/MainActivityStyle" />
         <activity
+            android:name=".act.LawsSecondActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivityStyle" />
+        <activity
             android:name=".act.HomeClassStudyOneActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivityStyle" />
