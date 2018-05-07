@@ -15,6 +15,25 @@ public class LawContentBean {
     private String lawType;//: "0"
     private String updateTime;// : "2018-05-04"
 
+    private String iconName;//
+    private String iconPath;//
+
+
+    public String getIconName() {
+        return iconName;
+    }
+
+    public void setIconName(String iconName) {
+        this.iconName = iconName;
+    }
+
+    public String getIconPath() {
+        return iconPath;
+    }
+
+    public void setIconPath(String iconPath) {
+        this.iconPath = iconPath;
+    }
 
     public String getCreateTime() {
         return createTime;
