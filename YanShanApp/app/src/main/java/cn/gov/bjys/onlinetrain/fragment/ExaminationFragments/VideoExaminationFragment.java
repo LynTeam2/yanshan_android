@@ -1,9 +1,11 @@
 package cn.gov.bjys.onlinetrain.fragment.ExaminationFragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
 
@@ -16,6 +18,7 @@ import cn.gov.bjys.onlinetrain.act.view.DooQuestionAnalysisLayout;
 import cn.gov.bjys.onlinetrain.bean.CourseBean;
 import cn.gov.bjys.onlinetrain.fragment.PracticeFragment.PracticeBaseFragment;
 import cn.gov.bjys.onlinetrain.utils.PracticeHelper;
+import cn.gov.bjys.onlinetrain.utils.webview.JsInterface;
 import cn.jzvd.JZVideoPlayerStandard;
 
 
@@ -66,10 +69,22 @@ public class VideoExaminationFragment extends PracticeBaseFragment {
       CourseBean bean = PracticeHelper.getInstance().getmCourseBean();
       String content = bean.getContent();
 
-        mWebView.loadDataWithBaseURL(null,content,"text/html","utf-8",null);
+//        mWebView.loadDataWithBaseURL(null,content,"text/html","utf-8",null);
 //      ClientVideoPlayer jzVideoPlayerStandard = (ClientVideoPlayer) findViews(viewRoot, R.id.video_player);
 //      jzVideoPlayerStandard.setUp(content
 //                , JZVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "视频题");
+        initJS2Java();
+        Log.d("dodoVideoPath", bean.getVideo());
+        mWebView.loadUrl("file:///android_asset/video.html"+"?"+"url="+bean.getVideo());
+    }
+
+    public void initJS2Java() {
+        WebSettings settings = mWebView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        JsInterface jsInterface = new JsInterface();
+        CourseBean bean = PracticeHelper.getInstance().getmCourseBean();
+        jsInterface.setmUrl(bean.getVideo());
+        mWebView.addJavascriptInterface(jsInterface, "Java2JS");
     }
 
     @OnClick({R.id.start_req})

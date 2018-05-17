@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/windowBackgroundWhite">
     <View
         android:id="@+id/status_bar_layout"
         android:layout_width="match_parent"
@@ -11,41 +12,43 @@
         android:background="@color/normal_blue_light1"
         >
     </View>
+
     <LinearLayout
-        android:layout_below="@id/status_bar_layout"
         android:id="@+id/header_layout"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="670px"
-        android:background="@drawable/analysis_bg">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/status_bar_layout"
+        android:background="@drawable/analysis_bg"
+        android:orientation="vertical">
 
         <com.ycl.framework.view.TitleHeaderView
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:title_divider_visibility = "false"
-            app:title_name = "成绩统计"
-            >
-        </com.ycl.framework.view.TitleHeaderView>
+            app:title_divider_visibility="false"
+            app:title_name="成绩统计"></com.ycl.framework.view.TitleHeaderView>
+
         <TextView
             android:id="@+id/score"
-            android:layout_marginTop="150px"
-            android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="50px"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="150px"
+            android:text="考试成绩"
             android:textColor="@color/white"
-            android:text="考试成绩"/>
+            android:textSize="50px" />
 
         <TextView
             android:id="@+id/ret"
-            android:layout_marginTop="50px"
-            android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="42px"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50px"
+            android:text="考试成绩分析"
             android:textColor="@color/white"
-            android:text="考试成绩分析"/>
+            android:textSize="42px" />
     </LinearLayout>
 
     <LinearLayout

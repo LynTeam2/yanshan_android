@@ -17,6 +17,8 @@ public class CourseBean {
     private String introduction;//
     private String icon;
     private String iconName;
+    private String video;
+    private String videoName;
     private String createTime;
     private String updateTime;
     private boolean homePage;//true
@@ -135,5 +137,21 @@ public class CourseBean {
 
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
+    }
+
+    public String getVideoName() {
+        return videoName;
+    }
+
+    public void setVideoName(String videoName) {
+        this.videoName = videoName;
     }
 }

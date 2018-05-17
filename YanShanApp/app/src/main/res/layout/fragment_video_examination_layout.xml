@@ -18,7 +18,7 @@
     <WebView
         android:id="@+id/web_view"
         android:layout_width="match_parent"
-        android:layout_height="620px"></WebView>
+        android:layout_height="wrap_content"></WebView>
     <LinearLayout
         android:layout_below="@id/web_view"
         android:id="@+id/hint_linear"
