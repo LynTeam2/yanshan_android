@@ -3,6 +3,7 @@ package cn.gov.bjys.onlinetrain.act;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -72,14 +73,22 @@ public class LawsSecondActivity extends FrameActivity implements SwipeRefreshLay
     }
 
     private void initRecycler() {
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         mDooLawsSecondAdapter = new DooLawsSecondAdapter(R.layout.item_law_second_item_layout, null);
         recyclerView.setAdapter(mDooLawsSecondAdapter);
         mDooLawsSecondAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mDooLawsSecondAdapter.setOnLoadMoreListener(this, recyclerView);
         mDooLawsSecondAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+                LawContentBean bean = mDatas.get(position);
+                String name = bean.getFileName();
+                String filepath = bean.getFilePath();
+                Bundle bundle = new Bundle();
+                bundle.putString(PDFWebActivity.HEAD_TAG,name);
+                bundle.putString(PDFWebActivity.URL_TAG,filepath);
+                startAct(PDFWebActivity.class, bundle);
             }
         });
 
@@ -129,8 +138,13 @@ public class LawsSecondActivity extends FrameActivity implements SwipeRefreshLay
                                         mDatas.addAll(datas);
                                     }
                                     mDooLawsSecondAdapter.setNewData(mDatas);
-                                    mDooLawsSecondAdapter.loadMoreComplete();
-                                }
+                                    if(isLoadMore) {
+                                        mDooLawsSecondAdapter.loadMoreComplete();
+                                    }
+                                    if(datas == null || datas.size() < mSize){
+                                        mDooLawsSecondAdapter.loadMoreEnd();
+                                    }
+                                    }
                             }
                         }else{
                             ToastUtil.showToast(stringBaseResponse.getMsg());

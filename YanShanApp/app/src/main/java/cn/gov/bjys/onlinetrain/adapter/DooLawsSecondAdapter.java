@@ -1,7 +1,11 @@
 package cn.gov.bjys.onlinetrain.adapter;
 
+import android.widget.ImageView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.darsh.multipleimageselect.models.Image;
+import com.ycl.framework.utils.util.GlideProxy;
 
 import java.util.List;
 
@@ -21,6 +25,8 @@ public class DooLawsSecondAdapter extends BaseQuickAdapter<LawContentBean, BaseV
 
     @Override
     protected void convert(BaseViewHolder helper, LawContentBean item) {
-            helper.setText(R.id.title_name,item.getLawName());
+        helper.setText(R.id.title_name, item.getLawName());
+        ImageView img = helper.getView(R.id.img);
+        GlideProxy.loadImgForUrlPlaceHolderDontAnimate(img, item.getIconPath(), R.drawable.icon_463_216);
     }
 }
