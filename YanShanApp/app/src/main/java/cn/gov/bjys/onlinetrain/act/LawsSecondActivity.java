@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.loadmore.LoadMoreView;
+import com.chad.library.adapter.base.loadmore.SimpleLoadMoreView;
 import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.utils.util.FastJSONParser;
 import com.ycl.framework.utils.util.HRetrofitNetHelper;
@@ -79,6 +81,7 @@ public class LawsSecondActivity extends FrameActivity implements SwipeRefreshLay
         mDooLawsSecondAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mDooLawsSecondAdapter.setOnLoadMoreListener(this, recyclerView);
+        mDooLawsSecondAdapter.setLoadMoreView(new SimpleLoadMoreView());
         mDooLawsSecondAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {

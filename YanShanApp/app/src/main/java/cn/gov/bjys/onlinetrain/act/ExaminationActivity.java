@@ -252,7 +252,6 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
         mExamBottomLayout.setmDatas(mDatas);
         mExamBottomLayout.getView(R.id.hand_of_paper).setOnClickListener(this);
         mExamBottomLayout.getView(R.id.show_all_layout).setOnClickListener(this);
-
         mDooExamBottomAdapter = mExamBottomLayout.getmDooExamBottomAdapter();
         mDooExamBottomAdapter.getData().get(0).setmType(ExamXqBean.CHOICE);//初始化
         mDooExamBottomAdapter.notifyDataSetChanged();

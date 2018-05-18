@@ -45,6 +45,7 @@
             android:theme="@style/FragmentStatusBarStyle" />
 
         <activity
+            android:hardwareAccelerated="true"
             android:name=".act.PracticePrepareActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"

@@ -111,11 +111,11 @@ public class HomeFragment extends FrameFragment {
         switch (id) {
             case R.id.search_layout:
 //                ToastUtil.showToast(getString(R.string.string_function_dismiss));
-//                startAct(SearchActivity.class);
-                Bundle tempBundle = new Bundle();
+                startAct(SearchActivity.class);
+/*              Bundle tempBundle = new Bundle();
                 tempBundle.putString(PDFWebActivity.HEAD_TAG, "法律法规");
-                    tempBundle.putString(PDFWebActivity.URL_TAG, "http://39.104.118.75/resource/1.pdf");
-                startAct(PDFWebActivity.class,tempBundle);
+                tempBundle.putString(PDFWebActivity.URL_TAG, "http://39.104.118.75/resource/1.pdf");
+                startAct(PDFWebActivity.class,tempBundle);*/
                 break;
             case R.id.anjian_loadmore:
                 isLoadMore = true;

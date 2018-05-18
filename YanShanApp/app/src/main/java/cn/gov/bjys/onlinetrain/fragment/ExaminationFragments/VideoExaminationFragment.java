@@ -106,6 +106,8 @@ public class VideoExaminationFragment extends PracticeBaseFragment {
 //        jzVideoPlayerStandard.setUp("http://jzvd.nathen.cn/c6e3dc12a1154626b3476d9bf3bd7266/6b56c5f0dc31428083757a45764763b0-5287d2089db37e62345123a1be272f8b.mp4"
 //                , JZVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "视频题");
 //        jzVideoPlayerStandard.thumbImageView.setImage("http://p.qpic.cn/videoyun/0/2449_43b6f696980311e59ed467f22794e792_1/640");
+
+//        mWebView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
     }
 
 
@@ -117,5 +119,27 @@ public class VideoExaminationFragment extends PracticeBaseFragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        if(mWebView != null){
+            mWebView.onResume();
+        }
+        super.onResume();
+    }
 
+    @Override
+    public void onPause() {
+        if(mWebView != null) {
+            mWebView.onPause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        if(mWebView != null){
+            mWebView.destroy();
+        }
+        super.onDestroy();
+    }
 }
