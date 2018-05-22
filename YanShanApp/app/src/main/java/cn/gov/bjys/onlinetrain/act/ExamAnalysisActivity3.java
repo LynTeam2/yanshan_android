@@ -207,7 +207,8 @@ public class ExamAnalysisActivity3 extends FrameActivity implements View.OnClick
                         //所有题目
                         if(datas != null && datas.size() > 0) {
                             Bundle mBundle = new Bundle();
-                            mBundle.putInt(PracticeActivity.TAG, PracticeActivity.TIXING);
+                            mBundle.putInt(PracticeActivity.TAG, PracticeActivity.CUOTI);
+                            mBundle.putInt(PracticeActivity.ERROR_POSTION, 0);
                             mBundle.putParcelableArrayList("PracticeActivityDatas", (ArrayList<? extends Parcelable>) datas);
                             startAct(PracticeActivity.class, mBundle);
                         }else{

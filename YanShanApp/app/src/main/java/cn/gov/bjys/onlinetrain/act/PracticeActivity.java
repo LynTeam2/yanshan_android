@@ -612,8 +612,8 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
     }
 
     private void saveKeShiPass(){
-        //保存全对的课时
-        if(mRightQuestionsList.size() >= mQuestionsList.size()) {
+        //保存做完的课时
+        if(mRightQuestionsList.size() + mErrorQuestionsList.size()>= mQuestionsList.size()) {
             String allPassKeShiStr = SavePreference.getStr(this, YSConst.UserInfo.USER_PASS_KESHI_IDS + YSUserInfoManager.getsInstance().getUserId());
             allPassKeShiStr = DataHelper.clearEmptyString(allPassKeShiStr);
             allPassKeShiStr += ("," + mKeShiId);

@@ -2,6 +2,8 @@ package cn.gov.bjys.onlinetrain.act;
 
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -10,6 +12,7 @@ import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.db.business.QuestionInfoBusiness;
 import com.ycl.framework.db.entity.ExamBean;
 import com.ycl.framework.utils.sp.SavePreference;
+import com.ycl.framework.utils.util.BgDrawbleUtil;
 import com.ycl.framework.utils.util.FastJSONParser;
 import com.ycl.framework.utils.util.GlideProxy;
 import com.ycl.framework.view.TitleHeaderView;
@@ -24,11 +27,14 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
+import cn.gov.bjys.onlinetrain.act.pop.UnPassAllCourseHintPop;
 import cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode;
+import cn.gov.bjys.onlinetrain.bean.CourseBean;
 import cn.gov.bjys.onlinetrain.bean.ExamsBean;
 import cn.gov.bjys.onlinetrain.bean.ExamsRole;
 import cn.gov.bjys.onlinetrain.utils.ExamHelper;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
+import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action1;
@@ -98,7 +104,8 @@ public class ExamPrepareActivity extends FrameActivity {
         exam_value.setText("答对" + bean.getStandard() + "题，方可合格");
         exam_hint.setText("温馨提示：本次考试属于模拟真实考试环境总分100分，考核需要" + "答对" + bean.getStandard() + "题，方可合格" + "，中途考试交卷不可继续考试");
         preparedExamDatas(bean);
-    }
+        mExamsBean = bean;
+   }
 
     /**
      * 准备考试试题
@@ -217,16 +224,68 @@ public class ExamPrepareActivity extends FrameActivity {
         return randomList;
     }
 
+    UnPassAllCourseHintPop  mUnPassAllCourseHintPop;
 
+
+    private ExamsBean mExamsBean;
     @OnClick({R.id.start_exam})
     public void onTabClick(View v) {
         switch (v.getId()) {
             case R.id.start_exam:
-                startAct(ExaminationActivity.class);
-                finish();
+//                if(true) {
+                if(checkIsPassAllKeShi()) {
+                    //全通过
+                    startAct(ExaminationActivity.class);
+                    finish();
+                }else{
+                    //未通过
+                    if(mUnPassAllCourseHintPop == null){
+                        View rootView = LayoutInflater.from(ExamPrepareActivity.this).inflate(R.layout.pop_unpass_hint_layout, null);
+                        BgDrawbleUtil.shapeCircleCorner(rootView,12);
+                        mUnPassAllCourseHintPop = new UnPassAllCourseHintPop(ExamPrepareActivity.this, rootView);
+                    }
+                    mUnPassAllCourseHintPop.bindDatas(mHints);
+                    mUnPassAllCourseHintPop.showLocation(Gravity.CENTER);
+                }
                 break;
         }
     }
+
+
+    /**
+     * 是否完成了所有课时 无论对错 并且记录提示语
+     * @return
+     */
+
+    private List<String>  mHints = new ArrayList<>();
+    private boolean checkIsPassAllKeShi(){
+        mHints.clear();
+        int unPassCount = 0;
+        String allPassKeShiStr = SavePreference.getStr(this, YSConst.UserInfo.USER_PASS_KESHI_IDS + YSUserInfoManager.getsInstance().getUserId());
+        String[] ids = allPassKeShiStr.split(",");
+        List<CourseBean> needPassCourses =  mExamsBean.getCourseList();
+        for(CourseBean temp:needPassCourses){
+            int needId = temp.getId();
+            boolean isPass = false;
+            for(String id : ids){
+                if(id.equals(needId+"")){
+                    isPass = true;
+                    break;
+                }
+            }
+            //未通过情况记录
+            if(!isPass){
+                unPassCount++;
+                mHints.add(temp.getAjType()+":"+temp.getCourseName());//记录未通过课程
+            }
+        }
+        if(unPassCount <= 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 
     /**
      * 第一版的题目生成规则   目前弃用

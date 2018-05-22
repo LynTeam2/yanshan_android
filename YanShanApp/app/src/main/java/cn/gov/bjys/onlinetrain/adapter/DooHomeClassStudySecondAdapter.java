@@ -40,8 +40,12 @@ public class DooHomeClassStudySecondAdapter<T> extends BaseQuickAdapter<T,BaseVi
             return;
         CategoriesBean temp = (CategoriesBean) item;
         ImageView img = helper.getView(R.id.icon);
-        GlideProxy.loadImgForFilePlaceHolderDontAnimate(img,
+/*        GlideProxy.loadImgForFilePlaceHolderDontAnimate(img,
                 new File(AssetsHelper.getYSPicPath(temp.getIcon())) ,
+                R.drawable.icon_189_174); */
+
+        GlideProxy.loadImgForUrlPlaceHolderDontAnimate(img,
+                temp.getIcon() ,
                 R.drawable.icon_189_174);
 
         helper.setText(R.id.title, temp.getCategoryName());

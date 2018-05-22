@@ -178,7 +178,7 @@
         <activity
             android:name=".act.ExamPrepareActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MainActivityStyle" />
+            android:theme="@style/NormalActivityStyle" />
 
         <activity
             android:name=".act.MainActivity"

@@ -8,8 +8,10 @@ import java.util.List;
  * Created by Administrator on 2018/1/28 0028.
  */
 public class ExamsBean {
-   private long id;// : 1,
-   private String examName;//" : "测试1",
+
+    private List<CourseBean> courseList;
+    private long id;// : 1,
+    private String examName;//" : "测试1",
     private String startDate;// : "",
     private String endDate;// : "",
     private String createTime;//: "",
@@ -24,6 +26,15 @@ public class ExamsBean {
     private List<ExamBean> mcList;
     private List<ExamBean> scList;
     private List<ExamBean> tfList;
+
+
+    public List<CourseBean> getCourseList() {
+        return courseList;
+    }
+
+    public void setCourseList(List<CourseBean> courseList) {
+        this.courseList = courseList;
+    }
 
     public int getExamDuration() {
         return examDuration;

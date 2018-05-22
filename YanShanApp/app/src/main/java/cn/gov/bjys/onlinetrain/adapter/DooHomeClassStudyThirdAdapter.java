@@ -28,8 +28,12 @@ public class DooHomeClassStudyThirdAdapter<T> extends BaseQuickAdapter<T,BaseVie
             return;
         CourseBean temp = (CourseBean) item;
         ImageView img = helper.getView(R.id.img);
-        GlideProxy.loadImgForFilePlaceHolderDontAnimate(img,
+/*        GlideProxy.loadImgForFilePlaceHolderDontAnimate(img,
                 new File(AssetsHelper.getYSPicPath(temp.getIcon())) ,
+                R.drawable.icon_463_216);*/
+
+        GlideProxy.loadImgForUrlPlaceHolderDontAnimate(img,
+                temp.getIcon() ,
                 R.drawable.icon_463_216);
         helper.setText(R.id.name, temp.getCourseName());
     }

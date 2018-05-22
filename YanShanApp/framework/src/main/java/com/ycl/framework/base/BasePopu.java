@@ -44,6 +44,27 @@ public abstract class BasePopu extends PopupWindow implements OnClickListener {
         init();
     }
 
+
+
+    public BasePopu(FrameActivity act, View v, int width, int height) {
+        super(v, width, height, true);
+        mActivity = act;
+        setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        this.setOnDismissListener(new OnDismissListener() {
+            public void onDismiss() {
+                WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
+                if (lp.alpha != 1f) {
+                    lp.alpha = 1f;
+                    mActivity.getWindow().setAttributes(lp);
+                }
+                afterDismiss();
+            }
+        });
+        init();
+    }
+
+
+
     //底部暂时时 .需要处理 虚拟导航键的高度
     public void setHeightNavigationBar(int heightNavigationBar) {
         this.heightNavigationBar = heightNavigationBar;
