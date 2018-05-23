@@ -4,8 +4,10 @@ import com.ycl.framework.utils.util.FastJSONParser;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import cn.gov.bjys.onlinetrain.adapter.DooHomeClassStudyAdapter;
+import cn.gov.bjys.onlinetrain.bean.CourseBean;
 import cn.gov.bjys.onlinetrain.bean.NewestCourseBean;
 import rx.Observable;
 import rx.Subscriber;
@@ -67,7 +69,10 @@ public class HomeNewCourseTask extends BaseAsyncTask {
                     public void onNext(String s) {
                         NewestCourseBean bean = FastJSONParser.getBean(s, NewestCourseBean.class);
                         if(bean != null){
-                            mAdapter.setNewData(bean.getCourses());
+                            if(bean.getCourses() != null) {
+                                List<CourseBean> datas = bean.getCourses().size() > 4 ? bean.getCourses().subList(0,4):bean.getCourses();
+                                mAdapter.setNewData(datas);
+                            }
                         }
                     }
                 });
