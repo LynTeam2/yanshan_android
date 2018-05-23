@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -241,7 +242,7 @@ public class ExamPrepareActivity extends FrameActivity {
                     //未通过
                     if(mUnPassAllCourseHintPop == null){
                         View rootView = LayoutInflater.from(ExamPrepareActivity.this).inflate(R.layout.pop_unpass_hint_layout, null);
-                        BgDrawbleUtil.shapeCircleCorner(rootView,12);
+                        BgDrawbleUtil.shapeCircleCorner(rootView.findViewById(R.id.linear),12);
                         mUnPassAllCourseHintPop = new UnPassAllCourseHintPop(ExamPrepareActivity.this, rootView);
                     }
                     mUnPassAllCourseHintPop.bindDatas(mHints);

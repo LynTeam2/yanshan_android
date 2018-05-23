@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ycl.framework.base.BasePopu;
@@ -19,7 +20,6 @@ import com.zhy.autolayout.utils.AutoUtils;
 import java.util.List;
 
 import cn.gov.bjys.onlinetrain.R;
-import cn.gov.bjys.onlinetrain.act.view.RoundBackgroundColorSpan;
 
 /**
  * Created by dodo on 2018/5/22.
@@ -28,7 +28,8 @@ import cn.gov.bjys.onlinetrain.act.view.RoundBackgroundColorSpan;
 public class UnPassAllCourseHintPop  extends BasePopu{
 
     public UnPassAllCourseHintPop(FrameActivity act,View v) {
-        super(act,v, AutoUtils.getPercentWidthSize(720), LinearLayout.LayoutParams.WRAP_CONTENT);
+//        super(act,v, AutoUtils.getPercentWidthSize(720), LinearLayout.LayoutParams.WRAP_CONTENT);
+        super(act,v, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
     }
 
 
@@ -37,6 +38,7 @@ public class UnPassAllCourseHintPop  extends BasePopu{
     protected void init() {
             findViewsId(R.id.sure,true);
         mContent = findViewsId(R.id.content, false);
+        findViewsId(R.id.root,true);
     }
 
     public void bindDatas(List<String> hints){
@@ -56,6 +58,9 @@ public class UnPassAllCourseHintPop  extends BasePopu{
     public void onClick(View v) {
             switch (v.getId()){
                 case R.id.sure:
+                    dismiss();
+                    break;
+                case R.id.root:
                     dismiss();
                     break;
             }
