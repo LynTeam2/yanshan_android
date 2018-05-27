@@ -3,21 +3,19 @@ package cn.gov.bjys.onlinetrain.task;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import java.io.BufferedInputStream;
+import com.hzy.lib7z.ExtractCallback;
+import com.hzy.lib7z.Z7Extractor;
+
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 
 import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.utils.AssetsHelper;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 
 /**
- * Created by dodozhou on 2017/8/9.
+ * Created by Administrator on 2018/5/26 0026.
  */
-public class UnZipTask extends AsyncTask<Integer, Integer, Boolean> {
+public class Un7zTask extends AsyncTask<Integer, Integer, Boolean> {
 
     private boolean isAssetUnZip;
 
@@ -25,7 +23,7 @@ public class UnZipTask extends AsyncTask<Integer, Integer, Boolean> {
 
     private String aimPath;
 
-    public UnZipTask(boolean isAssetUnZip, String zipPath, String aimPath){
+    public Un7zTask(boolean isAssetUnZip, String zipPath, String aimPath){
         this.isAssetUnZip = isAssetUnZip;
         this.zipPath = zipPath;
         this.aimPath = aimPath;
@@ -39,41 +37,54 @@ public class UnZipTask extends AsyncTask<Integer, Integer, Boolean> {
      */
     @Override
     protected Boolean doInBackground(Integer... params) {
-       if(isAssetUnZip) {
-           //asset/update/目标文件  解压过程
-           if (isUnZipOk()) {
-               return true;//如果已经解压好了，直接返回true
-           }
-           boolean unZipOk = false;
-           try {
-               unZipOk = AssetsHelper.unZipAssetOneFileContains(BaseApplication.getAppContext(), YSConst.UPDATE_ZIP);
-           } catch (Exception e) {
-           }
-           return unZipOk;
-       }else{
+        if(isAssetUnZip) {
+            //asset/update/目标文件  解压过程
+            if (isUn7zOk()) {
+                return true;//如果已经解压好了，直接返回true
+            }
+            boolean un7zOk = false;
+            try {
+//              un7zOk = AssetsHelper.unZipAssetOneFileContains(BaseApplication.getAppContext(), YSConst.UPDATE_ZIP);
+                un7zOk = Z7Extractor.extractFile(AssetsHelper.un7zAssertFile(BaseApplication.getAppContext(), YSConst.UPDATE_ZIP).getAbsolutePath(),
+                        BaseApplication.getAppContext().getFilesDir().getParent() + File.separator + YSConst.UPDATE_ZIP,
+                        null
+                );
+            } catch (Exception e) {
+            }
+            return un7zOk;
+        }else{
             //根据zipPath和aimPath解压
-           File file = new File(zipPath);
-           InputStream is = null;
-           try {
+         /*   File file = new File(zipPath);
+            InputStream is = null;
+            try {
+                Log.d("dodoT","zipPath = " +zipPath+ "\n   aimPath =" + aimPath);
+                AssetsHelper.upZipFile(file,aimPath);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }*/
 
+            Z7Extractor.extractFile(zipPath, aimPath, new ExtractCallback() {
+                @Override
+                public void onProgress(String name, long size) {
+                    Log.d("dodo", "onProgress name =" +name+"   size =" + size);
+                }
 
-               Log.d("dodoT","zipPath = " +zipPath+ "\n   aimPath =" + aimPath);
-//               AssetsHelper.unZipInputStream(BaseApplication.getAppContext(), is, aimPath, true);
-               AssetsHelper.upZipFile(file,aimPath);
-           } catch (FileNotFoundException e) {
-               e.printStackTrace();
-           } catch (IOException e) {
-               e.printStackTrace();
-           }
-           return true;
-       }
+                @Override
+                public void onError(int errorCode, String message) {
+                    Log.d("dodo", "onError errorCode =" +errorCode+"   message =" + message);
+                }
+            });
+            return true;
+        }
     }
 
     /**
      * 是否已经解压了asset/update/目标文件
      * @return
      */
-    public boolean isUnZipOk(){
+    public boolean isUn7zOk(){
         String aimDir = BaseApplication.getAppContext().getFilesDir().getParent()+ File.separator + YSConst.UPDATE_ZIP;
         String zipName = AssetsHelper.getAssetUpdateZipName(BaseApplication.getAppContext(),YSConst.UPDATE_ZIP);
         File aimFiles = new File(aimDir);
@@ -101,7 +112,7 @@ public class UnZipTask extends AsyncTask<Integer, Integer, Boolean> {
     //该方法运行在UI线程当中,并且运行在UI线程当中 可以对UI空间进行设置
     @Override
     protected void onPreExecute() {
-    //开始执行异步线程
+        //开始执行异步线程
 
     }
 

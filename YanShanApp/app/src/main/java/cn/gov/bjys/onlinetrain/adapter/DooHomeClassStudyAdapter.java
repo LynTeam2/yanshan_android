@@ -39,7 +39,7 @@ public class DooHomeClassStudyAdapter extends BaseQuickAdapter<CourseBean,BaseVi
                 R.drawable.icon_465_215);  */
         GlideProxy.loadImgForUrlPlaceHolderDontAnimate((ImageView) helper.getView(R.id.img),
                 item.getIcon(),
-                R.drawable.icon_465_215);
+                R.drawable.icon_463_216);
 
 
         helper.setText(R.id.class_name, item.getCourseName());

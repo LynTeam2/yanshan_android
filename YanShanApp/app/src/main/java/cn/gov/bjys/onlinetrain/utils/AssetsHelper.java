@@ -159,6 +159,56 @@ public class AssetsHelper {
         }
     }
 
+    /**
+     * @param context
+     * @param fileName
+     * @return
+     * @throws IOException
+     */
+    public static File un7zAssertFile(Context context,String fileName) throws IOException {
+        AssetManager manager = context.getAssets();
+        String aimFileNameAll = null;
+        String aimFileName = null;
+        try{
+            String[] fileNames = manager
+                    .list(fileName);
+
+            if (fileNames != null && fileNames[0] != null) {
+                aimFileNameAll = fileNames[0];
+                aimFileName = getFileName(aimFileNameAll);
+            }
+       }catch (Exception e){
+            e.printStackTrace();
+            LogUtils.e(e.getMessage());
+            return null;
+        }
+
+        if(!TextUtils.isEmpty(aimFileNameAll)) {
+            String retName = getOnlyOneAssetsFile(context,fileName);
+            InputStream  inputStream = manager.open(retName);
+            Log.d("dodoT","inputStream assert file is acquire Ok");
+            return copeAssertFile(inputStream);
+        }else{
+            return null;
+        }
+    }
+
+    public static void inputstream2File(InputStream ins,File file) {
+        try {
+            OutputStream os = new FileOutputStream(file);
+            int bytesRead = 0;
+            byte[] buffer = new byte[8192];
+            while ((bytesRead = ins.read(buffer, 0, 8192)) != -1) {
+                os.write(buffer, 0, bytesRead);
+            }
+            os.close();
+            ins.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public static String getOnlyOneAssetsFile(Context context, String filename){
         try {
             AssetManager am = context.getAssets();
@@ -263,7 +313,7 @@ public class AssetsHelper {
 
     public static  void saveFile(ResponseBody body) {
         String destFileDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
-        String destFileName ="upgrade.zip";
+        String destFileName ="upgrade.7z";
         InputStream is = null;
         byte[] buf = new byte[2048];
         int len;
@@ -295,6 +345,45 @@ public class AssetsHelper {
                 Log.e("saveFile", e.getMessage());
             }
         }
+    }
+
+
+    public static File copeAssertFile(InputStream is) {
+        File file = null;
+        String destFileDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+        String destFileName ="upgrade.7z";
+        byte[] buf = new byte[2048];
+        int len;
+        FileOutputStream fos = null;
+        try {
+            File dir = new File(destFileDir);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            file = new File(dir, destFileName);
+            Log.d("dodoT","aimFile path = "+file.getAbsolutePath());
+
+            fos = new FileOutputStream(file);
+            while ((len = is.read(buf)) != -1) {
+                fos.write(buf, 0, len);
+            }
+            fos.flush();
+            //onCompleted();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (is != null) is.close();
+                if (fos != null) fos.close();
+            } catch (IOException e) {
+                Log.e("saveFile", e.getMessage());
+            }
+        }
+
+
+        return file;
     }
 
 

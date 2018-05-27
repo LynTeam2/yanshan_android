@@ -7,6 +7,7 @@ import android.os.CountDownTimer;
 import android.os.Environment;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +29,7 @@ import cn.gov.bjys.onlinetrain.api.BaseResponse;
 import cn.gov.bjys.onlinetrain.api.HomeApi;
 import cn.gov.bjys.onlinetrain.api.UserApi;
 import cn.gov.bjys.onlinetrain.bean.UserBean;
+import cn.gov.bjys.onlinetrain.task.Un7zTask;
 import cn.gov.bjys.onlinetrain.task.UnZipTask;
 import cn.gov.bjys.onlinetrain.utils.AssetsHelper;
 import cn.gov.bjys.onlinetrain.utils.MapParamsHelper;
@@ -125,6 +127,11 @@ public class LogoActivity extends FrameActivity {
 
 
     private void userLogin(){
+        if(TextUtils.isEmpty(mUserName) || TextUtils.isEmpty(mPassword)){
+            toLoginAct();
+            return;
+        }
+
         Observable<BaseResponse<String>> obsLogin;
         obsLogin = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext()).
                 getSpeUrlService(YSConst.BaseUrl.BASE_URL, UserApi.class).userLogin(HRetrofitNetHelper.createReqJsonBody(MapParamsHelper.getLogin(mUserName, mPassword)));
@@ -266,11 +273,12 @@ public class LogoActivity extends FrameActivity {
         count++;
         Log.d("dodoT", "updateZip  " + count);
         ToastUtil.showToast("updateZip  " + count);
-        new UnZipTask(true, null, null).execute();//开始解压压缩包，解压好了就不解压了
+//        new UnZipTask(true, null, null).execute();//开始解压压缩包，解压好了就不解压了
+        new Un7zTask(true, null, null).execute();//开始解压压缩包，解压好了就不解压了
         downloadZip();
     }
 
-    public final static String UPGRADE_SAVE_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "upgrade.zip";
+    public final static String UPGRADE_SAVE_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "upgrade.7z";
     private void downloadZip() {
         rx.Observable<ResponseBody> observable;
         observable = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext())
@@ -293,7 +301,9 @@ public class LogoActivity extends FrameActivity {
                     @Override
                     public void onCompleted() {
                         Log.d("dodoT","UPGRADE_SAVE_PATH = "+ UPGRADE_SAVE_PATH);
-                        new UnZipTask(false, UPGRADE_SAVE_PATH,
+//                        new UnZipTask(false, UPGRADE_SAVE_PATH,
+//                                getFilesDir().getParent()+File.separator + YSConst.UPDATE_ZIP).execute();//开始解压压缩包，解压好了就不解压了
+                        new Un7zTask(false, UPGRADE_SAVE_PATH,
                                 getFilesDir().getParent()+File.separator + YSConst.UPDATE_ZIP).execute();//开始解压压缩包，解压好了就不解压了
                     }
 
