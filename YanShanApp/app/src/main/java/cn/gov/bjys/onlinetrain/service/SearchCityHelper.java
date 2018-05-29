@@ -36,145 +36,12 @@ public class SearchCityHelper extends AsyncTask<Void, Void, List<Address>> {
     private Location mLocation;
     private WeakReference<FrameFragment> frameFragmentWeakReference;
 
-    public SearchCityHelper(FrameFragment f) {
+    public SearchCityHelper(FrameFragment f,Location location) {
         frameFragmentWeakReference = new WeakReference<FrameFragment>(f);
         mContext = frameFragmentWeakReference.get().getContext();
+        this.mLocation = location;
     }
 
-    //监听GPS位置改变后得到新的经纬度
-    private LocationListener locationListener = new LocationListener() {
-        public void onLocationChanged(Location location) {
-            Log.e("location", location.toString() + "....");
-            // TODO Auto-generated method stub
-            if (location != null) {
-                //获取国家，省份，城市的名称
-                Log.e("location", location.toString());
-            } else {
-                ToastUtil.showToast("获取不到数据");
-            }
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
-        }
-
-    };
-    private LocationManager myLocationManager;
-
-    private Location getLocation() {
-        //获取位置管理服务
-
-        //查找服务信息
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE); //定位精度: 最高
-        criteria.setAltitudeRequired(false); //海拔信息：不需要
-        criteria.setBearingRequired(false); //方位信息: 不需要
-        criteria.setCostAllowed(true);  //是否允许付费
-        criteria.setPowerRequirement(Criteria.POWER_LOW); //耗电量: 低功耗
-//        String provider = myLocationManager.getBestProvider(criteria, true); //获取GPS信息
-//        myLocationManager.requestLocationUpdates(provider,2000,5,locationListener);
-//        Log.e("provider", provider);
-//        List<String> list = myLocationManager.getAllProviders();
-//        Log.e("provider", list.toString());
-        //用于获取Location对象，以及其他
-        String serviceName = Context.LOCATION_SERVICE;
-        //实例化一个LocationManager对象
-        myLocationManager = (LocationManager) mContext.getSystemService(serviceName);
-        Location gpsLocation = null;
-        Location netLocation = null;
-//        myLocationManager.addGpsStatusListener();
-        //权限判断
-
-        int fineOps = checkOpsPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION);
-        int coarseOps = checkOpsPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION);
-
-        //权限获取成功
-        if (PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
-                && PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            if (DifferSystemUtil.getSystem().equals(DifferSystemUtil.SYS_MIUI)) {
-                //如果是小米在判断是否获取成功
-                if (fineOps == AppOpsManager.MODE_ALLOWED && coarseOps == AppOpsManager.MODE_ALLOWED) {
-                    //权限成功
-                    return calLocation(gpsLocation, netLocation);
-                } else if (fineOps == AppOpsManager.MODE_IGNORED && coarseOps == AppOpsManager.MODE_IGNORED) {
-                    //权限拒绝
-                    ActivityCompat.requestPermissions((FrameActivity) mContext, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                    ToastUtil.showToast("权限不足");
-                    return null;
-                } else {
-                    //询问状态
-                    return calLocation(gpsLocation, netLocation);
-                }
-            } else {
-                return calLocation(gpsLocation, netLocation);
-            }
-        } else {
-            ActivityCompat.requestPermissions((FrameActivity) mContext, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            return null;
-        }
-    }
-
-    private Location calLocation(Location gpsLocation, Location netLocation) {
-        if (netWorkIsOpen()) {
-            //3000代表每3000毫秒更新一次，500米范围外更新
-            if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return null;
-            }
-            myLocationManager.requestLocationUpdates("network", 3000, 500, locationListener);
-                netLocation = myLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            }
-
-            if (gpsIsOpen()) {
-                myLocationManager.requestLocationUpdates("gps", 3000, 500, locationListener);
-                gpsLocation = myLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            }
-
-            if (gpsLocation == null && netLocation == null) {
-                return null;
-            }
-            if (gpsLocation != null && netLocation != null) {
-                if (gpsLocation.getTime() < netLocation.getTime()) {
-                    gpsLocation = null;
-                    return netLocation;
-                } else {
-                    netLocation = null;
-                    return gpsLocation;
-                }
-            }
-            if (gpsLocation == null) {
-                return netLocation;
-            } else {
-                return gpsLocation;
-            }
-    }
-
-
-    private boolean gpsIsOpen() {
-        boolean isOpen = true;
-        if (!myLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {//没有开启GPS
-            isOpen = false;
-        }
-        return isOpen;
-    }
-
-    private boolean netWorkIsOpen() {
-        boolean netIsOpen = true;
-        if (!myLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {//没有开启网络定位
-            netIsOpen = false;
-        }
-        return netIsOpen;
-    }
 
     // 获取地址信息
     private List<Address> getAddress(Location location) {
@@ -192,11 +59,10 @@ public class SearchCityHelper extends AsyncTask<Void, Void, List<Address>> {
     }
 
 
-
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        mLocation = getLocation();
+//        mLocation = getLocation();
     }
 
     @Override
@@ -207,30 +73,10 @@ public class SearchCityHelper extends AsyncTask<Void, Void, List<Address>> {
     @Override
     protected void onPostExecute(List<Address> addresses) {
         super.onPostExecute(addresses);
-        if(frameFragmentWeakReference.get() instanceof ShopFragment){
-            ((ShopFragment)frameFragmentWeakReference.get()).setCityName(addresses);
+        if (frameFragmentWeakReference.get() instanceof ShopFragment) {
+            ((ShopFragment) frameFragmentWeakReference.get()).setCityName(addresses);
         }
 
     }
 
-    /**
-     * true为通过
-     * @param context
-     * @param permission
-     * @return
-     */
-    @TargetApi(Build.VERSION_CODES.M)
-    private static int checkOpsPermission(Context context, String permission) {
-        try {
-            AppOpsManager appOpsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
-            String opsName = AppOpsManager.permissionToOp(permission);
-            if (opsName == null) {
-                return AppOpsManager.MODE_ALLOWED;
-            }
-            int opsMode = appOpsManager.checkOpNoThrow(opsName, android.os.Process.myUid(), context.getPackageName());
-            return opsMode;
-        } catch (Exception ex) {
-            return AppOpsManager.MODE_ALLOWED;
-        }
-    }
 }

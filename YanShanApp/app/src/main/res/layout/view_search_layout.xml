@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
     android:background="@color/normal_blue_light1"
     >
+    <RelativeLayout
+        android:layout_weight="5"
+        android:layout_width="0px"
+        android:layout_height="wrap_content">
     <EditText
         android:visibility="gone"
         android:id="@+id/edit_text"
-        android:enabled="false"
-        android:focusable="false"
+
         android:layout_marginTop="@dimen/px_30"
         android:layout_marginBottom="@dimen/px_30"
         android:layout_marginLeft="@dimen/px_40"
@@ -52,4 +56,30 @@
         android:layout_height="wrap_content"
         android:src="@drawable/search"/>
     </RelativeLayout>
-</com.zhy.autolayout.AutoRelativeLayout>
+
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/cancel_layout"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/px_30"
+            android:layout_marginRight="@dimen/px_78"
+            android:layout_width="80px"
+            android:layout_height="80px">
+            <ImageView
+                android:layout_centerInParent="true"
+                android:layout_width="50px"
+                android:layout_height="50px"
+                android:src="@drawable/register_cancel"/>
+        </RelativeLayout>
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/cancel_btn"
+        android:visibility="gone"
+        android:layout_weight="1"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:text="取消"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="48px"/>
+</com.zhy.autolayout.AutoLinearLayout>

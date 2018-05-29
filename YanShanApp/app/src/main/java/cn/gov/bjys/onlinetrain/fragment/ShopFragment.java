@@ -1,8 +1,20 @@
 package cn.gov.bjys.onlinetrain.fragment;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.AppOpsManager;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Address;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -14,12 +26,14 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ZipUtils;
+import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.base.FrameFragment;
 import com.ycl.framework.utils.sp.SavePreference;
 import com.ycl.framework.utils.util.DateUtil;
 import com.ycl.framework.utils.util.FastJSONParser;
 import com.ycl.framework.utils.util.HRetrofitNetHelper;
 import com.ycl.framework.utils.util.LunarCalendar;
+import com.ycl.framework.utils.util.ToastUtil;
 import com.ycl.framework.view.ProgressWebView;
 import com.ycl.framework.view.TitleHeaderView;
 import com.zls.www.mulit_file_download_lib.multi_file_download.db.business.DownLoadInfoBusiness;
@@ -45,6 +59,7 @@ import cn.gov.bjys.onlinetrain.bean.weather.Forecast;
 import cn.gov.bjys.onlinetrain.bean.weather.HeWeather6;
 import cn.gov.bjys.onlinetrain.bean.weather.Hourly;
 import cn.gov.bjys.onlinetrain.service.SearchCityHelper;
+import cn.gov.bjys.onlinetrain.utils.DifferSystemUtil;
 import cn.gov.bjys.onlinetrain.utils.UpdateFileUtils;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -88,6 +103,37 @@ public class ShopFragment extends FrameFragment {
 
     DooWeatherHourAdapter mDooWeatherHourAdapter;
 
+    //监听GPS位置改变后得到新的经纬度
+    private LocationListener mLocationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            Log.e("location", location.toString() + "....");
+            // TODO Auto-generated method stub
+            if (location != null) {
+                //获取国家，省份，城市的名称
+                new SearchCityHelper(ShopFragment.this,location).execute();
+            } else {
+                ToastUtil.showToast("获取不到数据");
+            }
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+
+    };
+    private LocationManager myLocationManager;
+
     @Override
     protected View inflaterView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         View view = inflater.inflate(R.layout.fragment_shop_layout, container, false);
@@ -116,18 +162,6 @@ public class ShopFragment extends FrameFragment {
         xiqingji.setText(DateUtil.getWeek(bean.getHeWeather6().get(0).getDaily_forecast().get(0).getDate()));
 
         wendu.setText(bean .getHeWeather6().get(0).getNow().getTmp()+ "°");
-
-        //实时温度
-/*        wendu.setText(bean.getData().getWendu() + "°");
-
-        String dateStr = bean.getDate();
-
-        date.setText(decoratedDate(dateStr));
-
-        xingqi.setText(XingqiToZhou(bean.getData().getForecast().get(0).getDate()));
-
-        nongli.setText(getNongLi(dateStr));*/
-
     }
 
     private String decoratedDate(String date){
@@ -221,7 +255,184 @@ public class ShopFragment extends FrameFragment {
      */
     private void requestCityName() {
         showProDialog("请求数据中...");
-        new SearchCityHelper(this).execute();
+        new SearchCityHelper(this,getLocation()).execute();
+    }
+
+    List<String> mAllProviders;
+    private void initLocationManager(){
+        //获取位置管理服务
+        //查找服务信息
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE); //定位精度: 最高
+        criteria.setAltitudeRequired(false); //海拔信息：不需要
+        criteria.setBearingRequired(false); //方位信息: 不需要
+        criteria.setCostAllowed(true);  //是否允许付费
+        criteria.setPowerRequirement(Criteria.POWER_LOW); //耗电量: 低功耗
+        //用于获取Location对象，以及其他
+        String serviceName = Context.LOCATION_SERVICE;
+        //实例化一个LocationManager对象
+        myLocationManager = (LocationManager) getContext().getSystemService(serviceName);
+
+        String provider = myLocationManager.getBestProvider(criteria, true); //获取GPS信息
+        mAllProviders = myLocationManager.getAllProviders();
+    }
+
+    private void requestPermission() {
+        if (PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                && PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION)) {
+
+        } else {
+            ActivityCompat.requestPermissions((FrameActivity) getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initLocationManager();
+        requestPermission();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        registerLocationListener();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        removeLocationListener();
+    }
+
+    @SuppressLint("MissingPermission")
+    private void registerLocationListener(){
+/*        myLocationManager.setTestProviderEnabled("gps",true);
+        myLocationManager.setTestProviderEnabled("network",true);*/
+        for(String s : mAllProviders){
+            if(s.contains("network")){
+                myLocationManager.requestLocationUpdates("network", 3000, 500, mLocationListener);
+            }
+            if(s.contains("gps")){
+                myLocationManager.requestLocationUpdates("gps", 3000, 500, mLocationListener);
+            }
+        }
+    }
+
+    private void removeLocationListener(){
+        myLocationManager.removeUpdates (mLocationListener);
+/*        myLocationManager.setTestProviderEnabled("gps",false);
+        myLocationManager.setTestProviderEnabled("network",false);*/
+    }
+
+    private Location getLocation() {
+
+        Location gpsLocation = null;
+        Location netLocation = null;
+//        myLocationManager.addGpsStatusListener();
+        //权限判断
+
+        int fineOps = AppOpsManager.MODE_ALLOWED;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            fineOps = checkOpsPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+        int coarseOps = AppOpsManager.MODE_ALLOWED;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            coarseOps = checkOpsPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION);
+        }
+
+        //权限获取成功
+
+            if (DifferSystemUtil.getSystem().equals(DifferSystemUtil.SYS_MIUI)) {
+                //如果是小米在判断是否获取成功
+                if (fineOps == AppOpsManager.MODE_ALLOWED && coarseOps == AppOpsManager.MODE_ALLOWED) {
+                    //权限成功
+                    return calLocation(gpsLocation, netLocation);
+                } else if (fineOps == AppOpsManager.MODE_IGNORED && coarseOps == AppOpsManager.MODE_IGNORED) {
+                    //权限拒绝
+                    ActivityCompat.requestPermissions((FrameActivity) getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                    ToastUtil.showToast("权限不足");
+                    return null;
+                } else {
+                    //询问状态
+                    return calLocation(gpsLocation, netLocation);
+                }
+            } else {
+                return calLocation(gpsLocation, netLocation);
+            }
+        }
+
+
+    private Location calLocation(Location gpsLocation, Location netLocation) {
+        if (netWorkIsOpen()) {
+            //3000代表每3000毫秒更新一次，500米范围外更新
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return null;
+            }
+            netLocation = myLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
+
+        if (gpsIsOpen()) {
+            gpsLocation = myLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        }
+
+        if (gpsLocation == null && netLocation == null) {
+            return null;
+        }
+        if (gpsLocation != null && netLocation != null) {
+            if (gpsLocation.getTime() < netLocation.getTime()) {
+                gpsLocation = null;
+                return netLocation;
+            } else {
+                netLocation = null;
+                return gpsLocation;
+            }
+        }
+        if (gpsLocation == null) {
+            return netLocation;
+        } else {
+            return gpsLocation;
+        }
+    }
+
+
+    private boolean gpsIsOpen() {
+        boolean isOpen = true;
+        if (!myLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {//没有开启GPS
+            isOpen = false;
+        }
+        return isOpen;
+    }
+
+    private boolean netWorkIsOpen() {
+        boolean netIsOpen = true;
+        if (!myLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {//没有开启网络定位
+            netIsOpen = false;
+        }
+        return netIsOpen;
+    }
+
+
+    /**
+     * true为通过
+     *
+     * @param context
+     * @param permission
+     * @return
+     */
+    @TargetApi(Build.VERSION_CODES.M)
+    private static int checkOpsPermission(Context context, String permission) {
+        try {
+            AppOpsManager appOpsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+            String opsName = AppOpsManager.permissionToOp(permission);
+            if (opsName == null) {
+                return AppOpsManager.MODE_ALLOWED;
+            }
+            int opsMode = appOpsManager.checkOpNoThrow(opsName, android.os.Process.myUid(), context.getPackageName());
+            return opsMode;
+        } catch (Exception ex) {
+            return AppOpsManager.MODE_ALLOWED;
+        }
     }
 
     //回调并查询天气

@@ -38,6 +38,7 @@
 
     <declare-styleable name="DooSearchLayout">
             <attr name="need_search" format="boolean"></attr>
+            <attr name="need_cancel" format="boolean"></attr>
         </declare-styleable>
 
 </resources>

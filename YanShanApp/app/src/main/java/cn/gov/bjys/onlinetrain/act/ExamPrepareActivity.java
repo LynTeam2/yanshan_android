@@ -133,59 +133,16 @@ public class ExamPrepareActivity extends FrameActivity {
                         List<ExamBean> tfList = examsBean.getTfList();
                         List<ExamBean> scList = examsBean.getScList();
                         List<ExamBean> mcList = examsBean.getMcList();
-                        // 记录三类题目数量和总数
-                        int tfCount = tfList.size();
-                        int scCount = scList.size();
-                        int mcCount = mcList.size();
-                        float sumCount = tfCount + scCount + mcCount;
+
                         // 考试算法生成的题目列表
                         List<ExamBean> examTfList = new ArrayList<>();
                         List<ExamBean> examScList = new ArrayList<>();
                         List<ExamBean> examMcList = new ArrayList<>();
-                        // 该考试需要从题库中抓去的三类题目数量和总数;
-                        int examTfCount;
-                        int examScCount;
-                        int examMcCount;
-                        int examSumCount = 0;
-                        boolean flag = false;
-                        // 取半策略 考试题目控制在20-50之间,题库只有20题的时候，直接取题库所有题目
-                        if (20 == sumCount) {
-                            examTfList = tfList;
-                            examScList = scList;
-                            examMcList = mcList;
-                        } else {
-                            if (20 < sumCount && sumCount <= 40) {
-                                examSumCount = 20;
-                            } else if (40 < sumCount && sumCount < 100) {
-                                // 向上取整
-                                examSumCount = (int)Math.ceil((sumCount) / 2);
-                            } else if (100 < sumCount) {
-                                examSumCount = 50;
-                            }
 
-                            // 通过该类型题目在题库中的占比，获取出该类型考试需要抽取多少题目
-                            if (0 != tfCount && 0 == sumCount%tfCount) {
-                                examTfCount = (int) (tfCount/sumCount * examSumCount);
-                            } else {
-                                // 向下取整
-                                examTfCount = (int)Math.floor(tfCount/sumCount * examSumCount);
-                                flag = !flag;
-                            }
+                        int examTfCount = examsBean.getExamTfCount();
+                        int examScCount = examsBean.getExamScCount();
+                        int examMcCount = examsBean.getExamMcCount();
 
-                            if (0 != scCount && 0 == sumCount%scCount) {
-                                examScCount = (int) (scCount/sumCount * examSumCount);
-                            } else {
-                                // 向上取整
-                                examScCount = flag?(int)Math.ceil(scCount/sumCount * examSumCount):(int)Math.floor(scCount/sumCount * examSumCount);
-                                flag = !flag;
-                            }
-
-                            if (0 != mcCount && 0 == sumCount%mcCount) {
-                                examMcCount = (int) (mcCount/sumCount * examSumCount);
-                            } else {
-                                // 向下取整
-                                examMcCount = flag?(int)Math.ceil(mcCount/sumCount * examSumCount):(int)Math.floor(mcCount/sumCount * examSumCount);
-                            }
 
                             // 随机乱序
                             tfList = random(tfList);
@@ -200,7 +157,7 @@ public class ExamPrepareActivity extends FrameActivity {
                             examTfList = tfList.subList(0, examTfCount);
                             examScList = scList.subList(0, examScCount);
                             examMcList = mcList.subList(0, examMcCount);
-                        }
+
                         mExamPagers.clear();
                         mExamPagers.addAll(examTfList);
                         mExamPagers.addAll(examScList);
@@ -341,5 +298,93 @@ public class ExamPrepareActivity extends FrameActivity {
             //使用单例保存考卷数据
             ExamHelper.getInstance().setmExamPagers(mExamPagers);
         }
+    }
+
+
+
+    /**
+     * 第2版的题目生成规则   目前弃用
+     * @param examsBean
+     */
+    @Deprecated
+    private void caculateOldTwo(ExamsBean examsBean){
+        // 考试题库，从exam对应的json中获得 tfList scList mcList三个字段
+        List<ExamBean> tfList = examsBean.getTfList();
+        List<ExamBean> scList = examsBean.getScList();
+        List<ExamBean> mcList = examsBean.getMcList();
+        // 记录三类题目数量和总数
+        int tfCount = tfList.size();
+        int scCount = scList.size();
+        int mcCount = mcList.size();
+        float sumCount = tfCount + scCount + mcCount;
+        // 考试算法生成的题目列表
+        List<ExamBean> examTfList = new ArrayList<>();
+        List<ExamBean> examScList = new ArrayList<>();
+        List<ExamBean> examMcList = new ArrayList<>();
+        // 该考试需要从题库中抓去的三类题目数量和总数;
+        int examTfCount;
+        int examScCount;
+        int examMcCount;
+        int examSumCount = 0;
+        boolean flag = false;
+        // 取半策略 考试题目控制在20-50之间,题库只有20题的时候，直接取题库所有题目
+        if (20 == sumCount) {
+            examTfList = tfList;
+            examScList = scList;
+            examMcList = mcList;
+        } else {
+            if (20 < sumCount && sumCount <= 40) {
+                examSumCount = 20;
+            } else if (40 < sumCount && sumCount < 100) {
+                // 向上取整
+                examSumCount = (int)Math.ceil((sumCount) / 2);
+            } else if (100 < sumCount) {
+                examSumCount = 50;
+            }
+
+            // 通过该类型题目在题库中的占比，获取出该类型考试需要抽取多少题目
+            if (0 != tfCount && 0 == sumCount%tfCount) {
+                examTfCount = (int) (tfCount/sumCount * examSumCount);
+            } else {
+                // 向下取整
+                examTfCount = (int)Math.floor(tfCount/sumCount * examSumCount);
+                flag = !flag;
+            }
+
+            if (0 != scCount && 0 == sumCount%scCount) {
+                examScCount = (int) (scCount/sumCount * examSumCount);
+            } else {
+                // 向上取整
+                examScCount = flag?(int)Math.ceil(scCount/sumCount * examSumCount):(int)Math.floor(scCount/sumCount * examSumCount);
+                flag = !flag;
+            }
+
+            if (0 != mcCount && 0 == sumCount%mcCount) {
+                examMcCount = (int) (mcCount/sumCount * examSumCount);
+            } else {
+                // 向下取整
+                examMcCount = flag?(int)Math.ceil(mcCount/sumCount * examSumCount):(int)Math.floor(mcCount/sumCount * examSumCount);
+            }
+
+            // 随机乱序
+            tfList = random(tfList);
+            scList = random(scList);
+            mcList = random(mcList);
+
+            /**
+             * 从题库中抽取题目 下面的代码就是从tfList中抽取前 examTfCount数量的题目，
+             * 因为已经是乱序的，所以可以取前examTfCount数量的题目
+             */
+
+            examTfList = tfList.subList(0, examTfCount);
+            examScList = scList.subList(0, examScCount);
+            examMcList = mcList.subList(0, examMcCount);
+        }
+        mExamPagers.clear();
+        mExamPagers.addAll(examTfList);
+        mExamPagers.addAll(examScList);
+        mExamPagers.addAll(examMcList);
+        //使用单例保存考卷数据
+        ExamHelper.getInstance().setmExamPagers(mExamPagers);
     }
 }

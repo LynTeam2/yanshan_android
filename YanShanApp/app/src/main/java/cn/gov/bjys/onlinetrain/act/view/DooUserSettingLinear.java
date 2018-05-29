@@ -29,9 +29,9 @@ public class DooUserSettingLinear extends DooRootLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    public DooUserSettingLinear(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+/*    public DooUserSettingLinear(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-    }
+    }*/
 
 
     private TextView title;

@@ -187,6 +187,11 @@ public class LogoActivity extends FrameActivity {
             public void success() {
                 reqPermissionRefreshUi(true);
             }
+
+            @Override
+            public void oldPermission() {
+                reqPermissionRefreshUi(true);
+            }
         });
     }
 

@@ -27,6 +27,34 @@ public class ExamsBean {
     private List<ExamBean> scList;
     private List<ExamBean> tfList;
 
+    private int examTfCount = 0;
+    private int examScCount = 0;
+    private int examMcCount = 0;
+
+
+    public int getExamTfCount() {
+        return examTfCount;
+    }
+
+    public void setExamTfCount(int examTfCount) {
+        this.examTfCount = examTfCount;
+    }
+
+    public int getExamScCount() {
+        return examScCount;
+    }
+
+    public void setExamScCount(int examScCount) {
+        this.examScCount = examScCount;
+    }
+
+    public int getExamMcCount() {
+        return examMcCount;
+    }
+
+    public void setExamMcCount(int examMcCount) {
+        this.examMcCount = examMcCount;
+    }
 
     public List<CourseBean> getCourseList() {
         return courseList;

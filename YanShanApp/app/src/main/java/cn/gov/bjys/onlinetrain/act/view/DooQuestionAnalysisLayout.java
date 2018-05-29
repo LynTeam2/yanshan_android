@@ -23,10 +23,10 @@ public class DooQuestionAnalysisLayout<T> extends DooRootLayout {
     public DooQuestionAnalysisLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
-
+/*
     public DooQuestionAnalysisLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-    }
+    }*/
 
     private TextView mAnalysisAnswer;
 //    private RatingBar mRatingBar;

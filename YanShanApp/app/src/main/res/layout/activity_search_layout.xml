@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:need_search = "true"
+        app:need_cancel = "true"
         ></cn.gov.bjys.onlinetrain.act.view.DooSearchLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/search_rv"

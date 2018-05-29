@@ -43,9 +43,9 @@ public class ExamBottomLayout extends DooRootLayout implements View.OnClickListe
         super(context, attrs, defStyleAttr);
     }
 
-    public ExamBottomLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+/*    public ExamBottomLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-    }
+    }*/
 
 
     private LinearLayout mHandOfPaper;//交卷

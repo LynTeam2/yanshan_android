@@ -39,9 +39,11 @@ public class DooItemTitleLayout extends DooRootLayout {
         super(context, attrs, defStyleAttr);
     }
 
+/*
     public DooItemTitleLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
+*/
 
     GridView mGridView;
     DooHomeGridViewAdapter mDooHomeGVAdapter;

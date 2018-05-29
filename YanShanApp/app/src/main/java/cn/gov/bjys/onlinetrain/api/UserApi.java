@@ -41,6 +41,9 @@ public interface UserApi {
     @GET("api/law")
     Observable <BaseResponse<String>> getLaws(@Query("page") int page, @Query("size") int size,@Query("type") long type);
 
+    @GET("api/search")
+    Observable <BaseResponse<String>> search(@Query("query") String input);
+
 
 
 

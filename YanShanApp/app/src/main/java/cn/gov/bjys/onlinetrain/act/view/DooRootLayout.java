@@ -27,11 +27,11 @@ public abstract class DooRootLayout extends AutoRelativeLayout {
         init();
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+/*    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public DooRootLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init();
-    }
+    }*/
 
     private void init(){
         addView(getRootView());
