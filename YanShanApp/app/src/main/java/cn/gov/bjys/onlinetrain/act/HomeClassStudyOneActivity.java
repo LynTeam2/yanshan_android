@@ -38,7 +38,7 @@ import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 /**
  * Created by dodo on 2018/2/8.
  */
-
+@Deprecated
 public class HomeClassStudyOneActivity extends FrameActivity implements ZipCallBackListener {
 
     @Bind(R.id.header)

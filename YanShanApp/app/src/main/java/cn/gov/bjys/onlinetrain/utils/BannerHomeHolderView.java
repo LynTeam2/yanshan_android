@@ -34,7 +34,7 @@ public class BannerHomeHolderView implements Holder<HomeBannerBean>{
                 R.drawable.icon_1080_580);
     }
 
-    private File getNeedFile(String name){
+/*    private File getNeedFile(String name){
         return new File(AssetsHelper.getYSPicPath(name));
-    }
+    }*/
 }

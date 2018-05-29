@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.sina.weibo.sdk.api.share.Base;
 import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.utils.sp.SavePreference;
 import com.ycl.framework.utils.util.FastJSONParser;
@@ -283,7 +284,8 @@ public class LogoActivity extends FrameActivity {
         downloadZip();
     }
 
-    public final static String UPGRADE_SAVE_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "upgrade.7z";
+//    public final static String UPGRADE_SAVE_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "upgrade.7z";
+    public final static String UPGRADE_SAVE_PATH = AssetsHelper.getDiskCacheDir(BaseApplication.getAppContext(),YSConst.UPDATE_ZIP) + File.separator + "upgrade.7z";
     private void downloadZip() {
         rx.Observable<ResponseBody> observable;
         observable = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext())

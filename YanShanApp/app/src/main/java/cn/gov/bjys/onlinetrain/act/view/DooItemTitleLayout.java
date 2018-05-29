@@ -8,17 +8,14 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.ycl.framework.utils.helper.ContextHelper;
-import com.ycl.framework.utils.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.gov.bjys.onlinetrain.R;
-import cn.gov.bjys.onlinetrain.act.HomeClassStudyOneActivity;
 import cn.gov.bjys.onlinetrain.act.HomeClassStudySecondActivity;
 import cn.gov.bjys.onlinetrain.act.HomeExamSecondActivity;
 import cn.gov.bjys.onlinetrain.act.LawsListActivity;
-import cn.gov.bjys.onlinetrain.act.LifeHelpActivity;
 import cn.gov.bjys.onlinetrain.act.MorePracticeActivity;
 import cn.gov.bjys.onlinetrain.adapter.DooHomeGridViewAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooHomeGridViewAdapter.HomeGridBean;

@@ -34,6 +34,7 @@ import okhttp3.ResponseBody;
  */
 public class AssetsHelper {
 
+    @Deprecated
     public static String getYSPicPath(String relativePath){
 
         String aimPath = BaseApplication.getAppContext().getFilesDir().getParent()+ File.separator +
@@ -187,7 +188,7 @@ public class AssetsHelper {
             String retName = getOnlyOneAssetsFile(context,fileName);
             InputStream  inputStream = manager.open(retName);
             Log.d("dodoT","inputStream assert file is acquire Ok");
-            return copeAssertFile(inputStream);
+            return copeAssertFile( context,inputStream);
         }else{
             return null;
         }
@@ -348,9 +349,10 @@ public class AssetsHelper {
     }
 
 
-    public static File copeAssertFile(InputStream is) {
+    public static File copeAssertFile(Context context,InputStream is) {
         File file = null;
-        String destFileDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+//        String destFileDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+        String destFileDir = getDiskCacheDir(context,YSConst.UPDATE_ZIP);
         String destFileName ="upgrade.7z";
         byte[] buf = new byte[2048];
         int len;
@@ -386,6 +388,22 @@ public class AssetsHelper {
         return file;
     }
 
+    /**
+     *获取7z文件 上一层 文件地址
+     * @param context
+     * @param uniqueName
+     * @return
+     */
+    public static String getDiskCacheDir(Context context, String uniqueName) {
+        String cachePath;
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
+                || !Environment.isExternalStorageRemovable()) {
+            cachePath = context.getExternalCacheDir().getPath();
+        } else {
+            cachePath = context.getCacheDir().getPath();
+        }
+        return cachePath + File.separator + uniqueName;
+    }
 
 
     /**

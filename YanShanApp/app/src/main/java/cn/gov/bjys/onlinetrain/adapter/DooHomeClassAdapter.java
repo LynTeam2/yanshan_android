@@ -18,7 +18,7 @@ import cn.gov.bjys.onlinetrain.utils.AssetsHelper;
 /**
  * Created by dodo on 2017/11/17.
  */
-
+@Deprecated
 public class DooHomeClassAdapter<T> extends SimpleBaseAdapter {
 
     public DooHomeClassAdapter(Context context, List data) {
