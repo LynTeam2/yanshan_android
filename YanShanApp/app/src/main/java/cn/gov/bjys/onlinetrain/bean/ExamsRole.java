@@ -2,9 +2,7 @@ package cn.gov.bjys.onlinetrain.bean;
 
 import java.util.HashMap;
 
-/**
- * Created by dodo on 2018/1/29.
- */
+
 
 public class ExamsRole {
     private HashMap<String, Integer> ajType;

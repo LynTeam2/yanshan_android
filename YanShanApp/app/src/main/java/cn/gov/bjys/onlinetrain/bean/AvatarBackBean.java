@@ -1,8 +1,5 @@
 package cn.gov.bjys.onlinetrain.bean;
 
-/**
- * Created by dodo on 2018/5/3.
- */
 
 public class AvatarBackBean {
     private String name;

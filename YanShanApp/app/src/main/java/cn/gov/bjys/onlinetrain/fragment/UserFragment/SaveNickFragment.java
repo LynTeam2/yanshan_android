@@ -20,9 +20,7 @@ import cn.gov.bjys.onlinetrain.act.CommonActivity;
 import cn.gov.bjys.onlinetrain.act.UserSettingActivity;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 
-/**
- * Created by dodozhou on 2017/11/14.
- */
+
 public class SaveNickFragment extends FrameFragment {
     public final static String TAG = SaveNickFragment.class.getSimpleName();
 

@@ -24,9 +24,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-/**
- * Created by dodo on 2018/5/2.
- */
 
 public class PDFWebActivity extends FrameActivity {
 

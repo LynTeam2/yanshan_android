@@ -7,9 +7,7 @@ import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 import rx.Observable;
 
-/**
- * Created by dodozhou on 2017/8/22.
- */
+
 public interface DownLoadApi {
     @Streaming
     @GET

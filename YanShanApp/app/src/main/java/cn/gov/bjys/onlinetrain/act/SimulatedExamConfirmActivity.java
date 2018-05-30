@@ -11,9 +11,7 @@ import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode;
 
-/**
- * Created by dodozhou on 2017/10/30.
- */
+
 public class SimulatedExamConfirmActivity extends FrameActivity {
 
     @Bind(R.id.header)

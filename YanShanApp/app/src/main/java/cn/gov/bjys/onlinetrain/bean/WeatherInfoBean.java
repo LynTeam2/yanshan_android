@@ -2,9 +2,7 @@ package cn.gov.bjys.onlinetrain.bean;
 
 import java.util.List;
 
-/**
- * Created by dodozhou on 2017/9/20.
- */
+
 public class WeatherInfoBean {
     private String city;//城市
     private int count;//

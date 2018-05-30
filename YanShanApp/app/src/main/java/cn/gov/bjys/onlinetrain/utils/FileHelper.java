@@ -1,8 +1,5 @@
 package cn.gov.bjys.onlinetrain.utils;
 
-/**
- * Created by dodozhou on 2017/8/10.
- */
 public class FileHelper {
 
     /**

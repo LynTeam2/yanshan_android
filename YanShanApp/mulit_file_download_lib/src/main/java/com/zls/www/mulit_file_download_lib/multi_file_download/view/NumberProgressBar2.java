@@ -16,9 +16,6 @@ import com.daimajia.numberprogressbar.OnProgressBarListener;
 import static com.daimajia.numberprogressbar.NumberProgressBar.ProgressTextVisibility.Invisible;
 import static com.daimajia.numberprogressbar.NumberProgressBar.ProgressTextVisibility.Visible;
 
-/**
- * Created by dodo on 2018/1/24.
- */
 
 public class NumberProgressBar2 extends View {
 

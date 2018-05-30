@@ -14,9 +14,7 @@ import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 import rx.Observable;
 
-/**
- * Created by dodozhou on 2017/9/25.
- */
+
 public interface HomeApi {
     @POST("/consume/buy_package.ucs")
     Observable<String> getHomeBannerDatas(@Body RequestBody body);

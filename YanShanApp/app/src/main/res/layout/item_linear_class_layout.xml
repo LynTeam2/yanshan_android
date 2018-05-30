@@ -22,23 +22,29 @@
             android:id="@+id/icon"
             android:src="@drawable/icon_190_175"
             android:layout_width="190px"
-            android:layout_height="175px" />
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            />
     </LinearLayout>
-    <LinearLayout
+    <RelativeLayout
         android:layout_marginLeft="30px"
         android:layout_weight="7"
         android:orientation="vertical"
         android:layout_width="0px"
         android:layout_height="match_parent">
         <TextView
+            android:layout_marginTop="15px"
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left|center_vertical"
             android:text="人员密集场所"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textSize="48px"/>
         <TextView
-            android:layout_marginTop="40px"
+            android:layout_marginBottom="15px"
+            android:layout_alignParentBottom="true"
             android:id="@+id/content"
             android:maxLines="2"
             android:ellipsize="end"
@@ -47,7 +53,7 @@
             android:gravity="left|center_vertical"
             android:text="主要学习介绍有关化学品相关的知识和内容"
             android:textSize="36px"/>
-    </LinearLayout>
+    </RelativeLayout>
         <LinearLayout
             android:layout_weight="1"
             android:orientation="vertical"

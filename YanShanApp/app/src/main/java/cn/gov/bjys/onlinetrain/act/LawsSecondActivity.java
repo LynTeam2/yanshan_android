@@ -34,9 +34,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by dodo on 2018/5/4.
- */
+
 
 public class LawsSecondActivity extends FrameActivity implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
 
@@ -126,7 +124,6 @@ public class LawsSecondActivity extends FrameActivity implements SwipeRefreshLay
 
                     @Override
                     public void onNext(BaseResponse<String> stringBaseResponse) {
-                        Log.d("dodot", "stringbase = " + stringBaseResponse);
                         if ("1".equals(stringBaseResponse.getCode())) {
                             String ret = stringBaseResponse.getResults();
                             LawContentBean.First first = FastJSONParser.getBean(ret, LawContentBean.First.class);

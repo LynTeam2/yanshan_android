@@ -29,9 +29,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by dodozhou on 2017/9/25.
- */
+
 public class BannerComHelper {
 
     private final static int turnTime = 6000;

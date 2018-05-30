@@ -12,9 +12,7 @@ import java.util.List;
 
 import com.zls.www.mulit_file_download_lib.multi_file_download.db.entity.DataInfo;
 
-/**
- * Created by dodozhou on 2017/8/30.
- */
+
 public class DataInfoBusiness  extends BaseDbBusiness<DataInfo>  {
 
     public final static String TAG = DataInfoBusiness.class.getSimpleName();

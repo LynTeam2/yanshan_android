@@ -22,9 +22,7 @@ import cn.gov.bjys.onlinetrain.utils.webview.JsInterface;
 import cn.jzvd.JZVideoPlayerStandard;
 
 
-/**
- * Created by dodozhou on 2017/9/27.
- */
+
 public class VideoExaminationFragment extends PracticeBaseFragment {
     public final static String TAG = VideoExaminationFragment.class.getSimpleName();
 
@@ -74,7 +72,6 @@ public class VideoExaminationFragment extends PracticeBaseFragment {
 //      jzVideoPlayerStandard.setUp(content
 //                , JZVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "视频题");
         initJS2Java();
-        Log.d("dodoVideoPath", bean.getVideo());
         mWebView.loadUrl("file:///android_asset/video.html"+"?"+"url="+bean.getVideo());
     }
 

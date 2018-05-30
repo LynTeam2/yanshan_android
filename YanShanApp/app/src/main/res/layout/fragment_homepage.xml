@@ -51,8 +51,8 @@
         <TextView
             android:layout_margin="60px"
             android:textColor="@color/normal_black"
-            android:textSize="42px"
-            android:text="课程学习"
+            android:textSize="52px"
+            android:text="必考课程"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <android.support.v7.widget.RecyclerView

@@ -8,9 +8,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.ycl.framework.base.FrameApplication;
 import com.zhy.autolayout.config.AutoLayoutConifg;
 
-/**
- * Created by dodozhou on 2017/8/2.
- */
+
 public class BaseApplication extends FrameApplication {
     public static Context ctx;
 

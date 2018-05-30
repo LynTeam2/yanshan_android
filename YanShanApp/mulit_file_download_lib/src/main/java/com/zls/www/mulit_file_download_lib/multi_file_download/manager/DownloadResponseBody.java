@@ -13,9 +13,6 @@ import okio.ForwardingSource;
 import okio.Okio;
 import okio.Source;
 
-/**
- * Created by dodozhou on 2017/8/22.
- */
 public class DownloadResponseBody extends ResponseBody {
 
     public final static String TAG = "DownloadResponseBody";

@@ -22,9 +22,7 @@ import cn.gov.bjys.onlinetrain.adapter.DooHomeClassMistakesAdapter;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 
-/**
- * Created by dodo on 2018/2/1.
- */
+
 
 public class UserMoreErrorActivity extends FrameActivity {
 

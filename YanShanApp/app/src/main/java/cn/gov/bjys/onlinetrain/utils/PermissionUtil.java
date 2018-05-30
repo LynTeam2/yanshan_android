@@ -1,8 +1,6 @@
 package cn.gov.bjys.onlinetrain.utils;
 
-/**
- * Created by dodo on 2018/1/24.
- */
+
 
 import android.app.Activity;
 import android.content.pm.PackageManager;

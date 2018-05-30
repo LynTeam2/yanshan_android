@@ -26,9 +26,6 @@ import cn.gov.bjys.onlinetrain.utils.ExamHelper;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 
-/**
- * Created by dodo on 2018/1/30.
- */
 
 public class ExamEndActivity extends FrameActivity {
     @Override

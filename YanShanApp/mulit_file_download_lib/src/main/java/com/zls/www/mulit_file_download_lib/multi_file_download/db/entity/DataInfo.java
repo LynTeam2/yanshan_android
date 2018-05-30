@@ -9,9 +9,7 @@ import com.ycl.framework.db.entity.DBEntity;
 import com.zls.www.mulit_file_download_lib.multi_file_download.manager.HttpProgressOnNextListener;
 import com.zls.www.mulit_file_download_lib.multi_file_download.api.DownLoadApi;
 
-/**
- * Created by dodozhou on 2017/8/28.
- */
+
 
 
 @DatabaseTable(tableName = "data_info")

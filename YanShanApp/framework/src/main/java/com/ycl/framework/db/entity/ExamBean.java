@@ -9,9 +9,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by dodo on 2018/1/25.
- */
+
 @DatabaseTable(tableName = "local_question_info")
 public class ExamBean extends DBEntity implements Parcelable {
 

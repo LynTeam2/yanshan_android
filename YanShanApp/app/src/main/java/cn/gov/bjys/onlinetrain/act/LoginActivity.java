@@ -41,9 +41,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by dodozhou on 2017/8/7.
- */
+
 public class LoginActivity extends FrameActivity implements View.OnClickListener {
     private String mUserName;
     private String mPassword;
@@ -168,17 +166,15 @@ public class LoginActivity extends FrameActivity implements View.OnClickListener
                 .subscribe(new Subscriber<BaseResponse<String>>() {
                     @Override
                     public void onCompleted() {
-                        Log.d("dodo", "onCompleted");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("dodo", "e.message = " + e.getMessage());
+                        Log.d("dodo",e.getMessage());
                     }
 
                     @Override
                     public void onNext(BaseResponse<String> stringBaseResponse) {
-                        Log.d("dodo", "resp = " + stringBaseResponse);
                         if ("1".equals(stringBaseResponse.getCode())) {
                             //登陆成功
                             //保存登陆信息

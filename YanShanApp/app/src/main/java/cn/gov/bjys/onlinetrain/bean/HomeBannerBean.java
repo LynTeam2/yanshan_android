@@ -1,8 +1,6 @@
 package cn.gov.bjys.onlinetrain.bean;
 
-/**
- * Created by dodozhou on 2017/9/25.
- */
+
 public class HomeBannerBean {
    private String createTime;//": 1517573969000,
       private int id;//": 1,

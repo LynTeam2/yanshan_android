@@ -2,9 +2,7 @@ package cn.gov.bjys.onlinetrain.utils;
 
 import android.text.TextUtils;
 
-/**
- * Created by dodo on 2018/2/5.
- */
+
 //用来处理一些数据问题
 public class DataHelper {
     /**

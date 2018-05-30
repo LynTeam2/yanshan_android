@@ -2,9 +2,6 @@ package cn.gov.bjys.onlinetrain.bean;
 
 import java.util.List;
 
-/**
- * Created by dodo on 2018/3/7.
- */
 
 public class WeatherBean {
     private String date;//: "20180307",

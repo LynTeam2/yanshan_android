@@ -9,9 +9,6 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
 
-/**
- * Created by dodo on 2017/11/17.
- */
 
 public class DooCircleView extends View {
     public DooCircleView(Context context) {

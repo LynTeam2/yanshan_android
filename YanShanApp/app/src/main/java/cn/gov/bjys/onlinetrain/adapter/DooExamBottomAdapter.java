@@ -12,9 +12,6 @@ import java.util.List;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.bean.ExamXqBean;
 
-/**
- * Created by dodozhou on 2017/10/20.
- */
 public class DooExamBottomAdapter extends BaseMultiItemQuickAdapter<ExamXqBean,BaseViewHolder> {
 
     /**

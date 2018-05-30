@@ -29,6 +29,7 @@ import java.util.Random;
 import butterknife.Bind;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.dialog.EndPracticeDialog;
+import cn.gov.bjys.onlinetrain.act.dialog.NicePracticeHintDialog;
 import cn.gov.bjys.onlinetrain.act.pop.EndExamPop;
 import cn.gov.bjys.onlinetrain.act.view.ExamBottomLayout;
 import cn.gov.bjys.onlinetrain.adapter.DooExamBottomAdapter;
@@ -41,9 +42,7 @@ import cn.gov.bjys.onlinetrain.utils.YSConst;
 import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 
 
-/**
- * Created by dodozhou on 2017/9/27.
- */
+
 public class PracticeActivity extends FrameActivity implements View.OnClickListener {
     public final static String TAG = PracticeActivity.class.getSimpleName();
 
@@ -385,7 +384,7 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         mEndPracticeDialog.bindDatas(mRightQuestionsList.size(), mErrorQuestionsList.size(), mQuestionsList.size());
         mEndPracticeDialog.show();
     }
-
+    NicePracticeHintDialog mNicePracticeHintDialog;
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -394,8 +393,40 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
             }
             if (mEndPracticeDialog.isShowing())
                 return true;
+            if(mNicePracticeHintDialog == null){
+                mNicePracticeHintDialog = new NicePracticeHintDialog(this);
+            }
+            if(mNicePracticeHintDialog.isShowing()){
+                return true;
+            }
+            if(needShowNiceHint()){
+                mNicePracticeHintDialog.bindDatas(hintContent());
+                mNicePracticeHintDialog.show();
+            }
+
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private boolean needShowNiceHint(){
+        if(mErrorQuestionsList.size() + mRightQuestionsList.size() < mQuestionsList.size()){
+            return true;
+        }
+        return false;
+    }
+
+    @NonNull
+    private String hintContent(){
+        StringBuffer sb = new StringBuffer();
+        for(int i=0; i < mQuestionsList.size(); i++){
+            ExamBean b = mQuestionsList.get(i);
+            if(mRightQuestionsList.contains(b)){
+            }else if(mErrorQuestionsList.contains(b)){
+            }else{
+                sb.append(TextUtils.isEmpty(sb.toString()) ? (i+1)+"" : ","+(i+1));
+            }
+        }
+        return sb.toString();
     }
 
     @Override

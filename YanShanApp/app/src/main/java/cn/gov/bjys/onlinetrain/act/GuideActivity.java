@@ -14,9 +14,7 @@ import com.zls.www.statusbarutil.StatusBarUtil;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.customview.CustomTutorialFragment;
 
-/**
- * Created by dodozhou on 2017/8/2.
- */
+
 public class GuideActivity extends FrameActivity {
 
     @Override

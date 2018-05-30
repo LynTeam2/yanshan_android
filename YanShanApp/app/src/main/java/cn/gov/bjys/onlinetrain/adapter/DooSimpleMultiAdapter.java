@@ -2,12 +2,14 @@ package cn.gov.bjys.onlinetrain.adapter;
 
 import android.content.Intent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.ycl.framework.utils.helper.ContextHelper;
 import com.ycl.framework.utils.util.GlideProxy;
+import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.List;
 
@@ -16,9 +18,7 @@ import cn.gov.bjys.onlinetrain.act.PracticeActivity;
 import cn.gov.bjys.onlinetrain.act.PracticePrepareActivity;
 import cn.gov.bjys.onlinetrain.bean.YSClassBean;
 
-/**
- * Created by dodo on 2017/10/3.
- */
+
 public class DooSimpleMultiAdapter extends BaseMultiItemQuickAdapter<YSClassBean, BaseViewHolder> {
     /**
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
@@ -31,7 +31,12 @@ public class DooSimpleMultiAdapter extends BaseMultiItemQuickAdapter<YSClassBean
         addItemType(YSClassBean.GRID_COLUMN_2,R.layout.item_grid_class_layout);
         addItemType(YSClassBean.LINEAR_COLUMN_1, R.layout.item_linear_class_layout);
     }
-
+    @Override
+    protected View getItemView(int layoutResId, ViewGroup parent) {
+        View v = super.getItemView(layoutResId, parent);
+        AutoUtils.auto(v);
+        return v;
+    }
     @Override
     protected void convert(BaseViewHolder helper, YSClassBean item) {
         switch (helper.getItemViewType()){

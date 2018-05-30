@@ -11,9 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by dodo on 2018/1/25.
- */
+
 
 public class QuestionInfoBusiness extends  BaseDbBusiness<ExamBean> {
 

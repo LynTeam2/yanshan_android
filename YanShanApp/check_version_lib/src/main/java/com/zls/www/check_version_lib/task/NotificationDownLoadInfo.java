@@ -6,9 +6,6 @@ import android.support.v4.app.NotificationCompat;
 
 import com.zls.www.mulit_file_download_lib.multi_file_download.db.entity.DataInfo;
 
-/**
- * Created by dodozhou on 2017/9/6.
- */
 public class NotificationDownLoadInfo {
 
 

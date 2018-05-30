@@ -14,9 +14,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by dodo on 2018/2/2.
- */
+
 
 public class BannerTask extends BaseAsyncTask {
 

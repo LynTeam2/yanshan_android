@@ -16,9 +16,7 @@ import cn.gov.bjys.onlinetrain.fragment.ExaminationFragments.TextMultExamination
 import cn.gov.bjys.onlinetrain.fragment.ExaminationFragments.TextSingleExaminationFragment;
 import cn.gov.bjys.onlinetrain.fragment.ExaminationFragments.VideoExaminationFragment;
 
-/**
- * Created by dodozhou on 2017/9/28.
- */
+
 public class DooExamStateFragmentAdapter<T> extends FragmentStatePagerAdapter {
 
     private List<FrameFragment> mFragments;

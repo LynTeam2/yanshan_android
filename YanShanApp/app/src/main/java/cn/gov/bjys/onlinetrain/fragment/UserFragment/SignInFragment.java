@@ -268,17 +268,16 @@ public class SignInFragment  extends FrameFragment{
                 .subscribe(new Subscriber<BaseResponse<String>>() {
                     @Override
                     public void onCompleted() {
-                        Log.d("dodot", "onCompleted = ");
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("dodot", "onError = ");
+
                     }
 
                     @Override
                     public void onNext(BaseResponse<String> stringBaseResponse) {
-                        Log.d("dodot", "stringbase = " + stringBaseResponse);
                         if("1".equals(stringBaseResponse.getCode())){
                             YSUserInfoManager.getsInstance().getUserBean().setBeanCount(count);
                         }

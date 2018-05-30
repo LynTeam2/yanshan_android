@@ -21,9 +21,7 @@ import java.util.List;
 
 import cn.gov.bjys.onlinetrain.R;
 
-/**
- * Created by dodo on 2018/5/22.
- */
+
 
 public class UnPassAllCourseHintPop  extends BasePopu{
 

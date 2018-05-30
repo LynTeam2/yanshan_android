@@ -24,9 +24,7 @@ import cn.gov.bjys.onlinetrain.adapter.DooExamHistoryAdapter;
 import cn.gov.bjys.onlinetrain.bean.UserBean;
 import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 
-/**
- * Created by dodo on 2018/1/31.
- */
+
 
 public class ExamHistoryActivity extends FrameActivity {
 

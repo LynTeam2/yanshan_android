@@ -1,10 +1,13 @@
 package cn.gov.bjys.onlinetrain.adapter;
 
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.ycl.framework.utils.util.GlideProxy;
+import com.zhy.autolayout.utils.AutoUtils;
 
 import java.io.File;
 import java.util.List;
@@ -20,6 +23,13 @@ public class DooHomeClassStudyThirdAdapter<T> extends BaseQuickAdapter<T,BaseVie
 
     public DooHomeClassStudyThirdAdapter(int layoutResId, List<T> data) {
         super(layoutResId, data);
+    }
+
+    @Override
+    protected View getItemView(int layoutResId, ViewGroup parent) {
+        View v = super.getItemView(layoutResId, parent);
+        AutoUtils.auto(v);
+        return  v;
     }
 
     @Override

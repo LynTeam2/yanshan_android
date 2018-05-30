@@ -1,8 +1,6 @@
 package cn.gov.bjys.onlinetrain.bean;
 
-/**
- * Created by dodozhou on 2017/11/8.
- */
+
 public class UserMessageBean {
     private String title;
     private String content;

@@ -8,9 +8,6 @@ import android.widget.TextView;
 
 import cn.gov.bjys.onlinetrain.R;
 
-/**
- * Created by dodozhou on 2017/10/30.
- */
 public class DooQuestionAnalysisLayout<T> extends DooRootLayout {
     public DooQuestionAnalysisLayout(Context context) {
         super(context);

@@ -1,10 +1,6 @@
 package com.zls.www.mulit_file_download_lib.multi_file_download.manager;
 
 
-
-/**
- * Created by dodozhou on 2017/8/22.
- */
 public abstract class HttpProgressOnNextListener<T>  {
 
 

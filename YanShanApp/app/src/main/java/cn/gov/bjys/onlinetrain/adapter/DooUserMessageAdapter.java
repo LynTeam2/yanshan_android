@@ -12,9 +12,7 @@ import java.util.List;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.bean.UserMessageBean;
 
-/**
- * Created by dodozhou on 2017/11/8.
- */
+
 public class DooUserMessageAdapter extends BaseQuickAdapter<UserMessageBean, BaseViewHolder> {
 
     public DooUserMessageAdapter(int layoutResId, List<UserMessageBean> data) {

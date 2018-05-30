@@ -7,9 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * Created by dodo on 2017/11/22.
- */
+
 
 public class UpdateFileUtils {
 

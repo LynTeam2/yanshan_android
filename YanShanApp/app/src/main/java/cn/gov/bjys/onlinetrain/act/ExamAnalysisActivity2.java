@@ -36,9 +36,6 @@ import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.view.RadarMarkerView;
 
-/**
- * Created by dodozhou on 2017/10/30.
- */
 @Deprecated
 public class ExamAnalysisActivity2 extends FrameActivity implements View.OnClickListener {
 

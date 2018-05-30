@@ -2,9 +2,7 @@ package cn.gov.bjys.onlinetrain.bean;
 
 import java.util.List;
 
-/**
- * Created by dodo on 2018/5/4.
- */
+
 
 public class LawContentBean {
     private String createTime;// : "2018-05-04"

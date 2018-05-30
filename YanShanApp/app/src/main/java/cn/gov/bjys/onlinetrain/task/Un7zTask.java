@@ -54,26 +54,13 @@ public class Un7zTask extends AsyncTask<Integer, Integer, Boolean> {
             return un7zOk;
         }else{
             //根据zipPath和aimPath解压
-         /*   File file = new File(zipPath);
-            InputStream is = null;
-            try {
-                Log.d("dodoT","zipPath = " +zipPath+ "\n   aimPath =" + aimPath);
-                AssetsHelper.upZipFile(file,aimPath);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }*/
-
             Z7Extractor.extractFile(zipPath, aimPath, new ExtractCallback() {
                 @Override
                 public void onProgress(String name, long size) {
-                    Log.d("dodo", "onProgress name =" +name+"   size =" + size);
                 }
 
                 @Override
                 public void onError(int errorCode, String message) {
-                    Log.d("dodo", "onError errorCode =" +errorCode+"   message =" + message);
                 }
             });
             return true;

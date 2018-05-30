@@ -24,12 +24,6 @@ public class DooHomePullRefreshAdapter extends BaseQuickAdapter<HomeAnJianBean, 
     @Override
     protected View getItemView(int layoutResId, ViewGroup parent) {
       final   View v = super.getItemView(layoutResId, parent);
-        v.post(new Runnable() {
-            @Override
-            public void run() {
-                Log.d(TAG, "w = " + v.getWidth()+"  h =" +v.getHeight());
-            }
-        });
         AutoUtils.auto(v);
         return v;
     }

@@ -1,8 +1,5 @@
 package com.zls.www.check_version_lib.utils;
 
-/**
- * Created by dodozhou on 2017/9/5.
- */
 public class CheckVersionConstant {
 
 

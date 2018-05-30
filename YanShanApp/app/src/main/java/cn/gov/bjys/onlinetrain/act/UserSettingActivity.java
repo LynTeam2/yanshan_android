@@ -28,22 +28,25 @@ import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.view.DooUserSettingLinear;
 import cn.gov.bjys.onlinetrain.api.BaseResponse;
+import cn.gov.bjys.onlinetrain.api.HomeApi;
 import cn.gov.bjys.onlinetrain.api.UserApi;
 import cn.gov.bjys.onlinetrain.bean.AvatarBackBean;
 import cn.gov.bjys.onlinetrain.bean.UserBean;
 import cn.gov.bjys.onlinetrain.fragment.UserFragment.SaveNickFragment;
+import cn.gov.bjys.onlinetrain.task.Un7zTask;
+import cn.gov.bjys.onlinetrain.utils.AssetsHelper;
 import cn.gov.bjys.onlinetrain.utils.MapParamsHelper;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
+import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by dodozhou on 2017/11/14.
- */
+
 public class UserSettingActivity extends FrameActivity {
 
     public final static int SET_NICK_BACK = 1;
@@ -91,17 +94,14 @@ public class UserSettingActivity extends FrameActivity {
                 .subscribe(new Subscriber<BaseResponse<String>>() {
                     @Override
                     public void onCompleted() {
-                        Log.d("dodo", "onCompleted");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("dodo", "onError");
                     }
 
                     @Override
                     public void onNext(BaseResponse<String> stringBaseResponse) {
-                        Log.d("dodo", "resp = " + stringBaseResponse);
                         if ("1".equals(stringBaseResponse.getCode())) {
                             //退出登陆成功
                         }
@@ -134,7 +134,7 @@ public class UserSettingActivity extends FrameActivity {
     }
 
 
-    DooUserSettingLinear avatarLinear, nickLinear, otherLinear;
+    DooUserSettingLinear avatarLinear, nickLinear,updateLinear,otherLinear;
 
     public void initSettingLayout() {
         setting_layout.removeAllViews();
@@ -170,6 +170,15 @@ public class UserSettingActivity extends FrameActivity {
             }
         });
         setting_layout.addView(nickLinear);
+        updateLinear = new DooUserSettingLinear(this);
+        updateLinear.setTitle("更新题库");
+        updateLinear.setCustomClick(R.id.next_layout, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateZip();
+            }
+        });
+        setting_layout.addView(updateLinear);
 
 /*        otherLinear = new DooUserSettingLinear(this);
         otherLinear.setTitle("其他");
@@ -221,17 +230,14 @@ public class UserSettingActivity extends FrameActivity {
                 .subscribe(new Subscriber<BaseResponse<String>>() {
                     @Override
                     public void onCompleted() {
-                        Log.d("dodot", "onCompleted = ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("dodot", "onError = ");
                     }
 
                     @Override
                     public void onNext(BaseResponse<String> stringBaseResponse) {
-                        Log.d("dodot", "stringbase = " + stringBaseResponse);
                         if("1".equals(stringBaseResponse.getCode())){
                             YSUserInfoManager.getsInstance().getUserBean().setNickname(nickname);
                         }
@@ -265,21 +271,68 @@ public class UserSettingActivity extends FrameActivity {
                 .subscribe(new Subscriber<BaseResponse<String>>() {
                     @Override
                     public void onCompleted() {
-                        Log.d("dodot","onCompleted = " );
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("dodot","onError = " );
                     }
 
                     @Override
                     public void onNext(BaseResponse<String> stringBaseResponse) {
-                        Log.d("dodot","stringbase = " + stringBaseResponse);
                         if("1".equals(stringBaseResponse.getCode())){
                             YSUserInfoManager.getsInstance().getUserBean().setIcon(mPath);
                         }
                     }
                 });
     }
+
+
+
+    private void updateZip() {
+        //TODO 下载更新包
+        downloadZip();
+    }
+
+    //    public final static String UPGRADE_SAVE_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "upgrade.7z";
+    public final static String UPGRADE_SAVE_PATH = AssetsHelper.getDiskCacheDir(BaseApplication.getAppContext(),YSConst.UPDATE_ZIP) + File.separator + "upgrade.7z";
+    private void downloadZip() {
+        rx.Observable<ResponseBody> observable;
+        observable = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext())
+                .getSpeUrlService(YSConst.BaseUrl.BASE_URL, HomeApi.class)
+                .downZipPacket("http://39.104.118.75/api/upgrade");
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+
+
+                .observeOn(Schedulers.io()) //指定线程保存文件
+                .doOnNext(new Action1<ResponseBody>() {
+                    @Override
+                    public void call(ResponseBody body) {
+                        AssetsHelper.saveFile(body);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread()) //在主线程中更新ui
+                .subscribe(new Subscriber<ResponseBody>() {
+                    @Override
+                    public void onCompleted() {
+                        new Un7zTask(false, UPGRADE_SAVE_PATH,
+                                getFilesDir().getParent()+File.separator + YSConst.UPDATE_ZIP).execute();//开始解压压缩包，解压好了就不解压了
+                        ToastUtil.showToast("题库更新完毕");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
+//                            AssetsHelper.writeCache(responseBody,  new File(UPGRADE_SAVE_PATH));
+
+                    }
+                });
+
+    }
+
 }

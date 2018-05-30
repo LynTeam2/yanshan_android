@@ -10,9 +10,7 @@ import java.util.List;
 
 import cn.gov.bjys.onlinetrain.utils.ExamDistinguishHelper;
 
-/**
- * Created by dodo on 2018/2/1.
- */
+
 
 public class InitAllExamTask extends BaseAsyncTask {
 

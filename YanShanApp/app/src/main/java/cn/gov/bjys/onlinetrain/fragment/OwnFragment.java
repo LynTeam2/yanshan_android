@@ -30,9 +30,7 @@ import cn.gov.bjys.onlinetrain.bean.UserBean;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 
-/**
- * Created by dodozhou on 2017/8/7.
- */
+
 public class OwnFragment extends FrameFragment {
 
     @Bind(R.id.header)
