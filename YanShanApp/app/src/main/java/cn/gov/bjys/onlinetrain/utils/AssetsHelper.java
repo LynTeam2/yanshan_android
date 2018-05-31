@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.ycl.framework.utils.util.LogUtils;
-import com.zls.www.mulit_file_download_lib.multi_file_download.db.entity.DataInfo;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -17,10 +16,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.RandomAccessFile;
 import java.io.UnsupportedEncodingException;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -311,7 +307,7 @@ public class AssetsHelper {
 
 
     public static  void saveFile(ResponseBody body) {
-        String destFileDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+        String destFileDir = getDiskCacheDir(BaseApplication.getAppContext(),YSConst.UPDATE_ZIP);
         String destFileName ="upgrade.7z";
         InputStream is = null;
         byte[] buf = new byte[2048];

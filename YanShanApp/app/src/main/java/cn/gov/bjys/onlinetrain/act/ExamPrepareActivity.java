@@ -160,6 +160,12 @@ public class ExamPrepareActivity extends FrameActivity {
                         mExamPagers.addAll(examMcList);
                         //使用单例保存考卷数据
                         ExamHelper.getInstance().setmExamPagers(mExamPagers);
+                        exam_biaozhun.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                exam_biaozhun.setText(""+mExamPagers.size());
+                            }
+                        });
                     }
                 });
     }
