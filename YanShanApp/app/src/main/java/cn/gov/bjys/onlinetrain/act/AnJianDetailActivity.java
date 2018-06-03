@@ -44,13 +44,28 @@ public class AnJianDetailActivity extends FrameActivity {
 
         initContent();
     }
+
     private void initContent(){
         title_name.setText(mHomeAnJianBean.getTitle());
         time.setText(mHomeAnJianBean.getNewsTime());
-//        content.loadDataWithBaseURL(null,mHomeAnJianBean.getContent(),"text/html","utf-8",null);
+        content.loadDataWithBaseURL(null,mHomeAnJianBean.getContent(),"text/html","utf-8",null);
+    }
 
+    public static class Java2Js{
+
+        public Java2Js(){
+        }
+
+
+        @JavascriptInterface
+        public void doEditorContent(){
+        }
+
+    }
+
+
+    private void initWebJs(){
         content.getSettings().setJavaScriptEnabled(true);
-//        content.addJavascriptInterface();
         content.loadUrl("file:///android_asset/news.html");
         content.addJavascriptInterface(new Java2Js(), "Java2Js");
         content.setWebViewClient(new WebViewClient(){
@@ -69,18 +84,6 @@ public class AnJianDetailActivity extends FrameActivity {
             }
 
         });
-    }
-
-    public static class Java2Js{
-
-        public Java2Js(){
-        }
-
-
-        @JavascriptInterface
-        public void doEditorContent(){
-        }
-
     }
 
     private void injectJs(){
