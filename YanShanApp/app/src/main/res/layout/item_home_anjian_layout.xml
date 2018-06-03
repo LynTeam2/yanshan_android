@@ -19,8 +19,6 @@
         android:layout_height="134px"
         android:gravity="center_vertical|left"
         android:textColor="@color/home_normal_gray"
-        android:maxLines="2"
-        android:ellipsize="end"
         android:textSize="52px"
         android:text="标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题"
         />
