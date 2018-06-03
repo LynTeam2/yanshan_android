@@ -30,9 +30,7 @@ import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.utils.CustomHelper;
 
-/**
- * Created by dodozhou on 2017/11/13.
- */
+
 public class UserAvatarChooseActivity extends FrameActivity implements TakePhoto.TakeResultListener,InvokeListener {
     public static final String TAG = UserAvatarChooseActivity.class.getName();
 

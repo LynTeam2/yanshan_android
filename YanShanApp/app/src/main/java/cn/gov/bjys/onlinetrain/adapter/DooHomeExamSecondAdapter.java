@@ -1,7 +1,11 @@
 package cn.gov.bjys.onlinetrain.adapter;
 
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.List;
 
@@ -16,6 +20,13 @@ public class DooHomeExamSecondAdapter <T> extends BaseQuickAdapter<T,BaseViewHol
         super(layoutResId, data);
     }
 
+
+    @Override
+    protected View getItemView(int layoutResId, ViewGroup parent) {
+        View v = super.getItemView(layoutResId, parent);
+        AutoUtils.auto(v);
+        return v;
+    }
     @Override
     protected void convert(BaseViewHolder helper, T item) {
         if (!(item instanceof ExamsBean))

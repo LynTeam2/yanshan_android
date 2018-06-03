@@ -13,9 +13,6 @@ import com.ycl.framework.utils.util.GlideProxy;
 
 import cn.gov.bjys.onlinetrain.R;
 
-/**
- * Created by dodozhou on 2017/11/14.
- */
 public class DooUserSettingLinear extends DooRootLayout {
     public DooUserSettingLinear(Context context) {
         super(context);

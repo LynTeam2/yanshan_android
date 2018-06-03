@@ -1,11 +1,13 @@
 package cn.gov.bjys.onlinetrain.adapter;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.ycl.framework.utils.util.DateUtil;
+import com.zhy.autolayout.utils.AutoUtils;
 
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -17,15 +19,20 @@ import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.bean.WeatherInfoBean;
 import cn.gov.bjys.onlinetrain.bean.weather.Forecast;
 
-/**
- * Created by dodo on 2018/3/7.
- */
+
 
 public class DooWeatherAdapter extends BaseQuickAdapter<Forecast, BaseViewHolder> {
 
 
     public DooWeatherAdapter(int layoutResId, List<Forecast> data) {
         super(layoutResId, data);
+    }
+
+    @Override
+    protected View getItemView(int layoutResId, ViewGroup parent) {
+        View v = super.getItemView(layoutResId, parent);
+        AutoUtils.auto(v);
+        return v;
     }
 
     @Override

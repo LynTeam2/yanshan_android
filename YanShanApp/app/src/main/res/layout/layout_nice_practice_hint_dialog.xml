@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="840px"
+        android:layout_height="400px"
+        android:background="@drawable/bg_corner_10dp"
+        >
+
+        <TextView
+            android:id="@+id/hint"
+            android:layout_marginTop="40px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="48px"
+            android:text="温馨提示"
+            android:textStyle="bold"
+            android:textColor="@color/normal_black"
+            android:layout_centerHorizontal="true"
+            />
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_below="@+id/hint"
+            android:layout_marginTop="20px"
+            android:layout_marginLeft="40px"
+            android:layout_marginRight="40px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="42px"
+            android:text="答题完毕，确认交卷"
+            android:textColor="@color/normal_black"
+            android:layout_centerHorizontal="true"
+            />
+
+        <LinearLayout
+            android:id="@+id/sure_layout"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="120px">
+
+
+            <TextView
+                android:id="@+id/sure"
+                android:layout_weight="1"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:textColor="@color/normal_blue"
+                android:gravity="center"
+                android:textSize="48px"
+                android:text="确认退出"
+                />
+            <View
+                android:layout_height="match_parent"
+                android:layout_width="1px"
+                android:background="@color/home_divider_line_color"
+                ></View>
+
+            <TextView
+                android:id="@+id/cancel"
+                android:layout_weight="1"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:textColor="@color/normal_blue"
+                android:gravity="center"
+                android:textSize="48px"
+                android:text="取消"
+                />
+        </LinearLayout>
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            layout="@layout/layout_divider_line1px"
+            android:layout_above="@+id/sure_layout"></include>
+    </RelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

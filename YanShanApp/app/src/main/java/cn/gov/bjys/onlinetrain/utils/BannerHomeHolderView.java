@@ -13,9 +13,7 @@ import java.io.File;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.bean.HomeBannerBean;
 
-/**
- * Created by dodozhou on 2017/9/25.
- */
+
 public class BannerHomeHolderView implements Holder<HomeBannerBean>{
 
     private View mRootView;

@@ -2,9 +2,7 @@ package cn.gov.bjys.onlinetrain.bean;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
-/**
- * Created by dodozhou on 2017/9/26.
- */
+
 public class ClassBean implements MultiItemEntity {
 
     public final static int GRID_TYPE = 0;

@@ -1,10 +1,13 @@
 package cn.gov.bjys.onlinetrain.adapter;
 
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.ycl.framework.utils.util.GlideProxy;
+import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.List;
 
@@ -21,6 +24,12 @@ public class DooKechengAdapter extends BaseQuickAdapter<KechengBean, BaseViewHol
         super(layoutResId, data);
     }
 
+    @Override
+    protected View getItemView(int layoutResId, ViewGroup parent) {
+        View v = super.getItemView(layoutResId, parent);
+        AutoUtils.auto(v);
+        return v;
+    }
     @Override
     protected void convert(BaseViewHolder helper, KechengBean item) {
         GlideProxy.loadImgForUrlPlaceHolderDontAnimate((ImageView) helper.getView(R.id.img),item.getImgSrc(),R.mipmap.ic_launcher);

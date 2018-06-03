@@ -41,9 +41,7 @@ import rx.Subscriber;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by dodo on 2017/11/17.
- */
+
 
 public class ExamPrepareActivity extends FrameActivity {
 
@@ -87,12 +85,12 @@ public class ExamPrepareActivity extends FrameActivity {
     @Override
     public void initViews() {
         super.initViews();
-        String nickName = SavePreference.getStr(BaseApplication.getAppContext(), YSConst.UserInfo.USER_SAVE_NICK);
+        String nickName = YSUserInfoManager.getsInstance().getUserBean().getNickname();
         if (!TextUtils.isEmpty(nickName)) {
             user_name.setText(nickName);
         }
 
-        String url = SavePreference.getStr(BaseApplication.getAppContext(), YSConst.UserInfo.USER_AVATAR_PATH);
+        String url = YSUserInfoManager.getsInstance().getUserBean().getIcon();
         if (!TextUtils.isEmpty(url)) {
             GlideProxy.loadImgForUrlPlaceHolderDontAnimate(simulated_exam_avatar, url, R.drawable.user_normal_avatar);
         }
@@ -119,12 +117,10 @@ public class ExamPrepareActivity extends FrameActivity {
 
                     @Override
                     public void onCompleted() {
-                        Log.d("dodoT", "onCompleted");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("dodoT", "onError");
                     }
 
                     @Override
@@ -164,6 +160,12 @@ public class ExamPrepareActivity extends FrameActivity {
                         mExamPagers.addAll(examMcList);
                         //使用单例保存考卷数据
                         ExamHelper.getInstance().setmExamPagers(mExamPagers);
+                        exam_biaozhun.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                exam_biaozhun.setText(""+mExamPagers.size());
+                            }
+                        });
                     }
                 });
     }

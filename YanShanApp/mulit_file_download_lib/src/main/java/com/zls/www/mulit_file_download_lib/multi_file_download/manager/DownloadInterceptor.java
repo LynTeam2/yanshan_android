@@ -6,9 +6,6 @@ import com.zls.www.mulit_file_download_lib.multi_file_download.api.DownloadProgr
 import okhttp3.Interceptor;
 import okhttp3.Response;
 
-/**
- * Created by dodozhou on 2017/8/22.
- */
 public class DownloadInterceptor implements Interceptor {
 
     private DownloadProgressListener listener;

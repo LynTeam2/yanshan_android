@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.ycl.framework.utils.util.LogUtils;
-import com.zls.www.mulit_file_download_lib.multi_file_download.db.entity.DataInfo;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -17,10 +16,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.RandomAccessFile;
 import java.io.UnsupportedEncodingException;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -29,12 +25,9 @@ import java.util.zip.ZipInputStream;
 import cn.gov.bjys.onlinetrain.BaseApplication;
 import okhttp3.ResponseBody;
 
-/**
- * Created by dodozhou on 2017/8/8.
- */
+
 public class AssetsHelper {
 
-    @Deprecated
     public static String getYSPicPath(String relativePath){
 
         String aimPath = BaseApplication.getAppContext().getFilesDir().getParent()+ File.separator +
@@ -42,7 +35,6 @@ public class AssetsHelper {
                 AssetsHelper.getAssetUpdateZipName(BaseApplication.getAppContext(),YSConst.UPDATE_ZIP)+
                 File.separator + "resource"+File.separator+
                 relativePath;
-        Log.d("dodoT","aimpath = " +aimPath);
         return aimPath;
     }
 
@@ -152,7 +144,6 @@ public class AssetsHelper {
         if(!TextUtils.isEmpty(aimFileNameAll)) {
             String retName = getOnlyOneAssetsFile(context,fileName);
             InputStream  inputStream = manager.open(retName);
-            Log.d("dodoT","outputDirectory = "+outputDirectory);
             unZipInputStream(context, inputStream, outputDirectory, true);
             return true;
         }else{
@@ -187,8 +178,12 @@ public class AssetsHelper {
         if(!TextUtils.isEmpty(aimFileNameAll)) {
             String retName = getOnlyOneAssetsFile(context,fileName);
             InputStream  inputStream = manager.open(retName);
-            Log.d("dodoT","inputStream assert file is acquire Ok");
-            return copeAssertFile( context,inputStream);
+            File ret = null;
+            try {
+                ret = copeAssertFile( context,inputStream);
+            }catch (Exception e){
+            }
+            return ret;
         }else{
             return null;
         }
@@ -292,7 +287,6 @@ public class AssetsHelper {
                         + zipEntry.getName());
                 //文件需要覆盖或者文件不存在，则解压文件
                 if(isReWrite || !file.exists()){
-                    Log.d("dodoT","file create path = " + file.getAbsolutePath());
                     file.createNewFile();
                     FileOutputStream fileOutputStream = new FileOutputStream(file);
                     while ((count = zipInputStream.read(buffer)) > 0) {
@@ -313,7 +307,7 @@ public class AssetsHelper {
 
 
     public static  void saveFile(ResponseBody body) {
-        String destFileDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+        String destFileDir = getDiskCacheDir(BaseApplication.getAppContext(),YSConst.UPDATE_ZIP);
         String destFileName ="upgrade.7z";
         InputStream is = null;
         byte[] buf = new byte[2048];
@@ -326,7 +320,6 @@ public class AssetsHelper {
                 dir.mkdirs();
             }
             File file = new File(dir, destFileName);
-            Log.d("dodoT","aimFile path = "+file.getAbsolutePath());
 
             fos = new FileOutputStream(file);
             while ((len = is.read(buf)) != -1) {
@@ -349,7 +342,7 @@ public class AssetsHelper {
     }
 
 
-    public static File copeAssertFile(Context context,InputStream is) {
+    public static File copeAssertFile(Context context,InputStream is) throws Exception {
         File file = null;
 //        String destFileDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
         String destFileDir = getDiskCacheDir(context,YSConst.UPDATE_ZIP);
@@ -360,11 +353,12 @@ public class AssetsHelper {
         try {
             File dir = new File(destFileDir);
             if (!dir.exists()) {
-                dir.mkdirs();
+               boolean isCreate = dir.mkdirs();
+                if(!isCreate){
+                    throw new Exception("创建文件目录失败");
+                }
             }
             file = new File(dir, destFileName);
-            Log.d("dodoT","aimFile path = "+file.getAbsolutePath());
-
             fos = new FileOutputStream(file);
             while ((len = is.read(buf)) != -1) {
                 fos.write(buf, 0, len);

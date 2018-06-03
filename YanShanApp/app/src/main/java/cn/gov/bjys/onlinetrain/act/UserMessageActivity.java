@@ -18,9 +18,7 @@ import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.adapter.DooUserMessageAdapter;
 import cn.gov.bjys.onlinetrain.bean.UserMessageBean;
 
-/**
- * Created by dodozhou on 2017/11/8.
- */
+
 public class UserMessageActivity extends FrameActivity implements BaseQuickAdapter.RequestLoadMoreListener,SwipeRefreshLayout.OnRefreshListener{
 
     @Bind(R.id.header)

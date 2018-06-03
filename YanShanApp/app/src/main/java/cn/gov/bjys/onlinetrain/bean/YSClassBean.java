@@ -2,9 +2,7 @@ package cn.gov.bjys.onlinetrain.bean;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
-/**
- * Created by dodo on 2017/10/3.
- */
+
 public class YSClassBean implements MultiItemEntity {
 
 

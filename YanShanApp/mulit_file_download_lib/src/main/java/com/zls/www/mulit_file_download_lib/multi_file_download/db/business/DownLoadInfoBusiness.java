@@ -14,9 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by dodozhou on 2017/8/24.
- */
+
 public class DownLoadInfoBusiness extends BaseDbBusiness<DownLoadInfoBean> {
 
     public final static String TAG = DownLoadInfoBusiness.class.getSimpleName();

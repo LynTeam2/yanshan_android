@@ -15,9 +15,7 @@ import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.fragment.UserFragment.SaveNickFragment;
 import cn.gov.bjys.onlinetrain.fragment.UserFragment.SignInFragment;
 
-/**
- * Created by dodozhou on 2017/11/14.
- */
+
 public class CommonActivity extends FrameActivity {
     public final static String TAG = CommonActivity.class.getSimpleName();
     public final static int SAVE_NICK = 1;

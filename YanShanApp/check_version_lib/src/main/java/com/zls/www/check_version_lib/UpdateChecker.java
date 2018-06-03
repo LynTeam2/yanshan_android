@@ -6,9 +6,6 @@ import android.util.Log;
 import com.zls.www.check_version_lib.task.RemoteCheckVersion;
 import com.zls.www.check_version_lib.utils.CheckVersionConstant;
 
-/**
- * Created by dodozhou on 2017/9/5.
- */
 public class UpdateChecker {
     public static final String TAG = UpdateChecker.class.getSimpleName();
 

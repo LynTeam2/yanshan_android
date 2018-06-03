@@ -2,9 +2,7 @@ package cn.gov.bjys.onlinetrain.utils;
 
 import android.content.Context;
 
-/**
- * Created by dodozhou on 12/5/2016.
- */
+
 public class DensityUtil {
     /**
      * change the value of dip into the value of pixel

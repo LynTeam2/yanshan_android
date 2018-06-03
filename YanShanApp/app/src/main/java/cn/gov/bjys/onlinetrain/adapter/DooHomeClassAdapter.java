@@ -15,9 +15,7 @@ import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.bean.CategoriesBean;
 import cn.gov.bjys.onlinetrain.utils.AssetsHelper;
 
-/**
- * Created by dodo on 2017/11/17.
- */
+
 @Deprecated
 public class DooHomeClassAdapter<T> extends SimpleBaseAdapter {
 

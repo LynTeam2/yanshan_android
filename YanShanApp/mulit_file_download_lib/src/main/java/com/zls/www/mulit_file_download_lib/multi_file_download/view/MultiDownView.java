@@ -18,9 +18,7 @@ import com.zls.www.mulit_file_download_lib.multi_file_download.db.entity.DataInf
 import com.zls.www.mulit_file_download_lib.multi_file_download.manager.HttpDownManager;
 import com.zls.www.mulit_file_download_lib.multi_file_download.manager.HttpProgressOnNextListener;
 
-/**
- * Created by dodo on 2018/1/23.
- */
+
 
 public class MultiDownView extends RelativeLayout implements View.OnClickListener{
 
@@ -109,19 +107,16 @@ public class MultiDownView extends RelativeLayout implements View.OnClickListene
         public void onNext(DataInfo baseDownEntity) {
             mType.setText("提示：下载完成");
             Toast.makeText(getContext(),baseDownEntity.getSavePath(),Toast.LENGTH_SHORT).show();
-            Log.d("dodoT","onNext");
         }
 
         @Override
         public void onStart() {
             mType.setText("提示:开始下载");
-            Log.d("dodoT","onStart");
         }
 
         @Override
         public void onComplete() {
             mType.setText("提示：下载结束");
-            Log.d("dodoT","onComplete");
             manager.save(mData);
         }
 
@@ -129,7 +124,6 @@ public class MultiDownView extends RelativeLayout implements View.OnClickListene
         public void onError(Throwable e) {
             super.onError(e);
             mType.setText("失败:"+e.toString());
-            Log.d("dodoT","onError");
         }
 
 
@@ -137,13 +131,11 @@ public class MultiDownView extends RelativeLayout implements View.OnClickListene
         public void onPuase() {
             super.onPuase();
             mType.setText("提示:暂停");
-            Log.d("dodoT","onPuase");
         }
 
         @Override
         public void onStop() {
             super.onStop();
-            Log.d("dodoT","onStop");
         }
 
         @Override
@@ -151,7 +143,6 @@ public class MultiDownView extends RelativeLayout implements View.OnClickListene
             mType.setText("提示:下载中");
             mNumberProgressBar.setMax(countLength);
             mNumberProgressBar.setProgress(readLength);
-            Log.d("dodoT","updateProgress");
         }
     };
 

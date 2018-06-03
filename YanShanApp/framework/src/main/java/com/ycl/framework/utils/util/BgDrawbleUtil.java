@@ -8,9 +8,7 @@ import com.ycl.framework.base.FrameApplication;
 
 import static com.sina.weibo.sdk.utils.ResourceManager.dp2px;
 
-/**
- * Created by dodo on 2018/5/22.
- */
+
 
 public class BgDrawbleUtil {
 

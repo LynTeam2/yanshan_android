@@ -1,8 +1,5 @@
 package com.zls.www.mulit_file_download_lib.multi_file_download.api;
 
-/**
- * Created by dodozhou on 2017/8/22.
- */
 public interface DownloadProgressListener {
     /**
      * 下载进度

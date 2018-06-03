@@ -14,9 +14,6 @@ import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.utils.AssetsHelper;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 
-/**
- * Created by dodozhou on 2017/8/9.
- */
 public class UnZipTask extends AsyncTask<Integer, Integer, Boolean> {
 
     private boolean isAssetUnZip;
@@ -55,10 +52,6 @@ public class UnZipTask extends AsyncTask<Integer, Integer, Boolean> {
            File file = new File(zipPath);
            InputStream is = null;
            try {
-
-
-               Log.d("dodoT","zipPath = " +zipPath+ "\n   aimPath =" + aimPath);
-//               AssetsHelper.unZipInputStream(BaseApplication.getAppContext(), is, aimPath, true);
                AssetsHelper.upZipFile(file,aimPath);
            } catch (FileNotFoundException e) {
                e.printStackTrace();

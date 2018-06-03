@@ -5,9 +5,7 @@ import android.text.TextUtils;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-/**
- * Created by dodozhou on 2017/3/16.
- */
+
 @DatabaseTable(tableName = "local_user_detail_info")
 public class UserDetailBean extends DBEntity {
 

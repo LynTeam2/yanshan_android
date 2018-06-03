@@ -141,18 +141,15 @@ public class LogoActivity extends FrameActivity {
                 .subscribe(new Subscriber<BaseResponse<String>>() {
                     @Override
                     public void onCompleted() {
-                        Log.d("dodo", "onCompleted");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("dodo", "e.message = " + e.getMessage());
                         toLoginAct();
                     }
 
                     @Override
                     public void onNext(BaseResponse<String> stringBaseResponse) {
-                        Log.d("dodo", "resp = " + stringBaseResponse);
                         if ("1".equals(stringBaseResponse.getCode())) {
                             //登陆成功
                             //保存登陆用户信息
@@ -277,9 +274,6 @@ public class LogoActivity extends FrameActivity {
     private void updateZip() {
         //TODO 下载更新包
         count++;
-        Log.d("dodoT", "updateZip  " + count);
-        ToastUtil.showToast("updateZip  " + count);
-//        new UnZipTask(true, null, null).execute();//开始解压压缩包，解压好了就不解压了
         new Un7zTask(true, null, null).execute();//开始解压压缩包，解压好了就不解压了
         downloadZip();
     }
@@ -307,9 +301,6 @@ public class LogoActivity extends FrameActivity {
                 .subscribe(new Subscriber<ResponseBody>() {
                     @Override
                     public void onCompleted() {
-                        Log.d("dodoT","UPGRADE_SAVE_PATH = "+ UPGRADE_SAVE_PATH);
-//                        new UnZipTask(false, UPGRADE_SAVE_PATH,
-//                                getFilesDir().getParent()+File.separator + YSConst.UPDATE_ZIP).execute();//开始解压压缩包，解压好了就不解压了
                         new Un7zTask(false, UPGRADE_SAVE_PATH,
                                 getFilesDir().getParent()+File.separator + YSConst.UPDATE_ZIP).execute();//开始解压压缩包，解压好了就不解压了
                     }

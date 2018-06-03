@@ -277,12 +277,13 @@ public class ShopFragment extends FrameFragment {
         mAllProviders = myLocationManager.getAllProviders();
     }
 
-    private void requestPermission() {
+    private boolean requestPermission() {
         if (PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 && PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION)) {
-
+            return true;
         } else {
             ActivityCompat.requestPermissions((FrameActivity) getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            return false;
         }
     }
 
@@ -310,11 +311,13 @@ public class ShopFragment extends FrameFragment {
 /*        myLocationManager.setTestProviderEnabled("gps",true);
         myLocationManager.setTestProviderEnabled("network",true);*/
         for(String s : mAllProviders){
-            if(s.contains("network")){
-                myLocationManager.requestLocationUpdates("network", 3000, 500, mLocationListener);
-            }
-            if(s.contains("gps")){
-                myLocationManager.requestLocationUpdates("gps", 3000, 500, mLocationListener);
+            if(requestPermission()) {
+                if (s.contains("network")) {
+                    myLocationManager.requestLocationUpdates("network", 3000, 500, mLocationListener);
+                }
+                if (s.contains("gps")) {
+                    myLocationManager.requestLocationUpdates("gps", 3000, 500, mLocationListener);
+                }
             }
         }
     }
@@ -454,7 +457,7 @@ public class ShopFragment extends FrameFragment {
 
     //是否刷新天气信息
     private boolean checkNeedUpdate() {
-        Log.d("dodoT", "checkNeedUpdate");
+
         String lastWeather = SavePreference.getStr(getContext(), NEW_WEATHER_FLAG);
         HeWeather6.WeatherJson bean = FastJSONParser.getBean(lastWeather, HeWeather6.WeatherJson.class);
         String lastCity = "";
@@ -464,16 +467,16 @@ public class ShopFragment extends FrameFragment {
             lastDate = bean.getHeWeather6().get(0).getDaily_forecast().get(0).getDate();
         }catch (Exception e){
             e.printStackTrace();
-            Log.d("dodoW","data get is error on native");
+
         }
         String today = DateUtil.formatYourSelf(System.currentTimeMillis(), new SimpleDateFormat("yyyy-MM-dd"));
         if (TextUtils.isEmpty(lastCity) || !mCityName.contains(lastCity) || !today.equals(lastDate)) {
             //未保存上一次的城市地名 或者 此次地名未包含上次地名 或者 日期不同 需要刷新
-            Log.d("dodoT", "checkNeedUpdate  true");
+
             return true;
         } else {
             //否则的话 刷新
-            Log.d("dodoT", "checkNeedUpdate  false");
+
            try {
                List<Forecast> datas = bean.getHeWeather6().get(0).getDaily_forecast();//
                mWeatherAdapter.setNewData(datas);
@@ -483,7 +486,7 @@ public class ShopFragment extends FrameFragment {
                setupView(bean);
            }catch (Exception e){
                e.printStackTrace();
-               Log.d("dodoW","data update is error on native");
+
            }
             dismissProgressDialog();
             return false;
@@ -494,7 +497,7 @@ public class ShopFragment extends FrameFragment {
     public final static String NEW_WEATHER_FLAG = "new_weather_flag";
 
     private void reqWeatherInfos(String cityName) {
-        Log.d("dodoT", "reqWeatherInfos");
+
         rx.Observable<String> obs;
         obs = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext()).
                 getSpeUrlService(WEATHER_BASE_URL, WeatherApi.class).getNewWeatherInfos(KEY,cityName);
@@ -515,7 +518,6 @@ public class ShopFragment extends FrameFragment {
 
                     @Override
                     public void onNext(String s) {
-                        Log.d("dodoT", "onNext");
                         HeWeather6.WeatherJson bean = FastJSONParser.getBean(s, HeWeather6.WeatherJson.class);
                         //只存下最新数据
                         SavePreference.save(getContext(), NEW_WEATHER_FLAG, s);

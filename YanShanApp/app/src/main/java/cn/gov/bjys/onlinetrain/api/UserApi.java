@@ -12,9 +12,7 @@ import retrofit2.http.Query;
 import retrofit2.http.Streaming;
 import rx.Observable;
 
-/**
- * Created by dodozhou on 2017/8/22.
- */
+
 public interface UserApi {
     @Streaming
     @POST("Video/2017/02/18/mp4/170218171317773949.mp4")

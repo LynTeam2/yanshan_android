@@ -14,9 +14,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by dodo on 2018/5/4.
- */
 
 public class LawsTask  extends BaseAsyncTask {
     private static String RELATIVE_PATH = "lawType";//相对路径

@@ -1,8 +1,6 @@
 package com.zls.www.check_version_lib.bean;
 
-/**
- * Created by dodozhou on 2017/9/5.
- */
+
 public class CheckVersionBean {
 
     private String updateMessage;

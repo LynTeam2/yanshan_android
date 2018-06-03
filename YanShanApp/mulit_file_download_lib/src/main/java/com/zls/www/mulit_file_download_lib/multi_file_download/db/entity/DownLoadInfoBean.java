@@ -4,9 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.ycl.framework.db.entity.DBEntity;
 
-/**
- * Created by dodozhou on 2017/8/24.
- */
+
 
 @DatabaseTable(tableName = "local_download_info")
 public class DownLoadInfoBean extends DBEntity {

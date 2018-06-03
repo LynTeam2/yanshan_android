@@ -11,9 +11,6 @@ import android.widget.TextView;
 
 import cn.gov.bjys.onlinetrain.R;
 
-/**
- * Created by dodozhou on 2017/9/21.
- */
 public class SingleAnswerLayout extends RelativeLayout{
 
 

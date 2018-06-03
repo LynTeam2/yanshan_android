@@ -1,8 +1,5 @@
 package cn.gov.bjys.onlinetrain.bean;
 
-/**
- * Created by dodo on 2018/3/19.
- */
 
 public class UserBean {
 

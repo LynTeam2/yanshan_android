@@ -12,9 +12,6 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
-/**
- * Created by dodozhou on 2017/8/22.
- */
 public class ProgressDownSubscriber<T> extends Subscriber<T> implements DownloadProgressListener {
     //弱引用结果回调
     private WeakReference<HttpProgressOnNextListener> mSubscriberOnNextListener;

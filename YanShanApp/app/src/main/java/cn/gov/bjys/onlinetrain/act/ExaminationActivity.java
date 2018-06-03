@@ -42,9 +42,6 @@ import cn.gov.bjys.onlinetrain.utils.YSConst;
 import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 
 
-/**
- * Created by dodozhou on 2017/9/27.
- */
 public class ExaminationActivity extends FrameActivity implements View.OnClickListener {
 
     @Bind(R.id.viewpager)

@@ -23,9 +23,7 @@ import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.adapter.DooExamBottomAdapter;
 import cn.gov.bjys.onlinetrain.bean.ExamXqBean;
 
-/**
- * Created by dodozhou on 2017/10/20.
- */
+
 public class ExamBottomLayout extends DooRootLayout implements View.OnClickListener {
 
 

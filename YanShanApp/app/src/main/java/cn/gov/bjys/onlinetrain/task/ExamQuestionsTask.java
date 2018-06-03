@@ -21,9 +21,6 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by dodo on 2018/1/25.
- */
 
 
 //保存Questions

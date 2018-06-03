@@ -12,9 +12,7 @@ import java.util.List;
 
 import cn.gov.bjys.onlinetrain.R;
 
-/**
- * Created by dodo on 2017/11/17.
- */
+
 
 public class DooHomeClassMistakesAdapter extends SimpleBaseAdapter {
     public DooHomeClassMistakesAdapter(Context context, List data) {

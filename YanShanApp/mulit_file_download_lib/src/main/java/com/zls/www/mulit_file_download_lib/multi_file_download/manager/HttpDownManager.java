@@ -26,9 +26,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by dodozhou on 2017/8/22.
- */
+
 public class HttpDownManager {
 
     public final static String TAG = "HttpDownManager";
@@ -106,7 +104,6 @@ public class HttpDownManager {
                             writeCache(responseBody, new File(info.getSavePath()), info);
                         } catch (IOException e) {
                             /*失败抛出异常*/
-                            Log.d("dodoE",e.getMessage());
 //                            throw new HttpTimeException(e.getMessage());
                         }
                         return info;

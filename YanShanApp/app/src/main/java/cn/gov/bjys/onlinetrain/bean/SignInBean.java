@@ -1,8 +1,6 @@
 package cn.gov.bjys.onlinetrain.bean;
 
-/**
- * Created by dodozhou on 2017/11/14.
- */
+
 public class SignInBean {
 
         public final static int FINISH = 1;

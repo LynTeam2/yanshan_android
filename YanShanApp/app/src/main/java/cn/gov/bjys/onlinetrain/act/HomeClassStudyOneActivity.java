@@ -35,9 +35,7 @@ import cn.gov.bjys.onlinetrain.utils.ExamDistinguishHelper;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 
-/**
- * Created by dodo on 2018/2/8.
- */
+
 @Deprecated
 public class HomeClassStudyOneActivity extends FrameActivity implements ZipCallBackListener {
 

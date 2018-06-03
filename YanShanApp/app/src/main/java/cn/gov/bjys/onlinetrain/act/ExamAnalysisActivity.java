@@ -34,9 +34,7 @@ import cn.gov.bjys.onlinetrain.bean.ExamsBean;
 import cn.gov.bjys.onlinetrain.utils.ExamDistinguishHelper;
 import cn.gov.bjys.onlinetrain.utils.ExamHelper;
 
-/**
- * Created by dodozhou on 2017/10/30.
- */
+
 @Deprecated
 public class ExamAnalysisActivity extends FrameActivity implements View.OnClickListener{
 
