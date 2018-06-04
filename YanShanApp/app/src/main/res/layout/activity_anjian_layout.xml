@@ -19,7 +19,7 @@
         <TextView
             android:id="@+id/title_name"
             android:layout_marginTop="70px"
-            android:layout_marginBottom="150px"
+            android:layout_marginBottom="30px"
             android:layout_marginLeft="140px"
             android:layout_marginRight="140px"
             android:maxLines="2"

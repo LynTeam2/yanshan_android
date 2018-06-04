@@ -121,7 +121,6 @@ public class HomeFragment extends FrameFragment {
                 isLoadMore = true;
                 mPages++;
                 remoteAnjian(mPages,SIZE);
-
                 break;
             default:
                 break;
