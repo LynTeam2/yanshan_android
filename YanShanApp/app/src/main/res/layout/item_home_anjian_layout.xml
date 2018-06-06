@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/normal_gray_light1"
-            android:maxLines="3"
+            android:maxLines="2"
             android:ellipsize="end"
             android:text="内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容"
             />
@@ -58,7 +58,6 @@
             android:id="@+id/img2"
             android:layout_marginRight="20px"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="4px"
             android:layout_toLeftOf="@id/nums"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -3,6 +3,7 @@ package com.ycl.framework.utils.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.util.Log;
 import android.webkit.WebSettings;
 
 import com.ycl.framework.base.FrameApplication;
@@ -426,7 +427,14 @@ public class HRetrofitNetHelper implements HttpLoggingInterceptor.Logger, Interc
         public okhttp3.Response intercept(Chain chain) throws IOException {
             Request.Builder builder = chain.request().newBuilder();
             SharedPreferences sp = FrameApplication.getFrameContext().getSharedPreferences(PREF_COOKIES, Context.MODE_PRIVATE);
-            HashSet<String> cookies = (HashSet<String>) sp.getStringSet(PREF_COOKIES,new HashSet<String>());
+            HashSet<String> cookies;
+            String reqUrl = chain.request().url().toString();
+            if(reqUrl.contains("login")) {
+                 cookies = new HashSet<>();
+                 sp.edit().putStringSet(PREF_COOKIES, cookies);
+            }else{
+                cookies = (HashSet<String>) sp.getStringSet(PREF_COOKIES, new HashSet<String>());
+            }
             for (String cookie : cookies) {
                 builder.addHeader("Cookie", cookie);
             }
@@ -439,7 +447,6 @@ public class HRetrofitNetHelper implements HttpLoggingInterceptor.Logger, Interc
         @Override
         public okhttp3.Response intercept(Chain chain) throws IOException {
             okhttp3.Response originalResponse = chain.proceed(chain.request());
-
             HashSet<String> cookiesHint = new HashSet<>();
             if (!originalResponse.headers("Set-Cookie").isEmpty()) {
                 for (String header : originalResponse.headers("Set-Cookie")) {
