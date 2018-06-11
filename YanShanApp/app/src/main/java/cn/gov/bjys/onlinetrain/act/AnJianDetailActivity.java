@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
@@ -48,7 +49,45 @@ public class AnJianDetailActivity extends FrameActivity {
     private void initContent(){
         title_name.setText(mHomeAnJianBean.getTitle());
         time.setText(mHomeAnJianBean.getNewsTime());
-        content.loadDataWithBaseURL(null,mHomeAnJianBean.getContent(),"text/html","utf-8",null);
+
+        String header = "<!-- Include stylesheet -->\n" +
+                "<link href=\"https://cdn.quilljs.com/1.3.6/quill.bubble.css\" rel=\"stylesheet\">\n" +
+                "\n" +
+                "<!-- Create the editor container -->\n" +
+                "<div class=\"ql-container ql-bubble\" style=\"height:100%;width:100%\">\n" +
+                "\t<div class=\"ql-editor\" style=\"height:100%;width:100%\">";
+        String footer = "</div>\n" +
+                "</div>";
+        content.loadDataWithBaseURL(null,header+mHomeAnJianBean.getContent()+footer,"text/html","utf-8",null);
+
+        WebSettings webSettings= content.getSettings();
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        webSettings.setJavaScriptEnabled(true);//支持js
+
+        content.setWebChromeClient(new WebChromeClient(){
+
+        });
+
+
+        content.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                imgReset();
+            }
+
+        });
+    }
+
+    private void imgReset() {
+        content.loadUrl("javascript:(function(){" +
+                "var objs = document.getElementsByTagName('img'); " +
+                "for(var i=0;i<objs.length;i++)  " +
+                "{"
+                + "var img = objs[i];   " +
+                " img.style.maxWidth = '100%';img.style.height='auto';" +
+                "}" +
+                "})()");
     }
 
     public static class Java2Js{

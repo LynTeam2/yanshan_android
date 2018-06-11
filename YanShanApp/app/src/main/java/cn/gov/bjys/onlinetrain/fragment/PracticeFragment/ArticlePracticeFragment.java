@@ -1,6 +1,7 @@
 package cn.gov.bjys.onlinetrain.fragment.PracticeFragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,10 @@ public class ArticlePracticeFragment  extends PracticeBaseFragment {
     public void bindData() {
         CourseBean bean = PracticeHelper.getInstance().getmCourseBean();
         String content = bean.getContent();
-        web_view.loadDataWithBaseURL(null,content,"text/html","utf-8",null);
+        Log.d("dodo",content);
+        String webContent = content.replaceAll("\n","<br>");//替换换行符
+        Log.d("dodo",webContent);
+        web_view.loadDataWithBaseURL(null,webContent,"text/html","utf-8",null);
     }
 
     @Bind(R.id.start_req)
@@ -67,5 +71,13 @@ public class ArticlePracticeFragment  extends PracticeBaseFragment {
     }
 
 
+
+    public static void main(String[] args){
+        String input= "我是真的搞不懂\n";
+        System.out.println(input);
+
+        String output = input.replaceAll("\n","<br>");
+        System.out.println(output);
+    }
 
 }

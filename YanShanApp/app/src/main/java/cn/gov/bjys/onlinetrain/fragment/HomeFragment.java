@@ -261,6 +261,10 @@ public class HomeFragment extends FrameFragment {
                                       mHomeAnjianList.addAll(datas);
                                       mDooHomePullRefreshAdapter.setNewData(mHomeAnjianList);
                                   }
+                              }else{
+                                  if(isLoadMore){
+                                      ToastUtil.showToast("没有更多了！");
+                                  }
                               }
                           }
                     }
