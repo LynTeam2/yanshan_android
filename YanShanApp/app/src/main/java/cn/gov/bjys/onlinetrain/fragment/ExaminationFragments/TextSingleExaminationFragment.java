@@ -76,6 +76,7 @@ public class TextSingleExaminationFragment extends FrameFragment implements Answ
         SpannableStringUtils.Builder builder = new SpannableStringUtils.Builder()
                 .append("  单选  ")
                 .append("  ")
+                .append("  ")
                 .append(mBean.getQuestion());
         SpannableStringBuilder ssb = builder.create();
         ssb.setSpan(new RoundBackgroundColorSpan(Color.parseColor("#6490ff"),Color.parseColor("#FFFFFF")), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

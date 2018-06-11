@@ -79,6 +79,7 @@ public class TextMultExaminationFragment extends FrameFragment implements Answer
         SpannableStringUtils.Builder builder = new SpannableStringUtils.Builder()
                 .append("  多选题  ")
                 .append("  ")
+                .append("  ")
                 .append(mBean.getQuestion());
         SpannableStringBuilder ssb = builder.create();
         ssb.setSpan(new RoundBackgroundColorSpan(Color.parseColor("#6490ff"),Color.parseColor("#FFFFFF")), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

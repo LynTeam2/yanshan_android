@@ -75,6 +75,7 @@ public class JudegmentExaminationFragment extends FrameFragment implements Answe
         SpannableStringUtils.Builder builder = new SpannableStringUtils.Builder()
                 .append("  判断题  ")
                 .append("  ")
+                .append("  ")
                 .append(mBean.getQuestion());
         SpannableStringBuilder ssb = builder.create();
         ssb.setSpan(new RoundBackgroundColorSpan(Color.parseColor("#6490ff"),Color.parseColor("#FFFFFF")), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
