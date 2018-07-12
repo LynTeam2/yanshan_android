@@ -67,6 +67,7 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
     DooExamStateFragmentAdapter mExamAdapter;
     DooExamBottomAdapter mDooExamBottomAdapter;
 
+    private long mStudyDuration = 0;
 
     @Override
     protected void setRootView() {
@@ -261,8 +262,10 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
     @Override
     public void initViews() {
         super.initViews();
-//        prepareAnimator();
 
+        mStudyDuration = System.currentTimeMillis();
+
+//        prepareAnimator();
         //初始化数据
         initPracticeData();
 //        mQuestionsList = prepareDatas();
@@ -678,8 +681,16 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
             case KESHI:
                 saveKeShiPass();
                 saveErrorList();
+                saveStudyDuration();
                 break;
         }
         finish();
     }
+
+    private void saveStudyDuration(){
+        long time = System.currentTimeMillis();
+        mStudyDuration = time - mStudyDuration;//ms
+        CourseBean bean = PracticeHelper.getInstance().getmCourseBean();
+    }
+
 }
