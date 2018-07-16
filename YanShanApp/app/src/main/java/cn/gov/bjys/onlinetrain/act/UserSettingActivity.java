@@ -295,11 +295,13 @@ public class UserSettingActivity extends FrameActivity {
 
     //    public final static String UPGRADE_SAVE_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "upgrade.7z";
     public final static String UPGRADE_SAVE_PATH = AssetsHelper.getDiskCacheDir(BaseApplication.getAppContext(),YSConst.UPDATE_ZIP) + File.separator + "upgrade.7z";
+    public final static String DOWNLOAD_URL = "http://39.115.27.225/api/upgrade";
     private void downloadZip() {
         rx.Observable<ResponseBody> observable;
         observable = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext())
                 .getSpeUrlService(YSConst.BaseUrl.BASE_URL, HomeApi.class)
-                .downZipPacket("http://39.104.118.75/api/upgrade");
+//                .downZipPacket("http://39.104.118.75/api/upgrade");
+                .downZipPacket(DOWNLOAD_URL);
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())

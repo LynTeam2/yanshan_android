@@ -20,7 +20,7 @@
         <ImageView
             android:layout_marginTop="5px"
             android:id="@+id/icon"
-            android:src="@drawable/icon_190_175"
+            android:src="@drawable/exams_icon"
             android:layout_width="190px"
             android:layout_height="match_parent"
             android:scaleType="fitXY"

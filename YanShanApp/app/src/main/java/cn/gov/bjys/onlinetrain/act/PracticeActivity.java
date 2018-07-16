@@ -409,7 +409,8 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
     }
 
     private boolean needShowNiceHint(){
-        if(mErrorQuestionsList.size() + mRightQuestionsList.size() < mQuestionsList.size()){
+        //类型为课程 并且 未做完题目
+        if((mErrorQuestionsList.size() + mRightQuestionsList.size() < mQuestionsList.size()) && mType == KESHI){
             return true;
         }
         return false;
