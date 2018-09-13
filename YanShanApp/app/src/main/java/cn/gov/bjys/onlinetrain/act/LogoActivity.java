@@ -3,8 +3,8 @@ package cn.gov.bjys.onlinetrain.act;
 import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Environment;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
@@ -13,13 +13,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import com.sina.weibo.sdk.api.share.Base;
 import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.utils.sp.SavePreference;
 import com.ycl.framework.utils.util.FastJSONParser;
 import com.ycl.framework.utils.util.HRetrofitNetHelper;
-import com.ycl.framework.utils.util.ToastUtil;
 import com.zls.www.statusbarutil.StatusBarUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 
@@ -30,9 +32,10 @@ import cn.gov.bjys.onlinetrain.api.BaseResponse;
 import cn.gov.bjys.onlinetrain.api.HomeApi;
 import cn.gov.bjys.onlinetrain.api.UserApi;
 import cn.gov.bjys.onlinetrain.bean.UserBean;
+import cn.gov.bjys.onlinetrain.bean.event.LoginEvent;
 import cn.gov.bjys.onlinetrain.task.Un7zTask;
-import cn.gov.bjys.onlinetrain.task.UnZipTask;
 import cn.gov.bjys.onlinetrain.utils.AssetsHelper;
+import cn.gov.bjys.onlinetrain.utils.LoginHelper;
 import cn.gov.bjys.onlinetrain.utils.MapParamsHelper;
 import cn.gov.bjys.onlinetrain.utils.PermissionUtil;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
@@ -62,7 +65,30 @@ public class LogoActivity extends FrameActivity {
     }
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLoginSuc(LoginEvent event){
+        switch (event.getType()){
+            case 0:
+                toLoginAct();
+                break;
+            case 1:
+                toMainAct();
+                break;
+        }
+    }
+
+    @Override
     protected void initStatusBar() {
         StatusBarUtil.setTranslucent(this, StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA);
     }
@@ -132,36 +158,7 @@ public class LogoActivity extends FrameActivity {
             toLoginAct();
             return;
         }
-
-        Observable<BaseResponse<String>> obsLogin;
-        obsLogin = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext()).
-                getSpeUrlService(YSConst.BaseUrl.BASE_URL, UserApi.class).userLogin(HRetrofitNetHelper.createReqJsonBody(MapParamsHelper.getLogin(mUserName, mPassword)));
-        obsLogin.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BaseResponse<String>>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        toLoginAct();
-                    }
-
-                    @Override
-                    public void onNext(BaseResponse<String> stringBaseResponse) {
-                        if ("1".equals(stringBaseResponse.getCode())) {
-                            //登陆成功
-                            //保存登陆用户信息
-                            UserBean.UserParentBean parentBean = FastJSONParser.getBean(stringBaseResponse.getResults(), UserBean.UserParentBean.class);
-                            UserBean bean = parentBean.getUser();
-                            YSUserInfoManager.getsInstance().saveUserBean(bean);
-                            toMainAct();
-                        } else {
-                            toLoginAct();
-                        }
-                    }
-                });
+        LoginHelper.login(mUserName,mPassword);
     }
 
     private void toMainAct() {
@@ -280,7 +277,7 @@ public class LogoActivity extends FrameActivity {
 
 //    public final static String UPGRADE_SAVE_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "upgrade.7z";
     public final static String UPGRADE_SAVE_PATH = AssetsHelper.getDiskCacheDir(BaseApplication.getAppContext(),YSConst.UPDATE_ZIP) + File.separator + "upgrade.7z";
-    public final static String DOWNLOAD_URL = "http://39.115.27.225/api/upgrade";
+    public final static String DOWNLOAD_URL = YSConst.BaseUrl.BASE_URL+ "api/upgrade";
     private void downloadZip() {
         rx.Observable<ResponseBody> observable;
         observable = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext())

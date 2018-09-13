@@ -5,10 +5,14 @@ import com.ycl.framework.utils.util.FastJSONParser;
 import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.gov.bjys.onlinetrain.api.ZipCallBackListener;
 import cn.gov.bjys.onlinetrain.bean.CategoryBean;
+import cn.gov.bjys.onlinetrain.bean.CourseBean;
 import cn.gov.bjys.onlinetrain.bean.CoursesBean;
+import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -73,8 +77,16 @@ public class HomeClassStudyThirdTask extends BaseAsyncTask {
                     @Override
                     public void onNext(String s) {
                         CoursesBean bean = FastJSONParser.getBean(s, CoursesBean.class);
+                        String userRole = YSUserInfoManager.getsInstance().getUserBean().getRoleName();
                         if (bean != null) {
-                            callback(bean.getCourses());
+                            List<CourseBean> tempList = bean.getCourses();
+                            List<CourseBean> userList = new ArrayList<>();
+                            for(CourseBean temp:tempList){
+                               if( temp.getRole().contains(userRole)){
+                                   userList.add(temp);
+                               }
+                            }
+                            callback(userList);
                         }
                     }
                 });

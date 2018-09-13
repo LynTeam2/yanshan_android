@@ -20,6 +20,8 @@
         android:gravity="center_vertical|left"
         android:textColor="@color/home_normal_gray"
         android:textSize="52px"
+        android:maxLines="2"
+        android:ellipsize="end"
         android:text="标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题"
         />
     <RelativeLayout
@@ -44,6 +46,7 @@
             />
 
             <TextView
+                android:visibility="invisible"
                 android:id="@+id/nums"
                 android:layout_marginRight="38px"
                 android:layout_alignParentRight="true"

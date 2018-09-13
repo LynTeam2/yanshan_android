@@ -17,6 +17,7 @@ import cn.gov.bjys.onlinetrain.fragment.ClassFragment.ClassLinearFragment;
 /**
  * Created by Administrator on 2017/10/10 0010.
  */
+@Deprecated
 public class ClassActivity extends FrameActivity {
 
     public static final String CLASS_TYPE = "TYPE";

@@ -47,4 +47,14 @@ public class ExamHelper {
     public  void setmExamPagers(List<ExamBean> mExamPagers) {
         ExamHelper.mExamPagers = mExamPagers;
     }
+
+    public static long mExamCount;
+
+    public  long getmExamCount() {
+        return mExamCount;
+    }
+
+    public  void setmExamCount(long mExamCount) {
+        ExamHelper.mExamCount = mExamCount;
+    }
 }

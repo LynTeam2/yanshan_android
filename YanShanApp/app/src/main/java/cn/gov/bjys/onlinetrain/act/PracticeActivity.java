@@ -17,6 +17,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.db.entity.ExamBean;
 import com.ycl.framework.utils.sp.SavePreference;
+import com.ycl.framework.utils.util.FastJSONParser;
+import com.ycl.framework.utils.util.HRetrofitNetHelper;
 import com.ycl.framework.utils.util.ToastUtil;
 import com.ycl.framework.view.TitleHeaderView;
 import com.zhy.autolayout.utils.AutoUtils;
@@ -27,6 +29,7 @@ import java.util.List;
 import java.util.Random;
 
 import butterknife.Bind;
+import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.dialog.EndPracticeDialog;
 import cn.gov.bjys.onlinetrain.act.dialog.NicePracticeHintDialog;
@@ -34,18 +37,24 @@ import cn.gov.bjys.onlinetrain.act.pop.EndExamPop;
 import cn.gov.bjys.onlinetrain.act.view.ExamBottomLayout;
 import cn.gov.bjys.onlinetrain.adapter.DooExamBottomAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooExamStateFragmentAdapter;
+import cn.gov.bjys.onlinetrain.api.BaseResponse;
+import cn.gov.bjys.onlinetrain.api.UserApi;
 import cn.gov.bjys.onlinetrain.bean.CourseBean;
 import cn.gov.bjys.onlinetrain.bean.ExamXqBean;
+import cn.gov.bjys.onlinetrain.bean.LawContentBean;
 import cn.gov.bjys.onlinetrain.utils.DataHelper;
+import cn.gov.bjys.onlinetrain.utils.MapParamsHelper;
 import cn.gov.bjys.onlinetrain.utils.PracticeHelper;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
-
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 public class PracticeActivity extends FrameActivity implements View.OnClickListener {
     public final static String TAG = PracticeActivity.class.getSimpleName();
-
 
     public final static int KESHI = 1;//课时练习
     public final static int CUOTI = 2;//错题练习
@@ -692,6 +701,36 @@ public class PracticeActivity extends FrameActivity implements View.OnClickListe
         long time = System.currentTimeMillis();
         mStudyDuration = time - mStudyDuration;//ms
         CourseBean bean = PracticeHelper.getInstance().getmCourseBean();
+        remotCourseInfo(mStudyDuration/(1000*60),bean);
     }
 
+    private void remotCourseInfo(long fen,CourseBean bean){
+
+        {
+            Observable<BaseResponse<String>> obsLogin;
+            obsLogin = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext()).
+                    getSpeUrlService(YSConst.BaseUrl.BASE_URL, UserApi.class).postCourseDuration(bean.getId(),
+                    HRetrofitNetHelper.createReqJsonBody(MapParamsHelper.updateFinishCourse(fen)));
+            obsLogin.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<BaseResponse<String>>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(BaseResponse<String> stringBaseResponse) {
+                            if ("1".equals(stringBaseResponse.getCode())){
+                                    ToastUtil.showToast("完成课时以同步至后台数据库");
+                            }
+                        }
+                    });
+        }
+    }
 }

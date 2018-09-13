@@ -4,11 +4,13 @@ import com.ycl.framework.utils.util.FastJSONParser;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.gov.bjys.onlinetrain.adapter.DooHomeClassStudyAdapter;
 import cn.gov.bjys.onlinetrain.bean.CourseBean;
 import cn.gov.bjys.onlinetrain.bean.NewestCourseBean;
+import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -70,8 +72,21 @@ public class HomeNewCourseTask extends BaseAsyncTask {
                         NewestCourseBean bean = FastJSONParser.getBean(s, NewestCourseBean.class);
                         if(bean != null){
                             if(bean.getCourses() != null) {
-                                List<CourseBean> datas = bean.getCourses().size() > 4 ? bean.getCourses().subList(0,4):bean.getCourses();
-                                mAdapter.setNewData(datas);
+                                List<CourseBean> tempList = bean.getCourses();
+                                List<CourseBean> userList = new ArrayList<>();
+                                String userRole = YSUserInfoManager.getsInstance().getUserBean().getRoleName();
+                                if(tempList !=null) {
+                                    for (int i = 0; i < tempList.size(); i++) {
+                                        CourseBean temp = tempList.get(i);
+                                       if(temp.getRole().contains(userRole)){
+                                           userList.add(temp);
+                                       }
+                                       if(userList.size() >= 4){
+                                           break;
+                                       }
+                                    }
+                                }
+                                mAdapter.setNewData(userList);
                             }
                         }
                     }

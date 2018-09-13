@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -18,28 +19,41 @@ import com.ycl.framework.db.business.ExamPagerInfoBusiness;
 import com.ycl.framework.db.entity.ExamBean;
 import com.ycl.framework.db.entity.SaveExamPagerBean;
 import com.ycl.framework.utils.sp.SavePreference;
+import com.ycl.framework.utils.util.HRetrofitNetHelper;
+import com.ycl.framework.utils.util.ToastUtil;
 import com.ycl.framework.view.TitleHeaderView;
 import com.zhy.autolayout.utils.AutoUtils;
 import com.zls.www.statusbarutil.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.Bind;
+import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.pop.EndExamPop;
 import cn.gov.bjys.onlinetrain.act.view.ExamBottomLayout;
 import cn.gov.bjys.onlinetrain.adapter.DooExamBottomAdapter;
 import cn.gov.bjys.onlinetrain.adapter.DooExamStateFragmentAdapter;
+import cn.gov.bjys.onlinetrain.api.BaseResponse;
+import cn.gov.bjys.onlinetrain.api.UserApi;
+import cn.gov.bjys.onlinetrain.bean.ExamDetailBean;
+import cn.gov.bjys.onlinetrain.bean.ExamPagerHistoryBean;
 import cn.gov.bjys.onlinetrain.bean.ExamXqBean;
 import cn.gov.bjys.onlinetrain.bean.ExamsBean;
 import cn.gov.bjys.onlinetrain.utils.DataHelper;
 import cn.gov.bjys.onlinetrain.utils.ExamHelper;
+import cn.gov.bjys.onlinetrain.utils.MapParamsHelper;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 public class ExaminationActivity extends FrameActivity implements View.OnClickListener {
@@ -57,7 +71,9 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
     DooExamBottomAdapter mDooExamBottomAdapter;
 
     TimerTask mTimerTask;
-    private long mAllTimes = 50*60;
+    private long mAllTimes = 50 * 60;
+    private long startTimes;
+    private long endTimes;
     private long mTimes = 50 * 60;
     private Timer mTimer;
     private Handler mHandler;
@@ -104,6 +120,7 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
         mExamsBean = ExamHelper.getInstance().getmExamsBean();
         mTimes = mExamsBean.getExamDuration() * 60;//秒钟
         mAllTimes = mExamsBean.getExamDuration() * 60;//秒钟
+        startTimes = System.currentTimeMillis();
     }
 
     public void CalAnswer(ExamBean bean, boolean isRight) {
@@ -393,59 +410,59 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
         StringBuilder mSimpleRightSb = new StringBuilder();
 
 
-        for (int i=0; i < mQuestionsList.size(); i++) {
+        for (int i = 0; i < mQuestionsList.size(); i++) {
             ExamBean examBean = mQuestionsList.get(i);
             String uid = examBean.getUid();
             int type = examBean.getDoRight();
             String questionType = examBean.getQuestionType();
-            if(i == 0){
-                allSb.append(uid+"");//allpager没有问题
-            switch (type) {
-                case ExamBean.ERROR:
-                    errorSb.append(uid+"");
-                    if("mc".equals(questionType)){
-                        mMultiErrorSb.append(uid+"");
-                    }else if("sc".equals(questionType)){
-                        mSimpleErrorSb.append(uid+"");
-                    }else if("tf".equals(questionType)){
-                        mTurefalseErrorSb.append(uid+"");
-                    }
-                    break;
-                case ExamBean.NOT_DO:
-                    notdoSb.append(uid+"");
-                    break;
-                case ExamBean.RIGHT:
-                    rightSb.append(uid+"");
+            if (i == 0) {
+                allSb.append(uid + "");//allpager没有问题
+                switch (type) {
+                    case ExamBean.ERROR:
+                        errorSb.append(uid + "");
+                        if ("mc".equals(questionType)) {
+                            mMultiErrorSb.append(uid + "");
+                        } else if ("sc".equals(questionType)) {
+                            mSimpleErrorSb.append(uid + "");
+                        } else if ("tf".equals(questionType)) {
+                            mTurefalseErrorSb.append(uid + "");
+                        }
+                        break;
+                    case ExamBean.NOT_DO:
+                        notdoSb.append(uid + "");
+                        break;
+                    case ExamBean.RIGHT:
+                        rightSb.append(uid + "");
 
-                    if("mc".equals(questionType)){
-                        mMultiRightSb.append(uid+"");
-                    }else if("sc".equals(questionType)){
-                        mSimpleRightSb.append(uid+"");
-                    }else if("tf".equals(questionType)){
-                        mTurefalseRightSb.append(uid+"");
-                    }
+                        if ("mc".equals(questionType)) {
+                            mMultiRightSb.append(uid + "");
+                        } else if ("sc".equals(questionType)) {
+                            mSimpleRightSb.append(uid + "");
+                        } else if ("tf".equals(questionType)) {
+                            mTurefalseRightSb.append(uid + "");
+                        }
 
-                    break;
+                        break;
                 }
 
-                if("mc".equals(questionType)){
-                    mMultiSb.append(uid+"");
-                }else if("sc".equals(questionType)){
-                    mSimpleSb.append(uid+"");
-                }else if("tf".equals(questionType)){
-                    mTurefalseSb.append(uid+"");
+                if ("mc".equals(questionType)) {
+                    mMultiSb.append(uid + "");
+                } else if ("sc".equals(questionType)) {
+                    mSimpleSb.append(uid + "");
+                } else if ("tf".equals(questionType)) {
+                    mTurefalseSb.append(uid + "");
                 }
 
-            }else{
-                allSb.append(","+uid);
+            } else {
+                allSb.append("," + uid);
                 switch (type) {
                     case ExamBean.ERROR:
                         errorSb.append("," + uid);
-                        if("mc".equals(questionType)){
-                            mMultiErrorSb.append(","+uid);
-                        }else if("sc".equals(questionType)){
-                            mSimpleErrorSb.append(","+uid);
-                        }else if("tf".equals(questionType)){
+                        if ("mc".equals(questionType)) {
+                            mMultiErrorSb.append("," + uid);
+                        } else if ("sc".equals(questionType)) {
+                            mSimpleErrorSb.append("," + uid);
+                        } else if ("tf".equals(questionType)) {
                             mTurefalseErrorSb.append("," + uid);
                         }
                         break;
@@ -455,21 +472,21 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
                     case ExamBean.RIGHT:
                         rightSb.append("," + uid);
 
-                        if("mc".equals(questionType)){
+                        if ("mc".equals(questionType)) {
                             mMultiRightSb.append("," + uid);
-                        }else if("sc".equals(questionType)){
+                        } else if ("sc".equals(questionType)) {
                             mSimpleRightSb.append("," + uid);
-                        }else if("tf".equals(questionType)){
+                        } else if ("tf".equals(questionType)) {
                             mTurefalseRightSb.append("," + uid);
                         }
                         break;
                 }
 
-                if("mc".equals(questionType)){
-                    mMultiSb.append(","+uid);
-                }else if("sc".equals(questionType)){
-                    mSimpleSb.append(","+uid);
-                }else if("tf".equals(questionType)){
+                if ("mc".equals(questionType)) {
+                    mMultiSb.append("," + uid);
+                } else if ("sc".equals(questionType)) {
+                    mSimpleSb.append("," + uid);
+                } else if ("tf".equals(questionType)) {
                     mTurefalseSb.append("," + uid);
                 }
             }
@@ -494,25 +511,94 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
 
         bean.setmTrueFalsePager(DataHelper.clearEmptyString(mTurefalseSb.toString()));
         bean.setmTrueFalseErrorPager(DataHelper.clearEmptyString(mTurefalseErrorSb.toString()));
-        bean.setmTrueFalseRightPager(DataHelper.clearEmptyString(mTurefalseRightSb.toString()));    
+        bean.setmTrueFalseRightPager(DataHelper.clearEmptyString(mTurefalseRightSb.toString()));
 
         bean.setCreateTime(System.currentTimeMillis());
+
+        endTimes = System.currentTimeMillis();
         bean.setUseTimes(mAllTimes - mTimes);//用户使用的做题时间
 
         //试卷名称
         bean.setExamName(mExamsBean.getExamName());
 
         //考试分数
-        bean.setmScore((long) ((mRightQuestionsList.size()/(mQuestionsList.size()*1.0f))*100L));
+        bean.setmScore((long) ((mRightQuestionsList.size() / (mQuestionsList.size() * 1.0f)) * 100L));
 
         //是否及格
         bean.setmJige(mRightQuestionsList.size() > mExamsBean.getStandard());
 
         //插入数据库
         ExamPagerInfoBusiness.getInstance(this).createOrUpdate(bean);
+        //上传这份考卷及结果至后台
+        remoteNetwork();
+
     }
 
+    private Map<String, Object> postExamPager() {
+        Map<String, Object> params = MapParamsHelper.getBaseParamsMap();
+//        List<ExamPagerHistoryBean> pagers = new ArrayList<>();
+//        ExamPagerHistoryBean historyBean = new ExamPagerHistoryBean();
+        params.put("examId",mExamsBean.getId());
+        params.put("makeupFlag", ExamHelper.getInstance().getmExamCount());
+        params.put("startTime", startTimes);
+        params.put("endTime", endTimes);
+        params.put("examName",mExamsBean.getExamName());
+        params.put("examScore", (long) ((mRightQuestionsList.size() / (mQuestionsList.size() * 1.0f)) * 100L));
+        List<ExamDetailBean> datas = new ArrayList<>();
+        for (int i = 0; i < mQuestionsList.size(); i++) {
+            ExamBean temp = mQuestionsList.get(i);
+            ExamDetailBean detailBean = new ExamDetailBean();
+            detailBean.setAjType(temp.getAjType());
+            detailBean.setAnswer("");
+            detailBean.setQuestionId(temp.getId());
+            detailBean.setQuestionType(temp.getQuestionType());
+            detailBean.setUid(temp.getUid());
+            detailBean.setResult(0);
+            for (ExamBean err : mErrorQuestionsList) {
+                if (temp.getId() == err.getId()) {
+                    detailBean.setResult(2);
+                }
+            }
 
+            for (ExamBean rig : mRightQuestionsList) {
+                if (temp.getId() == rig.getId()) {
+                    detailBean.setResult(1);
+                }
+            }
+            datas.add(detailBean);
+        }
+        params.put("examDetailList", datas);
+//        pagers.add(historyBean);
+//        params.put("examHistory",historyBean);
+            return params;
+        }
+
+    private void remoteNetwork() {
+        Observable<BaseResponse<String>> obsLogin;
+        obsLogin = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext()).
+                getSpeUrlService(YSConst.BaseUrl.BASE_URL, UserApi.class)
+                .postExamPager(HRetrofitNetHelper.createReqJsonBody(
+                        postExamPager()));
+        obsLogin.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseResponse<String>>() {
+                    @Override
+                    public void onCompleted() {
+                        }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("dodo", e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<String> stringBaseResponse) {
+                        if ("1".equals(stringBaseResponse.getCode())) {
+                            ToastUtil.showToast("考试结果成功同步至网络");
+                        }
+                    }
+                });
+    }
 
 
     private void exitPager() {
@@ -684,7 +770,7 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
     public void finish() {
         super.finish();
 
-        if(mEndExamPop != null){
+        if (mEndExamPop != null) {
             mEndExamPop.dismiss();
             mEndExamPop = null;
         }

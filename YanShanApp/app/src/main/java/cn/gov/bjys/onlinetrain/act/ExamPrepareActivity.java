@@ -16,6 +16,8 @@ import com.ycl.framework.utils.sp.SavePreference;
 import com.ycl.framework.utils.util.BgDrawbleUtil;
 import com.ycl.framework.utils.util.FastJSONParser;
 import com.ycl.framework.utils.util.GlideProxy;
+import com.ycl.framework.utils.util.HRetrofitNetHelper;
+import com.ycl.framework.utils.util.ToastUtil;
 import com.ycl.framework.view.TitleHeaderView;
 import com.zls.www.statusbarutil.StatusBarUtil;
 
@@ -30,14 +32,20 @@ import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.pop.UnPassAllCourseHintPop;
 import cn.gov.bjys.onlinetrain.act.view.RoundImageViewByXfermode;
+import cn.gov.bjys.onlinetrain.api.BaseResponse;
+import cn.gov.bjys.onlinetrain.api.UserApi;
 import cn.gov.bjys.onlinetrain.bean.CourseBean;
+import cn.gov.bjys.onlinetrain.bean.CourseProcess;
+import cn.gov.bjys.onlinetrain.bean.ExamCountBean;
 import cn.gov.bjys.onlinetrain.bean.ExamsBean;
 import cn.gov.bjys.onlinetrain.bean.ExamsRole;
+import cn.gov.bjys.onlinetrain.bean.SearchBean;
 import cn.gov.bjys.onlinetrain.utils.ExamHelper;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
@@ -192,11 +200,10 @@ public class ExamPrepareActivity extends FrameActivity {
     public void onTabClick(View v) {
         switch (v.getId()) {
             case R.id.start_exam:
-//                if(true) {
-                if(checkIsPassAllKeShi()) {
+                if(true) {
+//                if(checkIsPassAllKeShi()) {
                     //全通过
-                    startAct(ExaminationActivity.class);
-                    finish();
+                    getExamCount();
                 }else{
                     //未通过
                     if(mUnPassAllCourseHintPop == null){
@@ -223,11 +230,19 @@ public class ExamPrepareActivity extends FrameActivity {
         int unPassCount = 0;
         String allPassKeShiStr = SavePreference.getStr(this, YSConst.UserInfo.USER_PASS_KESHI_IDS + YSUserInfoManager.getsInstance().getUserId());
         String[] ids = allPassKeShiStr.split(",");
+        List<CourseProcess> courseProcessList = YSUserInfoManager.getsInstance().getUserBean().getCourseProcessList();
+        List<String> tempIds = new ArrayList<>();
+        for(String id: ids){
+            tempIds.add(id);
+        }
+        for(CourseProcess cp : courseProcessList){
+            tempIds.add(cp.getCourseId()+"");
+        }
         List<CourseBean> needPassCourses =  mExamsBean.getCourseList();
         for(CourseBean temp:needPassCourses){
             int needId = temp.getId();
             boolean isPass = false;
-            for(String id : ids){
+            for(String id : tempIds){
                 if(id.equals(needId+"")){
                     isPass = true;
                     break;
@@ -300,6 +315,56 @@ public class ExamPrepareActivity extends FrameActivity {
             //使用单例保存考卷数据
             ExamHelper.getInstance().setmExamPagers(mExamPagers);
         }
+    }
+
+    private void getExamCount(){
+        rx.Observable<BaseResponse<String>> obs;
+        obs = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext()).
+                getSpeUrlService(YSConst.BaseUrl.BASE_URL, UserApi.class)
+                .getExamCounts(mExamsBean.getId());
+        obs.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseResponse<String>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<String> stringBaseResponse) {
+                        if ("1".equals(stringBaseResponse.getCode())) {
+                            //suc
+                            String res = stringBaseResponse.getResults();
+                            ExamCountBean bean = FastJSONParser.getBean(res, ExamCountBean.class);
+                            if(bean.getExamCount() < 2){
+                                ExamHelper.getInstance().setmExamCount(bean.getExamCount());
+                                switch ((int) bean.getExamCount()){
+                                    case 0:
+                                        ToastUtil.showToast("首次考试，请认真答题");
+                                        break;
+                                    case 1:
+                                        ToastUtil.showToast("二次补考，请认真答题");
+                                        break;
+                              }
+                                startExamPager();
+                            }else{
+                                ToastUtil.showToast("考试次数用尽，无法再次考试");
+                            }
+                         } else {
+                            //fail
+                        }
+                    }
+                });
+
+    }
+
+    //进入考试页面
+    private void startExamPager(){
+        startAct(ExaminationActivity.class);
+        finish();
     }
 
 

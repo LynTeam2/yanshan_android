@@ -25,6 +25,10 @@ import com.ycl.framework.utils.util.ToastUtil;
 import com.ycl.framework.view.TitleHeaderView;
 import com.zls.www.statusbarutil.StatusBarUtil;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.gov.bjys.onlinetrain.BaseApplication;
@@ -32,6 +36,8 @@ import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.api.BaseResponse;
 import cn.gov.bjys.onlinetrain.api.UserApi;
 import cn.gov.bjys.onlinetrain.bean.UserBean;
+import cn.gov.bjys.onlinetrain.bean.event.LoginEvent;
+import cn.gov.bjys.onlinetrain.utils.LoginHelper;
 import cn.gov.bjys.onlinetrain.utils.MapParamsHelper;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
@@ -70,6 +76,17 @@ public class LoginActivity extends FrameActivity implements View.OnClickListener
     @Bind(R.id.login_header)
     TitleHeaderView login_header;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
     @Override
     protected void setRootView() {
@@ -157,44 +174,22 @@ public class LoginActivity extends FrameActivity implements View.OnClickListener
         userLogin();
     }
 
-    private void userLogin(){
-        Observable<BaseResponse<String>> obsLogin;
-        obsLogin = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext()).
-                getSpeUrlService(YSConst.BaseUrl.BASE_URL, UserApi.class).userLogin(HRetrofitNetHelper.createReqJsonBody(MapParamsHelper.getLogin(mUserName, mPassword)));
-        obsLogin.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BaseResponse<String>>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d("dodo",e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(BaseResponse<String> stringBaseResponse) {
-                        if ("1".equals(stringBaseResponse.getCode())) {
-                            //登陆成功
-                            //保存登陆信息
-                            saveLoginInfo();
-                            //保存登陆用户信息
-                            UserBean.UserParentBean parentBean = FastJSONParser.getBean(stringBaseResponse.getResults(), UserBean.UserParentBean.class);
-                            UserBean bean = parentBean.getUser();
-                            YSUserInfoManager.getsInstance().saveUserBean(bean);
-                            toMainAct();
-                        } else {
-                            ToastUtil.showToast(stringBaseResponse.getMsg());
-                        }
-                    }
-                });
+    private void userLogin() {
+        LoginHelper.login(mUserName, mPassword);
     }
 
-    private void saveLoginInfo(){
-        SavePreference.save(this,YSConst.UserInfo.KEY_USER_ACCOUNT,mUserName);
-        SavePreference.save(this,YSConst.UserInfo.KEY_USER_PASSWORD,mPassword);
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLoginSuc(LoginEvent event) {
+        switch (event.getType()) {
+            case 0:
+                //留在原地
+                break;
+            case 1:
+                toMainAct();
+                break;
+        }
     }
+
 
     private void toMainAct() {
         startAct(MainActivity.class);

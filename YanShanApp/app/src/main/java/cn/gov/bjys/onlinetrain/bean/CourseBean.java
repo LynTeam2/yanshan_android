@@ -22,6 +22,7 @@ public class CourseBean {
     private String createTime;
     private String updateTime;
     private boolean homePage;//true
+    private String role;//
 
     private List<ExamBean> mcList;
     private List<ExamBean> scList;
@@ -97,6 +98,14 @@ public class CourseBean {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getIntroduction() {

@@ -1,10 +1,8 @@
 package cn.gov.bjys.onlinetrain.act;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -14,7 +12,6 @@ import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.base.FrameActivityStack;
 import com.ycl.framework.utils.sp.SavePreference;
 import com.ycl.framework.utils.util.FastJSONParser;
-import com.ycl.framework.utils.util.GlideProxy;
 import com.ycl.framework.utils.util.HRetrofitNetHelper;
 import com.ycl.framework.utils.util.ToastUtil;
 import com.ycl.framework.view.TitleHeaderView;
@@ -31,7 +28,6 @@ import cn.gov.bjys.onlinetrain.api.BaseResponse;
 import cn.gov.bjys.onlinetrain.api.HomeApi;
 import cn.gov.bjys.onlinetrain.api.UserApi;
 import cn.gov.bjys.onlinetrain.bean.AvatarBackBean;
-import cn.gov.bjys.onlinetrain.bean.UserBean;
 import cn.gov.bjys.onlinetrain.fragment.UserFragment.SaveNickFragment;
 import cn.gov.bjys.onlinetrain.task.Un7zTask;
 import cn.gov.bjys.onlinetrain.utils.AssetsHelper;
@@ -176,6 +172,7 @@ public class UserSettingActivity extends FrameActivity {
             @Override
             public void onClick(View v) {
                 updateZip();
+                updateLinear.setEnabled(false);
             }
         });
         setting_layout.addView(updateLinear);
@@ -295,7 +292,7 @@ public class UserSettingActivity extends FrameActivity {
 
     //    public final static String UPGRADE_SAVE_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "upgrade.7z";
     public final static String UPGRADE_SAVE_PATH = AssetsHelper.getDiskCacheDir(BaseApplication.getAppContext(),YSConst.UPDATE_ZIP) + File.separator + "upgrade.7z";
-    public final static String DOWNLOAD_URL = "http://39.115.27.225/api/upgrade";
+    public final static String DOWNLOAD_URL =YSConst.BaseUrl.BASE_URL+ "api/upgrade";
     private void downloadZip() {
         rx.Observable<ResponseBody> observable;
         observable = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext())
@@ -321,11 +318,13 @@ public class UserSettingActivity extends FrameActivity {
                         new Un7zTask(false, UPGRADE_SAVE_PATH,
                                 getFilesDir().getParent()+File.separator + YSConst.UPDATE_ZIP).execute();//开始解压压缩包，解压好了就不解压了
                         ToastUtil.showToast("题库更新完毕");
+                        updateLinear.setEnabled(true);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        ToastUtil.showToast("错误信息:"+e.getMessage());
+                        updateLinear.setEnabled(true);
                     }
 
                     @Override

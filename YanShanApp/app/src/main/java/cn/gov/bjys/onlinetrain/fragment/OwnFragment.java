@@ -172,9 +172,14 @@ public class OwnFragment extends FrameFragment {
 //        String nick = SavePreference.getStr(BaseApplication.getAppContext(), YSConst.UserInfo.USER_SAVE_NICK);
         UserBean bean = YSUserInfoManager.getsInstance().getUserBean();
         String nick = bean.getNickname();
-        SavePreference.save(BaseApplication.getAppContext(), YSConst.UserInfo.USER_SAVE_NICK, nick);
         if (!TextUtils.isEmpty(nick)) {
             user_name.setText(nick);
+            SavePreference.save(BaseApplication.getAppContext(), YSConst.UserInfo.USER_SAVE_NICK, nick);
+        }else{
+            nick = SavePreference.getStr(BaseApplication.getAppContext(), YSConst.UserInfo.USER_SAVE_NICK);
+            if (!TextUtils.isEmpty(nick)) {
+                user_name.setText(nick);
+            }
         }
     }
 

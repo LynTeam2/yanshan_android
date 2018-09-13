@@ -61,6 +61,8 @@ public class SaveExamPagerBean  extends DBEntity implements Parcelable{
     @DatabaseField
     private long useTimes;//考试花费时长 单位秒
 
+
+
     protected SaveExamPagerBean(Parcel in) {
         dbId = in.readLong();
         userid = in.readString();

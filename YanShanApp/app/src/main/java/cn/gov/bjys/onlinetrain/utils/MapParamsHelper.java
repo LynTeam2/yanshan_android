@@ -37,5 +37,14 @@ public class MapParamsHelper {
         params.put("beanCount", beanCount);
         return params;
     }
+    //更新完成课时
+    public static Map<String, Object> updateFinishCourse(long fen) {
+        Map<String, Object> params = getBaseParamsMap();
+        params.put("duration", fen);
+        return params;
+    }
+
+
+
 
 }

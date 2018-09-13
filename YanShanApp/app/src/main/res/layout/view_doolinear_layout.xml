@@ -29,7 +29,7 @@
             android:text="此处输入内容"
             android:textSize="48px"/>
     <ImageView
-        android:paddingLeft="100px"
+        android:paddingLeft="900px"
         android:paddingTop="40px"
         android:paddingBottom="40px"
         android:id="@+id/next_btn"

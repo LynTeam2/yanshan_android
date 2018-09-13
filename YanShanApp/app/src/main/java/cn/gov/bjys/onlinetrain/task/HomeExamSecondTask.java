@@ -5,9 +5,13 @@ import com.ycl.framework.utils.util.FastJSONParser;
 import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.gov.bjys.onlinetrain.api.ZipCallBackListener;
+import cn.gov.bjys.onlinetrain.bean.ExamsBean;
 import cn.gov.bjys.onlinetrain.bean.ExamsListBean;
+import cn.gov.bjys.onlinetrain.utils.YSUserInfoManager;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -66,8 +70,16 @@ public class HomeExamSecondTask extends BaseAsyncTask {
                     @Override
                     public void onNext(String s) {
                         ExamsListBean bean = FastJSONParser.getBean(s, ExamsListBean.class);
+                        List<ExamsBean> allExams = bean.getExams();//获取所有考试
+                        List<ExamsBean> needExams = new ArrayList<>();//筛选当前用户的考试题目
+                        String userRole = YSUserInfoManager.getsInstance().getUserBean().getRoleName();
+                        for (ExamsBean temp : allExams) {
+                            if (temp.getRole().contains(userRole)) {
+                                needExams.add(temp);
+                            }
+                        }
                         if (bean != null) {
-                            callback(bean.getExams());
+                            callback(needExams);
                         }
                     }
                 });

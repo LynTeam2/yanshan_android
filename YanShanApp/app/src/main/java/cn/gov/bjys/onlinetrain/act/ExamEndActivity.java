@@ -1,11 +1,9 @@
 package cn.gov.bjys.onlinetrain.act;
-
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.db.business.ExamPagerInfoBusiness;
 import com.ycl.framework.db.entity.ExamBean;
@@ -13,7 +11,6 @@ import com.ycl.framework.db.entity.SaveExamPagerBean;
 import com.ycl.framework.utils.sp.SavePreference;
 import com.ycl.framework.utils.util.GlideProxy;
 import com.ycl.framework.view.TitleHeaderView;
-
 import java.util.List;
 
 import butterknife.Bind;

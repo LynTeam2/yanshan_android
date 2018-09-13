@@ -1,6 +1,8 @@
 package cn.gov.bjys.onlinetrain.bean;
 
 
+import java.util.List;
+
 public class UserBean {
 
     private String icon;
@@ -9,6 +11,24 @@ public class UserBean {
     private String userName;//
     private long beanCount;//安全豆
     private String nickname;//
+    private String roleName;//
+    private List<CourseProcess> courseProcessList;
+
+    public List<CourseProcess> getCourseProcessList() {
+        return courseProcessList;
+    }
+
+    public void setCourseProcessList(List<CourseProcess> courseProcessList) {
+        this.courseProcessList = courseProcessList;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
 
     public long getBeanCount() {
         return beanCount;

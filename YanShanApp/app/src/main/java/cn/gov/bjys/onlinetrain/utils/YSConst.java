@@ -35,7 +35,7 @@ public class YSConst {
 
     public static class BaseUrl{
 //        public final static String BASE_URL = "http://39.104.118.75/";
-        public final static String BASE_URL = "http://39.115.27.225/";
+        public final static String BASE_URL = "http://39.105.27.225/";
     }
 
 

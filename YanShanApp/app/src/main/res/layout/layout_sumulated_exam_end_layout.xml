@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/normal_blue_light1"
     >
-
     <com.ycl.framework.view.TitleHeaderView
         android:id="@+id/header"
         android:layout_width="match_parent"
