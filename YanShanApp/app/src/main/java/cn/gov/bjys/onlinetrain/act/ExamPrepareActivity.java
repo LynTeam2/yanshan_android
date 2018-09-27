@@ -349,7 +349,12 @@ public class ExamPrepareActivity extends FrameActivity {
                                         ToastUtil.showToast("二次补考，请认真答题");
                                         break;
                               }
-                                startExamPager();
+
+                              if(bean.isValid()) {
+                                  startExamPager();
+                              }else{
+                                  ToastUtil.showToast("当前考试关闭，无法考试");
+                              }
                             }else{
                                 ToastUtil.showToast("考试次数用尽，无法再次考试");
                             }

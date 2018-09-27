@@ -14,12 +14,14 @@ import butterknife.Bind;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.fragment.UserFragment.SaveNickFragment;
 import cn.gov.bjys.onlinetrain.fragment.UserFragment.SignInFragment;
+import cn.gov.bjys.onlinetrain.fragment.UserFragment.UpdatePasswordFragment;
 
 
 public class CommonActivity extends FrameActivity {
     public final static String TAG = CommonActivity.class.getSimpleName();
     public final static int SAVE_NICK = 1;
     public final static int SIGN_IN = 2;
+    public final static int UPDATE_PASSWORD = 3;
 
     @Bind(R.id.header)
     TitleHeaderView header;
@@ -37,7 +39,8 @@ public class CommonActivity extends FrameActivity {
 
     FrameFragment[] mFragments = {
             getSaveNickFragment(),
-            getSignInFragment()
+            getSignInFragment(),
+            getUpdatePasswordFragment()
     };
 
     android.support.v4.app.FragmentTransaction mFt;
@@ -61,6 +64,13 @@ public class CommonActivity extends FrameActivity {
                 }
                 mFt.show(mFragments[1]).commit();
                 break;
+            case UPDATE_PASSWORD:
+                header.setTitleText("修改密码");
+                if(!mFragments[2].isAdded()){
+                    mFt.add(R.id.frame_layout,mFragments[2]);
+                }
+                mFt.show(mFragments[2]).commit();
+                break;
             default:
                 break;
         }
@@ -80,5 +90,14 @@ public class CommonActivity extends FrameActivity {
             mSignInFragment = SignInFragment.newInstance();
         }
         return mSignInFragment;
+    }
+
+    UpdatePasswordFragment mUpdatePasswordFragment;
+
+    public UpdatePasswordFragment getUpdatePasswordFragment(){
+        if(mUpdatePasswordFragment == null){
+            mUpdatePasswordFragment = UpdatePasswordFragment.newInstance();
+        }
+        return mUpdatePasswordFragment;
     }
 }

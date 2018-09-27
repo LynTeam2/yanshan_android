@@ -40,6 +40,9 @@ public interface UserApi {
     @PUT("api/user/bean")
     Observable<BaseResponse<String>> upLoadWealthValue(@Body RequestBody body);
 
+    @PUT("api/user/password")
+    Observable<BaseResponse<String>> updatePassword(@Body RequestBody body);
+
     @GET("api/law")
     Observable<BaseResponse<String>> getLaws(@Query("page") int page, @Query("size") int size, @Query("type") long type);
 

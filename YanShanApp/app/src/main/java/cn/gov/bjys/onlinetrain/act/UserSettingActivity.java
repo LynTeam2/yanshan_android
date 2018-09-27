@@ -48,6 +48,7 @@ public class UserSettingActivity extends FrameActivity {
     public final static int SET_NICK_BACK = 1;
 
     public final static int SAVE_USER_AVATAR = 2;
+    public final static int NEW_PASSWORD = 3;
 
 
     @Bind(R.id.header)
@@ -130,7 +131,7 @@ public class UserSettingActivity extends FrameActivity {
     }
 
 
-    DooUserSettingLinear avatarLinear, nickLinear,updateLinear,otherLinear;
+    DooUserSettingLinear avatarLinear, nickLinear,passwordLinear,updateLinear,otherLinear;
 
     public void initSettingLayout() {
         setting_layout.removeAllViews();
@@ -166,6 +167,22 @@ public class UserSettingActivity extends FrameActivity {
             }
         });
         setting_layout.addView(nickLinear);
+
+
+        passwordLinear = new DooUserSettingLinear(this);
+        passwordLinear.setTitle("修改密码");
+        passwordLinear.setCustomClick(R.id.next_layout, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 昵称
+                Bundle bundle = new Bundle();
+                bundle.putInt(CommonActivity.TAG, CommonActivity.UPDATE_PASSWORD);
+                startActForResultBundle(CommonActivity.class, bundle, NEW_PASSWORD);
+            }
+        });
+        setting_layout.addView(passwordLinear);
+
+
         updateLinear = new DooUserSettingLinear(this);
         updateLinear.setTitle("更新题库");
         updateLinear.setCustomClick(R.id.next_layout, new View.OnClickListener() {
