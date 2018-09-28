@@ -6,6 +6,15 @@ package cn.gov.bjys.onlinetrain.bean;
 
 public class ExamCountBean {
     private long examCount;
+    private boolean isValid;
+
+    public boolean isValid() {
+        return isValid;
+    }
+
+    public void setValid(boolean valid) {
+        isValid = valid;
+    }
 
     public long getExamCount() {
         return examCount;

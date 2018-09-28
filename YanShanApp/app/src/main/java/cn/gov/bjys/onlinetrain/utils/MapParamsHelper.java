@@ -37,6 +37,12 @@ public class MapParamsHelper {
         params.put("beanCount", beanCount);
         return params;
     }
+    //更新密码
+    public static Map<String, Object> updatePassword(String ps) {
+        Map<String, Object> params = getBaseParamsMap();
+        params.put("newPassword", ps);
+        return params;
+    }
     //更新完成课时
     public static Map<String, Object> updateFinishCourse(long fen) {
         Map<String, Object> params = getBaseParamsMap();
