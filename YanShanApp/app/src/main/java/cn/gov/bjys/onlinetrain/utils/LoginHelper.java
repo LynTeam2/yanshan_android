@@ -119,7 +119,8 @@ public class LoginHelper {
                 saveExamPagerBean.setmScore(bean.getExamScore());
                 saveExamPagerBean.setCreateTime(bean.getEndTime());
                 saveExamPagerBean.setExamName(bean.getExamName());
-                saveExamPagerBean.setUseTimes(bean.getEndTime() - bean.getStartTime());
+                long duration = bean.getEndTime() - bean.getStartTime();//毫秒
+                saveExamPagerBean.setUseTimes(duration/1000);//毫秒转秒
                 List<ExamDetailBean> pager = bean.getExamDetailList();
                 saveExamPager(pager,saveExamPagerBean);
             }

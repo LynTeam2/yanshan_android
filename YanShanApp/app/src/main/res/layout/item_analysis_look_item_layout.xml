@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="540px"
     android:layout_height="180px"
@@ -23,7 +23,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/new_black"
             android:text="查看判断题错题"
-            android:textSize="46px"/>
+            android:textSize="16dp"
+            />
         <TextView
             android:layout_marginTop="50px"
             android:text="做错2题"
@@ -31,7 +32,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/color_gray_9"
-            android:textSize="32px"/>
+            android:textSize="11dp"
+            />
 
     </LinearLayout>
-</LinearLayout>
+</com.zhy.autolayout.AutoLinearLayout>

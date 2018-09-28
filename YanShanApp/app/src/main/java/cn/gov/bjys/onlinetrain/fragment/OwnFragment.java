@@ -149,11 +149,11 @@ public class OwnFragment extends FrameFragment {
         setUserWealth();
     }
 
-    public void setUserWealth(){
+    public void setUserWealth() {
 //        long wealthValue = SavePreference.getLong(BaseApplication.getAppContext(), YSConst.UserInfo.USER_WEALTH);
         UserBean bean = YSUserInfoManager.getsInstance().getUserBean();
         long weaValue = bean.getBeanCount();
-        user_wealth.setText(weaValue+"");
+        user_wealth.setText(weaValue + "");
         SavePreference.save(BaseApplication.getAppContext(), YSConst.UserInfo.USER_WEALTH, weaValue);
     }
 
@@ -162,24 +162,18 @@ public class OwnFragment extends FrameFragment {
         //String avatarPath = SavePreference.getStr(BaseApplication.getAppContext(), YSConst.UserInfo.USER_AVATAR_PATH);
         UserBean bean = YSUserInfoManager.getsInstance().getUserBean();
         String avatarPath = bean.getIcon();
+        GlideProxy.loadImgForUrlPlaceHolderDontAnimate(user_avatar, avatarPath, R.drawable.user_normal_avatar);
         SavePreference.save(BaseApplication.getAppContext(), YSConst.UserInfo.USER_AVATAR_PATH, avatarPath);
-        if (!TextUtils.isEmpty(avatarPath)) {
-            GlideProxy.loadImgForUrlPlaceHolderDontAnimate(user_avatar, avatarPath, R.drawable.user_normal_avatar);
-        }
     }
 
     public void setUserNickName() {
 //        String nick = SavePreference.getStr(BaseApplication.getAppContext(), YSConst.UserInfo.USER_SAVE_NICK);
         UserBean bean = YSUserInfoManager.getsInstance().getUserBean();
         String nick = bean.getNickname();
-        if (!TextUtils.isEmpty(nick)) {
-            user_name.setText(nick);
-            SavePreference.save(BaseApplication.getAppContext(), YSConst.UserInfo.USER_SAVE_NICK, nick);
-        }else{
-            nick = SavePreference.getStr(BaseApplication.getAppContext(), YSConst.UserInfo.USER_SAVE_NICK);
-            if (!TextUtils.isEmpty(nick)) {
-                user_name.setText(nick);
-            }
+        user_name.setText(nick);
+        SavePreference.save(BaseApplication.getAppContext(), YSConst.UserInfo.USER_SAVE_NICK, nick);
+        if (TextUtils.isEmpty(nick)) {
+            user_name.setText("未设置昵称");
         }
     }
 

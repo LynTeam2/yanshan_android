@@ -1,6 +1,5 @@
 package cn.gov.bjys.onlinetrain.adapter;
 
-import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -30,8 +29,10 @@ public class DooExamHistoryAdapter extends BaseQuickAdapter<SaveExamPagerBean, B
     @Override
     protected void convert(BaseViewHolder helper, SaveExamPagerBean item) {
         helper.setText(R.id.score, item.getmScore()+"分");
-        helper.setText(R.id.time_length, getUserTime(item.getUseTimes()));
-        helper.setText(R.id.time, DateUtil.formatNianToFen(item.getCreateTime()));
+//        helper.setText(R.id.time_length, getUserTime(item.getUseTimes()));
+        helper.setText(R.id.time_length, DateUtil.formatNianToFen(item.getCreateTime()));
+//        helper.setText(R.id.time, DateUtil.formatNianToFen(item.getCreateTime()));
+        helper.setText(R.id.time, item.getExamName());
     }
 
 

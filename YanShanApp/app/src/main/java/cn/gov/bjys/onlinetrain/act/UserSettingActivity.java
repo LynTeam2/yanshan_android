@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.ycl.framework.base.FrameActivity;
 import com.ycl.framework.base.FrameActivityStack;
@@ -155,6 +156,7 @@ public class UserSettingActivity extends FrameActivity {
 
         nickLinear = new DooUserSettingLinear(this);
         nickLinear.setTitle("昵称");
+        nickName = TextUtils.isEmpty(nickName)?"未设置昵称":nickName;
         nickLinear.setName(nickName);
         nickLinear.setCustomClick(R.id.next_layout, new View.OnClickListener() {
             @Override

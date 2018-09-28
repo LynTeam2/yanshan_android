@@ -200,8 +200,8 @@ public class ExamPrepareActivity extends FrameActivity {
     public void onTabClick(View v) {
         switch (v.getId()) {
             case R.id.start_exam:
-                if(true) {
-//                if(checkIsPassAllKeShi()) {
+//                if(true) {
+                if(checkIsPassAllKeShi()) {
                     //全通过
                     getExamCount();
                 }else{

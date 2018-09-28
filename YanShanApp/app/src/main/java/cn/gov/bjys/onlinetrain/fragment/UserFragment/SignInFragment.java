@@ -47,7 +47,7 @@ import rx.schedulers.Schedulers;
 /**
  * 签到fragment
  */
-public class SignInFragment  extends FrameFragment{
+public class SignInFragment extends FrameFragment {
 
     public final static String SIGN_SUCCESS = "sign_success";
 
@@ -94,19 +94,20 @@ public class SignInFragment  extends FrameFragment{
         initRecycleView();
         initSignHint();
     }
+
     DooSigninGridAdapter mDooSigninGridAdapter;
     List<SignInBean> mSignList = new ArrayList<>();
 
 
-    public void initSignHint(){
-            updateSignHint();
+    public void initSignHint() {
+        updateSignHint();
     }
 
-    private void updateSignHint(){
+    private void updateSignHint() {
         SpannableStringBuilder ssb = null;
-        List<SignInBean> datas =  mDooSigninGridAdapter.getDatas();
+        List<SignInBean> datas = mDooSigninGridAdapter.getDatas();
         SignInBean bean = datas.get(1);
-        switch (bean.getType()){
+        switch (bean.getType()) {
             case SignInBean.ING:
                 ssb = new SpannableStringUtils.Builder()
                         .append("今日签到可领取").setForegroundColor(getResources().getColor(R.color.normal_black))
@@ -124,7 +125,7 @@ public class SignInFragment  extends FrameFragment{
     }
 
 
-    public void initGridView(){
+    public void initGridView() {
         mSignList.clear();
         mSignList.addAll(prepareDatas());
         mDooSigninGridAdapter = new DooSigninGridAdapter(getContext(), mSignList);
@@ -133,7 +134,7 @@ public class SignInFragment  extends FrameFragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SignInBean bean = (SignInBean) mDooSigninGridAdapter.getDatas().get(position);
-                switch (bean.getType()){
+                switch (bean.getType()) {
                     case SignInBean.FUTURE:
                         ToastUtil.showToast("还未开始");
                         break;
@@ -143,7 +144,7 @@ public class SignInFragment  extends FrameFragment{
                     case SignInBean.ING:
                         ToastUtil.showToast("签到成功");
                         bean.setType(SignInBean.SUC);
-                        SavePreference.save(getContext(),SIGN_SUCCESS, mNowDate);
+                        SavePreference.save(getContext(), SIGN_SUCCESS, mNowDate);
                         updateUserWealth();
                         updateSignHint();
                         break;
@@ -159,15 +160,15 @@ public class SignInFragment  extends FrameFragment{
 
     private String mNowDate = "";
 
-    public List<SignInBean> prepareDatas(){
+    public List<SignInBean> prepareDatas() {
         List<SignInBean> list = new ArrayList<>();
-        String lastTimeStr = SavePreference.getStr(getContext(),SIGN_SUCCESS);
+        String lastTimeStr = SavePreference.getStr(getContext(), SIGN_SUCCESS);
         long nowtime = System.currentTimeMillis();
 
 
-        long yesterday = nowtime - 24*60*60*1000;
-        long tomorrow = nowtime + 24*60*60*1000;
-        long aftertomorrow = nowtime + 2*24*60*60*1000;
+        long yesterday = nowtime - 24 * 60 * 60 * 1000;
+        long tomorrow = nowtime + 24 * 60 * 60 * 1000;
+        long aftertomorrow = nowtime + 2 * 24 * 60 * 60 * 1000;
 
         String yesterDate = DateUtil.formatYourSelf(yesterday, new SimpleDateFormat("yyyyMMdd"));
         String nowDate = DateUtil.formatYourSelf(nowtime, new SimpleDateFormat("yyyyMMdd"));
@@ -176,32 +177,32 @@ public class SignInFragment  extends FrameFragment{
         String aftertomorrowDate = DateUtil.formatYourSelf(aftertomorrow, new SimpleDateFormat("yyyyMMdd"));
 
         SignInBean yesBean = new SignInBean();
-        yesBean.setDay(yesterDate.substring(6,yesterDate.length()));
-        yesBean.setMouth(yesterDate.substring(4,6));
+        yesBean.setDay(yesterDate.substring(6, yesterDate.length()));
+        yesBean.setMouth(yesterDate.substring(4, 6));
         yesBean.setType(SignInBean.FINISH);//昨天
         list.add(yesBean);
 
         SignInBean todayBean = new SignInBean();
-        todayBean.setDay(nowDate.substring(6,nowDate.length()));
-        todayBean.setMouth(nowDate.substring(4,6));
+        todayBean.setDay(nowDate.substring(6, nowDate.length()));
+        todayBean.setMouth(nowDate.substring(4, 6));
 
-        if(nowDate.equals(lastTimeStr)) {
+        if (nowDate.equals(lastTimeStr)) {
             todayBean.setType(SignInBean.SUC);//今天 已经签到
-        }else{
+        } else {
             todayBean.setType(SignInBean.ING);//今天 未签到
         }
         list.add(todayBean);
 
         SignInBean tomorrowBean = new SignInBean();
-        tomorrowBean.setDay(tomorrowDate.substring(6,tomorrowDate.length()));
-        tomorrowBean.setMouth(tomorrowDate.substring(4,6));
+        tomorrowBean.setDay(tomorrowDate.substring(6, tomorrowDate.length()));
+        tomorrowBean.setMouth(tomorrowDate.substring(4, 6));
         tomorrowBean.setType(SignInBean.FUTURE);//明天
         list.add(tomorrowBean);
 
 
         SignInBean afterTomorrowBean = new SignInBean();
-        afterTomorrowBean.setDay(aftertomorrowDate.substring(6,aftertomorrowDate.length()));
-        afterTomorrowBean.setMouth(aftertomorrowDate.substring(4,6));
+        afterTomorrowBean.setDay(aftertomorrowDate.substring(6, aftertomorrowDate.length()));
+        afterTomorrowBean.setMouth(aftertomorrowDate.substring(4, 6));
         afterTomorrowBean.setType(SignInBean.FUTURE);//昨天
         list.add(afterTomorrowBean);
 
@@ -211,15 +212,16 @@ public class SignInFragment  extends FrameFragment{
 
 
     DooExchangeRewardsAdapter mDooExchangeRewardsAdapter;
-    public void initRecycleView(){
-        mDooExchangeRewardsAdapter = new DooExchangeRewardsAdapter(R.layout.item_exchange_reward_item,prepareDatasRv());
+
+    public void initRecycleView() {
+        mDooExchangeRewardsAdapter = new DooExchangeRewardsAdapter(R.layout.item_exchange_reward_item, prepareDatasRv());
         rv.setAdapter(mDooExchangeRewardsAdapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    public List<RewardBean> prepareDatasRv(){
+    public List<RewardBean> prepareDatasRv() {
         List<RewardBean> list = new ArrayList<>();
-        for(int i=0;i<4;i++){
+        for (int i = 0; i < 4; i++) {
             RewardBean bean = new RewardBean();
             bean.setId(i);
             bean.setName("this is =" + i);
@@ -229,40 +231,41 @@ public class SignInFragment  extends FrameFragment{
     }
 
     @OnClick({R.id.sign_layout})
-    public void onTabClick(View v){
-        switch (v.getId()){
+    public void onTabClick(View v) {
+        switch (v.getId()) {
             case R.id.sign_layout:
-               List<SignInBean> datas =  mDooSigninGridAdapter.getDatas();
-               SignInBean bean = datas.get(1);
-               switch (bean.getType()){
-                   case SignInBean.ING:
-                       ToastUtil.showToast("签到成功");
-                       bean.setType(SignInBean.SUC);
-                       mDooSigninGridAdapter.notifyDataSetChanged();
-                       SavePreference.save(getContext(), SIGN_SUCCESS, mNowDate);
-                       updateUserWealth();
-                       updateSignHint();
-                       break;
+                List<SignInBean> datas = mDooSigninGridAdapter.getDatas();
+                SignInBean bean = datas.get(1);
+                switch (bean.getType()) {
+                    case SignInBean.ING:
+                        ToastUtil.showToast("签到成功");
+                        bean.setType(SignInBean.SUC);
+                        mDooSigninGridAdapter.notifyDataSetChanged();
+                        SavePreference.save(getContext(), SIGN_SUCCESS, mNowDate);
+                        updateUserWealth();
+                        updateSignHint();
+                        break;
                     case SignInBean.SUC:
                         ToastUtil.showToast("已经完成签到");
                         break;
-               }
+                }
 
                 break;
         }
     }
 
-    public void updateUserWealth(){
+    public void updateUserWealth() {
         long userValue = SavePreference.getLong(getContext(), YSConst.UserInfo.USER_WEALTH);
-        SavePreference.save(getContext(), YSConst.UserInfo.USER_WEALTH,userValue +10L );
+        SavePreference.save(getContext(), YSConst.UserInfo.USER_WEALTH, userValue + 10L);
         uploadWealthValue(userValue + 10L);
     }
 
+    public final static long WEALTH_VALUE = 10L;
 
     private void uploadWealthValue(final long count) {
         Observable<BaseResponse<String>> obsLogin;
         obsLogin = HRetrofitNetHelper.getInstance(BaseApplication.getAppContext()).
-                getSpeUrlService(YSConst.BaseUrl.BASE_URL, UserApi.class).upLoadWealthValue(HRetrofitNetHelper.createReqJsonBody(MapParamsHelper.uploadWealthValue(count)));
+                getSpeUrlService(YSConst.BaseUrl.BASE_URL, UserApi.class).upLoadWealthValue(HRetrofitNetHelper.createReqJsonBody(MapParamsHelper.uploadWealthValue(WEALTH_VALUE)));
         obsLogin.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<BaseResponse<String>>() {
@@ -278,7 +281,7 @@ public class SignInFragment  extends FrameFragment{
 
                     @Override
                     public void onNext(BaseResponse<String> stringBaseResponse) {
-                        if("1".equals(stringBaseResponse.getCode())){
+                        if ("1".equals(stringBaseResponse.getCode())) {
                             YSUserInfoManager.getsInstance().getUserBean().setBeanCount(count);
                         }
                     }

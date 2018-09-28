@@ -13,20 +13,23 @@
             android:id="@+id/score"
             android:layout_width="150px"
             android:layout_height="wrap_content"
+            android:textSize="38px"
             android:text="100分"
             />
         <TextView
             android:id="@+id/time_length"
             android:layout_marginLeft="100px"
-            android:layout_width="150px"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="38px"
             android:text="90:00"/>
-
+·
         <TextView
             android:id="@+id/time"
             android:layout_marginLeft="80px"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="38px"
             android:text="2017-08-12 12:00"/>
         <View
             android:layout_width="0px"
