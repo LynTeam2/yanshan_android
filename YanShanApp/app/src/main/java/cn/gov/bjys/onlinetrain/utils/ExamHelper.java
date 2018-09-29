@@ -1,7 +1,9 @@
 package cn.gov.bjys.onlinetrain.utils;
 
 import com.ycl.framework.db.entity.ExamBean;
+import com.ycl.framework.utils.util.FastJSONParser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.gov.bjys.onlinetrain.bean.ExamsBean;
@@ -30,7 +32,7 @@ public class ExamHelper {
     private static ExamsBean mExamsBean;
 
     public  ExamsBean getmExamsBean() {
-        return mExamsBean;
+        return mExamsBean.deepClone();
     }
 
     public  void setmExamsBean(ExamsBean mExamsBean) {
@@ -41,7 +43,8 @@ public class ExamHelper {
     public static List<ExamBean> mExamPagers;
 
     public  List<ExamBean> getmExamPagers() {
-        return mExamPagers;
+       String str = FastJSONParser.convertObjToJson(mExamPagers);
+        return FastJSONParser.getBeanList(str, ExamBean.class);
     }
 
     public  void setmExamPagers(List<ExamBean> mExamPagers) {

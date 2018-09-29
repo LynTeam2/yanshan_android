@@ -200,6 +200,8 @@ public class ExamPrepareActivity extends FrameActivity {
     public void onTabClick(View v) {
         switch (v.getId()) {
             case R.id.start_exam:
+
+//                startExamPager();
 //                if(true) {
                 if(checkIsPassAllKeShi()) {
                     //全通过
@@ -313,7 +315,7 @@ public class ExamPrepareActivity extends FrameActivity {
                 }
             }
             //使用单例保存考卷数据
-            ExamHelper.getInstance().setmExamPagers(mExamPagers);
+//            ExamHelper.getInstance().setmExamPagers(mExamPagers);
         }
     }
 
@@ -457,6 +459,6 @@ public class ExamPrepareActivity extends FrameActivity {
         mExamPagers.addAll(examScList);
         mExamPagers.addAll(examMcList);
         //使用单例保存考卷数据
-        ExamHelper.getInstance().setmExamPagers(mExamPagers);
+//        ExamHelper.getInstance().setmExamPagers(mExamPagers);
     }
 }

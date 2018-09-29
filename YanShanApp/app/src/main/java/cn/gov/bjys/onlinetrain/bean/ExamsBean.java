@@ -2,6 +2,7 @@ package cn.gov.bjys.onlinetrain.bean;
 
 import com.ycl.framework.db.entity.ExamBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,12 +22,9 @@ public class ExamsBean {
     private int standard;//需要答对题目的数量 及格标准
     private int examDuration;//分钟单位 考试的时长
     private String role;
-
-
     private List<ExamBean> mcList;
     private List<ExamBean> scList;
     private List<ExamBean> tfList;
-
     private int examTfCount = 0;
     private int examScCount = 0;
     private int examMcCount = 0;
@@ -175,5 +173,29 @@ public class ExamsBean {
 
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+
+
+    public ExamsBean deepClone(){
+        ExamsBean clone = new ExamsBean();
+        clone.setCourseList(new ArrayList<>(this.courseList));
+        clone.setCreateTime(this.createTime);
+        clone.setEndDate(this.endDate);
+        clone.setExamDuration(this.examDuration);
+        clone.setExamMcCount(this.examMcCount);
+        clone.setExamScCount(this.examScCount);
+        clone.setExamTfCount(this.examTfCount);
+        clone.setExamName(this.examName);
+        clone.setStartDate(this.startDate);
+        clone.setExamType(this.examType);
+        clone.setId(this.id);
+        clone.setIntroduction(this.introduction);
+        clone.setRole(this.role);
+        clone.setStandard(this.standard);
+        clone.setMcList(new ArrayList<ExamBean>(this.mcList));
+        clone.setTfList(new ArrayList<ExamBean>(this.tfList));
+        clone.setScList(new ArrayList<ExamBean>(this.scList));
+        clone.setUpdateTime(this.updateTime);
+        return clone;
     }
 }

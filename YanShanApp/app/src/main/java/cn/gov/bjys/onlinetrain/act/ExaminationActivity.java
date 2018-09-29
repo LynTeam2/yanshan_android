@@ -42,7 +42,6 @@ import cn.gov.bjys.onlinetrain.adapter.DooExamStateFragmentAdapter;
 import cn.gov.bjys.onlinetrain.api.BaseResponse;
 import cn.gov.bjys.onlinetrain.api.UserApi;
 import cn.gov.bjys.onlinetrain.bean.ExamDetailBean;
-import cn.gov.bjys.onlinetrain.bean.ExamPagerHistoryBean;
 import cn.gov.bjys.onlinetrain.bean.ExamXqBean;
 import cn.gov.bjys.onlinetrain.bean.ExamsBean;
 import cn.gov.bjys.onlinetrain.utils.DataHelper;
@@ -174,6 +173,7 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
                 } else {
                     mTimerType = TIMER_END;
                 }
+
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -779,5 +779,6 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
             mTimer.cancel();
             mTimer = null;
         }
+
     }
 }

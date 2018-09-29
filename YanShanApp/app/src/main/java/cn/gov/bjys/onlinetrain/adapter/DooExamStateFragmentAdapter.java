@@ -2,6 +2,7 @@ package cn.gov.bjys.onlinetrain.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 
@@ -17,11 +18,11 @@ import cn.gov.bjys.onlinetrain.fragment.ExaminationFragments.TextSingleExaminati
 import cn.gov.bjys.onlinetrain.fragment.ExaminationFragments.VideoExaminationFragment;
 
 
-public class DooExamStateFragmentAdapter<T> extends FragmentStatePagerAdapter {
+public class DooExamStateFragmentAdapter<T> extends FragmentPagerAdapter {
 
     private List<FrameFragment> mFragments;
 
-    private List<T> mDatas;//考试题目bean
+    private List<T> mDatas;//考试题目   bean
 
     public DooExamStateFragmentAdapter(FragmentManager fm, List<T> datas) {
         super(fm);
@@ -90,4 +91,6 @@ public class DooExamStateFragmentAdapter<T> extends FragmentStatePagerAdapter {
     public List<T> getmDatas() {
         return mDatas;
     }
+
+
 }
