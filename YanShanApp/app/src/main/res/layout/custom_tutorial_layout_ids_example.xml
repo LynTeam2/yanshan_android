@@ -32,8 +32,8 @@
             android:layout_marginRight="10dp"
             android:fontFamily="sans-serif-light"
             android:padding="10dp"
-            android:text="@string/st_skip"
-            android:textColor="@android:color/white"
+            android:text="离开引导页"
+            android:textColor="@color/blue_light"
             android:textSize="21sp"
             tools:ignore="UnusedAttribute"/>
 

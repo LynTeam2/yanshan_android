@@ -14,12 +14,13 @@ public class YSConst {
 
     //assets文件目录下的 update文件夹名字
     public final static String UPDATE_ZIP = "update";
-    public static class UserInfo{
+
+    public static class UserInfo {
         public final static String KEY_USER_ACCOUNT = "key_user_account";
         public final static String KEY_USER_PASSWORD = "key_user_password";
 
 
-        public final static String KEY_USER_TOKEN  = "key_user_token";
+        public final static String KEY_USER_TOKEN = "key_user_token";
 
         public final static String KEY_USER_ID = "key_user_id";
 
@@ -33,9 +34,10 @@ public class YSConst {
 
     }
 
-    public static class BaseUrl{
-//        public final static String BASE_URL = "http://39.104.118.75/";
-        public final static String BASE_URL = "http://39.105.27.225/";
+    public static class BaseUrl {
+        //        public final static String BASE_URL = "http://39.104.118.75/";
+//        public final static String BASE_URL = "http://39.105.27.225/";
+        public final static String BASE_URL = "http://api.anjian.hanyuhuake.com/";
     }
 
 

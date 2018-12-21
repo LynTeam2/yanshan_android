@@ -140,8 +140,8 @@ public class LogoActivity extends FrameActivity {
     private String mPassword;
 
     public void startNextActivity() {
-//        boolean notFirstLogin = SavePreference.getBoolean(this, YSConst.NOT_FIRST_LOGIN);
-        boolean notFirstLogin = true;
+        boolean notFirstLogin = SavePreference.getBoolean(this, YSConst.NOT_FIRST_LOGIN);
+//        boolean notFirstLogin = true;
         if (notFirstLogin) {
             mUserName = SavePreference.getStr(this,YSConst.UserInfo.KEY_USER_ACCOUNT);
             mPassword = SavePreference.getStr(this,YSConst.UserInfo.KEY_USER_PASSWORD);

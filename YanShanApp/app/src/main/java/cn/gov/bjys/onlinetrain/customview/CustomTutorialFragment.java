@@ -1,9 +1,7 @@
 package cn.gov.bjys.onlinetrain.customview;
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -12,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cleveroad.slidingtutorial.Direction;
 import com.cleveroad.slidingtutorial.IndicatorOptions;
@@ -25,29 +22,23 @@ import com.cleveroad.slidingtutorial.TutorialPageProvider;
 import com.cleveroad.slidingtutorial.TutorialSupportFragment;
 import com.ycl.framework.utils.helper.ContextHelper;
 import com.ycl.framework.utils.sp.SavePreference;
-import com.zls.www.statusbarutil.StatusBarUtil;
-
-import java.sql.Time;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import cn.gov.bjys.onlinetrain.BaseApplication;
 import cn.gov.bjys.onlinetrain.R;
 import cn.gov.bjys.onlinetrain.act.LoginActivity;
-import cn.gov.bjys.onlinetrain.act.MainActivity;
 import cn.gov.bjys.onlinetrain.utils.YSConst;
 
 public class CustomTutorialFragment extends TutorialSupportFragment
         implements OnTutorialPageChangeListener {
 
     private static final String TAG = "CustomTutorialFragment";
-    private static final int TOTAL_PAGES = 6;
-    private static final int ACTUAL_PAGES_COUNT = 3;
+    private static final int TOTAL_PAGES = 4;
+    private static final int ACTUAL_PAGES_COUNT = 4;
 
     private final View.OnClickListener mOnSkipClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Toast.makeText(getActivity(), "Skip button clicked", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), "Skip button clicked", Toast.LENGTH_SHORT).show();
             SavePreference.save(BaseApplication.getBaseApplication(), YSConst.NOT_FIRST_LOGIN, true);
             ContextHelper.getRequiredActivity(getActivity()).startAct(LoginActivity.class);
             ContextHelper.getRequiredActivity(getActivity()).finish();
@@ -70,19 +61,34 @@ public class CustomTutorialFragment extends TutorialSupportFragment
                     break;
                 }
                 case 1: {
-                    pageLayoutResId = R.layout.fragment_page_third;
-                    tutorialItems = new TransformItem[]{
-                            TransformItem.create(R.id.img, Direction.RIGHT_TO_LEFT, 0.50f),
-                    };
-                    break;
-                }
-                case 2: {
                     pageLayoutResId = R.layout.fragment_page_second;
                     tutorialItems = new TransformItem[]{
                             TransformItem.create(R.id.img, Direction.RIGHT_TO_LEFT, 0.5f),
                     };
                     break;
                 }
+                case 2: {
+                    pageLayoutResId = R.layout.fragment_page_third;
+                    tutorialItems = new TransformItem[]{
+                            TransformItem.create(R.id.img, Direction.RIGHT_TO_LEFT, 0.50f),
+                    };
+                    break;
+                }
+                case 3: {
+                    pageLayoutResId = R.layout.fragment_page_fourth;
+                    tutorialItems = new TransformItem[]{
+                            TransformItem.create(R.id.img, Direction.RIGHT_TO_LEFT, 0.50f),
+                    };
+                    break;
+                }
+ /*               case 4: {
+                    pageLayoutResId = R.layout.fragment_page_fifth;
+                    tutorialItems = new TransformItem[]{
+                            TransformItem.create(R.id.img, Direction.RIGHT_TO_LEFT, 0.50f),
+                    };
+                    break;
+                }*/
+
                 default: {
                     throw new IllegalArgumentException("Unknown position: " + position);
                 }

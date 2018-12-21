@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.text.style.ReplacementSpan;
+import android.util.Log;
 
 public class RoundBackgroundColorSpan extends ReplacementSpan {
     private int bgColor;
@@ -24,12 +25,12 @@ public class RoundBackgroundColorSpan extends ReplacementSpan {
         int color1 = paint.getColor();
         paint.setColor(this.bgColor);
         Rect rect = new Rect();
-        paint.getTextBounds( text.toString(),0,text.length(),rect);
+        paint.getTextBounds(text.toString(),0,text.length(),rect);
         int h = rect.height();
         if(Math.abs(bottom -top) > h) {
-            canvas.drawRoundRect(new RectF(x, top + 1, x + ((int) paint.measureText(text, start, end))+20, top + h +5), 10, 10, paint);
+            canvas.drawRoundRect(new RectF(x, top , x + ((int) paint.measureText(text, start, end))+20, top + h +15), 10, 10, paint);
         }else{
-            canvas.drawRoundRect(new RectF(x, top + 1, x + ((int) paint.measureText(text, start, end))+20, bottom - 1), 10, 10, paint);
+            canvas.drawRoundRect(new RectF(x, top , x + ((int) paint.measureText(text, start, end))+20, bottom - 1), 10, 10, paint);
         }
         paint.setColor(this.textColor);
         canvas.drawText(text, start, end, x+12, y, paint);

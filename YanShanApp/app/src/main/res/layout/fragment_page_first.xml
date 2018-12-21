@@ -6,6 +6,7 @@
         android:id="@+id/img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@mipmap/ic_launcher"
-        android:rotation="0"/>
+        android:src="@mipmap/guide_1"
+        android:rotation="0"
+        android:scaleType="fitXY"/>
 </LinearLayout>

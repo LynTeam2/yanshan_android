@@ -96,13 +96,13 @@ public class BannerComHelper {
         bannerPoster.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                HomeBannerBean bannerBean =  banners.get(position);
+/*                HomeBannerBean bannerBean =  banners.get(position);
                 ToastUtil.showToast("点击了图片id ="+bannerBean.getId());
                 Bundle mBundle = new Bundle();
                 mBundle.putString("baseUrl", bannerBean.getLink());
                 mBundle.putString("title", "活动链接");
                 ContextHelper.getRequiredActivity(
-                        bannerPoster.getContext()).startAct(YSWebActivity.class,mBundle);
+                        bannerPoster.getContext()).startAct(YSWebActivity.class,mBundle);*/
             }
         });
     }

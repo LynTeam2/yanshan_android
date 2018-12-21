@@ -6,7 +6,7 @@
         android:id="@+id/img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@mipmap/guide_3"
+        android:src="@mipmap/guide_4"
         android:scaleType="fitXY"
         android:rotation="0"/>
 </LinearLayout>

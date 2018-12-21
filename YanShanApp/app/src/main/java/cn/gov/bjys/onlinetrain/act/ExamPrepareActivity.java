@@ -196,27 +196,31 @@ public class ExamPrepareActivity extends FrameActivity {
 
 
     private ExamsBean mExamsBean;
+    private boolean isStartFlag = false;
     @OnClick({R.id.start_exam})
     public void onTabClick(View v) {
         switch (v.getId()) {
             case R.id.start_exam:
-
+                if (!isStartFlag) {
+                    isStartFlag = true;
 //                startExamPager();
 //                if(true) {
-                if(checkIsPassAllKeShi()) {
-                    //全通过
-                    getExamCount();
-                }else{
-                    //未通过
-                    if(mUnPassAllCourseHintPop == null){
-                        View rootView = LayoutInflater.from(ExamPrepareActivity.this).inflate(R.layout.pop_unpass_hint_layout, null);
-                        BgDrawbleUtil.shapeCircleCorner(rootView.findViewById(R.id.linear),12);
-                        mUnPassAllCourseHintPop = new UnPassAllCourseHintPop(ExamPrepareActivity.this, rootView);
+                    if (checkIsPassAllKeShi()) {
+                        //全通过
+                        getExamCount();
+                    } else {
+                        //未通过
+                        if (mUnPassAllCourseHintPop == null) {
+                            View rootView = LayoutInflater.from(ExamPrepareActivity.this).inflate(R.layout.pop_unpass_hint_layout, null);
+                            BgDrawbleUtil.shapeCircleCorner(rootView.findViewById(R.id.linear), 12);
+                            mUnPassAllCourseHintPop = new UnPassAllCourseHintPop(ExamPrepareActivity.this, rootView);
+                        }
+                        mUnPassAllCourseHintPop.bindDatas(mHints);
+                        mUnPassAllCourseHintPop.showLocation(Gravity.CENTER);
+                        isStartFlag = false;
                     }
-                    mUnPassAllCourseHintPop.bindDatas(mHints);
-                    mUnPassAllCourseHintPop.showLocation(Gravity.CENTER);
+                    break;
                 }
-                break;
         }
     }
 
@@ -329,10 +333,12 @@ public class ExamPrepareActivity extends FrameActivity {
                 .subscribe(new Subscriber<BaseResponse<String>>() {
                     @Override
                     public void onCompleted() {
+                        isStartFlag = false;
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        isStartFlag = false;
                     }
 
                     @Override
@@ -362,6 +368,7 @@ public class ExamPrepareActivity extends FrameActivity {
                             }
                          } else {
                             //fail
+                            ToastUtil.showToast(stringBaseResponse.getMsg());
                         }
                     }
                 });

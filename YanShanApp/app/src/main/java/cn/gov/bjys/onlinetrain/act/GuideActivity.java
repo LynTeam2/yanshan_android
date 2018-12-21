@@ -1,14 +1,8 @@
 package cn.gov.bjys.onlinetrain.act;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 
 import com.ycl.framework.base.FrameActivity;
-import com.ycl.framework.utils.util.ToastUtil;
 import com.zls.www.statusbarutil.StatusBarUtil;
 
 import cn.gov.bjys.onlinetrain.R;

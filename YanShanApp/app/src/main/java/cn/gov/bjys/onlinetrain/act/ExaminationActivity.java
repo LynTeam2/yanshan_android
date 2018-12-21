@@ -115,6 +115,12 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
         return mQuestionsList;
     }
 
+    private void saveQuestionsList(){
+        ExamHelper.getInstance().setmExamPagers(mQuestionsList);
+    }
+
+
+
     private void initExamsBean() {
         mExamsBean = ExamHelper.getInstance().getmExamsBean();
         mTimes = mExamsBean.getExamDuration() * 60;//秒钟
@@ -529,8 +535,7 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
 
         //插入数据库
         ExamPagerInfoBusiness.getInstance(this).createOrUpdate(bean);
-        //上传这份考卷及结果至后台
-        remoteNetwork();
+
 
     }
 
@@ -594,7 +599,10 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
                     @Override
                     public void onNext(BaseResponse<String> stringBaseResponse) {
                         if ("1".equals(stringBaseResponse.getCode())) {
+                            remoteSuccess();
                             ToastUtil.showToast("考试结果成功同步至网络");
+                        }else{
+                            ToastUtil.showToast("考试结果同步失败，请重新提交");
                         }
                     }
                 });
@@ -602,7 +610,15 @@ public class ExaminationActivity extends FrameActivity implements View.OnClickLi
 
 
     private void exitPager() {
-//        saveErrorList();//考试错题不需要放进我的错题中
+
+        //上传这份考卷及结果至后台
+        remoteNetwork();
+
+    }
+
+    private void  remoteSuccess(){
+        //saveErrorList();//考试错题不需要放进我的错题中
+        saveQuestionsList();
         saveExamPager();
         cancelTimer();
         startAct(ExamEndActivity.class);
